@@ -1,0 +1,39 @@
+int main() BEGIN
+int i = 5;
+int g = 5.1;
+
+Servo g = 5;
+Servo m = 7;
+Servo a = 10;
+
+i = i + i;
+
+ServoPosition hey = {2, 5, 6};
+
+
+
+ServoPosition me = {g: 50, h: 50, s: 50};
+
+int array[] = {1, 5, 8};
+
+Robot robert = {g, m, a};
+
+robert(hey);
+
+
+
+
+
+    if(i == 5 AND i == 5) BEGIN
+
+    END
+
+    if(i == 5 OR i == 5) BEGIN
+
+    END
+
+    for(int f = 2 WHEN f < 5 THEN f++) BEGIN
+
+    END
+
+END
