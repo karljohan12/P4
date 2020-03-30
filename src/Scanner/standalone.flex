@@ -42,12 +42,6 @@ import java_cup.runtime.*;
       private Symbol symbol(int type, Object value) {
         return new JavaSymbol(type, yyline+1, yycolumn+1, value);
       }
-
-       private LexerToken createToken(String val, int start){
-            LexerToken tk = new LexerToken(val, start);
-                addToken(tk);
-              return tk;
-            }
 %}
 
 /*whitespace*/
@@ -83,74 +77,74 @@ StringCharacter = [^\r\n\"\\]
 <YYINITIAL> {
 
     /*keywords*/
-    "BEGIN"                   { return symbol(sym.BEGIN, createToken(yytext(), yycolumn)); }
-    "boolean"                 { return symbol(sym.BOOLEAN, createToken(yytext(), yycolumn)); }
-    "break"                   { return symbol(sym.BREAK, createToken(yytext(), yycolumn)); }
-    "case"                    { return symbol(sym.CASE, createToken(yytext(), yycolumn)); }
-    "const"                   { return symbol(sym.CONST, createToken(yytext(), yycolumn)); }
-    "default"                 { return symbol(sym.DEFAULT, createToken(yytext(), yycolumn)); }
-    "double"                  { return symbol(sym.DOUBLE, createToken(yytext(), yycolumn)); }
-    "else"                    { return symbol(sym.ELSE, createToken(yytext(), yycolumn)); }
-    "for"                     { return symbol(sym.FOR, createToken(yytext(), yycolumn)); }
-    "else"                    { return symbol(sym.ELSE, createToken(yytext(), yycolumn)); }
-    "END"                     { return symbol(sym.END, createToken(yytext(), yycolumn)); }
-    "int"                     { return symbol(sym.INT, createToken(yytext(), yycolumn)); }
-    "if"                      { return symbol(sym.IF, createToken(yytext(), yycolumn)); }
-    "switch"                  { return symbol(sym.SWITCH, createToken(yytext(), yycolumn)); }
-    "THEN"                    { return symbol(sym.THEN, createToken(yytext(), yycolumn)); }
-    "return"                  { return symbol(sym.RETURN, createToken(yytext(), yycolumn)); }
-    "void"                    { return symbol(sym.VOID, createToken(yytext(), yycolumn)); }
-    "while"                   { return symbol(sym.WHILE, createToken(yytext(), yycolumn)); }
-    "WHEN"                    { return symbol(sym.WHEN, createToken(yytext(), yycolumn)); }
-    "Robot"                   { return symbol(sym.ROBOT, createToken(yytext(), yycolumn)); }
-    "ServoPosition"           { return symbol(sym.SERVOPOSITION, createToken(yytext(), yycolumn)); }
-    "Servo"                   { return symbol(sym.SERVO, createToken(yytext(), yycolumn)); }
-    "delay"                   { return symbol(sym.DELAY, createToken(yytext(), yycolumn)); }
+    "BEGIN"                   { return symbol(BEGIN); }
+    "boolean"                   { return symbol(BOOLEAN); }
+    "break"                   { return symbol(BREAK); }
+    "case"                   { return symbol(CASE); }
+    "const"                   { return symbol(CONST); }
+    "default"                   { return symbol(DEFAULT); }
+    "double"                   { return symbol(DOUBLE); }
+    "else"                   { return symbol(ELSE); }
+    "for"                   { return symbol(FOR); }
+    "else"                   { return symbol(ELSE); }
+    "END"                   { return symbol(END); }
+    "int"                   { return symbol(INT); }
+    "if"                   { return symbol(IF); }
+    "switch"                   { return symbol(SWITCH); }
+    "THEN"                   { return symbol(THEN); }
+    "return"                   { return symbol(RETURN); }
+    "void"                   { return symbol(VOID); }
+    "while"                   { return symbol(WHILE); }
+    "WHEN"                   { return symbol(WHEN); }
+    "Robot"                   { return symbol(ROBOT); }
+    "ServoPosition"                   { return symbol(SERVOPOSITION); }
+    "Servo"                   { return symbol(SERVO); }
+    "delay"                   { return symbol(DELAY); }
 
 
 
     /*boolean literals*/
-    "true"                   { return symbol(sym.BOOLEAN_LITERAL, createToken(yytext(), yycolumn), true); }
-    "false"                   { return symbol(sym.BOOLEAN_LITERAL, createToken(yytext(), yycolumn), false); }
+    "true"                   { return symbol(BOOLEAN_LITERAL, true); }
+    "false"                   { return symbol(BOOLEAN_LITERAL, false); }
 
     /*null literal*/
-    "null"                   { return symbol(sym.NULL_LITERAL, createToken(yytext(), yycolumn)); }
+    "null"                   { return symbol(NULL_LITERAL); }
 
     /*separators*/
-     "("                            { return symbol(sym.LPAREN, createToken(yytext(), yycolumn)); }
-     ")"                            { return symbol(sym.RPAREN, createToken(yytext(), yycolumn)); }
-     "{"                            { return symbol(sym.LBRACE, createToken(yytext(), yycolumn)); }
-     "}"                            { return symbol(sym.RBRACE, createToken(yytext(), yycolumn)); }
-     "["                            { return symbol(sym.LBRACK, createToken(yytext(), yycolumn)); }
-     "]"                            { return symbol(sym.RBRACK, createToken(yytext(), yycolumn)); }
-     ";"                            { return symbol(sym.SEMICOLON, createToken(yytext(), yycolumn)); }
-     ","                            { return symbol(sym.COMMA, createToken(yytext(), yycolumn)); }
-     "."                            { return symbol(sym.DOT, createToken(yytext(), yycolumn)); }
+     "("                            { return symbol(LPAREN); }
+     ")"                            { return symbol(RPAREN); }
+     "{"                            { return symbol(LBRACE); }
+     "}"                            { return symbol(RBRACE); }
+     "["                            { return symbol(LBRACK); }
+     "]"                            { return symbol(RBRACK); }
+     ";"                            { return symbol(SEMICOLON); }
+     ","                            { return symbol(COMMA); }
+     "."                            { return symbol(DOT); }
 
      /*operators*/
-      "="                            { return symbol(sym.EQ, createToken(yytext(), yycolumn)); }
-      ">"                            { return symbol(sym.GT, createToken(yytext(), yycolumn)); }
-      "<"                            { return symbol(sym.LT, createToken(yytext(), yycolumn)); }
-      "!"                            { return symbol(sym.NOT, createToken(yytext(), yycolumn)); }
-      "~"                            { return symbol(sym.COMP, createToken(yytext(), yycolumn)); }
-      "?"                            { return symbol(sym.QUESTION, createToken(yytext(), yycolumn)); }
-      ":"                            { return symbol(sym.COLON, createToken(yytext(), yycolumn)); }
-      "=="                           { return symbol(sym.EQEQ, createToken(yytext(), yycolumn)); }
-      "<="                           { return symbol(sym.LTEQ, createToken(yytext(), yycolumn)); }
-      ">="                           { return symbol(sym.GTEQ, createToken(yytext(), yycolumn));; }
-      "!="                           { return symbol(sym.NOTEQ, createToken(yytext(), yycolumn));; }
-      "AND"                           { return symbol(sym.ANDAND, createToken(yytext(), yycolumn)); }
-      "OR"                           { return symbol(sym.OROR, createToken(yytext(), yycolumn)); }
-      "++"                           { return symbol(sym.PLUSPLUS, createToken(yytext(), yycolumn)); }
-      "--"                           { return symbol(sym.MINUSMINUS, createToken(yytext(), yycolumn));}
-      "+"                            { return symbol(sym.PLUS, createToken(yytext(), yycolumn)); }
-      "-"                            { return symbol(sym.MINUS, createToken(yytext(), yycolumn)); }
-      "*"                            { return symbol(sym.MULT, createToken(yytext(), yycolumn)); }
-      "/"                            { return symbol(sym.DIV, createToken(yytext(), yycolumn)); }
-      "+="                           { return symbol(sym.PLUSEQ, createToken(yytext(), yycolumn)); }
-      "-="                           { return symbol(sym.MINUSEQ, createToken(yytext(), yycolumn)); }
-      "*="                           { return symbol(sym.MULTEQ, createToken(yytext(), yycolumn)); }
-      "/="                           { return symbol(sym.DIVEQ, createToken(yytext(), yycolumn)); }
+      "="                            { return symbol(EQ); }
+      ">"                            { return symbol(GT); }
+      "<"                            { return symbol(LT); }
+      "!"                            { return symbol(NOT); }
+      "~"                            { return symbol(COMP); }
+      "?"                            { return symbol(QUESTION); }
+      ":"                            { return symbol(COLON); }
+      "=="                           { return symbol(EQEQ); }
+      "<="                           { return symbol(LTEQ); }
+      ">="                           { return symbol(GTEQ); }
+      "!="                           { return symbol(NOTEQ); }
+      "AND"                           { return symbol(ANDAND); }
+      "OR"                           { return symbol(OROR); }
+      "++"                           { return symbol(PLUSPLUS); }
+      "--"                           { return symbol(MINUSMINUS); }
+      "+"                            { return symbol(PLUS); }
+      "-"                            { return symbol(MINUS); }
+      "*"                            { return symbol(MULT); }
+      "/"                            { return symbol(DIV); }
+      "+="                           { return symbol(PLUSEQ); }
+      "-="                           { return symbol(MINUSEQ); }
+      "*="                           { return symbol(MULTEQ); }
+      "/="                           { return symbol(DIVEQ); }
 
       /* string literal */
       \"                             { yybegin(STRING); string.setLength(0); }

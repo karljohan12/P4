@@ -18,8 +18,11 @@
    "sample.inp" provided in this directory 
 */
 
-package de.jflex.example.standalone;
+package Scanner;
+import Parser.JavaSymbol;
+import Parser.sym;
 import java_cup.runtime.*;
+
 
 // See https://github.com/jflex-de/jflex/issues/222
 @SuppressWarnings("FallThrough")
@@ -454,12 +457,6 @@ public class Scanner implements sym, java_cup.runtime.Scanner {
         return new JavaSymbol(type, yyline+1, yycolumn+1, value);
       }
 
-       private LexerToken createToken(String val, int start){
-            LexerToken tk = new LexerToken(val, start);
-                addToken(tk);
-              return tk;
-            }
-
 
   /**
    * Creates a new scanner
@@ -872,7 +869,7 @@ public class Scanner implements sym, java_cup.runtime.Scanner {
             // fall through
           case 74: break;
           case 2:
-            { return symbol(sym.NOT, createToken(yytext(), yycolumn));
+            { return symbol(NOT);
             }
             // fall through
           case 75: break;
@@ -882,42 +879,42 @@ public class Scanner implements sym, java_cup.runtime.Scanner {
             // fall through
           case 76: break;
           case 4:
-            { return symbol(sym.LPAREN, createToken(yytext(), yycolumn));
+            { return symbol(LPAREN);
             }
             // fall through
           case 77: break;
           case 5:
-            { return symbol(sym.RPAREN, createToken(yytext(), yycolumn));
+            { return symbol(RPAREN);
             }
             // fall through
           case 78: break;
           case 6:
-            { return symbol(sym.MULT, createToken(yytext(), yycolumn));
+            { return symbol(MULT);
             }
             // fall through
           case 79: break;
           case 7:
-            { return symbol(sym.PLUS, createToken(yytext(), yycolumn));
+            { return symbol(PLUS);
             }
             // fall through
           case 80: break;
           case 8:
-            { return symbol(sym.COMMA, createToken(yytext(), yycolumn));
+            { return symbol(COMMA);
             }
             // fall through
           case 81: break;
           case 9:
-            { return symbol(sym.MINUS, createToken(yytext(), yycolumn));
+            { return symbol(MINUS);
             }
             // fall through
           case 82: break;
           case 10:
-            { return symbol(sym.DOT, createToken(yytext(), yycolumn));
+            { return symbol(DOT);
             }
             // fall through
           case 83: break;
           case 11:
-            { return symbol(sym.DIV, createToken(yytext(), yycolumn));
+            { return symbol(DIV);
             }
             // fall through
           case 84: break;
@@ -927,32 +924,32 @@ public class Scanner implements sym, java_cup.runtime.Scanner {
             // fall through
           case 85: break;
           case 13:
-            { return symbol(sym.COLON, createToken(yytext(), yycolumn));
+            { return symbol(COLON);
             }
             // fall through
           case 86: break;
           case 14:
-            { return symbol(sym.SEMICOLON, createToken(yytext(), yycolumn));
+            { return symbol(SEMICOLON);
             }
             // fall through
           case 87: break;
           case 15:
-            { return symbol(sym.LT, createToken(yytext(), yycolumn));
+            { return symbol(LT);
             }
             // fall through
           case 88: break;
           case 16:
-            { return symbol(sym.EQ, createToken(yytext(), yycolumn));
+            { return symbol(EQ);
             }
             // fall through
           case 89: break;
           case 17:
-            { return symbol(sym.GT, createToken(yytext(), yycolumn));
+            { return symbol(GT);
             }
             // fall through
           case 90: break;
           case 18:
-            { return symbol(sym.QUESTION, createToken(yytext(), yycolumn));
+            { return symbol(QUESTION);
             }
             // fall through
           case 91: break;
@@ -962,27 +959,27 @@ public class Scanner implements sym, java_cup.runtime.Scanner {
             // fall through
           case 92: break;
           case 20:
-            { return symbol(sym.LBRACK, createToken(yytext(), yycolumn));
+            { return symbol(LBRACK);
             }
             // fall through
           case 93: break;
           case 21:
-            { return symbol(sym.RBRACK, createToken(yytext(), yycolumn));
+            { return symbol(RBRACK);
             }
             // fall through
           case 94: break;
           case 22:
-            { return symbol(sym.LBRACE, createToken(yytext(), yycolumn));
+            { return symbol(LBRACE);
             }
             // fall through
           case 95: break;
           case 23:
-            { return symbol(sym.RBRACE, createToken(yytext(), yycolumn));
+            { return symbol(RBRACE);
             }
             // fall through
           case 96: break;
           case 24:
-            { return symbol(sym.COMP, createToken(yytext(), yycolumn));
+            { return symbol(COMP);
             }
             // fall through
           case 97: break;
@@ -997,37 +994,37 @@ public class Scanner implements sym, java_cup.runtime.Scanner {
             // fall through
           case 99: break;
           case 27:
-            { return symbol(sym.NOTEQ, createToken(yytext(), yycolumn));;
+            { return symbol(NOTEQ);
             }
             // fall through
           case 100: break;
           case 28:
-            { return symbol(sym.MULTEQ, createToken(yytext(), yycolumn));
+            { return symbol(MULTEQ);
             }
             // fall through
           case 101: break;
           case 29:
-            { return symbol(sym.PLUSPLUS, createToken(yytext(), yycolumn));
+            { return symbol(PLUSPLUS);
             }
             // fall through
           case 102: break;
           case 30:
-            { return symbol(sym.PLUSEQ, createToken(yytext(), yycolumn));
+            { return symbol(PLUSEQ);
             }
             // fall through
           case 103: break;
           case 31:
-            { return symbol(sym.MINUSMINUS, createToken(yytext(), yycolumn));
+            { return symbol(MINUSMINUS);
             }
             // fall through
           case 104: break;
           case 32:
-            { return symbol(sym.MINUSEQ, createToken(yytext(), yycolumn));
+            { return symbol(MINUSEQ);
             }
             // fall through
           case 105: break;
           case 33:
-            { return symbol(sym.DIVEQ, createToken(yytext(), yycolumn));
+            { return symbol(DIVEQ);
             }
             // fall through
           case 106: break;
@@ -1037,27 +1034,27 @@ public class Scanner implements sym, java_cup.runtime.Scanner {
             // fall through
           case 107: break;
           case 35:
-            { return symbol(sym.LTEQ, createToken(yytext(), yycolumn));
+            { return symbol(LTEQ);
             }
             // fall through
           case 108: break;
           case 36:
-            { return symbol(sym.EQEQ, createToken(yytext(), yycolumn));
+            { return symbol(EQEQ);
             }
             // fall through
           case 109: break;
           case 37:
-            { return symbol(sym.GTEQ, createToken(yytext(), yycolumn));;
+            { return symbol(GTEQ);
             }
             // fall through
           case 110: break;
           case 38:
-            { return symbol(sym.OROR, createToken(yytext(), yycolumn));
+            { return symbol(OROR);
             }
             // fall through
           case 111: break;
           case 39:
-            { return symbol(sym.IF, createToken(yytext(), yycolumn));
+            { return symbol(IF);
             }
             // fall through
           case 112: break;
@@ -1108,127 +1105,127 @@ public class Scanner implements sym, java_cup.runtime.Scanner {
             // fall through
           case 121: break;
           case 49:
-            { return symbol(sym.ANDAND, createToken(yytext(), yycolumn));
+            { return symbol(ANDAND);
             }
             // fall through
           case 122: break;
           case 50:
-            { return symbol(sym.END, createToken(yytext(), yycolumn));
+            { return symbol(END);
             }
             // fall through
           case 123: break;
           case 51:
-            { return symbol(sym.FOR, createToken(yytext(), yycolumn));
+            { return symbol(FOR);
             }
             // fall through
           case 124: break;
           case 52:
-            { return symbol(sym.INT, createToken(yytext(), yycolumn));
+            { return symbol(INT);
             }
             // fall through
           case 125: break;
           case 53:
-            { return symbol(sym.THEN, createToken(yytext(), yycolumn));
+            { return symbol(THEN);
             }
             // fall through
           case 126: break;
           case 54:
-            { return symbol(sym.WHEN, createToken(yytext(), yycolumn));
+            { return symbol(WHEN);
             }
             // fall through
           case 127: break;
           case 55:
-            { return symbol(sym.CASE, createToken(yytext(), yycolumn));
+            { return symbol(CASE);
             }
             // fall through
           case 128: break;
           case 56:
-            { return symbol(sym.ELSE, createToken(yytext(), yycolumn));
+            { return symbol(ELSE);
             }
             // fall through
           case 129: break;
           case 57:
-            { return symbol(sym.NULL_LITERAL, createToken(yytext(), yycolumn));
+            { return symbol(NULL_LITERAL);
             }
             // fall through
           case 130: break;
           case 58:
-            { return symbol(sym.BOOLEAN_LITERAL, createToken(yytext(), yycolumn), true);
+            { return symbol(BOOLEAN_LITERAL, true);
             }
             // fall through
           case 131: break;
           case 59:
-            { return symbol(sym.VOID, createToken(yytext(), yycolumn));
+            { return symbol(VOID);
             }
             // fall through
           case 132: break;
           case 60:
-            { return symbol(sym.BEGIN, createToken(yytext(), yycolumn));
+            { return symbol(BEGIN);
             }
             // fall through
           case 133: break;
           case 61:
-            { return symbol(sym.ROBOT, createToken(yytext(), yycolumn));
+            { return symbol(ROBOT);
             }
             // fall through
           case 134: break;
           case 62:
-            { return symbol(sym.SERVO, createToken(yytext(), yycolumn));
+            { return symbol(SERVO);
             }
             // fall through
           case 135: break;
           case 63:
-            { return symbol(sym.BREAK, createToken(yytext(), yycolumn));
+            { return symbol(BREAK);
             }
             // fall through
           case 136: break;
           case 64:
-            { return symbol(sym.CONST, createToken(yytext(), yycolumn));
+            { return symbol(CONST);
             }
             // fall through
           case 137: break;
           case 65:
-            { return symbol(sym.DELAY, createToken(yytext(), yycolumn));
+            { return symbol(DELAY);
             }
             // fall through
           case 138: break;
           case 66:
-            { return symbol(sym.BOOLEAN_LITERAL, createToken(yytext(), yycolumn), false);
+            { return symbol(BOOLEAN_LITERAL, false);
             }
             // fall through
           case 139: break;
           case 67:
-            { return symbol(sym.WHILE, createToken(yytext(), yycolumn));
+            { return symbol(WHILE);
             }
             // fall through
           case 140: break;
           case 68:
-            { return symbol(sym.DOUBLE, createToken(yytext(), yycolumn));
+            { return symbol(DOUBLE);
             }
             // fall through
           case 141: break;
           case 69:
-            { return symbol(sym.RETURN, createToken(yytext(), yycolumn));
+            { return symbol(RETURN);
             }
             // fall through
           case 142: break;
           case 70:
-            { return symbol(sym.SWITCH, createToken(yytext(), yycolumn));
+            { return symbol(SWITCH);
             }
             // fall through
           case 143: break;
           case 71:
-            { return symbol(sym.BOOLEAN, createToken(yytext(), yycolumn));
+            { return symbol(BOOLEAN);
             }
             // fall through
           case 144: break;
           case 72:
-            { return symbol(sym.DEFAULT, createToken(yytext(), yycolumn));
+            { return symbol(DEFAULT);
             }
             // fall through
           case 145: break;
           case 73:
-            { return symbol(sym.SERVOPOSITION, createToken(yytext(), yycolumn));
+            { return symbol(SERVOPOSITION);
             }
             // fall through
           case 146: break;
