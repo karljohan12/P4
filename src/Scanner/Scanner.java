@@ -18,7 +18,7 @@
    "sample.inp" provided in this directory 
 */
 
-package Parser;
+package de.jflex.example.standalone;
 import java_cup.runtime.*;
 
 // See https://github.com/jflex-de/jflex/issues/222
@@ -448,10 +448,10 @@ public class Scanner implements sym, java_cup.runtime.Scanner {
     StringBuilder string = new StringBuilder();
 
     private Symbol symbol(int type) {
-        return new Symbol(type, yyline+1, yycolumn+1);
+        return new JavaSymbol(type, yyline+1, yycolumn+1);
       }
       private Symbol symbol(int type, Object value) {
-        return new Symbol(type, yyline+1, yycolumn+1, value);
+        return new JavaSymbol(type, yyline+1, yycolumn+1, value);
       }
 
        private LexerToken createToken(String val, int start){
