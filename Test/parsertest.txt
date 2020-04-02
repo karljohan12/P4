@@ -1,7 +1,6 @@
 int main() BEGIN
 int i = 5;
 int g = 5.1;
-b
 Servo g = 5;
 Servo m = 7;
 Servo a = 10;

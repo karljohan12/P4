@@ -19,32 +19,33 @@ parser code  {:
   }
 :};
 
-terminal BOOLEAN; // primitive_type
-terminal INT; // integral_type
-terminal DOUBLE; // floating_point_type
-terminal LBRACE, RBRACE, LBRACK, RBRACK; // array_type
-terminal DOT; // qualified_name
+terminal BOOLEAN;
+terminal INT;
+terminal DOUBLE;
+terminal CONST;
+terminal LBRACE, RBRACE, LBRACK, RBRACK;
+terminal DOT;
 terminal SEMICOLON, MULT, COMMA, EQ, LPAREN, RPAREN, COLON;
 terminal BEGIN;
 terminal END;
-terminal VOID; // method_header
+terminal VOID;
 terminal DEFAULT;
-terminal IF, ELSE; // if_then_statement, if_then_else_statement
-terminal SWITCH; // switch_statement
-terminal CASE; // switch_label
-terminal WHILE; // while_statement, do_statement
-terminal FOR; // for_statement
-terminal BREAK; // break_statement
-terminal RETURN; // return_statement
-terminal PLUSPLUS; // postincrement_expression
-terminal MINUSMINUS; // postdecrement_expression
+terminal IF, ELSE;
+terminal SWITCH;
+terminal CASE;
+terminal WHILE;
+terminal FOR;
+terminal BREAK;
+terminal RETURN;
+terminal PLUSPLUS;
+terminal MINUSMINUS;
 terminal PLUS, MINUS, COMP, NOT, DIV, MOD;
-terminal LT, GT, LTEQ, GTEQ; // relational_expression
-terminal EQEQ, NOTEQ; // equality_expression
-terminal ANDAND; // conditional_and_expression
-terminal OROR; // conditional_or_expression
-terminal QUESTION; // conditional_expression
-terminal MULTEQ, DIVEQ, MODEQ, PLUSEQ, MINUSEQ; // assignment_operator
+terminal LT, GT, LTEQ, GTEQ;
+terminal EQEQ, NOTEQ;
+terminal ANDAND;
+terminal OROR;
+terminal QUESTION;
+terminal MULTEQ, DIVEQ, MODEQ, PLUSEQ, MINUSEQ;
 terminal WHEN, THEN;
 terminal AND, OR;
 terminal ROBOT, SERVOPOSITION, SERVO;
@@ -53,99 +54,91 @@ terminal DELAY;
 terminal java.lang.Number INTEGER_LITERAL;
 terminal java.lang.Number FLOATING_POINT_LITERAL;
 terminal java.lang.Boolean BOOLEAN_LITERAL;
-terminal java.lang.String IDENTIFIER; // name
-terminal java.lang.String STRING_LITERAL; //string
+terminal java.lang.String IDENTIFIER;
+terminal java.lang.String STRING_LITERAL;
 terminal NULL_LITERAL;
 
-// strictfp keyword, new in Java 1.2
 
-// Reserved but unused:
-terminal CONST;
 
-// 19.2) The Syntactic Grammar
 non terminal program;
-// 19.3) Lexical Structure
 non terminal literal;
-// 19.4) Types, Values, and Variables
-non terminal type, primitive_type, numeric_type;
-non terminal integral_type, floating_point_type;
-non terminal reference_type;
-non terminal array_type;
-// 19.5) Names
-non terminal name, simple_name, qualified_name;
-// 19.6) Packages
-non terminal compilation_unit;
-non terminal method_statements;
-// 19.7) Productions used only in the LALR(1) grammar
-// 19.8.2) Field Declarations
-non terminal variable_declarators, variable_declarator;
-non terminal variable_declarator_id, variable_initializer;
-// 19.8.3) Method Declarations
-non terminal method_declaration, method_header, method_declarator;
-non terminal formal_parameter_list_opt, formal_parameter_list;
-non terminal formal_parameter;
-non terminal method_body;
-// 19.10) Arrays
-non terminal array_initializer;
-non terminal variable_initializers;
-// 19.11) Blocks and Statements
+
+
+non terminal type, primitiveType, numericType;
+non terminal integralType, floatingPointType;
+non terminal referenceType;
+non terminal arrayType;
+
+non terminal name, simpleName, qualifiedName;
+non terminal compilationUnit;
+non terminal methodStatements;
+
+non terminal variableDeclarators, variableDeclarator;
+non terminal variableDeclaratorId, variableInitializer;
+
+non terminal methodDeclaration, methodHeader, methodDeclarator;
+non terminal formalParameterListOpt, formalParameterList;
+non terminal formalParameter;
+non terminal methodBody;
+
+non terminal arrayInitializer;
+non terminal variableInitializers;
+
 non terminal block;
-non terminal block_statements_opt, block_statements, block_statement;
-non terminal local_variable_declaration_statement, local_variable_declaration;
-non terminal statement, statement_no_short_if;
-non terminal statement_without_trailing_substatement;
-non terminal empty_statement;
-non terminal expression_statement, statement_expression;
-non terminal if_then_statement;
-non terminal if_then_else_statement, if_then_else_statement_no_short_if;
-non terminal switch_statement, switch_block;
-non terminal switch_block_statement_groups;
-non terminal switch_block_statement_group;
-non terminal switch_labels, switch_label;
-non terminal while_statement, while_statement_no_short_if;
-non terminal for_statement, for_statement_no_short_if;
-non terminal for_init_opt, for_init;
-non terminal for_update_opt, for_update;
-non terminal statement_expression_list;
-non terminal identifier_opt;
-non terminal break_statement, continue_statement;
-non terminal return_statement;
-// 19.12) Expressions
-non terminal primary, primary_no_new_array;
-non terminal argument_list_opt, argument_list;
-non terminal array_creation_expression;
-non terminal dim_exprs, dim_expr, dims_opt, dims;
-non terminal field_access, method_invocation, array_access;
-non terminal postfix_expression;
-non terminal postincrement_expression, postdecrement_expression;
-non terminal unary_expression, unary_expression_not_plus_minus;
-non terminal preincrement_expression, predecrement_expression;
-non terminal multiplicative_expression, additive_expression;
-non terminal relational_expression, equality_expression;
-non terminal conditional_and_expression, conditional_or_expression;
-non terminal conditional_expression, assignment_expression;
+non terminal blockStatementsOpt, blockStatements, blockStatement;
+non terminal localVariableDeclarationStatement, localVariableDeclaration;
+non terminal statement, statementNoShortIf;
+non terminal statementWithoutTrailingSubstatement;
+non terminal emptyStatement;
+non terminal expressionStatement, statementExpression;
+non terminal ifThenStatement;
+non terminal ifThenElseStatement, ifThenElseStatementNoShortIf;
+non terminal switchStatement, switchBlock;
+non terminal switchBlockStatementGroups;
+non terminal switchBlockStatementGroup;
+non terminal switchLabels, switchLabel;
+non terminal whileStatement, whileStatementNoShortIf;
+non terminal forStatement, forStatementNoShortIf;
+non terminal forInitOpt, forInit;
+non terminal forUpdateOpt, forUpdate;
+non terminal statementExpressionList;
+non terminal identifierOpt;
+non terminal breakStatement, continueStatement;
+non terminal returnStatement;
+
+non terminal primary, primaryNoNewArray;
+non terminal argumentListOpt, argumentList;
+non terminal arrayCreationExpression;
+non terminal dimExprs, dimExpr, dimsOpt, dims;
+non terminal fieldAccess, methodInvocation, arrayAccess;
+non terminal postfixExpression;
+non terminal postincrementExpression, postdecrementExpression;
+non terminal unaryExpression, unaryExpressionNotPlusMinus;
+non terminal preincrementExpression, predecrementExpression;
+non terminal multiplicativeExpression, additiveExpression;
+non terminal relationalExpression, equalityExpression;
+non terminal conditionalAndExpression, conditionalOrExpression;
+non terminal conditionalExpression, assignmentExpression;
 non terminal assignment;
-non terminal left_hand_side;
-non terminal assignment_operator;
-non terminal expression_opt, expression;
-non terminal constant_expression;
-non terminal global_variable;
-non terminal global_variables;
-non terminal method_statements_opt;
-non terminal servo_type;
-non terminal servo_initializer;
-non terminal servo_initializers;
-non terminal robot_type;
-non terminal delay_initializer;
+non terminal leftHandSide;
+non terminal assignmentOperator;
+non terminal expressionOpt, expression;
+non terminal constantExpression;
+non terminal globalVariable;
+non terminal globalVariables;
+non terminal methodStatementsOpt;
+non terminal servoType;
+non terminal servoInitializer;
+non terminal servoInitializers;
+non terminal robotType;
+non terminal delayInitializer;
 
 start with program;
 
 
-// 19.2) The Syntactic Grammar
-program ::=	compilation_unit:cu //{:RESULT = new Program(cu);:}
+program ::=	compilationUnit:cu
 	;
 
-// 19.3) Lexical Structure.
 literal ::=	INTEGER_LITERAL
 	|	FLOATING_POINT_LITERAL
 	|	BOOLEAN_LITERAL
@@ -153,400 +146,435 @@ literal ::=	INTEGER_LITERAL
     |	STRING_LITERAL
 	;
 
-// 19.4) Types, Values, and Variables
-type	::=	primitive_type
-	|	reference_type
+type	::=	primitiveType
+	|	referenceType
 	;
-primitive_type ::=
-		numeric_type
+primitiveType ::=
+		numericType
 	|   SERVO
 	|	BOOLEAN
 	;
-numeric_type::=	integral_type
-	|	floating_point_type
+numericType::=	integralType
+	|	floatingPointType
 	;
-integral_type ::=
+integralType ::=
 	INT
 	;
-floating_point_type ::=
+floatingPointType ::=
 	DOUBLE
 	;
 
-reference_type ::=  array_type
-    | robot_type
-    | servo_type
+referenceType ::=  arrayType
+    | robotType
+    | servoType
     | name
 	;
 
-servo_type ::= SERVOPOSITION;
+servoType ::= SERVOPOSITION;
 
-robot_type ::= ROBOT;
+robotType ::= ROBOT;
 
-
-
-array_type ::=	primitive_type dims
+arrayType ::=	primitiveType dims
 	|	name dims
 	;
 
-// 19.5) Names
-name	::=	simple_name
-	|	qualified_name
+name	::=	simpleName
+	|	qualifiedName
 	;
-simple_name ::=	IDENTIFIER
+simpleName ::=	IDENTIFIER
 	;
-qualified_name ::=
+qualifiedName ::=
 		name DOT IDENTIFIER
 	;
 
-// 19.6) Packages
-compilation_unit ::= global_variables:gl method_statements_opt:mso //{:RESULT = new Compilation_unit(gl, mso);:}
-    | method_statements_opt;
+compilationUnit ::= globalVariables:gl methodStatementsOpt:mso
+    | methodStatementsOpt;
 
 
-global_variables ::= global_variable
-    | global_variables global_variable
+globalVariables ::= globalVariable
+    | globalVariables globalVariable
     ;
 
+globalVariable ::= localVariableDeclarationStatement;
 
-global_variable ::= local_variable_declaration_statement;
+methodStatementsOpt ::= methodStatements | ;
 
-method_statements_opt ::= method_statements | ;
-
-method_statements ::=
-        method_declaration
-    |   method_statements method_declaration
+methodStatements ::=
+        methodDeclaration
+    |   methodStatements methodDeclaration
     ;
 
-variable_declarators ::=
-	    variable_declarator
-	|	variable_declarators COMMA variable_declarator
+variableDeclarators ::=
+	    variableDeclarator
+	|	variableDeclarators COMMA variableDeclarator
 	;
-variable_declarator ::=
-		variable_declarator_id
-	|	variable_declarator_id EQ variable_initializer
+variableDeclarator ::=
+		variableDeclaratorId
+	|	variableDeclaratorId EQ variableInitializer
 	;
-variable_declarator_id ::=
+variableDeclaratorId ::=
 		IDENTIFIER
-	|	variable_declarator_id LBRACK RBRACK
+	|	variableDeclaratorId LBRACK RBRACK
 	;
-variable_initializer ::=
+variableInitializer ::=
 		expression
-	|	array_initializer
-	|   servo_initializer
+	|	arrayInitializer
+	|   servoInitializer
 	;
 
-// 19.8.3) Method Declarations
-method_declaration ::=
-		method_header method_body
+methodDeclaration ::=
+		methodHeader methodBody
 	;
-method_header ::=
-	    type method_declarator
-	|	VOID method_declarator
+methodHeader ::=
+	    type methodDeclarator
+	|	VOID methodDeclarator
 	;
-method_declarator ::=
-		IDENTIFIER LPAREN formal_parameter_list_opt RPAREN
-	|	method_declarator LBRACK RBRACK // deprecated
-	// be careful; the above production also allows 'void foo() []'
+methodDeclarator ::=
+		IDENTIFIER LPAREN formalParameterListOpt RPAREN
+	|	methodDeclarator LBRACK RBRACK
 	;
-formal_parameter_list_opt ::=
-	|	formal_parameter_list
+formalParameterListOpt ::=
+	|	formalParameterList
 	;
-formal_parameter_list ::=
-		formal_parameter
-	|	formal_parameter_list COMMA formal_parameter
+formalParameterList ::=
+		formalParameter
+	|	formalParameterList COMMA formalParameter
 	;
-formal_parameter ::=
-		type variable_declarator_id
-	|	CONST type variable_declarator_id
+formalParameter ::=
+		type variableDeclaratorId
+	|	CONST type variableDeclaratorId
 	;
 
-method_body ::=	block
+methodBody ::=	block
 	|	SEMICOLON
 	;
 
-// 19.10) Arrays
-array_initializer ::=
-		LBRACE variable_initializers COMMA RBRACE
-	|	LBRACE variable_initializers RBRACE
+arrayInitializer ::=
+		LBRACE variableInitializers COMMA RBRACE
+	|	LBRACE variableInitializers RBRACE
 	|	LBRACE COMMA RBRACE
 	|	LBRACE RBRACE
 	;
 
-servo_initializers ::= IDENTIFIER COLON literal
-    |   servo_initializers COMMA IDENTIFIER COLON literal
+servoInitializers ::= IDENTIFIER COLON literal
+    |   servoInitializers COMMA IDENTIFIER COLON literal
     ;
 
-servo_initializer ::=
-        LBRACE servo_initializers RBRACE
+servoInitializer ::=
+        LBRACE servoInitializers RBRACE
     ;
 
-variable_initializers ::=
-		variable_initializer
-	|	variable_initializers COMMA variable_initializer
+variableInitializers ::=
+		variableInitializer
+	|	variableInitializers COMMA variableInitializer
 	;
 
-// 19.11) Blocks and Statements
-block ::=	BEGIN block_statements_opt END
+block ::=	BEGIN blockStatementsOpt END
 	;
-block_statements_opt ::=
-	|	block_statements
+
+blockStatementsOpt ::=
+	|	blockStatements
 	;
-block_statements ::=
-		block_statement
-	|	block_statements block_statement
+
+blockStatements ::=
+		blockStatement
+	|	blockStatements blockStatement
 	;
-block_statement ::=
-		local_variable_declaration_statement
+
+blockStatement ::=
+		localVariableDeclarationStatement
 	|	statement
 	;
-local_variable_declaration_statement ::=
-		local_variable_declaration SEMICOLON
+
+localVariableDeclarationStatement ::=
+		localVariableDeclaration SEMICOLON
 	;
-local_variable_declaration ::=
-		type variable_declarators
-	|	CONST type variable_declarators
+
+localVariableDeclaration ::=
+		type variableDeclarators
+	|	CONST type variableDeclarators
 	;
+
 statement ::=
-        statement_without_trailing_substatement
-	|	if_then_statement
-	|	if_then_else_statement
-	|	while_statement
-	|	for_statement
+        statementWithoutTrailingSubstatement
+	|	ifThenStatement
+	|	ifThenElseStatement
+	|	whileStatement
+	|	forStatement
 	;
-statement_no_short_if ::=
-		statement_without_trailing_substatement
-	|	if_then_else_statement_no_short_if
-	|	while_statement_no_short_if
-	|	for_statement_no_short_if
+
+statementNoShortIf ::=
+		statementWithoutTrailingSubstatement
+	|	ifThenElseStatementNoShortIf
+	|	whileStatementNoShortIf
+	|	forStatementNoShortIf
 	;
-statement_without_trailing_substatement ::=
+
+statementWithoutTrailingSubstatement ::=
 		block
-	|	empty_statement
-	|	expression_statement
-	|	switch_statement
-	|	break_statement
-	|	continue_statement
-	|	return_statement
+	|	emptyStatement
+	|	expressionStatement
+	|	switchStatement
+	|	breakStatement
+	|	continueStatement
+	|	returnStatement
 	;
-empty_statement ::=
+
+emptyStatement ::=
 		SEMICOLON
 	;
 
-expression_statement ::=
-		statement_expression SEMICOLON
+expressionStatement ::=
+		statementExpression SEMICOLON
 	;
-statement_expression ::=
+
+statementExpression ::=
 		assignment
-	|	preincrement_expression
-	|	predecrement_expression
-	|	postincrement_expression
-	|	postdecrement_expression
-	|	method_invocation
+	|	preincrementExpression
+	|	predecrementExpression
+	|	postincrementExpression
+	|	postdecrementExpression
+	|	methodInvocation
 	;
-if_then_statement ::=
+
+ifThenStatement ::=
 		IF LPAREN expression RPAREN statement
 	;
-if_then_else_statement ::=
-		IF LPAREN expression RPAREN statement_no_short_if
+
+ifThenElseStatement ::=
+		IF LPAREN expression RPAREN statementNoShortIf
 			ELSE statement
 	;
-if_then_else_statement_no_short_if ::=
-		IF LPAREN expression RPAREN statement_no_short_if
-			ELSE statement_no_short_if
+
+ifThenElseStatementNoShortIf ::=
+		IF LPAREN expression RPAREN statementNoShortIf
+			ELSE statementNoShortIf
 	;
-switch_statement ::=
-		SWITCH LPAREN expression RPAREN switch_block
+
+switchStatement ::=
+		SWITCH LPAREN expression RPAREN switchBlock
 	;
-switch_block ::=
-		BEGIN switch_block_statement_groups switch_labels END
-	|	BEGIN switch_block_statement_groups END
-	|	BEGIN switch_labels END
+
+switchBlock ::=
+		BEGIN switchBlockStatementGroups switchLabels END
+	|	BEGIN switchBlockStatementGroups END
+	|	BEGIN switchLabels END
 	|	BEGIN END
 	;
-switch_block_statement_groups ::=
-		switch_block_statement_group
-	|	switch_block_statement_groups switch_block_statement_group
+
+switchBlockStatementGroups ::=
+		switchBlockStatementGroup
+	|	switchBlockStatementGroups switchBlockStatementGroup
 	;
-switch_block_statement_group ::=
-		switch_labels block_statements
+
+switchBlockStatementGroup ::=
+		switchLabels blockStatements
 	;
-switch_labels ::=
-		switch_label
-	|	switch_labels switch_label
+
+switchLabels ::=
+		switchLabel
+	|	switchLabels switchLabel
 	;
-switch_label ::=
-		CASE constant_expression COLON
+
+switchLabel ::=
+		CASE constantExpression COLON
 	|	DEFAULT COLON
 	;
 
-while_statement ::=
+whileStatement ::=
 		WHILE LPAREN expression RPAREN statement
 	;
-while_statement_no_short_if ::=
-		WHILE LPAREN expression RPAREN statement_no_short_if
+whileStatementNoShortIf ::=
+		WHILE LPAREN expression RPAREN statementNoShortIf
 	;
 
-for_statement ::=
-		FOR LPAREN for_init_opt WHEN expression_opt THEN
-			for_update_opt RPAREN statement
+forStatement ::=
+		FOR LPAREN forInitOpt WHEN expressionOpt THEN
+			forUpdateOpt RPAREN statement
 	;
-for_statement_no_short_if ::=
-		FOR LPAREN for_init_opt WHEN expression_opt THEN
-			for_update_opt RPAREN statement_no_short_if
-	;
-for_init_opt ::=
-	|	for_init
-	;
-for_init ::=	statement_expression_list
-	|	local_variable_declaration
-	;
-for_update_opt ::=
-	|	for_update
-	;
-for_update ::=	statement_expression_list
-	;
-statement_expression_list ::=
-		statement_expression
-	|	statement_expression_list COMMA statement_expression
+forStatementNoShortIf ::=
+		FOR LPAREN forInitOpt WHEN expressionOpt THEN
+			forUpdateOpt RPAREN statementNoShortIf
 	;
 
-identifier_opt ::=
+forInitOpt ::=
+	|	forInit
+	;
+
+forInit ::=	statementExpressionList
+	|	localVariableDeclaration
+	;
+
+forUpdateOpt ::=
+	|	forUpdate
+	;
+
+forUpdate ::=	statementExpressionList
+	;
+statementExpressionList ::=
+		statementExpression
+	|	statementExpressionList COMMA statementExpression
+	;
+
+identifierOpt ::=
 	|	IDENTIFIER
 	;
 
-break_statement ::=
-		BREAK identifier_opt SEMICOLON
+breakStatement ::=
+		BREAK identifierOpt SEMICOLON
 	;
 
-return_statement ::=
-		RETURN expression_opt SEMICOLON
+returnStatement ::=
+		RETURN expressionOpt SEMICOLON
 	;
 
-// 19.12) Expressions
-primary ::=	primary_no_new_array
-	|	array_creation_expression
+primary ::=	primaryNoNewArray
+	|	arrayCreationExpression
 	;
-primary_no_new_array ::=
+primaryNoNewArray ::=
 		literal
 	|	LPAREN expression RPAREN
-	|	field_access
-	|	method_invocation
-	|	array_access
+	|	fieldAccess
+	|	methodInvocation
+	|	arrayAccess
 	;
 
-argument_list_opt ::=
-	|	argument_list
+argumentListOpt ::=
+	|	argumentList
 	;
-argument_list ::=
+
+argumentList ::=
 		expression
-	|	argument_list COMMA expression
+	|	argumentList COMMA expression
 	;
-array_creation_expression ::=
-		 primitive_type dim_exprs dims_opt
-	|	 primitive_type dims array_initializer
+
+arrayCreationExpression ::=
+		 primitiveType dimExprs dimsOpt
+	|	 primitiveType dims arrayInitializer
 	;
-dim_exprs ::=	dim_expr
-	|	dim_exprs dim_expr
+
+dimExprs ::=	dimExpr
+	|	dimExprs dimExpr
 	;
-dim_expr ::=	LBRACK expression RBRACK
+
+dimExpr ::=	LBRACK expression RBRACK
 	;
-dims_opt ::=
+
+dimsOpt ::=
 	|	dims
 	;
+
 dims ::=	LBRACK RBRACK
 	|	dims LBRACK RBRACK
 	;
-field_access ::=
+
+fieldAccess ::=
 		primary DOT IDENTIFIER
 	;
-method_invocation ::=
-		name LPAREN argument_list_opt RPAREN
+
+methodInvocation ::=
+		name LPAREN argumentListOpt RPAREN
 	;
-array_access ::=
+
+arrayAccess ::=
 		name LBRACK expression RBRACK
-	|	primary_no_new_array LBRACK expression RBRACK
+	|	primaryNoNewArray LBRACK expression RBRACK
 	;
-postfix_expression ::=
+
+postfixExpression ::=
 		primary
 	|	name
-	|	postincrement_expression
-	|	postdecrement_expression
-	;
-postincrement_expression ::=
-		postfix_expression PLUSPLUS
-	;
-postdecrement_expression ::=
-		postfix_expression MINUSMINUS
-	;
-unary_expression ::=
-		preincrement_expression
-	|	predecrement_expression
-	|	PLUS unary_expression
-	|	MINUS unary_expression
-	|	unary_expression_not_plus_minus
-	;
-preincrement_expression ::=
-		PLUSPLUS unary_expression
-	;
-predecrement_expression ::=
-		MINUSMINUS unary_expression
-	;
-unary_expression_not_plus_minus ::=
-		postfix_expression
-	|	COMP unary_expression
-	|	NOT unary_expression
+	|	postincrementExpression
+	|	postdecrementExpression
 	;
 
-multiplicative_expression ::=
-		unary_expression
-	|	multiplicative_expression MULT unary_expression
-	|	multiplicative_expression DIV unary_expression
-	|	multiplicative_expression MOD unary_expression
-	;
-additive_expression ::=
-		multiplicative_expression
-	|	additive_expression PLUS multiplicative_expression
-	|	additive_expression MINUS multiplicative_expression
+postincrementExpression ::=
+		postfixExpression PLUSPLUS
 	;
 
-relational_expression ::=
-		additive_expression
-	|	relational_expression LT additive_expression
-	|	relational_expression GT additive_expression
-	|	relational_expression LTEQ additive_expression
-	|	relational_expression GTEQ additive_expression
-	;
-equality_expression ::=
-		relational_expression
-	|	equality_expression EQEQ relational_expression
-	|	equality_expression NOTEQ relational_expression
+postdecrementExpression ::=
+		postfixExpression MINUSMINUS
 	;
 
-conditional_and_expression ::=
-		equality_expression
-	|	conditional_and_expression ANDAND equality_expression
+unaryExpression ::=
+		preincrementExpression
+	|	predecrementExpression
+	|	PLUS unaryExpression
+	|	MINUS unaryExpression
+	|	unaryExpressionNotPlusMinus
 	;
-conditional_or_expression ::=
-		conditional_and_expression
-	|	conditional_or_expression OROR conditional_and_expression
+
+preincrementExpression ::=
+		PLUSPLUS unaryExpression
 	;
-conditional_expression ::=
-		conditional_or_expression
-	|	conditional_or_expression QUESTION expression
-			COLON conditional_expression
+
+predecrementExpression ::=
+		MINUSMINUS unaryExpression
 	;
-assignment_expression ::=
-		conditional_expression
+
+unaryExpressionNotPlusMinus ::=
+		postfixExpression
+	|	COMP unaryExpression
+	|	NOT unaryExpression
+	;
+
+multiplicativeExpression ::=
+		unaryExpression
+	|	multiplicativeExpression MULT unaryExpression
+	|	multiplicativeExpression DIV unaryExpression
+	|	multiplicativeExpression MOD unaryExpression
+	;
+additiveExpression ::=
+		multiplicativeExpression
+	|	additiveExpression PLUS multiplicativeExpression
+	|	additiveExpression MINUS multiplicativeExpression
+	;
+
+relationalExpression ::=
+		additiveExpression
+	|	relationalExpression LT additiveExpression
+	|	relationalExpression GT additiveExpression
+	|	relationalExpression LTEQ additiveExpression
+	|	relationalExpression GTEQ additiveExpression
+	;
+
+equalityExpression ::=
+		relationalExpression
+	|	equalityExpression EQEQ relationalExpression
+	|	equalityExpression NOTEQ relationalExpression
+	;
+
+conditionalAndExpression ::=
+		equalityExpression
+	|	conditionalAndExpression ANDAND equalityExpression
+	;
+
+conditionalOrExpression ::=
+		conditionalAndExpression
+	|	conditionalOrExpression OROR conditionalAndExpression
+	;
+
+conditionalExpression ::=
+		conditionalOrExpression
+	|	conditionalOrExpression QUESTION expression
+			COLON conditionalExpression
+	;
+
+assignmentExpression ::=
+		conditionalExpression
 	|	assignment
 	;
-assignment ::=	left_hand_side assignment_operator assignment_expression
+
+assignment ::=	leftHandSide assignmentOperator assignmentExpression
 	;
-left_hand_side ::=
+
+leftHandSide ::=
 		name
-	|	field_access
-	|	array_access
+	|	fieldAccess
+	|	arrayAccess
 	;
-assignment_operator ::=
+
+assignmentOperator ::=
 		EQ
 	|	MULTEQ
 	|	DIVEQ
@@ -554,11 +582,14 @@ assignment_operator ::=
 	|	PLUSEQ
 	|	MINUSEQ
 	;
-expression_opt ::=
+
+expressionOpt ::=
 	|	expression
 	;
-expression ::=	assignment_expression
+
+expression ::=	assignmentExpression
 	;
-constant_expression ::=
+
+constantExpression ::=
 		expression
 	;
