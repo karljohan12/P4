@@ -18,6 +18,8 @@ public class JavaParser {
   public static void main(String argv[]) {
     argv = new String[]{"Test/parsertest.txt"};
 
+
+
     for (int i = 0; i < argv.length; i++) {
       try {
         System.out.println("Parsing [" + argv[i] + "]");

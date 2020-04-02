@@ -24,7 +24,6 @@ terminal INT;
 terminal DOUBLE;
 terminal CONST;
 terminal LBRACE, RBRACE, LBRACK, RBRACK;
-terminal DOT;
 terminal SEMICOLON, MULT, COMMA, EQ, LPAREN, RPAREN, COLON;
 terminal BEGIN;
 terminal END;
@@ -47,9 +46,7 @@ terminal OROR;
 terminal QUESTION;
 terminal MULTEQ, DIVEQ, MODEQ, PLUSEQ, MINUSEQ;
 terminal WHEN, THEN;
-terminal AND, OR;
 terminal ROBOT, SERVOPOSITION, SERVO;
-terminal DELAY;
 
 terminal java.lang.Number INTEGER_LITERAL;
 terminal java.lang.Number FLOATING_POINT_LITERAL;
@@ -65,78 +62,76 @@ non terminal literal;
 
 
 non terminal type, primitiveType, numericType;
-non terminal integralType, floatingPointType;
+non terminal integerType, floatType;
 non terminal referenceType;
 non terminal arrayType;
 
-non terminal name, simpleName, qualifiedName;
-non terminal compilationUnit;
-non terminal methodStatements;
+non terminal name;
+non terminal Start;
+non terminal functionStmts;
 
-non terminal variableDeclarators, variableDeclarator;
-non terminal variableDeclaratorId, variableInitializer;
+non terminal variableDecls, variableDecl;
+non terminal variableDeclId, variableInit;
 
-non terminal methodDeclaration, methodHeader, methodDeclarator;
-non terminal formalParameterListOpt, formalParameterList;
-non terminal formalParameter;
-non terminal methodBody;
+non terminal functionDecl, functionHeader, functionDeclerator;
+non terminal formalParamListOpt, formalParamList;
+non terminal formalParam;
+non terminal functionBody;
 
-non terminal arrayInitializer;
-non terminal variableInitializers;
+non terminal arrayInit;
+non terminal variableInits;
 
 non terminal block;
-non terminal blockStatementsOpt, blockStatements, blockStatement;
-non terminal localVariableDeclarationStatement, localVariableDeclaration;
-non terminal statement, statementNoShortIf;
-non terminal statementWithoutTrailingSubstatement;
-non terminal emptyStatement;
-non terminal expressionStatement, statementExpression;
-non terminal ifThenStatement;
-non terminal ifThenElseStatement, ifThenElseStatementNoShortIf;
-non terminal switchStatement, switchBlock;
-non terminal switchBlockStatementGroups;
-non terminal switchBlockStatementGroup;
+non terminal blockStmtsOpt, blockStmts, blockStmt;
+non terminal localVariableDeclStmt, localVariableDecl;
+non terminal stmt, stmtIfWithoutElse;
+non terminal stmtWithoutTrailingSubstatement;
+non terminal emptyStmt;
+non terminal exprStmt, stmtExpr;
+non terminal ifThenStmt;
+non terminal ifThenElseStmt, ifThenElseIfWithoutElse;
+non terminal switchStmt, switchBlock;
+non terminal switchBlockStmtGroups;
+non terminal switchBlockStmtGroup;
 non terminal switchLabels, switchLabel;
-non terminal whileStatement, whileStatementNoShortIf;
-non terminal forStatement, forStatementNoShortIf;
-non terminal forInitOpt, forInit;
-non terminal forUpdateOpt, forUpdate;
-non terminal statementExpressionList;
-non terminal identifierOpt;
-non terminal breakStatement, continueStatement;
-non terminal returnStatement;
+non terminal whileStmt;
+non terminal forStmt;
+non terminal forInit;
+non terminal stmtExprList;
+non terminal breakStmt, continueStatement;
+non terminal returnStmt;
 
 non terminal primary, primaryNoNewArray;
 non terminal argumentListOpt, argumentList;
-non terminal arrayCreationExpression;
-non terminal dimExprs, dimExpr, dimsOpt, dims;
-non terminal fieldAccess, methodInvocation, arrayAccess;
-non terminal postfixExpression;
-non terminal postincrementExpression, postdecrementExpression;
-non terminal unaryExpression, unaryExpressionNotPlusMinus;
-non terminal preincrementExpression, predecrementExpression;
-non terminal multiplicativeExpression, additiveExpression;
-non terminal relationalExpression, equalityExpression;
-non terminal conditionalAndExpression, conditionalOrExpression;
-non terminal conditionalExpression, assignmentExpression;
+non terminal arrayCreationExpr;
+non terminal bracketEnclosureExprs, bracketEnclosureExpr, bracketEnclosureOpt, bracketEnclosure;
+non terminal functionCall, arrayAccess;
+non terminal postfixExpr;
+non terminal postincrementExpr, postdecrementExpr;
+non terminal unaryExpr, unaryExprNotPlusMinus;
+non terminal preincrementExpr, predecrementExpr;
+non terminal mulExpr, plusExpr;
+non terminal relationalExpr, equalExpr;
+non terminal conditionalAndExpr, conditionalOrExpr;
+non terminal conditionalExpr, assignmentExpr;
 non terminal assignment;
 non terminal leftHandSide;
 non terminal assignmentOperator;
-non terminal expressionOpt, expression;
-non terminal constantExpression;
+non terminal expr;
+non terminal constantExpr;
 non terminal globalVariable;
 non terminal globalVariables;
-non terminal methodStatementsOpt;
+non terminal functionStmtsOpt;
 non terminal servoType;
-non terminal servoInitializer;
-non terminal servoInitializers;
+non terminal servoInit;
+non terminal servoInits;
 non terminal robotType;
-non terminal delayInitializer;
+
 
 start with program;
 
 
-program ::=	compilationUnit:cu
+program ::=	Start:cu
 	;
 
 literal ::=	INTEGER_LITERAL
@@ -154,13 +149,13 @@ primitiveType ::=
 	|   SERVO
 	|	BOOLEAN
 	;
-numericType::=	integralType
-	|	floatingPointType
+numericType::=	integerType
+	|	floatType
 	;
-integralType ::=
+integerType ::=
 	INT
 	;
-floatingPointType ::=
+floatType ::=
 	DOUBLE
 	;
 
@@ -174,201 +169,194 @@ servoType ::= SERVOPOSITION;
 
 robotType ::= ROBOT;
 
-arrayType ::=	primitiveType dims
-	|	name dims
+arrayType ::=	primitiveType bracketEnclosure
+	|	name bracketEnclosure
 	;
 
-name	::=	simpleName
-	|	qualifiedName
-	;
-simpleName ::=	IDENTIFIER
-	;
-qualifiedName ::=
-		name DOT IDENTIFIER
+name	::= IDENTIFIER
+
 	;
 
-compilationUnit ::= globalVariables:gl methodStatementsOpt:mso
-    | methodStatementsOpt;
+Start ::= globalVariables:gl functionStmtsOpt:mso
+    | functionStmtsOpt;
 
 
 globalVariables ::= globalVariable
     | globalVariables globalVariable
     ;
 
-globalVariable ::= localVariableDeclarationStatement;
+globalVariable ::= localVariableDeclStmt;
 
-methodStatementsOpt ::= methodStatements | ;
+functionStmtsOpt ::= functionStmts | ;
 
-methodStatements ::=
-        methodDeclaration
-    |   methodStatements methodDeclaration
+functionStmts ::=
+        functionDecl
+    |   functionStmts functionDecl
     ;
 
-variableDeclarators ::=
-	    variableDeclarator
-	|	variableDeclarators COMMA variableDeclarator
+variableDecls ::=
+	    variableDecl
+	|	variableDecls COMMA variableDecl
 	;
-variableDeclarator ::=
-		variableDeclaratorId
-	|	variableDeclaratorId EQ variableInitializer
+variableDecl ::=
+		variableDeclId
+	|	variableDeclId EQ variableInit
 	;
-variableDeclaratorId ::=
+variableDeclId ::=
 		IDENTIFIER
-	|	variableDeclaratorId LBRACK RBRACK
+	|	variableDeclId LBRACK RBRACK
 	;
-variableInitializer ::=
-		expression
-	|	arrayInitializer
-	|   servoInitializer
-	;
-
-methodDeclaration ::=
-		methodHeader methodBody
-	;
-methodHeader ::=
-	    type methodDeclarator
-	|	VOID methodDeclarator
-	;
-methodDeclarator ::=
-		IDENTIFIER LPAREN formalParameterListOpt RPAREN
-	|	methodDeclarator LBRACK RBRACK
-	;
-formalParameterListOpt ::=
-	|	formalParameterList
-	;
-formalParameterList ::=
-		formalParameter
-	|	formalParameterList COMMA formalParameter
-	;
-formalParameter ::=
-		type variableDeclaratorId
-	|	CONST type variableDeclaratorId
+variableInit ::=
+		expr
+	|	arrayInit
+	|   servoInit
 	;
 
-methodBody ::=	block
+functionDecl ::=
+		functionHeader functionBody
+	;
+functionHeader ::=
+	    type functionDeclerator
+	|	VOID functionDeclerator
+	;
+functionDeclerator ::=
+		IDENTIFIER LPAREN formalParamListOpt RPAREN
+	|	functionDeclerator LBRACK RBRACK
+	;
+formalParamListOpt ::=
+	|	formalParamList
+	;
+formalParamList ::=
+		formalParam
+	|	formalParamList COMMA formalParam
+	;
+formalParam ::=
+		type variableDeclId
+	|	CONST type variableDeclId
+	;
+
+functionBody ::=	block
 	|	SEMICOLON
 	;
 
-arrayInitializer ::=
-		LBRACE variableInitializers COMMA RBRACE
-	|	LBRACE variableInitializers RBRACE
+arrayInit ::=
+		LBRACE variableInits COMMA RBRACE
+	|	LBRACE variableInits RBRACE
 	|	LBRACE COMMA RBRACE
 	|	LBRACE RBRACE
 	;
 
-servoInitializers ::= IDENTIFIER COLON literal
-    |   servoInitializers COMMA IDENTIFIER COLON literal
+servoInits ::= IDENTIFIER COLON literal
+    |   servoInits COMMA IDENTIFIER COLON literal
     ;
 
-servoInitializer ::=
-        LBRACE servoInitializers RBRACE
+servoInit ::=
+        LBRACE servoInits RBRACE
     ;
 
-variableInitializers ::=
-		variableInitializer
-	|	variableInitializers COMMA variableInitializer
+variableInits ::=
+		variableInit
+	|	variableInits COMMA variableInit
 	;
 
-block ::=	BEGIN blockStatementsOpt END
+block ::=	BEGIN blockStmtsOpt END
 	;
 
-blockStatementsOpt ::=
-	|	blockStatements
+blockStmtsOpt ::=
+	|	blockStmts
 	;
 
-blockStatements ::=
-		blockStatement
-	|	blockStatements blockStatement
+blockStmts ::=
+		blockStmt
+	|	blockStmts blockStmt
 	;
 
-blockStatement ::=
-		localVariableDeclarationStatement
-	|	statement
+blockStmt ::=
+		localVariableDeclStmt
+	|	stmt
 	;
 
-localVariableDeclarationStatement ::=
-		localVariableDeclaration SEMICOLON
+localVariableDeclStmt ::=
+		localVariableDecl SEMICOLON
 	;
 
-localVariableDeclaration ::=
-		type variableDeclarators
-	|	CONST type variableDeclarators
+localVariableDecl ::=
+		type variableDecls
+	|	CONST type variableDecls
 	;
 
-statement ::=
-        statementWithoutTrailingSubstatement
-	|	ifThenStatement
-	|	ifThenElseStatement
-	|	whileStatement
-	|	forStatement
+stmt ::=
+        stmtWithoutTrailingSubstatement
+	|	ifThenStmt
+	|	ifThenElseStmt
+	|	whileStmt
+	|	forStmt
 	;
 
-statementNoShortIf ::=
-		statementWithoutTrailingSubstatement
-	|	ifThenElseStatementNoShortIf
-	|	whileStatementNoShortIf
-	|	forStatementNoShortIf
+stmtIfWithoutElse ::=
+		stmtWithoutTrailingSubstatement
+	|	ifThenElseIfWithoutElse
 	;
 
-statementWithoutTrailingSubstatement ::=
+stmtWithoutTrailingSubstatement ::=
 		block
-	|	emptyStatement
-	|	expressionStatement
-	|	switchStatement
-	|	breakStatement
+	|	emptyStmt
+	|	exprStmt
+	|	switchStmt
+	|	breakStmt
 	|	continueStatement
-	|	returnStatement
+	|	returnStmt
 	;
 
-emptyStatement ::=
+emptyStmt ::=
 		SEMICOLON
 	;
 
-expressionStatement ::=
-		statementExpression SEMICOLON
+exprStmt ::=
+		stmtExpr SEMICOLON
 	;
 
-statementExpression ::=
+stmtExpr ::=
 		assignment
-	|	preincrementExpression
-	|	predecrementExpression
-	|	postincrementExpression
-	|	postdecrementExpression
-	|	methodInvocation
+	|	preincrementExpr
+	|	predecrementExpr
+	|	postincrementExpr
+	|	postdecrementExpr
+	|	functionCall
 	;
 
-ifThenStatement ::=
-		IF LPAREN expression RPAREN statement
+ifThenStmt ::=
+		IF LPAREN expr RPAREN stmt
 	;
 
-ifThenElseStatement ::=
-		IF LPAREN expression RPAREN statementNoShortIf
-			ELSE statement
+ifThenElseStmt ::=
+		IF LPAREN expr RPAREN stmtIfWithoutElse
+			ELSE stmt
 	;
 
-ifThenElseStatementNoShortIf ::=
-		IF LPAREN expression RPAREN statementNoShortIf
-			ELSE statementNoShortIf
+ifThenElseIfWithoutElse ::=
+		IF LPAREN expr RPAREN stmtIfWithoutElse
+			ELSE stmtIfWithoutElse
 	;
 
-switchStatement ::=
-		SWITCH LPAREN expression RPAREN switchBlock
+switchStmt ::=
+		SWITCH LPAREN expr RPAREN switchBlock
 	;
 
 switchBlock ::=
-		BEGIN switchBlockStatementGroups switchLabels END
-	|	BEGIN switchBlockStatementGroups END
+		BEGIN switchBlockStmtGroups switchLabels END
+	|	BEGIN switchBlockStmtGroups END
 	|	BEGIN switchLabels END
 	|	BEGIN END
 	;
 
-switchBlockStatementGroups ::=
-		switchBlockStatementGroup
-	|	switchBlockStatementGroups switchBlockStatementGroup
+switchBlockStmtGroups ::=
+		switchBlockStmtGroup
+	|	switchBlockStmtGroups switchBlockStmtGroup
 	;
 
-switchBlockStatementGroup ::=
-		switchLabels blockStatements
+switchBlockStmtGroup ::=
+		switchLabels blockStmts
 	;
 
 switchLabels ::=
@@ -377,65 +365,43 @@ switchLabels ::=
 	;
 
 switchLabel ::=
-		CASE constantExpression COLON
+		CASE constantExpr COLON
 	|	DEFAULT COLON
 	;
 
-whileStatement ::=
-		WHILE LPAREN expression RPAREN statement
-	;
-whileStatementNoShortIf ::=
-		WHILE LPAREN expression RPAREN statementNoShortIf
+whileStmt ::=
+		WHILE LPAREN expr RPAREN
 	;
 
-forStatement ::=
-		FOR LPAREN forInitOpt WHEN expressionOpt THEN
-			forUpdateOpt RPAREN statement
-	;
-forStatementNoShortIf ::=
-		FOR LPAREN forInitOpt WHEN expressionOpt THEN
-			forUpdateOpt RPAREN statementNoShortIf
+forStmt ::=
+		FOR LPAREN forInit WHEN expr THEN
+			stmtExprList RPAREN
 	;
 
-forInitOpt ::=
-	|	forInit
+forInit ::=	stmtExprList
+	|	localVariableDecl
 	;
 
-forInit ::=	statementExpressionList
-	|	localVariableDeclaration
+stmtExprList ::=
+		stmtExpr
+	|	stmtExprList COMMA stmtExpr
 	;
 
-forUpdateOpt ::=
-	|	forUpdate
+breakStmt ::=
+		BREAK SEMICOLON
 	;
 
-forUpdate ::=	statementExpressionList
-	;
-statementExpressionList ::=
-		statementExpression
-	|	statementExpressionList COMMA statementExpression
-	;
-
-identifierOpt ::=
-	|	IDENTIFIER
-	;
-
-breakStatement ::=
-		BREAK identifierOpt SEMICOLON
-	;
-
-returnStatement ::=
-		RETURN expressionOpt SEMICOLON
+returnStmt ::=
+		RETURN expr SEMICOLON
 	;
 
 primary ::=	primaryNoNewArray
-	|	arrayCreationExpression
+	|	arrayCreationExpr
 	;
 primaryNoNewArray ::=
 		literal
-	|	LPAREN expression RPAREN
-	|	fieldAccess
-	|	methodInvocation
+	|	LPAREN expr RPAREN
+	|	functionCall
 	|	arrayAccess
 	;
 
@@ -444,134 +410,132 @@ argumentListOpt ::=
 	;
 
 argumentList ::=
-		expression
-	|	argumentList COMMA expression
+		expr
+	|	argumentList COMMA expr
 	;
 
-arrayCreationExpression ::=
-		 primitiveType dimExprs dimsOpt
-	|	 primitiveType dims arrayInitializer
+arrayCreationExpr ::=
+		 primitiveType bracketEnclosureExprs bracketEnclosureOpt
+	|	 primitiveType bracketEnclosure arrayInit
 	;
 
-dimExprs ::=	dimExpr
-	|	dimExprs dimExpr
+bracketEnclosureExprs ::=	bracketEnclosureExpr
+	|	bracketEnclosureExprs bracketEnclosureExpr
 	;
 
-dimExpr ::=	LBRACK expression RBRACK
+bracketEnclosureExpr ::=	LBRACK expr RBRACK
 	;
 
-dimsOpt ::=
-	|	dims
+bracketEnclosureOpt ::=
+	|	bracketEnclosure
 	;
 
-dims ::=	LBRACK RBRACK
-	|	dims LBRACK RBRACK
+bracketEnclosure ::=	LBRACK RBRACK
+	|	bracketEnclosure LBRACK RBRACK
 	;
 
-fieldAccess ::=
-		primary DOT IDENTIFIER
-	;
-
-methodInvocation ::=
+functionCall ::=
 		name LPAREN argumentListOpt RPAREN
 	;
 
 arrayAccess ::=
-		name LBRACK expression RBRACK
-	|	primaryNoNewArray LBRACK expression RBRACK
+		name LBRACK expr RBRACK
+	|	primaryNoNewArray LBRACK expr RBRACK
 	;
 
-postfixExpression ::=
+postfixExpr ::=
 		primary
 	|	name
-	|	postincrementExpression
-	|	postdecrementExpression
+	|	postincrementExpr
+	|	postdecrementExpr
 	;
 
-postincrementExpression ::=
-		postfixExpression PLUSPLUS
+postincrementExpr ::=
+		postfixExpr PLUSPLUS
 	;
 
-postdecrementExpression ::=
-		postfixExpression MINUSMINUS
+postdecrementExpr ::=
+		postfixExpr MINUSMINUS
 	;
 
-unaryExpression ::=
-		preincrementExpression
-	|	predecrementExpression
-	|	PLUS unaryExpression
-	|	MINUS unaryExpression
-	|	unaryExpressionNotPlusMinus
+unaryExpr ::=
+		preincrementExpr
+	|	predecrementExpr
+	|	PLUS unaryExpr
+	|	MINUS unaryExpr
+	|	unaryExprNotPlusMinus
 	;
 
-preincrementExpression ::=
-		PLUSPLUS unaryExpression
+preincrementExpr ::=
+		PLUSPLUS unaryExpr
 	;
 
-predecrementExpression ::=
-		MINUSMINUS unaryExpression
+predecrementExpr ::=
+		MINUSMINUS unaryExpr
 	;
 
-unaryExpressionNotPlusMinus ::=
-		postfixExpression
-	|	COMP unaryExpression
-	|	NOT unaryExpression
+unaryExprNotPlusMinus ::=
+		postfixExpr
+	|	COMP unaryExpr
+	|	NOT unaryExpr
 	;
 
-multiplicativeExpression ::=
-		unaryExpression
-	|	multiplicativeExpression MULT unaryExpression
-	|	multiplicativeExpression DIV unaryExpression
-	|	multiplicativeExpression MOD unaryExpression
+mulExpr ::=
+		unaryExpr
+	|	mulExpr MULT unaryExpr
+	|	mulExpr DIV unaryExpr
+	|	mulExpr MOD unaryExpr
 	;
-additiveExpression ::=
-		multiplicativeExpression
-	|	additiveExpression PLUS multiplicativeExpression
-	|	additiveExpression MINUS multiplicativeExpression
-	;
-
-relationalExpression ::=
-		additiveExpression
-	|	relationalExpression LT additiveExpression
-	|	relationalExpression GT additiveExpression
-	|	relationalExpression LTEQ additiveExpression
-	|	relationalExpression GTEQ additiveExpression
+plusExpr ::=
+		mulExpr
+	|	plusExpr PLUS mulExpr
+	|	plusExpr MINUS mulExpr
 	;
 
-equalityExpression ::=
-		relationalExpression
-	|	equalityExpression EQEQ relationalExpression
-	|	equalityExpression NOTEQ relationalExpression
+relationalExpr ::=
+		plusExpr
+	|	relationalExpr LT plusExpr
+	|	relationalExpr GT plusExpr
+	|	relationalExpr LTEQ plusExpr
+	|	relationalExpr GTEQ plusExpr
 	;
 
-conditionalAndExpression ::=
-		equalityExpression
-	|	conditionalAndExpression ANDAND equalityExpression
+equalExpr ::=
+		relationalExpr
+	|	equalExpr EQEQ relationalExpr
+	|	equalExpr NOTEQ relationalExpr
 	;
 
-conditionalOrExpression ::=
-		conditionalAndExpression
-	|	conditionalOrExpression OROR conditionalAndExpression
+conditionalAndExpr ::=
+		equalExpr
+	|	conditionalAndExpr ANDAND equalExpr
 	;
 
-conditionalExpression ::=
-		conditionalOrExpression
-	|	conditionalOrExpression QUESTION expression
-			COLON conditionalExpression
+conditionalOrExpr ::=
+		conditionalAndExpr
+	|	conditionalOrExpr OROR conditionalAndExpr
 	;
 
-assignmentExpression ::=
-		conditionalExpression
+conditionalExpr ::=
+		conditionalOrExpr
+	|	conditionalOrExpr QUESTION expr
+			COLON conditionalExpr
+	;
+
+assignmentExpr ::=
+		conditionalExpr
 	|	assignment
 	;
 
-assignment ::=	leftHandSide assignmentOperator assignmentExpression
+assignment ::=	leftHandSide assignmentOperator assignmentExpr
 	;
 
 leftHandSide ::=
 		name
-	|	fieldAccess
 	|	arrayAccess
+	;
+
+expr ::=	assignmentExpr
 	;
 
 assignmentOperator ::=
@@ -583,13 +547,7 @@ assignmentOperator ::=
 	|	MINUSEQ
 	;
 
-expressionOpt ::=
-	|	expression
+constantExpr ::=
+		expr
 	;
 
-expression ::=	assignmentExpression
-	;
-
-constantExpression ::=
-		expression
-	;

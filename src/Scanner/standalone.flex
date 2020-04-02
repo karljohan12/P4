@@ -14,13 +14,15 @@
    "sample.inp" provided in this directory 
 */
 
-package de.jflex.example.standalone;
+package Scanner;
 import java_cup.runtime.*;
+import Parser.*;
 %%
 
 %public
 %class Scanner
 %implements sym
+
 
 %unicode
 
@@ -99,7 +101,7 @@ StringCharacter = [^\r\n\"\\]
     "Robot"                   { return symbol(ROBOT); }
     "ServoPosition"                   { return symbol(SERVOPOSITION); }
     "Servo"                   { return symbol(SERVO); }
-    "delay"                   { return symbol(DELAY); }
+
 
 
 
@@ -119,7 +121,6 @@ StringCharacter = [^\r\n\"\\]
      "]"                            { return symbol(RBRACK); }
      ";"                            { return symbol(SEMICOLON); }
      ","                            { return symbol(COMMA); }
-     "."                            { return symbol(DOT); }
 
      /*operators*/
       "="                            { return symbol(EQ); }
