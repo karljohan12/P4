@@ -5,7 +5,7 @@
 
 package Parser;
 
-/** CUP generated interface containing symbol constants. */
+/** CUP generated class containing symbol constants. */
 public interface sym {
   /* terminals */
   public static final int DIVEQ = 47;

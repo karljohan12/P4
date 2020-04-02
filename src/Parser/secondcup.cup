@@ -63,7 +63,7 @@ terminal NULL_LITERAL;
 terminal CONST;
 
 // 19.2) The Syntactic Grammar
-non terminal goal;
+non terminal program;
 // 19.3) Lexical Structure
 non terminal literal;
 // 19.4) Types, Values, and Variables
@@ -138,11 +138,11 @@ non terminal servo_initializers;
 non terminal robot_type;
 non terminal delay_initializer;
 
-start with goal;
+start with program;
 
 
 // 19.2) The Syntactic Grammar
-goal ::=	compilation_unit
+program ::=	compilation_unit:cu //{:RESULT = new Program(cu);:}
 	;
 
 // 19.3) Lexical Structure.
@@ -199,7 +199,7 @@ qualified_name ::=
 	;
 
 // 19.6) Packages
-compilation_unit ::= global_variables method_statements_opt
+compilation_unit ::= global_variables:gl method_statements_opt:mso //{:RESULT = new Compilation_unit(gl, mso);:}
     | method_statements_opt;
 
 
