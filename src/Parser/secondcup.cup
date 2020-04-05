@@ -135,419 +135,621 @@ program ::=	Start:cu
 	;
 
 literal ::=	INTEGER_LITERAL
+            {:RESULT =:}
 	|	FLOATING_POINT_LITERAL
+	{:RESULT =:}
 	|	BOOLEAN_LITERAL
+	{:RESULT =:}
 	|	NULL_LITERAL
+	{:RESULT =:}
     |	STRING_LITERAL
+    {:RESULT =:}
 	;
 
 type	::=	primitiveType
+            {:RESULT =:}
 	|	referenceType
+	{:RESULT =:}
 	;
 primitiveType ::=
 		numericType
+		{:RESULT =:}
 	|   SERVO
+	{:RESULT =:}
 	|	BOOLEAN
+	{:RESULT =:}
 	;
-numericType::=	integerType
+numericType::=
+    integerType
+    {:RESULT =:}
 	|	floatType
+	{:RESULT =:}
 	;
 integerType ::=
 	INT
+	{:RESULT =:}
 	;
 floatType ::=
 	DOUBLE
+	{:RESULT =:}
 	;
 
-referenceType ::=  arrayType
+referenceType ::=
+    arrayType
+    {:RESULT =:}
     | robotType
+    {:RESULT =:}
     | servoType
+    {:RESULT =:}
     | name
+    {:RESULT =:}
 	;
 
-servoType ::= SERVOPOSITION;
+servoType ::=
+    SERVOPOSITION
+    {:RESULT =:};
 
-robotType ::= ROBOT;
+robotType ::=
+    ROBOT
+    {:RESULT =:};
 
-arrayType ::=	primitiveType bracketEnclosure
+arrayType ::=
+    primitiveType bracketEnclosure
+    {:RESULT =:}
 	|	name bracketEnclosure
+	{:RESULT =:}
 	;
 
-name	::= IDENTIFIER
+name	::=
+    IDENTIFIER
+    {:RESULT =:}
 
 	;
 
-Start ::= globalVariables:gl functionStmtsOpt:mso
+Start ::=
+    globalVariables:gl functionStmtsOpt:mso
+    {:RESULT =:}
     | functionStmtsOpt;
+    {:RESULT =:}
 
 
-globalVariables ::= globalVariable
+globalVariables ::=
+    globalVariable
+    {:RESULT =:}
     | globalVariables globalVariable
+    {:RESULT =:}
     ;
 
-globalVariable ::= localVariableDeclStmt;
+globalVariable ::=
+    localVariableDeclStmt;
+    {:RESULT =:}
 
-functionStmtsOpt ::= functionStmts | ;
+functionStmtsOpt ::=
+    functionStmts
+    {:RESULT =:}
+    | ;
 
 functionStmts ::=
-        functionDecl
+    functionDecl
+    {:RESULT =:}
     |   functionStmts functionDecl
+    {:RESULT =:}
     ;
 
 variableDecls ::=
-	    variableDecl
-	|	variableDecls COMMA variableDecl
+     variableDecl
+     {:RESULT =:}
+	 |	variableDecls COMMA variableDecl
+	 {:RESULT =:}
 	;
 variableDecl ::=
-		variableDeclId
-	|	variableDeclId EQ variableInit
+     variableDeclId
+	 {:RESULT =:}
+	 |	variableDeclId EQ variableInit
+	 {:RESULT =:}
 	;
 variableDeclId ::=
-		IDENTIFIER
-	|	variableDeclId LBRACK RBRACK
+	 IDENTIFIER
+	 {:RESULT =:}
+	 |	variableDeclId LBRACK RBRACK
+	 {:RESULT =:}
 	;
 variableInit ::=
 		expr
-	|	arrayInit
-	|   servoInit
+		{:RESULT =:}
+	    |	arrayInit
+	    {:RESULT =:}
+	    |   servoInit
+	    {:RESULT =:}
 	;
 
 functionDecl ::=
 		functionHeader functionBody
+		{:RESULT =:}
 	;
 functionHeader ::=
 	    type functionDeclerator
-	|	VOID functionDeclerator
+	    {:RESULT =:}
+	    | 	VOID functionDeclerator
+	    {:RESULT =:}
 	;
 functionDeclerator ::=
 		IDENTIFIER LPAREN formalParamListOpt RPAREN
-	|	functionDeclerator LBRACK RBRACK
+		{:RESULT =:}
+	    |	functionDeclerator LBRACK RBRACK
+	    {:RESULT =:}
 	;
 formalParamListOpt ::=
 	|	formalParamList
+	{:RESULT =:}
 	;
 formalParamList ::=
 		formalParam
-	|	formalParamList COMMA formalParam
+		{:RESULT =:}
+     	|	formalParamList COMMA formalParam
+    	{:RESULT =:}
 	;
 formalParam ::=
 		type variableDeclId
-	|	CONST type variableDeclId
+		{:RESULT =:}
+	    |	CONST type variableDeclId
+	    {:RESULT =:}
 	;
 
-functionBody ::=	block
-	|	SEMICOLON
+functionBody ::=
+        block
+        {:RESULT =:}
+	    |	SEMICOLON
+	    {:RESULT =:}
 	;
 
 arrayInit ::=
 		LBRACE variableInits COMMA RBRACE
+		{:RESULT =:}
 	|	LBRACE variableInits RBRACE
+	{:RESULT =:}
 	|	LBRACE COMMA RBRACE
+	{:RESULT =:}
 	|	LBRACE RBRACE
+	{:RESULT =:}
 	;
 
-servoInits ::= IDENTIFIER COLON literal
+servoInits ::=
+    IDENTIFIER COLON literal
+    {:RESULT =:}
     |   servoInits COMMA IDENTIFIER COLON literal
+    {:RESULT =:}
     ;
 
 servoInit ::=
         LBRACE servoInits RBRACE
+        {:RESULT =:}
     ;
 
 variableInits ::=
 		variableInit
+		{:RESULT =:}
 	|	variableInits COMMA variableInit
+	{:RESULT =:}
 	;
 
-block ::=	BEGIN blockStmtsOpt END
+block ::=
+    BEGIN blockStmtsOpt END
+    {:RESULT =:}
 	;
 
 blockStmtsOpt ::=
 	|	blockStmts
+	{:RESULT =:}
 	;
 
 blockStmts ::=
 		blockStmt
+		{:RESULT =:}
 	|	blockStmts blockStmt
+	{:RESULT =:}
 	;
 
 blockStmt ::=
 		localVariableDeclStmt
+		{:RESULT =:}
 	|	stmt
+	{:RESULT =:}
 	;
 
 localVariableDeclStmt ::=
 		localVariableDecl SEMICOLON
+		{:RESULT =:}
 	;
 
 localVariableDecl ::=
 		type variableDecls
+		{:RESULT =:}
 	|	CONST type variableDecls
+	{:RESULT =:}
 	;
 
 stmt ::=
         stmtWithoutTrailingSubstatement
+        {:RESULT =:}
 	|	ifThenStmt
+	{:RESULT =:}
 	|	ifThenElseStmt
+	{:RESULT =:}
 	|	whileStmt
+	{:RESULT =:}
 	|	forStmt
+	{:RESULT =:}
 	;
 
 stmtIfWithoutElse ::=
 		stmtWithoutTrailingSubstatement
+		{:RESULT =:}
 	|	ifThenElseIfWithoutElse
+	{:RESULT =:}
 	;
 
 stmtWithoutTrailingSubstatement ::=
 		block
+		{:RESULT =:}
 	|	emptyStmt
+	{:RESULT =:}
 	|	exprStmt
+	{:RESULT =:}
 	|	switchStmt
+	{:RESULT =:}
 	|	breakStmt
+	{:RESULT =:}
 	|	continueStatement
+	{:RESULT =:}
 	|	returnStmt
+	{:RESULT =:}
 	;
 
 emptyStmt ::=
 		SEMICOLON
+		{:RESULT =:}
 	;
 
 exprStmt ::=
 		stmtExpr SEMICOLON
+		{:RESULT =:}
 	;
 
 stmtExpr ::=
 		assignment
+		{:RESULT =:}
 	|	preincrementExpr
+	{:RESULT =:}
 	|	predecrementExpr
+	{:RESULT =:}
 	|	postincrementExpr
+	{:RESULT =:}
 	|	postdecrementExpr
+	{:RESULT =:}
 	|	functionCall
+	{:RESULT =:}
 	;
 
 ifThenStmt ::=
 		IF LPAREN expr RPAREN stmt
+		{:RESULT =:}
 	;
 
 ifThenElseStmt ::=
 		IF LPAREN expr RPAREN stmtIfWithoutElse
 			ELSE stmt
+			{:RESULT =:}
 	;
 
 ifThenElseIfWithoutElse ::=
 		IF LPAREN expr RPAREN stmtIfWithoutElse
 			ELSE stmtIfWithoutElse
+			{:RESULT =:}
 	;
 
 switchStmt ::=
 		SWITCH LPAREN expr RPAREN switchBlock
+		{:RESULT =:}
 	;
 
 switchBlock ::=
 		BEGIN switchBlockStmtGroups switchLabels END
+		{:RESULT =:}
 	|	BEGIN switchBlockStmtGroups END
+	{:RESULT =:}
 	|	BEGIN switchLabels END
+	{:RESULT =:}
 	|	BEGIN END
+	{:RESULT =:}
 	;
 
 switchBlockStmtGroups ::=
 		switchBlockStmtGroup
+		{:RESULT =:}
 	|	switchBlockStmtGroups switchBlockStmtGroup
+	{:RESULT =:}
 	;
 
 switchBlockStmtGroup ::=
 		switchLabels blockStmts
+		{:RESULT =:}
 	;
 
 switchLabels ::=
 		switchLabel
+		{:RESULT =:}
 	|	switchLabels switchLabel
+	{:RESULT =:}
 	;
 
 switchLabel ::=
 		CASE constantExpr COLON
+		{:RESULT =:}
 	|	DEFAULT COLON
+	{:RESULT =:}
 	;
 
 whileStmt ::=
 		WHILE LPAREN expr RPAREN
+		{:RESULT =:}
 	;
 
 forStmt ::=
 		FOR LPAREN forInit WHEN expr THEN
 			stmtExprList RPAREN
+			{:RESULT =:}
 	;
 
-forInit ::=	stmtExprList
-	|	localVariableDecl
+forInit ::=
+        stmtExprList
+        {:RESULT =:}
+	        |	localVariableDecl
+	        {:RESULT =:}
 	;
 
 stmtExprList ::=
 		stmtExpr
-	|	stmtExprList COMMA stmtExpr
+		{:RESULT =:}
+	        |	stmtExprList COMMA stmtExpr
+	        {:RESULT =:}
 	;
 
 breakStmt ::=
 		BREAK SEMICOLON
+		{:RESULT =:}
 	;
 
 returnStmt ::=
 		RETURN expr SEMICOLON
+		{:RESULT =:}
 	;
 
-primary ::=	primaryNoNewArray
-	|	arrayCreationExpr
+primary ::=
+        primaryNoNewArray
+        {:RESULT =:}
+	        |	arrayCreationExpr
+	        {:RESULT =:}
 	;
 primaryNoNewArray ::=
 		literal
+		{:RESULT =:}
 	|	LPAREN expr RPAREN
+	{:RESULT =:}
 	|	functionCall
+	{:RESULT =:}
 	|	arrayAccess
+	{:RESULT =:}
 	;
 
 argumentListOpt ::=
 	|	argumentList
+	{:RESULT =:}
 	;
 
 argumentList ::=
 		expr
+		{:RESULT =:}
 	|	argumentList COMMA expr
+	{:RESULT =:}
 	;
 
 arrayCreationExpr ::=
 		 primitiveType bracketEnclosureExprs bracketEnclosureOpt
+		 {:RESULT =:}
 	|	 primitiveType bracketEnclosure arrayInit
+	{:RESULT =:}
 	;
 
-bracketEnclosureExprs ::=	bracketEnclosureExpr
+bracketEnclosureExprs ::=
+        bracketEnclosureExpr
+        {:RESULT =:}
 	|	bracketEnclosureExprs bracketEnclosureExpr
+	{:RESULT =:}
 	;
 
 bracketEnclosureExpr ::=	LBRACK expr RBRACK
+        {:RESULT =:}
 	;
 
 bracketEnclosureOpt ::=
 	|	bracketEnclosure
+	    {:RESULT =:}
 	;
 
 bracketEnclosure ::=	LBRACK RBRACK
+        {:RESULT =:}
 	|	bracketEnclosure LBRACK RBRACK
+	    {:RESULT =:}
 	;
 
 functionCall ::=
 		name LPAREN argumentListOpt RPAREN
+		{:RESULT =:}
 	;
 
 arrayAccess ::=
 		name LBRACK expr RBRACK
-	|	primaryNoNewArray LBRACK expr RBRACK
+		{:RESULT =:}
+	    |	primaryNoNewArray LBRACK expr RBRACK
+	    {:RESULT =:}
 	;
 
 postfixExpr ::=
 		primary
+		{:RESULT =:}
 	|	name
+	{:RESULT =:}
 	|	postincrementExpr
+	{:RESULT =:}
 	|	postdecrementExpr
+	{:RESULT =:}
 	;
 
 postincrementExpr ::=
 		postfixExpr PLUSPLUS
+		{:RESULT =:}
 	;
 
 postdecrementExpr ::=
 		postfixExpr MINUSMINUS
+		{:RESULT =:}
 	;
 
 unaryExpr ::=
 		preincrementExpr
+		{:RESULT =:}
 	|	predecrementExpr
+	{:RESULT =:}
 	|	PLUS unaryExpr
+	{:RESULT =:}
 	|	MINUS unaryExpr
+	{:RESULT =:}
 	|	unaryExprNotPlusMinus
+	{:RESULT =:}
 	;
 
 preincrementExpr ::=
 		PLUSPLUS unaryExpr
+		{:RESULT =:}
 	;
 
 predecrementExpr ::=
 		MINUSMINUS unaryExpr
+		{:RESULT =:}
 	;
 
 unaryExprNotPlusMinus ::=
 		postfixExpr
+		{:RESULT =:}
 	|	COMP unaryExpr
+	{:RESULT =:}
 	|	NOT unaryExpr
+	{:RESULT =:}
 	;
 
 mulExpr ::=
 		unaryExpr
+		{:RESULT =:}
 	|	mulExpr MULT unaryExpr
+	{:RESULT =:}
 	|	mulExpr DIV unaryExpr
+	{:RESULT =:}
 	|	mulExpr MOD unaryExpr
+	{:RESULT =:}
 	;
 plusExpr ::=
 		mulExpr
+		{:RESULT =:}
 	|	plusExpr PLUS mulExpr
+	{:RESULT =:}
 	|	plusExpr MINUS mulExpr
+	{:RESULT =:}
 	;
 
 relationalExpr ::=
 		plusExpr
+		{:RESULT =:}
 	|	relationalExpr LT plusExpr
+	{:RESULT =:}
 	|	relationalExpr GT plusExpr
+	{:RESULT =:}
 	|	relationalExpr LTEQ plusExpr
+	{:RESULT =:}
 	|	relationalExpr GTEQ plusExpr
+	{:RESULT =:}
 	;
 
 equalExpr ::=
 		relationalExpr
+		{:RESULT =:}
 	|	equalExpr EQEQ relationalExpr
+	{:RESULT =:}
 	|	equalExpr NOTEQ relationalExpr
+	{:RESULT =:}
 	;
 
 conditionalAndExpr ::=
 		equalExpr
+    {:RESULT =:}
 	|	conditionalAndExpr ANDAND equalExpr
+	{:RESULT =:}
 	;
 
 conditionalOrExpr ::=
 		conditionalAndExpr
+		{:RESULT =:}
 	|	conditionalOrExpr OROR conditionalAndExpr
+	{:RESULT =:}
 	;
 
 conditionalExpr ::=
 		conditionalOrExpr
+		{:RESULT =:}
 	|	conditionalOrExpr QUESTION expr
 			COLON conditionalExpr
+			{:RESULT =:}
 	;
 
 assignmentExpr ::=
 		conditionalExpr
+		{:RESULT =:}
 	|	assignment
+	{:RESULT =:}
 	;
 
 assignment ::=	leftHandSide assignmentOperator assignmentExpr
+    {:RESULT =:}
 	;
 
 leftHandSide ::=
 		name
+		{:RESULT =:}
 	|	arrayAccess
+	{:RESULT =:}
 	;
 
 expr ::=	assignmentExpr
+    {:RESULT =:}
 	;
 
 assignmentOperator ::=
 		EQ
+		{:RESULT =:}
 	|	MULTEQ
+	{:RESULT =:}
 	|	DIVEQ
+	{:RESULT =:}
 	|	MODEQ
+	{:RESULT =:}
 	|	PLUSEQ
+	{:RESULT =:}
 	|	MINUSEQ
+	{:RESULT =:}
 	;
 
 constantExpr ::=
 		expr
+		{:RESULT =:}
 	;
 
