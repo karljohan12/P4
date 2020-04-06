@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractArrayInit {
+abstract public class AbstractArrayInit {
 }

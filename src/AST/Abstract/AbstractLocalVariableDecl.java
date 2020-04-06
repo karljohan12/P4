@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractLocalVariableDecl {
+abstract public class AbstractLocalVariableDecl {
 }

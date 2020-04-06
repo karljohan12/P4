@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractFunctionStmts {
+abstract public class AbstractFunctionStmts {
 }

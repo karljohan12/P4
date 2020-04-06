@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractServoInits {
+abstract public class AbstractServoInits {
 }

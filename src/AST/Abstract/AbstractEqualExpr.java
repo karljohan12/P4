@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractEqualExpr {
+abstract public class AbstractEqualExpr {
 }

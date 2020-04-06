@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractArrayAccess {
+abstract public class AbstractArrayAccess {
 }

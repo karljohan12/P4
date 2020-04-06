@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractFormalParam {
+abstract public class AbstractFormalParam {
 }

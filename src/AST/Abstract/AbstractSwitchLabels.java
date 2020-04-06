@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractSwitchLabels {
+abstract public class AbstractSwitchLabels {
 }

@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractPrimaryNoNewArray {
+abstract public class AbstractPrimaryNoNewArray {
 }

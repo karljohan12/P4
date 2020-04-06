@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractArrayCreationExpr {
+abstract public class AbstractArrayCreationExpr {
 }

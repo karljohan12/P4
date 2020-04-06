@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractMulExpr {
+abstract public class AbstractMulExpr {
 }

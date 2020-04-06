@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractStmtWithoutTrailingSubstatement {
+abstract public class AbstractStmtWithoutTrailingSubstatement {
 }

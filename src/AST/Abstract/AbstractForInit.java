@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractForInit {
+abstract public class AbstractForInit {
 }

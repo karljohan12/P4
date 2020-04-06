@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractArgumentListOpt {
+abstract public class AbstractArgumentListOpt {
 }

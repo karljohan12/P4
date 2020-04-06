@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractRelationalExpr {
+abstract public class AbstractRelationalExpr {
 }

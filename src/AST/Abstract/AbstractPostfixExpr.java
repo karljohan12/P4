@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractPostfixExpr {
+abstract public class AbstractPostfixExpr {
 }

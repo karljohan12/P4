@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractBlockStmtsOpt {
+abstract public class AbstractBlockStmtsOpt {
 }

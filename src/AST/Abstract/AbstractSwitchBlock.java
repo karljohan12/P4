@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractSwitchBlock {
+abstract public class AbstractSwitchBlock {
 }

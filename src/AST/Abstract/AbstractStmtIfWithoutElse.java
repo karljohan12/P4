@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractStmtIfWithoutElse {
+abstract public class AbstractStmtIfWithoutElse {
 }

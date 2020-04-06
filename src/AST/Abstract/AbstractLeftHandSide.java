@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractLeftHandSide {
+abstract public class AbstractLeftHandSide {
 }

@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractSwitchBlockStmtGroups {
+abstract public class AbstractSwitchBlockStmtGroups {
 }

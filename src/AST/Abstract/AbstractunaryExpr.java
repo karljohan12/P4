@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractunaryExpr {
+abstract public class AbstractunaryExpr {
 }

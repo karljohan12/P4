@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractPrimitiveType {
+abstract public class AbstractPrimitiveType {
 }

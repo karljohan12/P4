@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractVariableInit {
+abstract public class AbstractVariableInit {
 }

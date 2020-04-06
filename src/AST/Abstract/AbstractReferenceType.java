@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractReferenceType {
+abstract public class AbstractReferenceType {
 }

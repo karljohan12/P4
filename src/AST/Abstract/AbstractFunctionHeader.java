@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractFunctionHeader {
+abstract public class AbstractFunctionHeader {
 }

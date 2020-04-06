@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractConditionalOrExpr {
+abstract public class AbstractConditionalOrExpr {
 }

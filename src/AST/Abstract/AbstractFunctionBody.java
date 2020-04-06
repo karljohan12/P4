@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-public class AbstractFunctionBody {
+abstract public class AbstractFunctionBody {
 }
