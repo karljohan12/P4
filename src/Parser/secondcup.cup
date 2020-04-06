@@ -130,363 +130,272 @@ non terminal robotType;
 start with program;
 
 
-program ::=	Start:s
-        {:RESULT = new Program(s, sleft);:}
-	;
+program                         ::=	Start:s
+                                      {: RESULT = new Program(s, sleft); :};
 
-literal ::=	INTEGER_LITERAL:intLit
-            {:RESULT = new IntegerLiteral(intLit, intLitleft);:}
-	|	FLOATING_POINT_LITERAL:floatLit
-	{:RESULT = new FloatLiteral(floatLit, floatLitleft);:}
-	|	BOOLEAN_LITERAL:boolLit
-	{:RESULT =new BoolLiteral(boolLit, boolLitleft);:}
-	|	NULL_LITERAL: nullLit
-	{:RESULT =new NullLiteral(nullLit, nullLitleft);:}
-    |	STRING_LITERAL:strLit
-    {:RESULT = new StrLiteral(strLit, strLitleft);:}
-	;
+literal                         ::=	INTEGER_LITERAL:intLit
+                                      {: RESULT = new IntegerLiteral(intLit, intLitleft); :}
+	                              |	FLOATING_POINT_LITERAL:floatLit
+	                                  {: RESULT = new FloatLiteral(floatLit, floatLitleft); :}
+	                              |	BOOLEAN_LITERAL:boolLit
+	                                  {: RESULT =new BoolLiteral(boolLit, boolLitleft); :}
+	                              |	NULL_LITERAL: nullLit
+	                                  {: RESULT =new NullLiteral(nullLit, nullLitleft); :}
+                                  |	STRING_LITERAL:strLit
+                                      {: RESULT = new StrLiteral(strLit, strLitleft); :};
 
-type	::=	primitiveType:primType
-            {:RESULT = new PrimitiveType(primType, primTypeleft);:}
-	|	referenceType:refType
-	{:RESULT = new ReferenceType(refType, refTypeleft);:}
-	;
-primitiveType ::=
-		numericType:numType
-		{:RESULT = new NumericType(numType, numTypeleft);:}
-	|   SERVO:servoType
-	{:RESULT = new ServoType(servoType, servoTypeleft); :}
-	|	BOOLEAN:boolType
-	{:RESULT = new BoolType(boolType, boolTypeleft);:}
-	;
-numericType::=
-        INT:intType
-    {:RESULT = new IntType(intType, intTypeleft);:}
-	|	DOUBLE:floatType
-	{:RESULT = new FloatType(floatType, floatTypeleft);:}
-	;
+type	                        ::=	primitiveType:primType
+                                      {: RESULT = new PrimitiveType(primType, primTypeleft); :}
+	                              |	referenceType:refType
+	                                  {: RESULT = new ReferenceType(refType, refTypeleft); :};
 
+primitiveType                   ::= numericType:numType
+	                            	  {: RESULT = new NumericType(numType, numTypeleft); :}
+	                              | SERVO:servoType
+	                                  {: RESULT = new ServoType(servoType, servoTypeleft); :}
+	                              |	BOOLEAN:boolType
+	                                  {: RESULT = new BoolType(boolType, boolTypeleft); :};
 
-referenceType ::=
-    arrayType:arrType
-    {:RESULT = new ArrayType(arrType, arrTypeleft);:}
-    | ROBOT:robotType
-    {:RESULT = new robotType(robotType, robotTypeleft);:}
-    | SERVOPOSITION:servoType
-    {:RESULT = new ServoType(servoType, servoTypeleft);:}
-    | name:nameType
-    {:RESULT = new Name(nameType, nameTypeleft);:}
-	;
+numericType                     ::= INT:intType
+                                      {: RESULT = new IntType(intType, intTypeleft); :}
+	                              |	DOUBLE:floatType
+	                                  {: RESULT = new FloatType(floatType, floatTypeleft); :};
 
-arrayType ::=
-    primitiveType:primType bracketEnclosure:brackEnc
-    {:RESULT = new PrimTypeBrackEnc(primType, brackEnc, primTypeleft);:}
-	|	name:nameType bracketEnclosure:brackEnc
-	{:RESULT = new NameTypeBrackEnc(nameType, brackEnc, nameTypeleft);:}
-	;
+referenceType                   ::= arrayType:arrType
+                                      {: RESULT = new ArrayType(arrType, arrTypeleft); :}
+                                  | ROBOT:robotType
+                                      {: RESULT = new robotType(robotType, robotTypeleft); :}
+                                  | SERVOPOSITION:servoType
+                                      {: RESULT = new ServoType(servoType, servoTypeleft); :}
+                                  | name:nameType
+                                      {: RESULT = new Name(nameType, nameTypeleft); :};
 
-name	::=
-    IDENTIFIER:ident
-    {:RESULT = new Ident(ident, identleft);:}
+arrayType                       ::= primitiveType:primType bracketEnclosure:brackEnc
+                                      {: RESULT = new PrimTypeBrackEnc(primType, brackEnc, primTypeleft);:}
+                                  |	name:nameType bracketEnclosure:brackEnc
+	                                  {: RESULT = new NameTypeBrackEnc(nameType, brackEnc, nameTypeleft); :};
 
-	;
+name	                        ::= IDENTIFIER:ident
+                                      {: RESULT = new Ident(ident, identleft); :};
 
-Start ::=
-    globalVariables:gvs functionStmtsOpt:funcStmtOpt
-    {:RESULT = new GlobalVarfuncStmtOpt(gvs, funcStmtOpt, gvsleft);:}
-    | functionStmtsOpt: funcStmtOpt
-    {:RESULT = new FuncStmtOpt(funcstmtOpt, funcStmtOptleft);:}
-    ;
+Start                           ::= globalVariables:gvs functionStmtsOpt:funcStmtOpt
+                                      {: RESULT = new GlobalVarfuncStmtOpt(gvs, funcStmtOpt, gvsleft); :}
+                                  | functionStmtsOpt: funcStmtOpt
+                                      {: RESULT = new FuncStmtOpt(funcstmtOpt, funcStmtOptleft); :};
 
 
-globalVariables ::=
-    globalVariable:gv
-    {:RESULT = new GlobalVaribale(gv, gvleft);:}
-    | globalVariables:gvs globalVariable:gv
-    {:RESULT = new GlobalVariables(gvs, gv, gvsleft);:}
-    ;
+globalVariables                 ::= globalVariable:gv
+                                      {: RESULT = new GlobalVaribale(gv, gvleft); :}
+                                  | globalVariables:gvs globalVariable:gv
+                                      {: RESULT = new GlobalVariables(gvs, gv, gvsleft); :};
 
-globalVariable ::=
-    localVariableDeclStmt:lvds
-    {:RESULT = new localVariableDeclStmt(lvds, lvdsleft); :}
-    ;
+globalVariable                  ::=  localVariableDeclStmt:lvds
+                                       {: RESULT = new localVariableDeclStmt(lvds, lvdsleft); :};
 
-functionStmtsOpt ::=
-    functionStmts:fs
-    {:RESULT = new Function(fs, fsleft);:}
-    | ;
+functionStmtsOpt                ::= functionStmts:fs
+                                      {:RESULT = new Function(fs, fsleft);:}
+                                  | ;
 
-functionStmts ::=
-    functionDecl:fd
-    {:RESULT = new FunctionDecl(fd, fdleft);:}
-    |   functionStmts:fs functionDecl:fd
-    {:RESULT = new FunctionStmtsFunctionDecl(fs, fd, fsleft);:}
-    ;
+functionStmts                   ::= functionDecl:fd
+                                      {: RESULT = new FunctionDecl(fd, fdleft); :}
+                                  | functionStmts:fs functionDecl:fd
+                                      {: RESULT = new FunctionStmtsFunctionDecl(fs, fd, fsleft); :};
 
-variableDecls ::=
-     variableDecl:vd
-     {:RESULT = new VariableDecl(vd, vdleft);:}
-	 |	variableDecls:vds COMMA variableDecl:vd
-	 {:RESULT = new variableDeclsVariableDecl(vds, vd, vdsleft);:}
-	;
-variableDecl ::=
-     variableDeclId:vdi
-	 {:RESULT = new VariableDeclId(vdi, vdileft);:}
-	 |	variableDeclId:vdi EQ variableInit:vi
-	 {:RESULT = new VariableDeclIdVariableInit(vdi, vi);:}
-	;
-variableDeclId ::=
-	 IDENTIFIER:ident
-	 {:RESULT = new Ident(ident, identleft);:}
-	 |	variableDeclId:vdi LBRACK RBRACK
-	 {:RESULT = new variableDecIDBrackBrack(vdi, vdileft);:}
-	;
-variableInit ::=
-		expr:exp
-		{:RESULT = new expr(exp, expleft);:}
-	    |	arrayInit:ai
-	    {:RESULT = new ArrayInit(ai, aileft);:}
-	    |   servoInit:si
-	    {:RESULT = new ServoInit(si, sileft);:}
-	;
+variableDecls                   ::= variableDecl:vd
+                                      {: RESULT = new VariableDecl(vd, vdleft); :}
+	                              |	variableDecls:vds COMMA variableDecl:vd
+	                                  {: RESULT = new variableDeclsVariableDecl(vds, vd, vdsleft); :};
 
-functionDecl ::=
-		functionHeader:fh functionBody:fb
-		{:RESULT = new FunctionHeaderBody(fh, fb, fhleft);:}
-	;
-functionHeader ::=
-	    type:t functionDeclerator:fd
-	    {:RESULT = new TypeFunctionDeclerator(fd, fdleft);:}
-	    | 	VOID functionDeclerator:fd
-	    {:RESULT = new voidFunctionDeclerator(fd, fdleft);:}
-	;
-functionDeclerator ::=
-		IDENTIFIER LPAREN formalParamListOpt:fplo RPAREN
-		{:RESULT = new FunctionDeclerator(fplo, fploleft);:}
-	    |	functionDeclerator: fd LBRACK RBRACK
-	    {:RESULT = new FunctionDecleratorBrack(fd, fdleft);:}
-	;
-formalParamListOpt ::=
-	|	formalParamList:fpl
-	{:RESULT = new FormalParamList(fpl, fplleft);:}
-	;
-formalParamList ::=
-		formalParam:fp
-		{:RESULT = new FormalParam(fp, fpleft);:}
-     	|	formalParamList:fpl COMMA formalParam:fp
-    	{:RESULT = new FormalParamListFormalParam(fpl, fp, fplleft);:}
-	;
-formalParam ::=
-		type:t variableDeclId:vdi
-		{:RESULT = new TypeVariableDelcId(t, vdi, tleft);:}
-	    |	CONST type:t variableDeclId:vdi
-	    {:RESULT = new ConstTypeVariableDelcId(t, vdi, tleft);:}
-	;
+variableDecl                    ::= variableDeclId:vdi
+	                                  {: RESULT = new VariableDeclId(vdi, vdileft); :}
+	                              |	variableDeclId:vdi EQ variableInit:vi
+	                                  {: RESULT = new VariableDeclIdVariableInit(vdi, vi); :};
 
-functionBody ::=
-        block:b
-        {:RESULT = new Block(b, bleft);:}
-	    |	SEMICOLON:sc
-	    {:RESULT = new SemiColon(scleft);:}
+variableDeclId                  ::= IDENTIFIER:ident
+	                                  {: RESULT = new Ident(ident, identleft); :}
+	                              |	variableDeclId:vdi LBRACK RBRACK
+	                                  {: RESULT = new variableDecIDBrackBrack(vdi, vdileft); :};
+
+variableInit                    ::= expr:exp
+		                              {: RESULT = new expr(exp, expleft); :}
+	                              |	arrayInit:ai
+	                                  {: RESULT = new ArrayInit(ai, aileft); :}
+	                              |   servoInit:si
+	                                    {:RESULT = new ServoInit(si, sileft); :};
+
+functionDecl                    ::= functionHeader:fh functionBody:fb
+		                              {: RESULT = new FunctionHeaderBody(fh, fb, fhleft); :};
+
+functionHeader                  ::= type:t functionDeclerator:fd
+	                                  {:RESULT = new TypeFunctionDeclerator(fd, fdleft); :}
+	                              | VOID functionDeclerator:fd
+	                                  {:RESULT = new voidFunctionDeclerator(fd, fdleft); :};
+
+functionDeclerator              ::= IDENTIFIER LPAREN formalParamListOpt:fplo RPAREN
+		                              {: RESULT = new FunctionDeclerator(fplo, fploleft); :}
+	                              |	functionDeclerator:fd LBRACK RBRACK
+	                                  {: RESULT = new FunctionDecleratorBrack(fd, fdleft); :};
+
+formalParamListOpt              ::=
+	                              |	formalParamList:fpl
+	                                  {: RESULT = new FormalParamList(fpl, fplleft); :};
+
+formalParamList                 ::= formalParam:fp
+		                              {: RESULT = new FormalParam(fp, fpleft);:}
+     	                          | formalParamList:fpl COMMA formalParam:fp
+    	                              {:RESULT = new FormalParamListFormalParam(fpl, fp, fplleft);:}
 	;
+formalParam                     ::= type:t variableDeclId:vdi
+		                              {: RESULT = new TypeVariableDelcId(t, vdi, tleft); :}
+	                              | CONST type:t variableDeclId:vdi
+	                                  {: RESULT = new ConstTypeVariableDelcId(t, vdi, tleft); :};
 
-arrayInit ::=
-		LBRACE variableInits:vi COMMA RBRACE
-		{:RESULT = new VariableInitsComma(vi, vilift);:}
-	|	LBRACE variableInits:vi RBRACE
-	{:RESULT = new VariableInitsBracks(vi, vilift);:}
-	|	LBRACE:lb COMMA RBRACE
-	{:RESULT = new LBraceCommaRBrace(lbleft);:}
-	|	LBRACE:lb RBRACE
-	{:RESULT = new LBRACERBRACE(lbleft);:}
-	;
+functionBody                    ::= block:b
+                                      {: RESULT = new Block(b, bleft); :}
+	                              |	SEMICOLON:sc
+	                                  {: RESULT = new SemiColon(scleft); :};
 
-servoInits ::=
-    IDENTIFIER COLON literal:l
-    {:RESULT = new Literal(l, left);:}
-    |   servoInits:si COMMA IDENTIFIER COLON literal:l
-    {:RESULT = new ServoInitLiteral(si, l, sileft);:}
-    ;
+arrayInit                       ::= LBRACE variableInits:vi COMMA RBRACE
+		                              {: RESULT = new VariableInitsComma(vi, vilift); :}
+	                              |	LBRACE variableInits:vi RBRACE
+	                                  {: RESULT = new VariableInitsBracks(vi, vilift); :}
+	                              |	LBRACE:lb COMMA RBRACE
+	                                  {: RESULT = new LBraceCommaRBrace(lbleft); :}
+	                              |	LBRACE:lb RBRACE
+	                                  {: RESULT = new LBRACERBRACE(lbleft); :};
 
-servoInit ::=
-        LBRACE servoInits:si RBRACE
-        {:RESULT = new ServoInits(si, sileft);:}
-    ;
+servoInits                      ::= IDENTIFIER COLON literal:l
+                                      {: RESULT = new Literal(l, left); :}
+                                  | servoInits:si COMMA IDENTIFIER COLON literal:l
+                                      {: RESULT = new ServoInitLiteral(si, l, sileft); :};
 
-variableInits ::=
-		variableInit:vi
-		{:RESULT = new  VariableInit(vi, vileft);:}
-	|	variableInits:vis COMMA variableInit:vi
-	{:RESULT = new VariableInitsInit(vis, vi, visleft);:}
-	;
+servoInit                       ::= LBRACE servoInits:si RBRACE
+                                      {: RESULT = new ServoInits(si, sileft); :};
 
-block ::=
-    BEGIN blockStmtsOpt:bso END
-    {:RESULT = new BlockStmtsOpt(bso, bsoleft);:}
-	;
+variableInits                   ::= variableInit:vi
+		                              {: RESULT = new  VariableInit(vi, vileft); :}
+	                              |	variableInits:vis COMMA variableInit:vi
+	                                  {: RESULT = new VariableInitsInit(vis, vi, visleft); :};
 
-blockStmtsOpt ::=
-	|	blockStmts:bss
-	{:RESULT = new BlockStmts(bss, bssleft);:}
-	;
+block                           ::= BEGIN blockStmtsOpt:bso END
+                                      {: RESULT = new BlockStmtsOpt(bso, bsoleft); :};
 
-blockStmts ::=
-		blockStmt:bs
-		{:RESULT = new BlockStmt(bs, bsleft);:}
-	|	blockStmts:bss blockStmt:bs
-	{:RESULT = new BlockStmtstmt(bss, bs, bssleft);:}
-	;
+blockStmtsOpt                   ::=
+	                              |	blockStmts:bss
+	                                  {: RESULT = new BlockStmts(bss, bssleft); :};
 
-blockStmt ::=
-		localVariableDeclStmt:lvds
-		{:RESULT = new localVariableDeclStmt(lvds, lvdsleft);:}
-	|	stmt:s
-	{:RESULT = new stmt(s, sleft);:}
-	;
+blockStmts                      ::= blockStmt:bs
+		                              {: RESULT = new BlockStmt(bs, bsleft); :}
+	                              |	blockStmts:bss blockStmt:bs
+                                      {: RESULT = new BlockStmtstmt(bss, bs, bssleft); :};
 
-localVariableDeclStmt ::=
-		localVariableDecl:lvd SEMICOLON
-		{:RESULT = LocalVariableDecl(lvd, lvdleft);:}
-	;
+blockStmt                       ::= localVariableDeclStmt:lvds
+		                              {: RESULT = new localVariableDeclStmt(lvds, lvdsleft);:}
+	                              |	stmt:s
+	                                  {: RESULT = new stmt(s, sleft); :};
 
-localVariableDecl ::=
-		type:t variableDecls:vds
-		{:RESULT = new VariableDecls(vds, vdsleft);:}
-	|	CONST type:t variableDecls:vds
-	{:RESULT = new TypeVariableDecls(t, vds, tleft);:}
-	;
+localVariableDeclStmt           ::= localVariableDecl:lvd SEMICOLON
+		                              {: RESULT = LocalVariableDecl(lvd, lvdleft); :};
 
-stmt ::=
-        stmtWithoutTrailingSubstatement:swtss
-        {:RESULT = new StmtWithoutTrailingSubstatement(swtss, swtssleft); :}
-	|	ifThenStmt:its
-	{:RESULT = new IfThenStmt(its, itsleft);:}
-	|	ifThenElseStmt:ites
-	{:RESULT = new IfThenElseStmt(ites, itesleft);:}
-	|	whileStmt:ws
-	{:RESULT = new WhileStmt(ws, wsleft);:}
-	|	forStmt:fs
-	{:RESULT = new ForStmt(fs, fsleft);:}
-	;
+localVariableDecl               ::= type:t variableDecls:vds
+		                              {: RESULT = new VariableDecls(vds, vdsleft); :}
+	                              |	CONST type:t variableDecls:vds
+	                                  {:RESULT = new TypeVariableDecls(t, vds, tleft); :};
 
-stmtIfWithoutElse ::=
-		stmtWithoutTrailingSubstatement:swtss
-		{:RESULT = new StmtWithoutTrailingSubstatement(swtss, swtssleft);:} // same as 361
-	|	ifThenElseIfWithoutElse:iteiwe
-	{:RESULT = new IfThenElseIfWithoutElse(iteiwe, iteiweleft);:}
-	;
+stmt                            ::= stmtWithoutTrailingSubstatement:swtss
+                                      {: RESULT = new StmtWithoutTrailingSubstatement(swtss, swtssleft); :}
+	                              |	ifThenStmt:its
+	                                  {: RESULT = new IfThenStmt(its, itsleft); :}
+	                              |	ifThenElseStmt:ites
+	                                  {: RESULT = new IfThenElseStmt(ites, itesleft); :}
+	                              |	whileStmt:ws
+	                                  {: RESULT = new WhileStmt(ws, wsleft); :}
+	                              |	forStmt:fs
+	                                  {: RESULT = new ForStmt(fs, fsleft); :};
 
-stmtWithoutTrailingSubstatement ::=
-		block:b
-		{:RESULT = new Block(b, bleft);:}
-	|	emptyStmt:es
-	{:RESULT = new Emptystmt(es, esleft);:}
-	|	exprStmt:es
-	{:RESULT = new ExprStmt(es, esleft);:}
-	|	switchStmt:ss
-	{:RESULT = new SwitchStmt(ss, ssleft);:}
-	|	breakStmt:breaks
-	{:RESULT = new breakstmt(breaks, breaksleft);:}
-	|	continueStatement:cs
-	{:RESULT = new ContinueStatement(cs, csleft);:}
-	|	returnStmt:rs
-	{:RESULT = new ReturnStmt(rs, rsleft);:}
-	;
+stmtIfWithoutElse               ::= stmtWithoutTrailingSubstatement:swtss
+		                              {: RESULT = new StmtWithoutTrailingSubstatement(swtss, swtssleft); :} // same as 361
+	                              |	ifThenElseIfWithoutElse:iteiwe
+	                                  {: RESULT = new IfThenElseIfWithoutElse(iteiwe, iteiweleft); :};
 
-emptyStmt ::=
-		SEMICOLON:SC
-		{:RESULT = new Semicolon(scleft);:}
-	;
+stmtWithoutTrailingSubstatement ::= block:b
+		                              {: RESULT = new Block(b, bleft); :}
+	                              |	emptyStmt:es
+	                                  {: RESULT = new Emptystmt(es, esleft); :}
+	                              |	exprStmt:exs
+	                                  {: RESULT = new ExprStmt(exs, exsleft); :}
+	                              |	switchStmt:ss
+	                                  {: RESULT = new SwitchStmt(ss, ssleft); :}
+	                              |	breakStmt:breaks
+	                                  {: RESULT = new breakstmt(breaks, breaksleft); :}
+	                              |	continueStatement:cs
+	                                  {: RESULT = new ContinueStatement(cs, csleft); :}
+	                              |	returnStmt:rs
+	                                  {: RESULT = new ReturnStmt(rs, rsleft); :};
 
-exprStmt ::=
-		stmtExpr:se SEMICOLON
-		{:RESULT = new stmtExpr(se, seleft);:}
-	;
+emptyStmt               ::= SEMICOLON:SC
+		                      {: RESULT = new Semicolon(scleft); :};
 
-stmtExpr ::=
-		assignment:a
-		{:RESULT =  new Assignment(a, aleft);:}
-	|	preincrementExpr:pie
-	{:RESULT = new PreIncrementExpr(pie, pieleft);:}
-	|	predecrementExpr:pde
-	{:RESULT = new PreDecrementExpr(pde, pdeleft);:}
-	|	postincrementExpr:post
-	{:RESULT = new PostincrementExpr(post, postleft);:}
-	|	postdecrementExpr:pode
-	{:RESULT = new PostdecrementExpr(pode, podeleft);:}
-	|	functionCall:fc
-	{:RESULT = new FunctionCall(fc, fcleft);:}
-	;
+exprStmt                ::= stmtExpr:se SEMICOLON
+		                      {: RESULT = new StmtExpr(se, seleft); :};
 
-ifThenStmt ::=
-		IF LPAREN expr:e RPAREN stmt:s
-		{:RESULT =new IfLparenExprRparen(e, s, eleft);:}
-	;
+stmtExpr                ::= assignment:a
+		                      {: RESULT =  new Assignment(a, aleft); :}
+	                      |	preincrementExpr:pie
+	                          {: RESULT = new PreIncrementExpr(pie, pieleft); :}
+	                      |	predecrementExpr:pde
+	                          {: RESULT = new PreDecrementExpr(pde, pdeleft); :}
+	                      |	postincrementExpr:post
+	                          {: RESULT = new PostincrementExpr(post, postleft); :}
+                          |	postdecrementExpr:pode
+	                          {: RESULT = new PostdecrementExpr(pode, podeleft); :}
+	                      |	functionCall:fc
+	                          {: RESULT = new FunctionCall(fc, fcleft); :};
 
-ifThenElseStmt ::=
-		IF LPAREN expr:e RPAREN stmtIfWithoutElse:siwe
-			ELSE stmt:s
-			{:RESULT = new IfLparenExprRparenStmtIfWithoutElseElseStmt(e, siwe, s, eleft);:}
-	;
+ifThenStmt              ::= IF LPAREN expr:e RPAREN stmt:s
+		                      {:RESULT =new IfLparenExprRparen(e, s, eleft);:};
 
-ifThenElseIfWithoutElse ::=
-		IF LPAREN expr:e RPAREN stmtIfWithoutElse:siwe
-			ELSE stmtIfWithoutElse:siwe
-			{:RESULT = new IfLparenExprRparenStmtWithoutElseElseStmtIfWithoutElse(e, siwe, siwe, eleft);:}
-	;
+ifThenElseStmt          ::= IF LPAREN expr:e RPAREN stmtIfWithoutElse:siwe ELSE stmt:s
+			                  {: RESULT = new IfLparenExprRparenStmtIfWithoutElseElseStmt(e, siwe, s, eleft); :};
 
-switchStmt ::=
-		SWITCH LPAREN expr:e RPAREN switchBlock:sb
-		{:RESULT = new Switch(e, sb, eleft);:}
-	;
+ifThenElseIfWithoutElse ::= IF LPAREN expr:e RPAREN stmtIfWithoutElse:siwe ELSE stmtIfWithoutElse:siwe
+			                  {: RESULT = new IfLparenExprRparenStmtWithoutElseElseStmtIfWithoutElse(e, siwe, siwe, eleft); :};
 
-switchBlock ::=
-		BEGIN switchBlockStmtGroups:sbsgs switchLabels:sl END
-		{:RESULT = new SwitchBlockLabels(sbsgs, sl, sbsgsleft);:}
-	|	BEGIN switchBlockStmtGroups:sbsgs END
-	{:RESULT = new SwitchGroups(sbsgs, sbsglseft);:}
-	|	BEGIN switchLabels:sls END
-	{:RESULT = new SwitchLabels(sls, slsleft);:}
-	|	BEGIN:b END
-	{:RESULT = new Beginings(bleft);:}
-	;
+switchStmt              ::= SWITCH LPAREN expr:e RPAREN switchBlock:sb
+		                      {: RESULT = new Switch(e, sb, eleft); :};
 
-switchBlockStmtGroups ::=
-		switchBlockStmtGroup:sbsg
-		{:RESULT = new SwitchBlockGroup(sbsg, sbsgleft);:}
-	|	switchBlockStmtGroups:sbsgs switchBlockStmtGroup:sbsg
-	{:RESULT = new switchBlockSwitchBlock(sbsgs, sbsg, sbsgsleft);:}
-	;
+switchBlock             ::= BEGIN switchBlockStmtGroups:sbsgs switchLabels:sl END
+		                      {: RESULT = new SwitchBlockLabels(sbsgs, sl, sbsgsleft); :}
+	                      |	BEGIN switchBlockStmtGroups:sbsgs END
+	                          {: RESULT = new SwitchGroups(sbsgs, sbsglseft); :}
+	                      |	BEGIN switchLabels:sls END
+	                          {: RESULT = new SwitchLabels(sls, slsleft); :}
+	                      |	BEGIN:b END
+	                          {: RESULT = new Beginings(bleft); :};
 
-switchBlockStmtGroup ::=
-		switchLabels:sls blockStmts:bs
-		{:RESULT = new SwitchLabelBlock(sls, bs, slsleft);:}
-	;
+switchBlockStmtGroups   ::= switchBlockStmtGroup:sbsg
+		                      {: RESULT = new SwitchBlockGroup(sbsg, sbsgleft);:}
+	                      |	switchBlockStmtGroups:sbsgs switchBlockStmtGroup:sbsg
+	                          {: RESULT = new switchBlockSwitchBlock(sbsgs, sbsg, sbsgsleft); :};
 
-switchLabels ::=
-		switchLabel:sl
-		{:RESULT = SwitchLabel(sl, slleft);:}
-	|	switchLabels:sls switchLabel:sl
-	{:RESULT = SwisLabelsLabel(sls, sl, slsleft);:}
-	;
+switchBlockStmtGroup    ::= switchLabels:sls blockStmts:bs
+		                      {: RESULT = new SwitchLabelBlock(sls, bs, slsleft); :};
 
-switchLabel ::=
-		CASE constantExpr:cs COLON
-		{:RESULT = ConstExpr(cs, csleft);:}
-	|	DEFAULT:def COLON
-	{:RESULT = DEF(defleft);:}
-	;
+switchLabels            ::= switchLabel:sl
+		                      {: RESULT = SwitchLabel(sl, slleft); :}
+	                      |	switchLabels:sls switchLabel:sl
+	                          {: RESULT = SwisLabelsLabel(sls, sl, slsleft); :};
 
-whileStmt ::=
-		WHILE LPAREN expr:e RPAREN
-		{:RESULT = WhileExpr(e, eleft);:}
-	;
+switchLabel             ::= CASE constantExpr:cs COLON
+		                      {: RESULT = ConstExpr(cs, csleft); :}
+	                      |	DEFAULT:def COLON
+	                          {: RESULT = DEF(defleft);:};
 
-forStmt ::=
-		FOR LPAREN forInit:fi WHEN expr:e THEN
-			stmtExprList:sel RPAREN
-			{:RESULT = ForExpr(fi, e, sel, fileft);:}
-	;
+whileStmt               ::= WHILE LPAREN expr:e RPAREN
+		                      {: RESULT = WhileExpr(e, eleft); :};
+
+forStmt                 ::= FOR LPAREN forInit:fi WHEN expr:e THEN stmtExprList:sel RPAREN
+			                  {: RESULT = ForExpr(fi, e, sel, fileft); :};
 
 forInit                 ::= stmtExprList:sel
                               {:RESULT = StmtExprList(sel, selleft);:}
@@ -511,8 +420,8 @@ primary                 ::= primaryNoNewArray:pnna
 	                          
 primaryNoNewArray       ::= literal:l 
                               {: RESULT = new Litaral(l, lleft);:}
-	                      |	LPAREN expr RPAREN
-	                          {: RESULT = new LeftParenthesisExpressionRightParenthesis(lp, e, rp, lpleft); :}
+	                      |	LPAREN expr:e RPAREN
+	                          {: RESULT = new LeftParenthesisExpressionRightParenthesis(e, eleft); :}
 	                      |	functionCall:fc
 	                          {: RESULT = new FunctionCall(fc, fcleft); :}
 	                      |	arrayAccess:aa
@@ -528,7 +437,7 @@ argumentList            ::= expr:e
 	                          {: RESULT = new ArgumentListCommaExpression(al, e, alleft); :};
 
 arrayCreationExpr       ::= primitiveType:pt bracketEnclosureExprs:bee bracketEnclosureOpt:beo
-		                      {: RESULT = new PrimitiveTypeBracketEnclosureExpressionsBracketEnclosureOptional(pt, bee, beo, beoleft); :}
+		                      {: RESULT = new PrimitiveTypeBracketEnclosureExpressionsBracketEnclosureOptional(pt, bee, beo, ptleft); :}
 	                      |	primitiveType:pt bracketEnclosure:be arrayInit:ai
 	                          {: RESULT = new PrimitiveTypeBracketEnclosureArrayInit(pt, be, ai, ptleft); :};
 
@@ -613,7 +522,7 @@ plusExpr                ::= mulExpr:me
 	                          {: RESULT = new PlusExpressionMinusMtiplicationExpression(pe, me, peleft); :};
 
 relationalExpr          ::= plusExpr:pe
-		                      {: RESULT = new PlusExpression(peleft); :}
+		                      {: RESULT = new PlusExpression(pe, peleft); :}
 	                      |	relationalExpr:re LT plusExpr:pe
 	                          {: RESULT = new LessThan(re, pe, releft); :}
 	                      |	relationalExpr:re GT plusExpr:pe
@@ -633,7 +542,7 @@ equalExpr               ::= relationalExpr:re
 conditionalAndExpr      ::= equalExpr:ee
                               {: RESULT = new EqualExpression(ee, eeleft); :}
 	                      |	conditionalAndExpr:cae ANDAND equalExpr:ee
-	                          {: RESULT = new ConditionalAndAndExpression(cae, caeleft); :};
+	                          {: RESULT = new ConditionalAndAndExpression(cae, ee, caeleft); :};
 
 conditionalOrExpr       ::= conditionalAndExpr:cae
 		                      {: RESULT = new ConditionalAndExpression(cae, caeleft); :}
