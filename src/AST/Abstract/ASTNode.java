@@ -1,4 +1,4 @@
-package AST;
+package AST.Abstract;
 
 abstract public class ASTNode {
     public int line_number;

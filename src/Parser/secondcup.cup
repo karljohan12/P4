@@ -43,7 +43,7 @@ terminal EQEQ, NOTEQ;
 terminal ANDAND;
 terminal OROR;
 terminal QUESTION;
-terminal MULTEQ, DIVEQ, MODEQ, PLUSEQ, MINUSEQ;
+terminal PLUSEQ, MINUSEQ;
 terminal WHEN, THEN;
 terminal ROBOT, SERVOPOSITION, SERVO;
 
@@ -57,74 +57,100 @@ terminal NULL_LITERAL;
 
 
 non terminal Program program;
-non terminal literal;
+non terminal AbstractLiteral literal;
 
 
-non terminal type, primitiveType, numericType;
-non terminal integerType, floatType;
-non terminal referenceType;
-non terminal arrayType;
+non terminal AbstractType type;
+non terminal AbstractPrimitiveType primitiveType;
+non terminal AbstractNumericType numericType;
+non terminal AbstractReferenceType referenceType;
+non terminal AbstractArrayType arrayType;
 
-non terminal name;
-non terminal Start;
-non terminal functionStmts;
+non terminal Name name;
+non terminal AbstractStart Start;
+non terminal AbstractFunctionStmts functionStmts;
 
-non terminal variableDecls, variableDecl;
-non terminal variableDeclId, variableInit;
+non terminal AbstractVariableDecls variableDecls;
+non terminal AbstractVariableDecl variableDecl;
+non terminal AbstractVariableDeclId variableDeclId; 
+non terminal AbstractVariableInit variableInit;
 
-non terminal functionDecl, functionHeader, functionDeclerator;
-non terminal formalParamListOpt, formalParamList;
-non terminal formalParam;
-non terminal functionBody;
+non terminal FunctionDecl functionDecl;
+non terminal AbstractFunctionHeader functionHeader;
+non terminal AbstractFunctionDeclerator functionDeclerator;
+non terminal AbstractFormalParamListOpt formalParamListOpt;
+non terminal AbstractFormalParamList formalParamList;
+non terminal AbstractFormalParam formalParam;
+non terminal AbstractFunctionBody functionBody;
 
-non terminal arrayInit;
-non terminal variableInits;
+non terminal AbstractArrayInit arrayInit;
+non terminal AbstractVariableInits variableInits;
 
-non terminal block;
-non terminal blockStmtsOpt, blockStmts, blockStmt;
-non terminal localVariableDeclStmt, localVariableDecl;
-non terminal stmt, stmtIfWithoutElse;
-non terminal stmtWithoutTrailingSubstatement;
-non terminal emptyStmt;
-non terminal exprStmt, stmtExpr;
-non terminal ifThenStmt;
-non terminal ifThenElseStmt, ifThenElseIfWithoutElse;
-non terminal switchStmt, switchBlock;
-non terminal switchBlockStmtGroups;
-non terminal switchBlockStmtGroup;
-non terminal switchLabels, switchLabel;
-non terminal whileStmt;
-non terminal forStmt;
-non terminal forInit;
-non terminal stmtExprList;
-non terminal breakStmt, continueStatement;
-non terminal returnStmt;
+non terminal Block block;
+non terminal AbstractBlockStmtsOpt blockStmtsOpt;
+non terminal AbstractBlockStmts blockStmts;
+non terminal AbstractBlockStmt blockStmt;
+non terminal LocalVariableDeclStmt localVariableDeclStmt;
+non terminal AbstractLocalVariableDecl localVariableDecl;
+non terminal AbstractStmt stmt;
+non terminal AbstractStmtIfWithoutElse stmtIfWithoutElse;
+non terminal AbstractStmtWithoutTrailingSubstatement stmtWithoutTrailingSubstatement;
+non terminal EmptyStmt emptyStmt;
+non terminal ExprStmt exprStmt;
+non terminal AbstractStmtExpr stmtExpr;
+non terminal IfThenStmt ifThenStmt;
+non terminal IfThenElseStmt ifThenElseStmt;
+non terminal IfThenElseIfWithoutElse ifThenElseIfWithoutElse;
+non terminal SwitchStmt switchStmt;
+non terminal AbstractSwitchBlock switchBlock;
+non terminal AbstractSwitchBlockStmtGroups switchBlockStmtGroups;
+non terminal SwitchBlockStmtGroup switchBlockStmtGroup;
+non terminal AbstractSwitchLabels switchLabels;
+non terminal AbstractSwitchLabel switchLabel;
+non terminal WhileStmt whileStmt;
+non terminal ForStmt forStmt;
+non terminal AbstractForInit forInit;
+non terminal AbstractStmtExprList stmtExprList;
+non terminal BreakStmt breakStmt;
+non terminal ReturnStmt returnStmt;
 
-non terminal primary, primaryNoNewArray;
-non terminal argumentListOpt, argumentList;
-non terminal arrayCreationExpr;
-non terminal bracketEnclosureExprs, bracketEnclosureExpr, bracketEnclosureOpt, bracketEnclosure;
-non terminal functionCall, arrayAccess;
-non terminal postfixExpr;
-non terminal postincrementExpr, postdecrementExpr;
-non terminal unaryExpr, unaryExprNotPlusMinus;
-non terminal preincrementExpr, predecrementExpr;
-non terminal mulExpr, plusExpr;
-non terminal relationalExpr, equalExpr;
-non terminal conditionalAndExpr, conditionalOrExpr;
-non terminal conditionalExpr, assignmentExpr;
-non terminal assignment;
-non terminal leftHandSide;
-non terminal assignmentOperator;
-non terminal expr;
-non terminal constantExpr;
-non terminal globalVariable;
-non terminal globalVariables;
-non terminal functionStmtsOpt;
-non terminal servoType;
-non terminal servoInit;
-non terminal servoInits;
-non terminal robotType;
+non terminal AbstractPrimary primary;
+non terminal AbstractPrimaryNoNewArray primaryNoNewArray;
+non terminal AbstractArgumentListOpt argumentListOpt;
+non terminal AbstractArgumentList argumentList;
+non terminal AbstractArrayCreationExpr arrayCreationExpr;
+non terminal AbstractBracketEnclosureExprs bracketEnclosureExprs;
+non terminal BracketEnclosureExpr bracketEnclosureExpr;
+non terminal BracketEnclosureOpt bracketEnclosureOpt;
+non terminal AbstractBracketEnclosure bracketEnclosure;
+non terminal FunctionCall functionCall;
+non terminal AbstractArrayAccess arrayAccess;
+non terminal AbstractPostfixExpr postfixExpr;
+non terminal PostincrementExpr postincrementExpr;
+non terminal PostdecrementExpr postdecrementExpr;
+non terminal AbstractunaryExpr unaryExpr;
+non terminal AbstractUnaryExprNotPlusMinus unaryExprNotPlusMinus;
+non terminal PreincrementExpr preincrementExpr;
+non terminal PredecrementExpr predecrementExpr;
+non terminal AbstractMulExpr mulExpr;
+non terminal AbstractPlusExpr plusExpr;
+non terminal AbstractRelationalExpr relationalExpr;
+non terminal AbstractEqualExpr equalExpr;
+non terminal AbstractConditionalAndExpr conditionalAndExpr;
+non terminal AbstractConditionalOrExpr conditionalOrExpr;
+non terminal AbstractConditionalExpr conditionalExpr;
+non terminal AbstractAssignmentExpr assignmentExpr;
+non terminal Assignment assignment;
+non terminal AbstractLeftHandSide leftHandSide;
+non terminal AbstractAssignmentOperator assignmentOperator;
+non terminal Expr expr;
+non terminal ConstantExpr constantExpr;
+non terminal GlobalVariable globalVariable;
+non terminal GlobalVariables globalVariables;
+non terminal AbstractFunctionStmtsOpt functionStmtsOpt;
+non terminal ServoInit servoInit;
+non terminal AbstractServoInits servoInits;
+
 
 
 start with program;
@@ -152,7 +178,7 @@ type	                        ::=	primitiveType:primType
 primitiveType                   ::= numericType:numType
 	                            	  {: RESULT = new NumericType(numType, numTypeleft); :}
 	                              | SERVO:servoType
-	                                  {: RESULT = new ServoType(servoType, servoTypeleft); :}
+	                                  {: RESULT = new ServoPrimitiveType(servoType, servoTypeleft); :}
 	                              |	BOOLEAN:boolType
 	                                  {: RESULT = new BoolType(boolType, boolTypeleft); :};
 
@@ -168,7 +194,7 @@ referenceType                   ::= arrayType:arrType
                                   | SERVOPOSITION:servoType
                                       {: RESULT = new ServoType(servoType, servoTypeleft); :}
                                   | name:nameType
-                                      {: RESULT = new Name(nameType, nameTypeleft); :};
+                                      {: RESULT = new NameType(nameType, nameTypeleft); :};
 
 arrayType                       ::= primitiveType:primType bracketEnclosure:brackEnc
                                       {: RESULT = new PrimTypeBrackEnc(primType, brackEnc, primTypeleft);:}
@@ -176,28 +202,28 @@ arrayType                       ::= primitiveType:primType bracketEnclosure:brac
 	                                  {: RESULT = new NameTypeBrackEnc(nameType, brackEnc, nameTypeleft); :};
 
 name	                        ::= IDENTIFIER:ident
-                                      {: RESULT = new Ident(ident, identleft); :};
+                                      {: RESULT = new Identifier(ident, identleft); :};
 
-Start                           ::= globalVariables:gvs functionStmtsOpt:funcStmtOpt
-                                      {: RESULT = new GlobalVarfuncStmtOpt(gvs, funcStmtOpt, gvsleft); :}
-                                  | functionStmtsOpt: funcStmtOpt
-                                      {: RESULT = new FuncStmtOpt(funcstmtOpt, funcStmtOptleft); :};
+Start                           ::= globalVariables:gvs functionStmtsOpt:fso
+                                      {: RESULT = new GlobalVarfuncStmtOpt(gvs, fso, gvsleft); :}
+                                  | functionStmtsOpt:fso
+                                      {: RESULT = new FuncStmtOpt(fso, fsoleft); :};
 
 
 globalVariables                 ::= globalVariable:gv
-                                      {: RESULT = new GlobalVaribale(gv, gvleft); :}
+                                      {: RESULT = new GlobalVaribaleStmt(gv, gvleft); :}
                                   | globalVariables:gvs globalVariable:gv
-                                      {: RESULT = new GlobalVariables(gvs, gv, gvsleft); :};
+                                      {: RESULT = new GlobalVariablesStmt(gvs, gv, gvsleft); :};
 
-globalVariable                  ::=  localVariableDeclStmt:lvds
-                                       {: RESULT = new localVariableDeclStmt(lvds, lvdsleft); :};
+globalVariable                  ::= localVariableDeclStmt:lvds
+                                      {: RESULT = new localVariableDeclStmtGlobal(lvds, lvdsleft); :};
 
 functionStmtsOpt                ::= functionStmts:fs
-                                      {:RESULT = new Function(fs, fsleft);:}
+                                      {: RESULT = new Function(fs, fsleft); :}
                                   | ;
 
 functionStmts                   ::= functionDecl:fd
-                                      {: RESULT = new FunctionDecl(fd, fdleft); :}
+                                      {: RESULT = new FunctionDeclStatement(fd, fdleft); :}
                                   | functionStmts:fs functionDecl:fd
                                       {: RESULT = new FunctionStmtsFunctionDecl(fs, fd, fsleft); :};
 
@@ -220,16 +246,16 @@ variableInit                    ::= expr:exp
 		                              {: RESULT = new expr(exp, expleft); :}
 	                              |	arrayInit:ai
 	                                  {: RESULT = new ArrayInit(ai, aileft); :}
-	                              |   servoInit:si
-	                                    {:RESULT = new ServoInit(si, sileft); :};
+	                              | servoInit:si
+	                                  {: RESULT = new ServoInitStmt(si, sileft); :};
 
 functionDecl                    ::= functionHeader:fh functionBody:fb
 		                              {: RESULT = new FunctionHeaderBody(fh, fb, fhleft); :};
 
 functionHeader                  ::= type:t functionDeclerator:fd
-	                                  {:RESULT = new TypeFunctionDeclerator(fd, fdleft); :}
+	                                  {: RESULT = new TypeFunctionDeclerator(fd, fdleft); :}
 	                              | VOID functionDeclerator:fd
-	                                  {:RESULT = new voidFunctionDeclerator(fd, fdleft); :};
+	                                  {: RESULT = new voidFunctionDeclerator(fd, fdleft); :};
 
 functionDeclerator              ::= IDENTIFIER LPAREN formalParamListOpt:fplo RPAREN
 		                              {: RESULT = new FunctionDeclerator(fplo, fploleft); :}
@@ -243,7 +269,7 @@ formalParamListOpt              ::=
 formalParamList                 ::= formalParam:fp
 		                              {: RESULT = new FormalParam(fp, fpleft);:}
      	                          | formalParamList:fpl COMMA formalParam:fp
-    	                              {:RESULT = new FormalParamListFormalParam(fpl, fp, fplleft);:}
+    	                              {: RESULT = new FormalParamListFormalParam(fpl, fp, fplleft); :}
 	;
 formalParam                     ::= type:t variableDeclId:vdi
 		                              {: RESULT = new TypeVariableDelcId(t, vdi, tleft); :}
@@ -251,12 +277,12 @@ formalParam                     ::= type:t variableDeclId:vdi
 	                                  {: RESULT = new ConstTypeVariableDelcId(t, vdi, tleft); :};
 
 functionBody                    ::= block:b
-                                      {: RESULT = new Block(b, bleft); :}
+                                      {: RESULT = new FunctionBlock(b, bleft); :}
 	                              |	SEMICOLON:sc
-	                                  {: RESULT = new SemiColon(scleft); :};
+	                                  {: RESULT = new SemiColonFunction(scleft); :};
 
 arrayInit                       ::= LBRACE variableInits:vi COMMA RBRACE
-		                              {: RESULT = new VariableInitsComma(vi, vilift); :}
+		                              {: RESULT = new VariableInitsComma(vi, vileft); :}
 	                              |	LBRACE variableInits:vi RBRACE
 	                                  {: RESULT = new VariableInitsBracks(vi, vilift); :}
 	                              |	LBRACE:lb COMMA RBRACE
@@ -265,12 +291,12 @@ arrayInit                       ::= LBRACE variableInits:vi COMMA RBRACE
 	                                  {: RESULT = new LBRACERBRACE(lbleft); :};
 
 servoInits                      ::= IDENTIFIER COLON literal:l
-                                      {: RESULT = new Literal(l, left); :}
+                                      {: RESULT = new Literal(l, lleft); :}
                                   | servoInits:si COMMA IDENTIFIER COLON literal:l
                                       {: RESULT = new ServoInitLiteral(si, l, sileft); :};
 
 servoInit                       ::= LBRACE servoInits:si RBRACE
-                                      {: RESULT = new ServoInits(si, sileft); :};
+                                      {: RESULT = new ServoInitsStmt(si, sileft); :};
 
 variableInits                   ::= variableInit:vi
 		                              {: RESULT = new  VariableInit(vi, vileft); :}
@@ -290,293 +316,290 @@ blockStmts                      ::= blockStmt:bs
                                       {: RESULT = new BlockStmtstmt(bss, bs, bssleft); :};
 
 blockStmt                       ::= localVariableDeclStmt:lvds
-		                              {: RESULT = new localVariableDeclStmt(lvds, lvdsleft);:}
+		                              {: RESULT = new localVariableDeclBlockStmt(lvds, lvdsleft); :}
 	                              |	stmt:s
 	                                  {: RESULT = new stmt(s, sleft); :};
 
 localVariableDeclStmt           ::= localVariableDecl:lvd SEMICOLON
-		                              {: RESULT = LocalVariableDecl(lvd, lvdleft); :};
+		                              {: RESULT = LocalVariableDeclStatement(lvd, lvdleft); :};
 
 localVariableDecl               ::= type:t variableDecls:vds
 		                              {: RESULT = new VariableDecls(vds, vdsleft); :}
 	                              |	CONST type:t variableDecls:vds
-	                                  {:RESULT = new TypeVariableDecls(t, vds, tleft); :};
+	                                  {: RESULT = new TypeVariableDecls(t, vds, tleft); :};
 
 stmt                            ::= stmtWithoutTrailingSubstatement:swtss
-                                      {: RESULT = new StmtWithoutTrailingSubstatement(swtss, swtssleft); :}
+                                      {: RESULT = new StmtWithoutTrailingSubstmt(swtss, swtssleft); :}
 	                              |	ifThenStmt:its
-	                                  {: RESULT = new IfThenStmt(its, itsleft); :}
+	                                  {: RESULT = new IfThenStmtExpr(its, itsleft); :}
 	                              |	ifThenElseStmt:ites
-	                                  {: RESULT = new IfThenElseStmt(ites, itesleft); :}
+	                                  {: RESULT = new IfThenElseStmtExpr(ites, itesleft); :}
 	                              |	whileStmt:ws
-	                                  {: RESULT = new WhileStmt(ws, wsleft); :}
+	                                  {: RESULT = new WhileStmtExpr(ws, wsleft); :}
 	                              |	forStmt:fs
-	                                  {: RESULT = new ForStmt(fs, fsleft); :};
+	                                  {: RESULT = new ForStmtExpr(fs, fsleft); :};
 
 stmtIfWithoutElse               ::= stmtWithoutTrailingSubstatement:swtss
 		                              {: RESULT = new StmtWithoutTrailingSubstatement(swtss, swtssleft); :} // same as 361
 	                              |	ifThenElseIfWithoutElse:iteiwe
-	                                  {: RESULT = new IfThenElseIfWithoutElse(iteiwe, iteiweleft); :};
+	                                  {: RESULT = new IfThenElseIfWithoutElseStatement(iteiwe, iteiweleft); :};
 
 stmtWithoutTrailingSubstatement ::= block:b
-		                              {: RESULT = new Block(b, bleft); :}
+		                              {: RESULT = new StatementBlock(b, bleft); :}
 	                              |	emptyStmt:es
-	                                  {: RESULT = new Emptystmt(es, esleft); :}
+	                                  {: RESULT = new EmptystmtWithoutSubstatement(es, esleft); :}
 	                              |	exprStmt:exs
-	                                  {: RESULT = new ExprStmt(exs, exsleft); :}
+	                                  {: RESULT = new ExprStmtWithoutSubstatement(exs, exsleft); :}
 	                              |	switchStmt:ss
-	                                  {: RESULT = new SwitchStmt(ss, ssleft); :}
+	                                  {: RESULT = new SwitchStmtWithoutSubstatement(ss, ssleft); :}
 	                              |	breakStmt:breaks
-	                                  {: RESULT = new breakstmt(breaks, breaksleft); :}
-	                              |	continueStatement:cs
-	                                  {: RESULT = new ContinueStatement(cs, csleft); :}
+	                                  {: RESULT = new BreakStatementWithoutSubstatement(breaks, breaksleft); :}
 	                              |	returnStmt:rs
-	                                  {: RESULT = new ReturnStmt(rs, rsleft); :};
+	                                  {: RESULT = new ReturnStatementWithoutSubstatement(rs, rsleft); :};
 
-emptyStmt               ::= SEMICOLON:SC
-		                      {: RESULT = new Semicolon(scleft); :};
+emptyStmt                       ::= SEMICOLON:SC
+		                              {: RESULT = new Semicolon(scleft); :};
 
-exprStmt                ::= stmtExpr:se SEMICOLON
-		                      {: RESULT = new StmtExpr(se, seleft); :};
+exprStmt                        ::= stmtExpr:se SEMICOLON
+		                              {: RESULT = new StmtExpr(se, seleft); :};
 
-stmtExpr                ::= assignment:a
-		                      {: RESULT =  new Assignment(a, aleft); :}
-	                      |	preincrementExpr:pie
-	                          {: RESULT = new PreIncrementExpr(pie, pieleft); :}
-	                      |	predecrementExpr:pde
-	                          {: RESULT = new PreDecrementExpr(pde, pdeleft); :}
-	                      |	postincrementExpr:post
-	                          {: RESULT = new PostincrementExpr(post, postleft); :}
-                          |	postdecrementExpr:pode
-	                          {: RESULT = new PostdecrementExpr(pode, podeleft); :}
-	                      |	functionCall:fc
-	                          {: RESULT = new FunctionCall(fc, fcleft); :};
+stmtExpr                        ::= assignment:a
+		                              {: RESULT =  new AssignmentStmt(a, aleft); :}
+	                              |	preincrementExpr:pie
+	                                  {: RESULT = new PreIncrementExprStmt(pie, pieleft); :}
+	                              |	predecrementExpr:pde
+	                                  {: RESULT = new PreDecrementExprStmt(pde, pdeleft); :}
+	                              |	postincrementExpr:post
+	                                  {: RESULT = new PostincrementExprStmt(post, postleft); :}
+                                  |	postdecrementExpr:pode
+	                                  {: RESULT = new PostdecrementExprStmt(pode, podeleft); :}
+	                              |	functionCall:fc
+	                                  {: RESULT = new FunctionCallStatement(fc, fcleft); :};
 
-ifThenStmt              ::= IF LPAREN expr:e RPAREN stmt:s
-		                      {:RESULT =new IfLparenExprRparen(e, s, eleft);:};
+ifThenStmt                      ::= IF LPAREN expr:e RPAREN stmt:s
+		                              {: RESULT = new IfLparenExprRparen(e, s, eleft); :};
 
-ifThenElseStmt          ::= IF LPAREN expr:e RPAREN stmtIfWithoutElse:siwe ELSE stmt:s
-			                  {: RESULT = new IfLparenExprRparenStmtIfWithoutElseElseStmt(e, siwe, s, eleft); :};
+ifThenElseStmt                  ::= IF LPAREN expr:e RPAREN stmtIfWithoutElse:siwe ELSE stmt:s
+			                          {: RESULT = new IfLparenExprRparenStmtIfWithoutElseElseStmt(e, siwe, s, eleft); :};
 
-ifThenElseIfWithoutElse ::= IF LPAREN expr:e RPAREN stmtIfWithoutElse:siwe ELSE stmtIfWithoutElse:siwe
-			                  {: RESULT = new IfLparenExprRparenStmtWithoutElseElseStmtIfWithoutElse(e, siwe, siwe, eleft); :};
+ifThenElseIfWithoutElse         ::= IF LPAREN expr:e RPAREN stmtIfWithoutElse:siwe ELSE stmtIfWithoutElse:siwe
+			                          {: RESULT = new IfLparenExprRparenStmtWithoutElseElseStmtIfWithoutElse(e, siwe, siwe, eleft); :};
 
-switchStmt              ::= SWITCH LPAREN expr:e RPAREN switchBlock:sb
-		                      {: RESULT = new Switch(e, sb, eleft); :};
+switchStmt                      ::= SWITCH LPAREN expr:e RPAREN switchBlock:sb
+		                              {: RESULT = new Switch(e, sb, eleft); :};
 
-switchBlock             ::= BEGIN switchBlockStmtGroups:sbsgs switchLabels:sl END
-		                      {: RESULT = new SwitchBlockLabels(sbsgs, sl, sbsgsleft); :}
-	                      |	BEGIN switchBlockStmtGroups:sbsgs END
-	                          {: RESULT = new SwitchGroups(sbsgs, sbsglseft); :}
-	                      |	BEGIN switchLabels:sls END
-	                          {: RESULT = new SwitchLabels(sls, slsleft); :}
-	                      |	BEGIN:b END
-	                          {: RESULT = new Beginings(bleft); :};
+switchBlock                     ::= BEGIN switchBlockStmtGroups:sbsgs switchLabels:sl END
+		                              {: RESULT = new SwitchBlockLabels(sbsgs, sl, sbsgsleft); :}
+	                              |	BEGIN switchBlockStmtGroups:sbsgs END
+	                                  {: RESULT = new SwitchGroups(sbsgs, sbsgsleft); :}
+	                              |	BEGIN switchLabels:sls END
+	                                  {: RESULT = new SwitchLabels(sls, slsleft); :}
+	                              |	BEGIN:b END
+	                                  {: RESULT = new Beginings(bleft); :};
 
-switchBlockStmtGroups   ::= switchBlockStmtGroup:sbsg
-		                      {: RESULT = new SwitchBlockGroup(sbsg, sbsgleft);:}
-	                      |	switchBlockStmtGroups:sbsgs switchBlockStmtGroup:sbsg
-	                          {: RESULT = new switchBlockSwitchBlock(sbsgs, sbsg, sbsgsleft); :};
+switchBlockStmtGroups           ::= switchBlockStmtGroup:sbsg
+		                              {: RESULT = new SwitchBlockGroup(sbsg, sbsgleft);:}
+	                              |	switchBlockStmtGroups:sbsgs switchBlockStmtGroup:sbsg
+	                                  {: RESULT = new switchBlockSwitchBlock(sbsgs, sbsg, sbsgsleft); :};
 
-switchBlockStmtGroup    ::= switchLabels:sls blockStmts:bs
-		                      {: RESULT = new SwitchLabelBlock(sls, bs, slsleft); :};
+switchBlockStmtGroup            ::= switchLabels:sls blockStmts:bs
+		                              {: RESULT = new SwitchLabelBlock(sls, bs, slsleft); :};
 
-switchLabels            ::= switchLabel:sl
-		                      {: RESULT = SwitchLabel(sl, slleft); :}
-	                      |	switchLabels:sls switchLabel:sl
-	                          {: RESULT = SwisLabelsLabel(sls, sl, slsleft); :};
+switchLabels                    ::= switchLabel:sl
+		                              {: RESULT = new SwitchLabel(sl, slleft); :}
+	                              |	switchLabels:sls switchLabel:sl
+	                                  {: RESULT = new SwitchLabelsLabel(sls, sl, slsleft); :};
 
-switchLabel             ::= CASE constantExpr:cs COLON
-		                      {: RESULT = ConstExpr(cs, csleft); :}
-	                      |	DEFAULT:def COLON
-	                          {: RESULT = DEF(defleft);:};
+switchLabel                     ::= CASE constantExpr:cs COLON
+		                              {: RESULT = new ConstExpr(cs, csleft); :}
+	                              |	DEFAULT:def COLON
+	                                  {: RESULT = new DEF(defleft);:};
 
-whileStmt               ::= WHILE LPAREN expr:e RPAREN
-		                      {: RESULT = WhileExpr(e, eleft); :};
+whileStmt                       ::= WHILE LPAREN expr:e RPAREN
+		                              {: RESULT = new WhileExpr(e, eleft); :};
 
-forStmt                 ::= FOR LPAREN forInit:fi WHEN expr:e THEN stmtExprList:sel RPAREN
-			                  {: RESULT = ForExpr(fi, e, sel, fileft); :};
+forStmt                         ::= FOR LPAREN forInit:fi WHEN expr:e THEN stmtExprList:sel RPAREN
+			                          {: RESULT = new ForExpr(fi, e, sel, fileft); :};
 
-forInit                 ::= stmtExprList:sel
-                              {:RESULT = StmtExprList(sel, selleft);:}
-	                      |	localVariableDecl:lvd
-	                          {:RESULT =localVariableDecl(lvd, lvdleft);:};
+forInit                         ::= stmtExprList:sel
+                                      {: RESULT = new StmtExprList(sel, selleft); :}
+	                              |	localVariableDecl:lvd
+	                                  {: RESULT = new localVariableDecl(lvd, lvdleft); :};
 
-stmtExprList            ::= stmtExpr:se
-		                      {:RESULT = stExpr(se, seleft);:}
-	                      |	stmtExprList:sel COMMA stmtExpr:se
-	                          {:RESULT = StmtExprListStmtExpr(sel, se, selleft);:};
+stmtExprList                    ::= stmtExpr:se
+		                              {: RESULT = new StExpr(se, seleft); :}
+	                              |	stmtExprList:sel COMMA stmtExpr:se
+	                                  {: RESULT = new StmtExprListStmtExpr(sel, se, selleft); :};
 
-breakStmt               ::= BREAK:breaks SEMICOLON
-		                      {:RESULT = Breakings(breaksleft);:};
+breakStmt                       ::= BREAK:breaks SEMICOLON
+		                              {:RESULT = new BreakStmtExpr(breaksleft);:};
 
-returnStmt              ::= RETURN expr:e SEMICOLON
-		                      {:RESULT = ReturnStmt(e, eleft);:};
+returnStmt                      ::= RETURN expr:e SEMICOLON
+		                              {: RESULT = new ReturnStmtExpr(e, eleft); :};
 
-primary                 ::= primaryNoNewArray:pnna
-                              {:RESULT = PrimaryNoNewArr(pnna, pnnaleft);:}
-	                      |	arrayCreationExpr:ace
-	                          {:RESULT = ArrCreate(ace, aceleft);:};
+primary                         ::= primaryNoNewArray:pnna
+                                      {: RESULT = new PrimaryNoNewArr(pnna, pnnaleft); :}
+	                              |	arrayCreationExpr:ace
+	                                  {: RESULT = new ArrCreate(ace, aceleft); :};
 	                          
-primaryNoNewArray       ::= literal:l 
-                              {: RESULT = new Litaral(l, lleft);:}
-	                      |	LPAREN expr:e RPAREN
-	                          {: RESULT = new LeftParenthesisExpressionRightParenthesis(e, eleft); :}
-	                      |	functionCall:fc
-	                          {: RESULT = new FunctionCall(fc, fcleft); :}
-	                      |	arrayAccess:aa
-	                          {: RESULT = new ArrayAccess(aa, aaleft); :};
+primaryNoNewArray               ::= literal:l
+                                      {: RESULT = new NoArrayLiteral(l, lleft);:}
+	                              |	LPAREN expr:e RPAREN
+	                                  {: RESULT = new LeftParenthesisExpressionRightParenthesis(e, eleft); :}
+	                              |	functionCall:fc
+	                                  {: RESULT = new FunctionCallArray(fc, fcleft); :}
+	                              |	arrayAccess:aa
+	                                  {: RESULT = new ArrayAccessNoNewArray(aa, aaleft); :};
 
-argumentListOpt         ::=
-	                      |	argumentList:al
-	                          {: RESULT = new ArgumentList(al, alleft);:};
+argumentListOpt                 ::=
+	                              |	argumentList:al
+	                                  {: RESULT = new ArgumentList(al, alleft);:};
 
-argumentList            ::= expr:e
-		                      {: RESULT = new Expression(e, eleft); :}
-	                      |	argumentList:al COMMA expr:e
-	                          {: RESULT = new ArgumentListCommaExpression(al, e, alleft); :};
+argumentList                    ::= expr:e
+		                              {: RESULT = new Expression(e, eleft); :}
+	                              |	argumentList:al COMMA expr:e
+	                                  {: RESULT = new ArgumentListCommaExpression(al, e, alleft); :};
 
-arrayCreationExpr       ::= primitiveType:pt bracketEnclosureExprs:bee bracketEnclosureOpt:beo
-		                      {: RESULT = new PrimitiveTypeBracketEnclosureExpressionsBracketEnclosureOptional(pt, bee, beo, ptleft); :}
-	                      |	primitiveType:pt bracketEnclosure:be arrayInit:ai
-	                          {: RESULT = new PrimitiveTypeBracketEnclosureArrayInit(pt, be, ai, ptleft); :};
+arrayCreationExpr               ::= primitiveType:pt bracketEnclosureExprs:bee bracketEnclosureOpt:beo
+		                              {: RESULT = new PrimitiveTypeBracketEnclosureExpressionsBracketEnclosureOptional(pt, bee, beo, ptleft); :}
+	                              |	primitiveType:pt bracketEnclosure:be arrayInit:ai
+	                                  {: RESULT = new PrimitiveTypeBracketEnclosureArrayInit(pt, be, ai, ptleft); :};
 
-bracketEnclosureExprs   ::= bracketEnclosureExpr:bee
-                              {: RESULT = new BracketEnclosureExpression(bee, beeleft); :}
-	                      |	bracketEnclosureExprs:bees bracketEnclosureExpr:bee
-	                          {: RESULT = new BracketEnclosureExprsExpr(bees, bee, beesleft); :};
+bracketEnclosureExprs           ::= bracketEnclosureExpr:bee
+                                      {: RESULT = new BracketEnclosureExpression(bee, beeleft); :}
+	                              |	bracketEnclosureExprs:bees bracketEnclosureExpr:bee
+	                                  {: RESULT = new BracketEnclosureExprsExpr(bees, bee, beesleft); :};
 
-bracketEnclosureExpr    ::= LBRACK expr:e RBRACK
-                              {: RESULT = LbrackexprRbrack(e, eleft); :};
+bracketEnclosureExpr            ::= LBRACK expr:e RBRACK
+                                      {: RESULT = new LbrackexprRbrack(e, eleft); :};
 
-bracketEnclosureOpt     ::=
-	                      |	bracketEnclosure:be
-	                          {:RESULT = BracketEnc(be, beleft);:};
+bracketEnclosureOpt             ::=
+	                              |	bracketEnclosure:be
+	                                  {: RESULT = new BracketEnc(be, beleft); :};
 
-bracketEnclosure        ::= LBRACK:lb RBRACK
-                              {:RESULT = LbrackRbrack(lbleft);:}
-	                      |	bracketEnclosure:be LBRACK RBRACK
-	                          {:RESULT = BracketEnclosureBrack(be, beleft);:};
+bracketEnclosure                ::= LBRACK:lb RBRACK
+                                      {: RESULT = new LbrackRbrack(lbleft); :}
+	                              |	bracketEnclosure:be LBRACK RBRACK
+	                                  {: RESULT = new BracketEnclosureBrack(be, beleft); :};
 
-functionCall            ::= name:n LPAREN argumentListOpt:alo RPAREN
-		                      {: RESULT = new NameLeftParenthesisArgumentListOptionalRightParenthesis(n, alo, nleft); :};
+functionCall                    ::= name:n LPAREN argumentListOpt:alo RPAREN
+		                              {: RESULT = new NameLeftParenthesisArgumentListOptionalRightParenthesis(n, alo, nleft); :};
 
-arrayAccess             ::= name:n LBRACK expr:e RBRACK
-		                      {: RESULT = new NameLeftBracketExpressionRightBracket(n, e, nleft); :}
-	                      |	primaryNoNewArray:pnna LBRACK expr:e RBRACK
-	                          {: RESULT = new PrimaryNoNewArrayLeftBracketExpressionRightBracket(pnna, e, pnnaleft); :};
+arrayAccess                     ::= name:n LBRACK expr:e RBRACK
+		                              {: RESULT = new NameLeftBracketExpressionRightBracket(n, e, nleft); :}
+	                              |	primaryNoNewArray:pnna LBRACK expr:e RBRACK
+	                                  {: RESULT = new PrimaryNoNewArrayLeftBracketExpressionRightBracket(pnna, e, pnnaleft); :};
 
-postfixExpr             ::= primary:p
-	                          {: RESULT = new Primary(p, pleft); :}
-	                      |	name:n
-	                          {: RESULT = new Name(n, nleft); :}
-	                      |	postincrementExpr:pie
-	                          {: RESULT = new PostIncrementExpression(pie, pieleft); :}
-	                      |	postdecrementExpr:pde
-	                          {: RESULT = new PostDecrementExpression(pde, pdeleft); :};
+postfixExpr                     ::= primary:p
+	                                  {: RESULT = new Primary(p, pleft); :}
+	                              |	name:n
+	                                  {: RESULT = new NameExpression(n, nleft); :}
+	                              |	postincrementExpr:pie
+	                                  {: RESULT = new PostIncrementExpression(pie, pieleft); :}
+	                              |	postdecrementExpr:pde
+	                                  {: RESULT = new PostDecrementExpression(pde, pdeleft); :};
 
-postincrementExpr       ::= postfixExpr:pe PLUSPLUS
-		                      {: RESULT = new postfixExpressionPlusPlus(pe, peleft); :};
+postincrementExpr               ::= postfixExpr:pe PLUSPLUS
+		                              {: RESULT = new postfixExpressionPlusPlus(pe, peleft); :};
 
-postdecrementExpr       ::= postfixExpr:pe MINUSMINUS
-                              {: RESULT = new PostfixExpressionMinusMinus(pe, peleft); :};
+postdecrementExpr               ::= postfixExpr:pe MINUSMINUS
+                                      {: RESULT = new PostfixExpressionMinusMinus(pe, peleft); :};
 
-unaryExpr               ::= preincrementExpr:pe
-		                      {: RESULT = new PreIncrementExpression(pe, peleft); :}
-	                      |	predecrementExpr:ue
-	                          {: RESULT = new PredecrementExpression(ue, ueleft); :}
-	                      |	PLUS unaryExpr:ue
-	                          {: RESULT = new PlusUnaryExpression(ue, ueleft); :}
-	                      |	MINUS unaryExpr:ue
-	                          {: RESULT = new aryExpression(ue, ueleft); :}
-	                      |	unaryExprNotPlusMinus:uenpm
-	                          {: RESULT = new UnaryExpreonNotPlusMinus(uenpm, uenpmleft); :};
+unaryExpr                       ::= preincrementExpr:pe
+		                              {: RESULT = new PreIncrementExpression(pe, peleft); :}
+	                              |	predecrementExpr:ue
+	                                  {: RESULT = new PredecrementExpression(ue, ueleft); :}
+	                              |	PLUS unaryExpr:ue
+	                                  {: RESULT = new PlusUnaryExpression(ue, ueleft); :}
+	                              |	MINUS unaryExpr:ue
+	                                  {: RESULT = new UnaryExpressionstmt(ue, ueleft); :}
+	                              |	unaryExprNotPlusMinus:uenpm
+	                                  {: RESULT = new UnaryExpreonNotPlusMinus(uenpm, uenpmleft); :};
 
-preincrementExpr        ::= PLUSPLUS unaryExpr:ue
-		                      {: RESULT = new PlusPlusUnaryExpression(ue, ueleft); :};
+preincrementExpr                ::= PLUSPLUS unaryExpr:ue
+		                              {: RESULT = new PlusPlusUnaryExpression(ue, ueleft); :};
 
-predecrementExpr        ::= MINUSMINUS unaryExpr:ue
-		                      {: RESULT = new MinusMinusUnaryExpression(ue, ueleft); :};
+predecrementExpr                ::= MINUSMINUS unaryExpr:ue
+		                              {: RESULT = new MinusMinusUnaryExpression(ue, ueleft); :};
 
-unaryExprNotPlusMinus   ::= postfixExpr:pe
-		                      {: RESULT = new PostfixExpression(pe, peleft); :}
-	                      |	COMP unaryExpr:ue
-	                          {: RESULT = new ComparableUnaryExpression(ue, ueleft); :}
-	                      |	NOT unaryExpr:ue
-	                          {: RESULT = new NotUnaryExpression(ue, ueleft); :};
+unaryExprNotPlusMinus           ::= postfixExpr:pe
+		                              {: RESULT = new PostfixExpression(pe, peleft); :}
+	                              |	COMP unaryExpr:ue
+	                                  {: RESULT = new ComparableUnaryExpression(ue, ueleft); :}
+	                              |	NOT unaryExpr:ue
+	                                  {: RESULT = new NotUnaryExpression(ue, ueleft); :};
 
-mulExpr                 ::= unaryExpr:ue
-		                      {: RESULT = new UnaryExpression(ue, ueleft); :}
-	                      |	mulExpr:me MULT unaryExpr:ue
-	                          {: RESULT = new MultiplicationExpressionMultiplicationUnaryExpression(me, ue, meleft); :}
-	                      |	mulExpr:me DIV unaryExpr:ue
-	                          {: RESULT = new MultiplicationExpresionDivisionUnaryExpression(me, ue, meleft); :}
-	                      |	mulExpr:me MOD unaryExpr:ue
-	                          {: RESULT = new MultiplicationExpressionModuloUnaryExpression(me, ue, meleft); :};
+mulExpr                         ::= unaryExpr:ue
+		                              {: RESULT = new UnaryExpression(ue, ueleft); :}
+	                              |	mulExpr:me MULT unaryExpr:ue
+	                                  {: RESULT = new MultiplicationExpressionMultiplicationUnaryExpression(me, ue, meleft); :}
+	                              |	mulExpr:me DIV unaryExpr:ue
+	                                  {: RESULT = new MultiplicationExpresionDivisionUnaryExpression(me, ue, meleft); :}
+	                              |	mulExpr:me MOD unaryExpr:ue
+	                                  {: RESULT = new MultiplicationExpressionModuloUnaryExpression(me, ue, meleft); :};
 
-plusExpr                ::= mulExpr:me
-	                          {: RESULT = new MultipicationExpression(me, meleft); :}
-	                      |	plusExpr:pe PLUS mulExpr:me
-	                          {: RESULT = new PlusExpressionPlusMultiplicationExpression(pe, me, peleft); :}
-	                      |	plusExpr:pe MINUS mulExpr:me
-	                          {: RESULT = new PlusExpressionMinusMtiplicationExpression(pe, me, peleft); :};
+plusExpr                        ::= mulExpr:me
+	                                  {: RESULT = new MultipicationExpression(me, meleft); :}
+	                              |	plusExpr:pe PLUS mulExpr:me
+	                                  {: RESULT = new PlusExpressionPlusMultiplicationExpression(pe, me, peleft); :}
+	                              |	plusExpr:pe MINUS mulExpr:me
+	                                  {: RESULT = new PlusExpressionMinusMtiplicationExpression(pe, me, peleft); :};
 
-relationalExpr          ::= plusExpr:pe
-		                      {: RESULT = new PlusExpression(pe, peleft); :}
-	                      |	relationalExpr:re LT plusExpr:pe
-	                          {: RESULT = new LessThan(re, pe, releft); :}
-	                      |	relationalExpr:re GT plusExpr:pe
-	                          {: RESULT = new GreaterThan(re, pe, releft); :}
-	                      |	relationalExpr:re LTEQ plusExpr:pe
-	                          {: RESULT = new LessThanEqual(re, pe, releft); :}
-	                      |	relationalExpr:re GTEQ plusExpr:pe
-	                          {: RESULT = new GreaterThanEqual(re, pe, releft); :};
+relationalExpr                  ::= plusExpr:pe
+		                              {: RESULT = new PlusExpression(pe, peleft); :}
+	                              |	relationalExpr:re LT plusExpr:pe
+	                                  {: RESULT = new LessThan(re, pe, releft); :}
+	                              |	relationalExpr:re GT plusExpr:pe
+	                                  {: RESULT = new GreaterThan(re, pe, releft); :}
+	                              |	relationalExpr:re LTEQ plusExpr:pe
+	                                  {: RESULT = new LessThanEqual(re, pe, releft); :}
+	                              |	relationalExpr:re GTEQ plusExpr:pe
+	                                  {: RESULT = new GreaterThanEqual(re, pe, releft); :};
 
-equalExpr               ::= relationalExpr:re
-		                      {: RESULT = new RelationExpression(re, releft); :}
-	                      |	equalExpr:ee EQEQ relationalExpr:re
-	                          {: RESULT = new EqualEqualExpression(ee, re, eeleft); :}
-	                      |	equalExpr:ee NOTEQ relationalExpr:re
-	                          {: RESULT = new NotEqualExpression(ee, re, eeleft); :};
+equalExpr                       ::= relationalExpr:re
+		                              {: RESULT = new RelationExpression(re, releft); :}
+	                              |	equalExpr:ee EQEQ relationalExpr:re
+	                                  {: RESULT = new EqualEqualExpression(ee, re, eeleft); :}
+	                              |	equalExpr:ee NOTEQ relationalExpr:re
+	                                  {: RESULT = new NotEqualExpression(ee, re, eeleft); :};
 
-conditionalAndExpr      ::= equalExpr:ee
-                              {: RESULT = new EqualExpression(ee, eeleft); :}
-	                      |	conditionalAndExpr:cae ANDAND equalExpr:ee
-	                          {: RESULT = new ConditionalAndAndExpression(cae, ee, caeleft); :};
+conditionalAndExpr              ::= equalExpr:ee
+                                      {: RESULT = new EqualExpression(ee, eeleft); :}
+	                              |	conditionalAndExpr:cae ANDAND equalExpr:ee
+	                                  {: RESULT = new ConditionalAndAndExpression(cae, ee, caeleft); :};
 
-conditionalOrExpr       ::= conditionalAndExpr:cae
-		                      {: RESULT = new ConditionalAndExpression(cae, caeleft); :}
-	                      |	conditionalOrExpr:coe OROR conditionalAndExpr:cae
-	                          {: RESULT = new ConditionalOrExprOrOrConditionalAndExpr(coe, cae, coeleft) ;:};
+conditionalOrExpr               ::= conditionalAndExpr:cae
+		                              {: RESULT = new ConditionalAndExpression(cae, caeleft); :}
+	                              |	conditionalOrExpr:coe OROR conditionalAndExpr:cae
+	                                  {: RESULT = new ConditionalOrExprOrOrConditionalAndExpr(coe, cae, coeleft) ;:};
 
-conditionalExpr         ::= conditionalOrExpr:coe
-                              {: RESULT = new ConditionalOrExpression(coe, coeleft); :}
-	                      | conditionalOrExpr:coe QUESTION expr:e COLON conditionalExpr:ce
-			                  {: RESULT = new TernaryExpression(coe, e, ce, coeleft); :};
+conditionalExpr                 ::= conditionalOrExpr:coe
+                                      {: RESULT = new ConditionalOrExpression(coe, coeleft); :}
+	                              | conditionalOrExpr:coe QUESTION expr:e COLON conditionalExpr:ce
+			                          {: RESULT = new TernaryExpression(coe, e, ce, coeleft); :};
 
-assignmentExpr          ::= conditionalExpr:ce
-		                      {: RESULT = new ConditionalExpression(ce, celeft); :}
-	                      | assignment:a
-	                          {: RESULT = new AssignmentExpression(a, aleft); :};
+assignmentExpr                  ::= conditionalExpr:ce
+		                              {: RESULT = new ConditionalExpression(ce, celeft); :}
+	                              | assignment:a
+	                                  {: RESULT = new AssignmentExpression(a, aleft); :};
 
-assignment              ::=	leftHandSide:lhs assignmentOperator:ao assignmentExpr:ae
-                              {: RESULT =  new Assignment(lhs, ao, ae, lhsleft); :};
+assignment                      ::=	leftHandSide:lhs assignmentOperator:ao assignmentExpr:ae
+                                      {: RESULT = new AssignmentExpr(lhs, ao, ae, lhsleft); :};
 
-leftHandSide            ::= name:n
-		                      {: RESULT = new Name(n, nleft); :}
-	                      |	arrayAccess:aa
-	                          {: RESULT = new ArrayAccess(aa, aaleft); :};
+leftHandSide                    ::= name:n
+		                              {: RESULT = new NameAssign(n, nleft); :}
+	                              |	arrayAccess:aa
+	                                  {: RESULT = new ArrayAccess(aa, aaleft); :};
 
-expr                    ::=	assignmentExpr:ae
-                          {: RESULT = new AssignmentExpression(ae, aeleft); :};
+expr                            ::=	assignmentExpr:ae
+                                      {: RESULT = new ExpressionAssignment(ae, aeleft); :};
 
-assignmentOperator      ::= EQ:eq
-		                      {: RESULT = new Equal(eqleft); :}
-	                      |	PLUSEQ:pe
-	                          {: RESULT = new PlusEqual(peleft); :}
-	                      |	MINUSEQ:me
-	                          {: RESULT = new MinusEqueal(meleft); :};
+assignmentOperator              ::= EQ:eq
+		                              {: RESULT = new Equal(eqleft); :}
+	                              |	PLUSEQ:pe
+	                                  {: RESULT = new PlusEqual(peleft); :}
+	                              |	MINUSEQ:me
+	                                  {: RESULT = new MinusEqual(meleft); :};
 
-constantExpr        ::= expr:e
-		                  {: RESULT = new Expression(e, eleft); :};
-
+constantExpr                    ::= expr:e
+		                              {: RESULT = new ConstantExpression(e, eleft); :};
