@@ -144,8 +144,7 @@ StringCharacter = [^\r\n\"\\]
       "/"                            { return symbol(DIV); }
       "+="                           { return symbol(PLUSEQ); }
       "-="                           { return symbol(MINUSEQ); }
-      "*="                           { return symbol(MULTEQ); }
-      "/="                           { return symbol(DIVEQ); }
+
 
       /* string literal */
       \"                             { yybegin(STRING); string.setLength(0); }
