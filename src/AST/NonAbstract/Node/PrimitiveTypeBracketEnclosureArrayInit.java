@@ -6,7 +6,10 @@ public class PrimitiveTypeBracketEnclosureArrayInit extends AbstractArrayCreatio
     public AbstractArrayInit aai;
 
     public PrimitiveTypeBracketEnclosureArrayInit(AbstractPrimitiveType apt1, AbstractBracketEnclosure abe1, AbstractArrayInit aai1){
-        super()
+        super(ln);
+        apt = apt1;
+        abe = abe1;
+        aai = aai1;
     }
 
 

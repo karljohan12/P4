@@ -463,7 +463,7 @@ argumentList                    ::= expr:e
 arrayCreationExpr               ::= primitiveType:pt bracketEnclosureExprs:bee bracketEnclosureOpt:beo
 		                              {: RESULT = new PrimitiveTypeBracketEnclosureExpressionsBracketEnclosureOptional(pt, bee, beo, ptleft); :}
 	                              |	primitiveType:pt bracketEnclosure:be arrayInit:ai
-	                                  {: RESULT = new PrimitiveTypeBracketEnclosureArrayInit(pt, be, ai, ptleft); :};
+	                                  {: REScULT = new PrimitiveTypeBracketEnclosureArrayInit(pt, be, ai, ptleft); :};
 
 bracketEnclosureExprs           ::= bracketEnclosureExpr:bee
                                       {: RESULT = new BracketEnclosureExpression(bee, beeleft); :}
@@ -505,10 +505,10 @@ postincrementExpr               ::= postfixExpr:pe PLUSPLUS
 postdecrementExpr               ::= postfixExpr:pe MINUSMINUS
                                       {: RESULT = new PostfixExpressionMinusMinus(pe, peleft); :};
 
-unaryExpr                       ::= preincrementExpr:pe
-		                              {: RESULT = new PreIncrementExpression(pe, peleft); :}
-	                              |	predecrementExpr:ue
-	                                  {: RESULT = new PredecrementExpression(ue, ueleft); :}
+unaryExpr                       ::= preincrementExpr:pie
+		                              {: RESULT = new PreIncrementExpression(pie, pieleft); :}
+	                              |	predecrementExpr:pde
+	                                  {: RESULT = new PredecrementExpression(pde, pdeleft); :}
 	                              |	PLUS unaryExpr:ue
 	                                  {: RESULT = new PlusUnaryExpression(ue, ueleft); :}
 	                              |	MINUS unaryExpr:ue
