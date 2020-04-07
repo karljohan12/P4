@@ -1,4 +1,4 @@
 package AST.Abstract;
 
-abstract class AbstractBracketEnclosure {
+abstract public class AbstractBracketEnclosure {
 }
