@@ -1,6 +1,8 @@
 package AST.NonAbstract.Node;
 import AST.Abstract.*;
+import AST.Visitor.Visitor;
 
+//revision
 public class RobotType extends AbstractReferenceType {
     public RobotType rt;
 
@@ -8,7 +10,6 @@ public class RobotType extends AbstractReferenceType {
         super(ln);
         rt = rt1;
     }
-
 
     public void accept(Visitor v) {
         v.visit(this);

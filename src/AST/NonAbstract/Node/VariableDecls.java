@@ -14,12 +14,7 @@ public class VariableDecls extends AbstractLocalVariableDecl {
         super(ln);
         t = at;
         vds=avds;
-
-
     }
-
-
-
 
     public void accept(Visitor v) {
         v.visit(this);

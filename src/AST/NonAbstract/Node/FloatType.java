@@ -1,6 +1,8 @@
 package AST.NonAbstract.Node;
 import AST.Abstract.*;
+import AST.Visitor.Visitor;
 
+//revision
 public class FloatType extends AbstractNumericType {
     public FLoatType ft;
 

@@ -1,5 +1,9 @@
 package AST.NonAbstract.Node;
 
+import AST.Abstract.AbstractArrayType;
+import AST.Abstract.AbstractReferenceType;
+import AST.Visitor.Visitor;
+
 public class ArrayType extends AbstractReferenceType {
     public AbstractArrayType aat;
 

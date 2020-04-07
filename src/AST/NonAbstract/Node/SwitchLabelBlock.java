@@ -15,11 +15,7 @@ public class SwitchLabelBlock extends ASTNode {
         super(ln);
         sls = asls;
         bls = abls;
-
     }
-
-
-
 
     public void accept(Visitor v) {
         v.visit(this);

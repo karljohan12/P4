@@ -1,5 +1,9 @@
 package AST.NonAbstract.Node;
 
+import AST.Abstract.AbstractBlockStmt;
+import AST.Abstract.AbstractStmt;
+import AST.Visitor.Visitor;
+
 public class stmt extends AbstractBlockStmt {
     public AbstractStmt as;
 

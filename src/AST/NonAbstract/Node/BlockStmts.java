@@ -1,6 +1,10 @@
 package AST.NonAbstract.Node;
 
-public class BlockStmts extends AbstractBlockStmtOpt {
+import AST.Abstract.AbstractBlockStmts;
+import AST.Abstract.AbstractBlockStmtsOpt;
+import AST.Visitor.Visitor;
+
+public class BlockStmts extends AbstractBlockStmtsOpt {
     public AbstractBlockStmts abs;
 
     public BlockStmts(AbstractBlockStmts abs, int ln) {

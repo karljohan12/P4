@@ -1,8 +1,9 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.ASTNode;
+import AST.Abstract.AbstractLiteral;
 import AST.Visitor.Visitor;
-
+//revision
 public class BoolLiteral extends AbstractLiteral {
     public Literal l;
 

@@ -10,7 +10,6 @@ public class SwitchLabels extends AbstractSwitchBlock {
     public SwitchLabels(AbstractSwitchLabels asls, int ln){
         super(ln);
         sls = asls;
-
     }
 
     public void accept(Visitor v) {

@@ -1,11 +1,13 @@
 package AST.NonAbstract.Node;
 import AST.Abstract.*;
+import AST.NonAbstract.Nonterminal.Expr;
+import AST.Visitor.Visitor;
 
 public class ArgumentListCommaExpression extends AbstractArgumentList {
     public AbstractArgumentList al;
-    public expr e;
+    public Expr e;
 
-    public ArgumentListCommaExpression(AbstractArgumentList al1, expr e1, int ln){
+    public ArgumentListCommaExpression(AbstractArgumentList al1, Expr e1, int ln){
         super(ln);
         al = al1;
         e = e1;

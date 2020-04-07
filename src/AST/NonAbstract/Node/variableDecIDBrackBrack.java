@@ -9,11 +9,7 @@ public class variableDecIDBrackBrack extends AbstractVariableDeclId  {
     public variableDecIDBrackBrack(AbstractVariableDeclId avdi, int ln){
         super(ln);
         vdi=avdi;
-
-
     }
-
-
 
     public void accept(Visitor v) {
         v.visit(this);

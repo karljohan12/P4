@@ -1,6 +1,9 @@
 package AST.NonAbstract.Node;
 
-public class localVariableDeclBlockStmt extends AbstractBlockDeckBlockStmt {
+import AST.Abstract.AbstractBlockStmt;
+import AST.Visitor.Visitor;
+
+public class localVariableDeclBlockStmt extends AbstractBlockStmt {
     public localVariableDeclBlockStmt lvdbs;
 
     public localVariableDeclBlockStmt(localVariableDeclBlockStmt lvdbs, int ln) {

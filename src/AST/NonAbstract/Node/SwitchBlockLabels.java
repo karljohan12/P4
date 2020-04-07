@@ -13,7 +13,6 @@ public class SwitchBlockLabels extends AbstractSwitchBlock {
         super(ln);
         sbsgs = asbsgs;
         sl = asl;
-
     }
 
     public void accept(Visitor v) {

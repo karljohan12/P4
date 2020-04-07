@@ -13,8 +13,6 @@ public class NameTypeBrackEnc extends AbstractArrayType {
         abe = abe1;
     }
 
-
-
     public void accept(Visitor v) {
         v.visit(this);
     }

@@ -1,16 +1,19 @@
 package AST.NonAbstract.Node;
 
-public class NameLeftParenthesisArgumentListOptionalRightParenthesis extends FunctionCall {
+import AST.Abstract.ASTNode;
+import AST.Abstract.AbstractArgumentListOpt;
+import AST.NonAbstract.Nonterminal.Name;
+import AST.Visitor.Visitor;
+
+public class NameLeftParenthesisArgumentListOptionalRightParenthesis extends ASTNode {
     public Name n;
     public AbstractArgumentListOpt aalo;
 
     public NameLeftParenthesisArgumentListOptionalRightParenthesis(Name n1, AbstractArgumentListOpt aalo1, int ln){
-        super(lm);
+        super(ln);
         n = n1;
         aalo = aalo1;
     }
-
-
 
     public void accept(Visitor v) {
         v.visit(this);

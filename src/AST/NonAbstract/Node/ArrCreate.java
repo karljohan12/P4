@@ -1,5 +1,9 @@
 package AST.NonAbstract.Node;
 
+import AST.Abstract.AbstractArrayCreationExpr;
+import AST.Abstract.AbstractPrimary;
+import AST.Visitor.Visitor;
+
 public class ArrCreate extends AbstractPrimary {
     public AbstractArrayCreationExpr aace;
 

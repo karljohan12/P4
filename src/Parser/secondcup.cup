@@ -238,7 +238,7 @@ variableDecl                    ::= variableDeclId:vdi
 	                                  {: RESULT = new VariableDeclIdVariableInit(vdi, vi); :};
 
 variableDeclId                  ::= IDENTIFIER:ident
-	                                  {: RESULT = new Ident(ident, identleft); :}
+	                                  {: RESULT = new Ident(ident.s, identleft); :}
 	                              |	variableDeclId:vdi LBRACK RBRACK
 	                                  {: RESULT = new variableDecIDBrackBrack(vdi, vdileft); :};
 
@@ -269,8 +269,8 @@ formalParamListOpt              ::=
 formalParamList                 ::= formalParam:fp
 		                              {: RESULT = new FormalParam(fp, fpleft);:}
      	                          | formalParamList:fpl COMMA formalParam:fp
-    	                              {: RESULT = new FormalParamListFormalParam(fpl, fp, fplleft); :}
-	;
+    	                              {: RESULT = new FormalParamListFormalParam(fpl, fp, fplleft); :};
+
 formalParam                     ::= type:t variableDeclId:vdi
 		                              {: RESULT = new TypeVariableDelcId(t, vdi, tleft); :}
 	                              | CONST type:t variableDeclId:vdi

@@ -1,5 +1,6 @@
 package AST.NonAbstract.Node;
 import AST.Abstract.*;
+import AST.Visitor.Visitor;
 
 public class NumericType extends AbstractPrimitiveType {
     public AbstractNumericType ant;

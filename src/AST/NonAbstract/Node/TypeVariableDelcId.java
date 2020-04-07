@@ -14,13 +14,7 @@ public class TypeVariableDelcId extends AbstractFormalParam {
         super(ln);
         t = at;
         vdi = avdi;
-
-
     }
-
-
-
-
 
     public void accept(Visitor v) {
         v.visit(this);

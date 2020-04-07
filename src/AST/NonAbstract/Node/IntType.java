@@ -1,7 +1,7 @@
 package AST.NonAbstract.Node;
 import AST.Abstract.*;
 import AST.Visitor.Visitor;
-
+//revision
 public class IntType extends AbstractNumericType {
     public IntType it;
 

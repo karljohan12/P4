@@ -1,5 +1,6 @@
 package AST.NonAbstract.Node;
 import AST.Abstract.*;
+import AST.Visitor.Visitor;
 
 public class PrimTypeBrackEnc extends AbstractArrayType {
     public AbstractPrimitiveType apt;
@@ -10,7 +11,6 @@ public class PrimTypeBrackEnc extends AbstractArrayType {
         apt = apt1;
         abe = abe1;
     }
-
 
     public void accept(Visitor v) {
         v.visit(this);

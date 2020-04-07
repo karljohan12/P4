@@ -1,11 +1,13 @@
 package AST.NonAbstract.Node;
 import AST.Abstract.*;
+import AST.Visitor.Visitor;
 
 public class GlobalVarfuncStmtOpt extends AbstractStart {
     public AbstractGlobalVariables agv;
-    public AbstractFunctionStmtsOps afso;
+    public AbstractFunctionStmtsOpt afso;
 
-    public GlobalVarfuncStmtOpt(AbstractGlobalVariables agv1, AbstractFunctionStmtsOps afso1, int ln){
+
+    public GlobalVarfuncStmtOpt(AbstractGlobalVariables agv1, AbstractFunctionStmtsOpt afso1, int ln){
         super(ln);
         agv = agv1;
         afso = afso1;

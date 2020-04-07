@@ -1,5 +1,6 @@
 package AST.NonAbstract.Node;
 import AST.Abstract.*;
+import AST.Visitor.Visitor;
 
 public class PrimitiveType extends AbstractType {
     public AbstractPrimitiveType apt;
@@ -8,7 +9,6 @@ public class PrimitiveType extends AbstractType {
         super(ln);
         apt = apt1;
     }
-
 
     public void accept(Visitor v) {
         v.visit(this);

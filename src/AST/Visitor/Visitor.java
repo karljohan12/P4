@@ -1,5 +1,6 @@
 package AST.Visitor;
 
+import AST.Abstract.AbstractUnaryExprNotPlusMinus;
 import AST.NonAbstract.Nonterminal.*;
 import AST.NonAbstract.Node.*;
 
@@ -205,7 +206,7 @@ public interface Visitor {
     public void visit(PostdecrementExpr n);
     public void visit(PostincrementExpr n);
     public void visit(PredecrementExpr n);
-    public void visit(PreincrementExpr n);
+    public void visit(AbstractUnaryExprNotPlusMinus.AbstractPreincrementExpr n);
     public void visit(ReturnStmt n);
     public void visit(ServoInit n);
     public void visit(SwitchBlockStmtGroup n);

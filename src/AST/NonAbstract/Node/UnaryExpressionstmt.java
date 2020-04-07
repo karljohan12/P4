@@ -9,9 +9,7 @@ public class UnaryExpressionstmt extends AbstractunaryExpr {
     public UnaryExpressionstmt(AbstractunaryExpr aue, int ln){
         super(ln);
         ue=aue;
-
     }
-
 
     public void accept(Visitor v) {
         v.visit(this);

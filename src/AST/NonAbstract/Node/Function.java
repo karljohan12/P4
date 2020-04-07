@@ -1,7 +1,8 @@
 package AST.NonAbstract.Node;
 import AST.Abstract.*;
+import AST.Visitor.Visitor;
 
-public class Function extends AbstractFunctionStmtsOpts {
+public class Function extends AbstractFunctionStmtsOpt {
     public AbstractFunctionStmts afs;
 
     public Function(AbstractFunctionStmts afs1, int ln){

@@ -12,8 +12,6 @@ public class SwitchLabelsLabel extends AbstractSwitchLabels {
         super(ln);
         sls = asls;
         sl= asl;
-
-
     }
 
     public void accept(Visitor v) {

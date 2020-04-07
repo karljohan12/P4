@@ -10,10 +10,7 @@ public class SwitchBlockGroup extends AbstractSwitchBlockStmtGroups {
     public SwitchBlockGroup(SwitchBlockStmtGroup asbsg, int ln){
         super(ln);
         sbsg = asbsg;
-
-
     }
-
 
     public void accept(Visitor v) {
         v.visit(this);

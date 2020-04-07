@@ -1,9 +1,13 @@
 package AST.NonAbstract.Node;
 
-public class IfThenElseStmtExpr extends AbstractStmt {
-    public IfLparenExprRparenStmtIfWithoutElseElseStmt ilersiwees;
+import AST.Abstract.AbstractStmt;
+import AST.NonAbstract.Nonterminal.IfThenElseStmt;
+import AST.Visitor.Visitor;
 
-    public IfThenElseStmtExpr(IfLparenExprRparenStmtIfWithoutElseElseStmt ilersiwees, int ln) {
+public class IfThenElseStmtExpr extends AbstractStmt {
+    public IfThenElseStmt ilersiwees;
+
+    public IfThenElseStmtExpr(IfThenElseStmt ilersiwees, int ln) {
         super(ln);
         this.ilersiwees = ilersiwees;
     }

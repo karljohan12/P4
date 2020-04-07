@@ -1,6 +1,18 @@
 package AST.NonAbstract.Node;
 
-public class StatementBlock {
+import AST.Abstract.AbstractStmtWithoutTrailingSubstatement;
+import AST.NonAbstract.Nonterminal.Block;
+import AST.Visitor.Visitor;
+
+public class StatementBlock extends AbstractStmtWithoutTrailingSubstatement {
+  public Block b;
+
+  public StatementBlock(Block ab, int ln){
+      super(ln);
+      b = ab;
+
+
+  }
     public void accept(Visitor v) {
         v.visit(this);
     }

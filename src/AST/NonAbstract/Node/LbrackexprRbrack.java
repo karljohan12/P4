@@ -1,9 +1,13 @@
 package AST.NonAbstract.Node;
 
-public class LbrackexprRbrack extends BracketEnclosureExpr {
-    public expr e;
+import AST.Abstract.ASTNode;
+import AST.NonAbstract.Nonterminal.Expr;
+import AST.Visitor.Visitor;
 
-    public LbrackexprRbrack(expr e1, int ln){
+public class LbrackexprRbrack extends ASTNode {
+    public Expr e;
+
+    public LbrackexprRbrack(Expr e1, int ln){
         super(ln);
         e = e1;
     }

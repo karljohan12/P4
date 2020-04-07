@@ -12,8 +12,6 @@ public class Switch extends ASTNode {
         super(ln);
         e = ae;
         sb = asb;
-
-
     }
 
     public void accept(Visitor v) {

@@ -1,6 +1,14 @@
 package AST.NonAbstract.Node;
 
-public class BreakStmtExpr {
+import AST.Abstract.ASTNode;
+import AST.Visitor.Visitor;
+
+public class BreakStmtExpr extends ASTNode {
+
+    public BreakStmtExpr(int ln) {
+        super(ln);
+    }
+
     public void accept(Visitor v) {
         v.visit(this);
     }

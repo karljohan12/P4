@@ -1,5 +1,6 @@
 package AST.NonAbstract.Node;
 import AST.Abstract.*;
+import AST.Visitor.Visitor;
 
 public class ArgumentList extends AbstractArgumentListOpt{
     public AbstractArgumentList aal;
@@ -8,8 +9,6 @@ public class ArgumentList extends AbstractArgumentListOpt{
         super(ln);
         aal = aal1;
     }
-
-
 
     public void accept(Visitor v) {
         v.visit(this);

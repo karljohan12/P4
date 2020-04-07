@@ -13,11 +13,7 @@ public class TypeFunctionDeclerator extends AbstractFunctionHeader {
         super(ln);
         t = at;
         fd = afd;
-
-
     }
-
-
 
     public void accept(Visitor v) {
         v.visit(this);

@@ -1,10 +1,11 @@
 package AST.NonAbstract.Node;
 import AST.Abstract.*;
+import AST.Visitor.Visitor;
 
 public class FuncStmtOpt extends AbstractStart {
-    public AbstractFunctionStmtsOps afso;
+    public AbstractFunctionStmtsOpt afso;
 
-    public FuncStmtOpt(AbstractFunctionStmtsOps afso1, int ln){
+    public FuncStmtOpt(AbstractFunctionStmtsOpt afso1, int ln){
         super(ln);
         afso = afso1;
     }

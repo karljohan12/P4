@@ -1,5 +1,9 @@
 package AST.NonAbstract.Node;
 
+import AST.Abstract.AbstractBracketEnclosureExprs;
+import AST.NonAbstract.Nonterminal.BracketEnclosureExpr;
+import AST.Visitor.Visitor;
+
 public class BracketEnclosureExprsExpr extends AbstractBracketEnclosureExprs {
     public AbstractBracketEnclosureExprs abee;
     public BracketEnclosureExpr bee;
@@ -9,8 +13,6 @@ public class BracketEnclosureExprsExpr extends AbstractBracketEnclosureExprs {
         abee = abee1;
         bee = bee1;
     }
-
-
 
     public void accept(Visitor v) {
         v.visit(this);

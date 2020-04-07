@@ -1,5 +1,7 @@
 package AST.NonAbstract.Node;
 import AST.Abstract.*;
+import AST.NonAbstract.Nonterminal.FunctionDecl;
+import AST.Visitor.Visitor;
 
 public class FunctionDeclStatement extends AbstractFunctionStmts {
     public FunctionDecl fd;

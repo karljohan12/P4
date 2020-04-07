@@ -1,5 +1,6 @@
 package AST.NonAbstract.Node;
 import AST.Abstract.*;
+import AST.Visitor.Visitor;
 
 public class ReferenceType extends AbstractType {
     public AbstractReferenceType art;
@@ -8,7 +9,6 @@ public class ReferenceType extends AbstractType {
         super(ln);
         art = art1;
     }
-
 
     public void accept(Visitor v) {
         v.visit(this);

@@ -12,7 +12,6 @@ public class NameType extends AbstractReferenceType {
         n = n1;
     }
 
-
     public void accept(Visitor v) {
         v.visit(this);
     }

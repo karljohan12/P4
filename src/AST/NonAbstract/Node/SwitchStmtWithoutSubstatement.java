@@ -13,7 +13,6 @@ public class SwitchStmtWithoutSubstatement extends AbstractStmtWithoutTrailingSu
         ss=ass;
     }
 
-
     public void accept(Visitor v) {
         v.visit(this);
     }

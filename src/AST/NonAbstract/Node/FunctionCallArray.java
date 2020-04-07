@@ -1,5 +1,9 @@
 package AST.NonAbstract.Node;
 
+import AST.Abstract.AbstractPrimaryNoNewArray;
+import AST.NonAbstract.Nonterminal.FunctionCall;
+import AST.Visitor.Visitor;
+
 public class FunctionCallArray extends AbstractPrimaryNoNewArray {
     public FunctionCall fc;
 

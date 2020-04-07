@@ -1,5 +1,9 @@
 package AST.NonAbstract.Node;
 
+import AST.Abstract.AbstractPostfixExpr;
+import AST.NonAbstract.Nonterminal.Name;
+import AST.Visitor.Visitor;
+
 public class NameExpression extends AbstractPostfixExpr {
     public Name n;
 
@@ -7,8 +11,6 @@ public class NameExpression extends AbstractPostfixExpr {
         super(ln);
         n = n1;
     }
-
-
 
     public void accept(Visitor v) {
         v.visit(this);

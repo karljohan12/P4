@@ -12,8 +12,6 @@ public class variableDeclsVariableDecl extends AbstractVariableDecls {
         super(ln);
         vds=avds;
         vd=avd;
-
-
     }
 
 

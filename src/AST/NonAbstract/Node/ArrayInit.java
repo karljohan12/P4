@@ -1,12 +1,13 @@
 package AST.NonAbstract.Node;
 
+import AST.Abstract.AbstractArrayInit;
 import AST.Abstract.AbstractVariableInit;
 import AST.Visitor.Visitor;
 
 public class ArrayInit extends AbstractVariableInit {
-    public AbstractVariableInit avi;
+    public AbstractArrayInit avi;
 
-    public ArrayInit(AbstractVariableInit avi, int ln) {
+    public ArrayInit(AbstractArrayInit avi, int ln) {
         super(ln);
         this.avi = avi;
     }

@@ -1,5 +1,8 @@
 package AST.NonAbstract.Node;
 
+import AST.Abstract.AbstractArrayInit;
+import AST.Visitor.Visitor;
+
 public class LBraceCommaRBrace extends AbstractArrayInit {
 
     public LBraceCommaRBrace(int ln) {

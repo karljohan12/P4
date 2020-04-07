@@ -1,5 +1,7 @@
 package AST.NonAbstract.Node;
 import AST.Abstract.*;
+import AST.NonAbstract.Nonterminal.GlobalVariable;
+import AST.Visitor.Visitor;
 
 public class GlobalVariablesStmt extends AbstractGlobalVariables {
     public AbstractGlobalVariables agv;

@@ -10,7 +10,6 @@ public class VariableDecl extends AbstractVariableDecls {
     public VariableDecl(AbstractVariableDecl avd, int ln){
         super(ln);
         vd = avd;
-
     }
 
     public void accept(Visitor v) {

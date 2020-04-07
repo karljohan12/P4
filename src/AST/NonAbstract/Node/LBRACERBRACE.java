@@ -1,5 +1,8 @@
 package AST.NonAbstract.Node;
 
+import AST.Abstract.AbstractArrayInit;
+import AST.Visitor.Visitor;
+
 public class LBRACERBRACE extends AbstractArrayInit {
 
     public LBRACERBRACE(int ln) {

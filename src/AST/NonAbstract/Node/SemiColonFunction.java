@@ -2,8 +2,9 @@ package AST.NonAbstract.Node;
 
 import AST.Abstract.AbstractFunctionBody;
 import AST.NonAbstract.Nonterminal.Block;
+import AST.Visitor.Visitor;
 
-public class SemiColonFunction extends AbstractFunctionBlock {
+public class SemiColonFunction extends AbstractFunctionBody {
     public Semicolon s;
 
     public SemiColonFunction(Semicolon s, int ln) {

@@ -7,4 +7,7 @@ abstract public class AbstractUnaryExprNotPlusMinus extends ASTNode {
     public void accept(Visitor v) {
         v.visit(this);
     }
+
+    public static class AbstractPreincrementExpr {
+    }
 }

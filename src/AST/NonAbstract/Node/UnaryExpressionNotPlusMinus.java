@@ -10,8 +10,6 @@ public class UnaryExpressionNotPlusMinus extends AbstractunaryExpr {
     public UnaryExpressionNotPlusMinus(AbstractUnaryExprNotPlusMinus auenpm, int ln){
         super(ln);
         uenpm=auenpm;
-
-
     }
 
     public void accept(Visitor v) {

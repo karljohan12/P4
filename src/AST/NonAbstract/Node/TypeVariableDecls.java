@@ -16,9 +16,6 @@ public class TypeVariableDecls extends AbstractLocalVariableDecl {
         vds = avds;
     }
 
-
-
-
     public void accept(Visitor v) {
         v.visit(this);
     }

@@ -1,10 +1,12 @@
 package AST.NonAbstract.Node;
 import AST.Abstract.*;
+import AST.NonAbstract.Nonterminal.Expr;
+import AST.Visitor.Visitor;
 
 public class Expression extends AbstractArgumentList {
-    public expr e;
+    public Expr e;
 
-    public Expression(expr e1, int ln){
+    public Expression(Expr e1, int ln){
         super(ln);
         e = e1;
     }

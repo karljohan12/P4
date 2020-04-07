@@ -10,9 +10,7 @@ public class UnaryExpression extends AbstractMulExpr {
     public UnaryExpression(AbstractunaryExpr aue, int ln){
         super(ln);
         ue=aue;
-
     }
-
 
     public void accept(Visitor v) {
         v.visit(this);

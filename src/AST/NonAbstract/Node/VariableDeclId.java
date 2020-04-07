@@ -10,8 +10,6 @@ public class VariableDeclId extends AbstractVariableDecl {
     public VariableDeclId(AbstractVariableDeclId avdi, int ln){
         super(ln);
         vdi=avdi;
-
-
     }
 
 

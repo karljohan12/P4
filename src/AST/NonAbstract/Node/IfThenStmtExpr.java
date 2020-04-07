@@ -1,5 +1,9 @@
 package AST.NonAbstract.Node;
 
+import AST.Abstract.AbstractStmt;
+import AST.NonAbstract.Nonterminal.IfThenStmt;
+import AST.Visitor.Visitor;
+
 public class IfThenStmtExpr extends AbstractStmt {
     public IfThenStmt its;
 

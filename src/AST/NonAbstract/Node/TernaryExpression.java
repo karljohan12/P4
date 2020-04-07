@@ -13,11 +13,7 @@ public class TernaryExpression extends AbstractConditionalExpr {
         super(ln);
         coe = acoe;
         e = ae;
-
-
     }
-
-
 
     public void accept(Visitor v) {
         v.visit(this);

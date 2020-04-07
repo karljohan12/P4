@@ -1,5 +1,8 @@
 package AST.NonAbstract.Node;
 
+import AST.Abstract.AbstractBracketEnclosure;
+import AST.Visitor.Visitor;
+
 public class BracketEnclosureBrack extends AbstractBracketEnclosure {
     public AbstractBracketEnclosure abe;
 
