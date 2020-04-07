@@ -121,7 +121,7 @@ non terminal AbstractArgumentList argumentList;
 non terminal AbstractArrayCreationExpr arrayCreationExpr;
 non terminal AbstractBracketEnclosureExprs bracketEnclosureExprs;
 non terminal BracketEnclosureExpr bracketEnclosureExpr;
-non terminal BracketEnclosureOpt bracketEnclosureOpt;
+non terminal AbstractBracketEnclosureOpt bracketEnclosureOpt;
 non terminal AbstractBracketEnclosure bracketEnclosure;
 non terminal FunctionCall functionCall;
 non terminal AbstractArrayAccess arrayAccess;
@@ -146,7 +146,7 @@ non terminal AbstractAssignmentOperator assignmentOperator;
 non terminal Expr expr;
 non terminal ConstantExpr constantExpr;
 non terminal GlobalVariable globalVariable;
-non terminal GlobalVariables globalVariables;
+non terminal AbstractGlobalVariables globalVariables;
 non terminal AbstractFunctionStmtsOpt functionStmtsOpt;
 non terminal ServoInit servoInit;
 non terminal AbstractServoInits servoInits;
@@ -159,47 +159,47 @@ start with program;
 program                         ::=	Start:s
                                       {: RESULT = new Program(s, sleft); :};
 
-literal                         ::=	INTEGER_LITERAL:intLit
-                                      {: RESULT = new IntegerLiteral(intLit, intLitleft); :}
-	                              |	FLOATING_POINT_LITERAL:floatLit
-	                                  {: RESULT = new FloatLiteral(floatLit, floatLitleft); :}
-	                              |	BOOLEAN_LITERAL:boolLit
-	                                  {: RESULT =new BoolLiteral(boolLit, boolLitleft); :}
-	                              |	NULL_LITERAL: nullLit
-	                                  {: RESULT =new NullLiteral(nullLit, nullLitleft); :}
-                                  |	STRING_LITERAL:strLit
-                                      {: RESULT = new StrLiteral(strLit, strLitleft); :};
+literal                         ::=	INTEGER_LITERAL:il
+                                      {: RESULT = new IntegerLiteral(il, illeft); :}
+	                              |	FLOATING_POINT_LITERAL:fl
+	                                  {: RESULT = new FloatLiteral(fl, flleft); :}
+	                              |	BOOLEAN_LITERAL:bl
+	                                  {: RESULT =new BoolLiteral(bl, blleft); :}
+	                              |	NULL_LITERAL: nl
+	                                  {: RESULT =new NullLiteral(nl, nlleft); :}
+                                  |	STRING_LITERAL:sl
+                                      {: RESULT = new StrLiteral(sl, slleft); :};
 
-type	                        ::=	primitiveType:primType
-                                      {: RESULT = new PrimitiveType(primType, primTypeleft); :}
-	                              |	referenceType:refType
-	                                  {: RESULT = new ReferenceType(refType, refTypeleft); :};
+type	                        ::=	primitiveType:pt
+                                      {: RESULT = new PrimitiveType(pt, ptleft); :}
+	                              |	referenceType:rt
+	                                  {: RESULT = new ReferenceType(rt, rtleft); :};
 
-primitiveType                   ::= numericType:numType
-	                            	  {: RESULT = new NumericType(numType, numTypeleft); :}
-	                              | SERVO:servoType
-	                                  {: RESULT = new ServoPrimitiveType(servoType, servoTypeleft); :}
-	                              |	BOOLEAN:boolType
-	                                  {: RESULT = new BoolType(boolType, boolTypeleft); :};
+primitiveType                   ::= numericType:nt
+	                            	  {: RESULT = new NumericType(nt, ntleft); :}
+	                              | SERVO:st
+	                                  {: RESULT = new ServoPrimitiveType(st, stleft); :}
+	                              |	BOOLEAN:bt
+	                                  {: RESULT = new BoolType(bt, btleft); :};
 
-numericType                     ::= INT:intType
-                                      {: RESULT = new IntType(intType, intTypeleft); :}
-	                              |	DOUBLE:floatType
-	                                  {: RESULT = new FloatType(floatType, floatTypeleft); :};
+numericType                     ::= INT:it
+                                      {: RESULT = new IntType(it, itleft); :}
+	                              |	DOUBLE:ft
+	                                  {: RESULT = new FloatType(ft, ftleft); :};
 
-referenceType                   ::= arrayType:arrType
-                                      {: RESULT = new ArrayType(arrType, arrTypeleft); :}
-                                  | ROBOT:robotType
-                                      {: RESULT = new robotType(robotType, robotTypeleft); :}
-                                  | SERVOPOSITION:servoType
-                                      {: RESULT = new ServoType(servoType, servoTypeleft); :}
-                                  | name:nameType
-                                      {: RESULT = new NameType(nameType, nameTypeleft); :};
+referenceType                   ::= arrayType:at
+                                      {: RESULT = new ArrayType(at, atleft); :}
+                                  | ROBOT:rt
+                                      {: RESULT = new RobotType(rt, rtleft); :}
+                                  | SERVOPOSITION:st
+                                      {: RESULT = new ServoType(st, stleft); :}
+                                  | name:n
+                                      {: RESULT = new NameType(n, nleft); :};
 
-arrayType                       ::= primitiveType:primType bracketEnclosure:brackEnc
-                                      {: RESULT = new PrimTypeBrackEnc(primType, brackEnc, primTypeleft);:}
-                                  |	name:nameType bracketEnclosure:brackEnc
-	                                  {: RESULT = new NameTypeBrackEnc(nameType, brackEnc, nameTypeleft); :};
+arrayType                       ::= primitiveType:pt bracketEnclosure:be
+                                      {: RESULT = new PrimTypeBrackEnc(pt, be, ptleft);:}
+                                  |	name:n bracketEnclosure:be
+	                                  {: RESULT = new NameTypeBrackEnc(n, be, nleft); :};
 
 name	                        ::= IDENTIFIER:ident
                                       {: RESULT = new Identifier(ident, identleft); :};
@@ -242,12 +242,12 @@ variableDeclId                  ::= IDENTIFIER:ident
 	                              |	variableDeclId:vdi LBRACK RBRACK
 	                                  {: RESULT = new variableDecIDBrackBrack(vdi, vdileft); :};
 
-variableInit                    ::= expr:exp
-		                              {: RESULT = new expr(exp, expleft); :}
+variableInit                    ::= expr:e
+		                              {: RESULT = new expr(e, eleft); :}
 	                              |	arrayInit:ai
 	                                  {: RESULT = new ArrayInit(ai, aileft); :}
-	                              | servoInit:si
-	                                  {: RESULT = new ServoInitStmt(si, sileft); :};
+	                              | servoInit:sis
+	                                  {: RESULT = new ServoInitStmt(sis, sisleft); :};
 
 functionDecl                    ::= functionHeader:fh functionBody:fb
 		                              {: RESULT = new FunctionHeaderBody(fh, fb, fhleft); :};
@@ -324,7 +324,7 @@ localVariableDeclStmt           ::= localVariableDecl:lvd SEMICOLON
 		                              {: RESULT = LocalVariableDeclStatement(lvd, lvdleft); :};
 
 localVariableDecl               ::= type:t variableDecls:vds
-		                              {: RESULT = new VariableDecls(vds, vdsleft); :}
+		                              {: RESULT = new VariableDecls(t, vds, vdsleft); :}
 	                              |	CONST type:t variableDecls:vds
 	                                  {: RESULT = new TypeVariableDecls(t, vds, tleft); :};
 
@@ -514,7 +514,7 @@ unaryExpr                       ::= preincrementExpr:pe
 	                              |	MINUS unaryExpr:ue
 	                                  {: RESULT = new UnaryExpressionstmt(ue, ueleft); :}
 	                              |	unaryExprNotPlusMinus:uenpm
-	                                  {: RESULT = new UnaryExpreonNotPlusMinus(uenpm, uenpmleft); :};
+	                                  {: RESULT = new UnaryExpressionNotPlusMinus(uenpm, uenpmleft); :};
 
 preincrementExpr                ::= PLUSPLUS unaryExpr:ue
 		                              {: RESULT = new PlusPlusUnaryExpression(ue, ueleft); :};

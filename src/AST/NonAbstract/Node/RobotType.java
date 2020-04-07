@@ -1,13 +1,14 @@
 package AST.NonAbstract.Node;
 import AST.Abstract.*;
 
-public class FloatType extends AbstractNumericType {
-    public FLoatType ft;
+public class RobotType extends AbstractReferenceType {
+    public RobotType rt;
 
-    public FloatType(FloatType ft1, int ln){
+    public RobotType(RobotType rt1, int ln){
         super(ln);
-        ft = ft1;
+        rt = rt1;
     }
+
 
     public void accept(Visitor v) {
         v.visit(this);

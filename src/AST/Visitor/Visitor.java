@@ -167,7 +167,7 @@ public interface Visitor {
     public void visit(TypeFunctionDeclerator n);
     public void visit(TypeVariableDecls n);
     public void visit(TypeVariableDelcId n);
-    public void visit(UnaryExpreonNotPlusMinus n);
+    public void visit(UnaryExpressionNotPlusMinus n);
     public void visit(UnaryExpression n);
     public void visit(UnaryExpressionstmt n);
     public void visit(variableDecIDBrackBrack n);

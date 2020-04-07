@@ -5,8 +5,6 @@
 
 package Parser;
 
-import java_cup.runtime.*;
-import java_cup.runtime.XMLElement;
 import AST.Abstract.*;
 import AST.NonAbstract.Nonterminal.*;
 import AST.NonAbstract.Node.*;
@@ -3057,7 +3055,7 @@ class CUP$parser$actions {
 		int uenpmleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int uenpmright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		AbstractUnaryExprNotPlusMinus uenpm = (AbstractUnaryExprNotPlusMinus)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = new UnaryExpreonNotPlusMinus(uenpm, uenpmleft); 
+		 RESULT = new UnaryExpressionNotPlusMinus(uenpm, uenpmleft);
               CUP$parser$result = parser.getSymbolFactory().newSymbol("unaryExpr",64, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;

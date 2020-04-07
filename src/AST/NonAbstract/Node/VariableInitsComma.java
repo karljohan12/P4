@@ -1,4 +1,18 @@
 package AST.NonAbstract.Node;
+import AST.Abstract.AbstractArrayInit;
+import AST.Abstract.AbstractVariableInit;
+import AST.Abstract.AbstractVariableInits;
+import AST.Visitor.Visitor;
 
-public class VariableInitsComma {
+public class VariableInitsComma extends AbstractArrayInit {
+    public AbstractVariableInits vi;
+
+    public VariableInitsComma(AbstractVariableInits avi, int ln){
+        super(ln);
+        vi = avi;
+    }
+
+    public void accept(Visitor v) {
+        v.visit(this);
+    }
 }

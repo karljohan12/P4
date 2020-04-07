@@ -1,7 +1,7 @@
 package AST.Abstract;
 
 abstract public class ASTNode {
-    public int line_number;
+    public int lineNumber;
 
-    public ASTNode(int ln) {line_number = ln;}
+    public ASTNode(int ln) {lineNumber = ln;}
 }

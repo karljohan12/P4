@@ -2,8 +2,8 @@ package AST.Abstract;
 
 import AST.Visitor.Visitor;
 
-abstract public class AbstractFunctionStmtsOpt extends ASTNode {
-    public AbstractFunctionStmtsOpt(int ln) {
+abstract public class AbstractBracketEnclosureOpt extends ASTNode {
+    public AbstractBracketEnclosureOpt(int ln) {
         super(ln);
     }
     public void accept(Visitor v) {
