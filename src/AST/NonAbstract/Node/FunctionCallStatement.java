@@ -1,13 +1,12 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.AbstractStmtExpr;
-import AST.NonAbstract.Nonterminal.FunctionCall;
 import AST.Visitor.Visitor;
 
 public class FunctionCallStatement extends AbstractStmtExpr {
-    public FunctionCall fc;
+    public NameLeftParenthesisArgumentListOptionalRightParenthesis fc;
 
-    public FunctionCallStatement(FunctionCall fc, int ln) {
+    public FunctionCallStatement(NameLeftParenthesisArgumentListOptionalRightParenthesis fc, int ln) {
         super(ln);
         this.fc = fc;
     }

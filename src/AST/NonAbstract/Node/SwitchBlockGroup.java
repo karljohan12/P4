@@ -1,13 +1,13 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.AbstractSwitchBlockStmtGroups;
-import AST.NonAbstract.Nonterminal.SwitchBlockStmtGroup;
+
 import AST.Visitor.Visitor;
 
 public class SwitchBlockGroup extends AbstractSwitchBlockStmtGroups {
-    public SwitchBlockStmtGroup sbsg;
+    public SwitchLabelBlock sbsg;
 
-    public SwitchBlockGroup(SwitchBlockStmtGroup asbsg, int ln){
+    public SwitchBlockGroup(SwitchLabelBlock asbsg, int ln){
         super(ln);
         sbsg = asbsg;
     }

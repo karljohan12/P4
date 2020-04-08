@@ -7,6 +7,7 @@ public class Semicolon extends ASTNode {
 
     public Semicolon(int ln) {
         super(ln);
+
     }
 
     public void accept(Visitor v) {

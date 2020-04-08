@@ -63,7 +63,7 @@ public interface Visitor {
     public void visit(FunctionDeclerator n);
     public void visit(FunctionDecleratorBrack n);
     public void visit(FunctionDeclStatement n);
-    public void visit(FunctionHeaderBody n);
+    public void visit(AST.NonAbstract.Node.FunctionHeaderBody n);
     public void visit(FunctionStmtsFunctionDecl n);
     public void visit(GlobalVarfuncStmtOpt n);
     public void visit(GlobalVariablesStmt n);
@@ -195,7 +195,7 @@ public interface Visitor {
     public void visit(ExprStmt n);
     public void visit(ForStmt n);
     public void visit(FunctionCall n);
-    public void visit(FunctionDecl n);
+    public void visit(FunctionHeaderBody n);
     public void visit(GlobalVariable n);
     public void visit(GlobalVariables n);
     public void visit(IfThenElseIfWithoutElse n);

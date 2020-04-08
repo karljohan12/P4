@@ -1,13 +1,12 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.AbstractBracketEnclosureExprs;
-import AST.NonAbstract.Nonterminal.BracketEnclosureExpr;
 import AST.Visitor.Visitor;
 
 public class BracketEnclosureExpression extends AbstractBracketEnclosureExprs {
-    public BracketEnclosureExpr bee;
+    public LbrackexprRbrack bee;
 
-    public BracketEnclosureExpression(BracketEnclosureExpr bee1, int ln){
+    public BracketEnclosureExpression(LbrackexprRbrack bee1, int ln){
         super(ln);
         bee = bee1;
     }

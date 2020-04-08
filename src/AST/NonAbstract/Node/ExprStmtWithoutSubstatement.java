@@ -1,13 +1,12 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.AbstractStmtWithoutTrailingSubstatement;
-import AST.NonAbstract.Nonterminal.ExprStmt;
 import AST.Visitor.Visitor;
 
 public class ExprStmtWithoutSubstatement extends AbstractStmtWithoutTrailingSubstatement {
-    public ExprStmt es;
+    public StmtExpr es;
 
-    public ExprStmtWithoutSubstatement(ExprStmt es, int ln) {
+    public ExprStmtWithoutSubstatement(StmtExpr es, int ln) {
         super(ln);
         this.es = es;
     }

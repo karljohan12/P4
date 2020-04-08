@@ -1,15 +1,13 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.AbstractArrayAccess;
-import AST.NonAbstract.Nonterminal.Expr;
-import AST.NonAbstract.Nonterminal.Name;
 import AST.Visitor.Visitor;
 
 public class NameLeftBracketExpressionRightBracket extends AbstractArrayAccess {
-    public Name n;
-    public Expr e;
+    public Identifier n;
+    public ExpressionAssignment e;
 
-    public NameLeftBracketExpressionRightBracket(Name n1, Expr e1, int ln){
+    public NameLeftBracketExpressionRightBracket(Identifier n1, ExpressionAssignment e1, int ln){
         super(ln);
         n = n1;
         e = e1;

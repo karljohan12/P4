@@ -1,13 +1,12 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.AbstractPostfixExpr;
-import AST.NonAbstract.Nonterminal.Name;
 import AST.Visitor.Visitor;
 
 public class NameExpression extends AbstractPostfixExpr {
-    public Name n;
+    public Identifier n;
 
-    public NameExpression(Name n1, int ln){
+    public NameExpression(Identifier n1, int ln){
         super(ln);
         n = n1;
     }

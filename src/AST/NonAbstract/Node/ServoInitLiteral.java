@@ -2,7 +2,6 @@ package AST.NonAbstract.Node;
 
 import AST.Abstract.AbstractLiteral;
 import AST.Abstract.AbstractServoInits;
-import AST.NonAbstract.Nonterminal.ServoInit;
 import AST.Visitor.Visitor;
 
 public class ServoInitLiteral extends AbstractServoInits {

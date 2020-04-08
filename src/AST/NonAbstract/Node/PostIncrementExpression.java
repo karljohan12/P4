@@ -1,13 +1,12 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.AbstractPostfixExpr;
-import AST.NonAbstract.Nonterminal.PostincrementExpr;
 import AST.Visitor.Visitor;
 
 public class PostIncrementExpression extends AbstractPostfixExpr {
-    public PostincrementExpr pie;
+    public postfixExpressionPlusPlus pie;
 
-    public PostIncrementExpression(PostincrementExpr pie1, int ln){
+    public PostIncrementExpression(postfixExpressionPlusPlus pie1, int ln){
         super(ln);
         pie = pie1;
     }

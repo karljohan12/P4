@@ -1,13 +1,12 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.AbstractStmt;
-import AST.NonAbstract.Nonterminal.IfThenStmt;
 import AST.Visitor.Visitor;
 
 public class IfThenStmtExpr extends AbstractStmt {
-    public IfThenStmt its;
+    public IfLparenExprRparen its;
 
-    public IfThenStmtExpr(IfThenStmt its, int ln) {
+    public IfThenStmtExpr(IfLparenExprRparen its, int ln) {
         super(ln);
         this.its = its;
     }

@@ -1,13 +1,12 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.AbstractPostfixExpr;
-import AST.NonAbstract.Nonterminal.PostdecrementExpr;
 import AST.Visitor.Visitor;
 
 public class PostDecrementExpression extends AbstractPostfixExpr {
-    public PostdecrementExpr pde;
+    public PostfixExpressionMinusMinus pde;
 
-    public PostDecrementExpression(PostdecrementExpr pde1, int ln){
+    public PostDecrementExpression(PostfixExpressionMinusMinus pde1, int ln){
         super(ln);
         pde = pde1;
     }

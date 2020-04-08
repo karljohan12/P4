@@ -4,11 +4,9 @@ import AST.Visitor.Visitor;
 
 //revision
 public class RobotType extends AbstractReferenceType {
-    public RobotType rt;
 
-    public RobotType(RobotType rt1, int ln){
+    public RobotType(int ln){
         super(ln);
-        rt = rt1;
     }
 
     public void accept(Visitor v) {

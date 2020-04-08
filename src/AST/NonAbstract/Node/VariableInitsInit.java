@@ -7,7 +7,7 @@ public class VariableInitsInit extends AbstractVariableInits {
     public AbstractVariableInits vis;
     public AbstractVariableInit vi;
 
-    VariableInitsInit(AbstractVariableInits avis, AbstractVariableInit avi, int ln){
+    public VariableInitsInit(AbstractVariableInits avis, AbstractVariableInit avi, int ln){
         super(ln);
         vis=avis;
         vi=avi;

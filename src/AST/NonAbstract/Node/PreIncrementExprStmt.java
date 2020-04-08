@@ -4,9 +4,9 @@ import AST.Abstract.AbstractStmtExpr;
 import AST.Visitor.Visitor;
 
 public class PreIncrementExprStmt extends AbstractStmtExpr {
-    public PreIncrementExprStmt pie;
+    public PlusPlusUnaryExpression pie;
 
-    public PreIncrementExprStmt(PreIncrementExprStmt apie, int ln){
+    public PreIncrementExprStmt(PlusPlusUnaryExpression apie, int ln){
         super(ln);
         pie = apie;
 

@@ -1,13 +1,13 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.ASTNode;
-import AST.NonAbstract.Nonterminal.Expr;
+
 import AST.Visitor.Visitor;
 
 public class ReturnStmtExpr extends ASTNode {
-    public Expr e;
+    public ExpressionAssignment e;
 
-    public ReturnStmtExpr(Expr e ,int ln) {
+    public ReturnStmtExpr(ExpressionAssignment e ,int ln) {
         super(ln);
         this.e = e;
     }

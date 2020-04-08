@@ -4,9 +4,9 @@ import AST.Abstract.ASTNode;
 import AST.Visitor.Visitor;
 
 public class WhileExpr extends ASTNode {
-    public expr e;
+    public ExpressionAssignment e;
 
-    public WhileExpr(expr ae, int ln) {
+    public WhileExpr(ExpressionAssignment ae, int ln) {
         super(ln);
         e = ae;
     }

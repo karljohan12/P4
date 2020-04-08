@@ -3,7 +3,6 @@ package AST.NonAbstract.Node;
 import AST.Abstract.ASTNode;
 import AST.Abstract.AbstractBlockStmts;
 import AST.Abstract.AbstractSwitchLabels;
-import AST.NonAbstract.Nonterminal.SwitchBlockStmtGroup;
 import AST.Visitor.Visitor;
 
 public class SwitchLabelBlock extends ASTNode {

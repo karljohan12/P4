@@ -4,9 +4,9 @@ import AST.Abstract.AbstractBlockStmt;
 import AST.Visitor.Visitor;
 
 public class localVariableDeclBlockStmt extends AbstractBlockStmt {
-    public localVariableDeclBlockStmt lvdbs;
+    public LocalVariableDeclStatement lvdbs;
 
-    public localVariableDeclBlockStmt(localVariableDeclBlockStmt lvdbs, int ln) {
+    public localVariableDeclBlockStmt(LocalVariableDeclStatement lvdbs, int ln) {
         super(ln);
         this.lvdbs = lvdbs;
     }

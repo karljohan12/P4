@@ -1,13 +1,12 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.AbstractStmtWithoutTrailingSubstatement;
-import AST.NonAbstract.Nonterminal.BreakStmt;
 import AST.Visitor.Visitor;
 
 public class BreakStatementWithoutSubstatement extends AbstractStmtWithoutTrailingSubstatement {
-    public BreakStmt bs;
+    public BreakStmtExpr bs;
 
-    public BreakStatementWithoutSubstatement(BreakStmt bs, int ln) {
+    public BreakStatementWithoutSubstatement(BreakStmtExpr bs, int ln) {
         super(ln);
         this.bs = bs;
     }

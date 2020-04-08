@@ -1,13 +1,12 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.AbstractFunctionBody;
-import AST.NonAbstract.Nonterminal.Block;
 import AST.Visitor.Visitor;
 
 public class FunctionBlock extends AbstractFunctionBody {
-    public Block b;
+    public BlockStmtsOpt b;
 
-    public FunctionBlock(Block b, int ln) {
+    public FunctionBlock(BlockStmtsOpt b, int ln) {
         super(ln);
         this.b = b;
     }

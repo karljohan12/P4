@@ -1,13 +1,12 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.AbstractStmtIfWithoutElse;
-import AST.NonAbstract.Nonterminal.IfThenElseIfWithoutElse;
 import AST.Visitor.Visitor;
 
 public class IfThenElseIfWithoutElseStatement extends AbstractStmtIfWithoutElse {
-    public IfThenElseIfWithoutElse itewe;
+    public IfLparenExprRparenStmtWithoutElseElseStmtIfWithoutElse itewe;
 
-    public IfThenElseIfWithoutElseStatement(IfThenElseIfWithoutElse itewe, int ln) {
+    public IfThenElseIfWithoutElseStatement(IfLparenExprRparenStmtWithoutElseElseStmtIfWithoutElse itewe, int ln) {
         super(ln);
         this.itewe = itewe;
     }

@@ -1,13 +1,12 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.AbstractAssignmentExpr;
-import AST.NonAbstract.Nonterminal.Assignment;
 import AST.Visitor.Visitor;
 
 public class AssignmentExpression extends AbstractAssignmentExpr {
-    public Assignment aae;
+    public AssignmentExpr aae;
 
-    public AssignmentExpression(Assignment aae, int ln) {
+    public AssignmentExpression(AssignmentExpr aae, int ln) {
         super(ln);
         this.aae = aae;
     }

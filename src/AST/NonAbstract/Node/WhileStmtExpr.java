@@ -1,12 +1,11 @@
 package AST.NonAbstract.Node;
-import AST.NonAbstract.Nonterminal.*;
 import AST.Abstract.*;
 import AST.Visitor.Visitor;
 
 public class WhileStmtExpr extends AbstractStmt {
-    public WhileStmt st;
+    public WhileExpr st;
 
-    public WhileStmtExpr(WhileStmt stmt, int ln){
+    public WhileStmtExpr(WhileExpr stmt, int ln){
         super(ln);
         st = stmt;
     }

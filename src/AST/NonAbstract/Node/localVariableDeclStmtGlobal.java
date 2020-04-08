@@ -3,9 +3,9 @@ import AST.Abstract.*;
 import AST.Visitor.Visitor;
 
 public class localVariableDeclStmtGlobal extends ASTNode {
-    public localVariableDeclStmtGlobal lvdsg;
+    public LocalVariableDeclStatement lvdsg;
 
-    public localVariableDeclStmtGlobal(localVariableDeclStmtGlobal lvdsg1, int ln){
+    public localVariableDeclStmtGlobal(LocalVariableDeclStatement lvdsg1, int ln){
         super(ln);
         lvdsg = lvdsg1;
     }

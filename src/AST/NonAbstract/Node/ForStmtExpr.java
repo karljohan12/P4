@@ -1,13 +1,12 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.AbstractStmt;
-import AST.NonAbstract.Nonterminal.ForStmt;
 import AST.Visitor.Visitor;
 
 public class ForStmtExpr extends AbstractStmt {
-    public ForStmt fs;
+    public ForExpr fs;
 
-    public ForStmtExpr(ForStmt fs, int ln) {
+    public ForStmtExpr(ForExpr fs, int ln) {
         super(ln);
         this.fs = fs;
     }

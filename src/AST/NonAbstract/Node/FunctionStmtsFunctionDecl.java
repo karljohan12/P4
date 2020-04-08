@@ -1,13 +1,12 @@
 package AST.NonAbstract.Node;
 import AST.Abstract.*;
-import AST.NonAbstract.Nonterminal.FunctionDecl;
 import AST.Visitor.Visitor;
 
 public class FunctionStmtsFunctionDecl extends AbstractFunctionStmts {
     public AbstractFunctionStmts afs;
-    public FunctionDecl fd;
+    public FunctionHeaderBody fd;
 
-    public FunctionStmtsFunctionDecl(AbstractFunctionStmts afs1, FunctionDecl fd1, int ln){
+    public FunctionStmtsFunctionDecl(AbstractFunctionStmts afs1, FunctionHeaderBody fd1, int ln){
         super(ln);
         afs = afs1;
         fd = fd1;

@@ -1,14 +1,13 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.AbstractVariableInit;
-import AST.NonAbstract.Nonterminal.ServoInit;
 import AST.Visitor.Visitor;
 
 
 public class ServoInitStmt extends AbstractVariableInit {
-    public ServoInit si;
+    public ServoInitsStmt si;
 
-    public ServoInitStmt(ServoInit si, int ln) {
+    public ServoInitStmt(ServoInitsStmt si, int ln) {
         super(ln);
         this.si = si;
     }

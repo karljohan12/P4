@@ -1,13 +1,12 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.AbstractunaryExpr;
-import AST.NonAbstract.Nonterminal.preincrementExpr;
 import AST.Visitor.Visitor;
 
 public class PreIncrementExpression extends AbstractunaryExpr {
-    public preincrementExpr pie;
+    public PlusPlusUnaryExpression pie;
 
-    public PreIncrementExpression(preincrementExpr pie1, int ln){
+    public PreIncrementExpression(PlusPlusUnaryExpression pie1, int ln){
         super(ln);
         pie = pie1;
     }

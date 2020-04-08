@@ -1,13 +1,12 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.AbstractStmtWithoutTrailingSubstatement;
-import AST.NonAbstract.Nonterminal.Block;
 import AST.Visitor.Visitor;
 
 public class StatementBlock extends AbstractStmtWithoutTrailingSubstatement {
-  public Block b;
+  public BlockStmtsOpt b;
 
-  public StatementBlock(Block ab, int ln){
+  public StatementBlock(BlockStmtsOpt ab, int ln){
       super(ln);
       b = ab;
 
