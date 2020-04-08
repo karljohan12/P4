@@ -173,8 +173,10 @@ public class ASTvisitor implements Visitor {
         printNode(n);
         increaseIndent();
 
-        n.abso.accept(this);
 
+        if(n.abso != null) {
+            n.abso.accept(this);
+        }
         decreaseIndent();
     }
 
@@ -497,8 +499,9 @@ public class ASTvisitor implements Visitor {
         printNode(n);
         increaseIndent();
 
-        n.afso.accept(this);
-
+        if(n.afso != null) {
+            n.afso.accept(this);
+        }
         decreaseIndent();
     }
 
@@ -547,7 +550,9 @@ public class ASTvisitor implements Visitor {
         printNode(n);
         increaseIndent();
 
-        n.afpo.accept(this);
+        if(n.afpo != null) {
+            n.afpo.accept(this);
+        }
 
         decreaseIndent();
     }
@@ -934,9 +939,10 @@ public class ASTvisitor implements Visitor {
         printNode(n);
         increaseIndent();
 
-        n.n.accept(this);
-        n.aalo.accept(this);
-
+        if(n.aalo != null) {
+            n.n.accept(this);
+            n.aalo.accept(this);
+        }
         decreaseIndent();
     }
 
@@ -1232,9 +1238,12 @@ public class ASTvisitor implements Visitor {
         printNode(n);
         increaseIndent();
 
+
         n.apt.accept(this);
         n.abee.accept(this);
-        n.abeo.accept(this);
+        if(n.abeo != null) {
+            n.abeo.accept(this);
+        }
 
         decreaseIndent();
     }

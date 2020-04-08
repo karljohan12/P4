@@ -208,7 +208,10 @@ name	                        ::= IDENTIFIER:ident
 
 Start                           ::= globalVariables:gvs functionStmtsOpt:fso
                                       {: RESULT = new GlobalVarfuncStmtOpt(gvs, fso, gvsleft); :}
-                                  | functionStmtsOpt:fso
+                                  | functionStmts
+
+
+                                  :fso
                                       {: RESULT = new FuncStmtOpt(fso, fsoleft); :};
 
 

@@ -7,8 +7,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import java.io.*;
+
+import AST.NonAbstract.Node.Program;
+import AST.Visitor.ASTvisitor;
 import Scanner.*;
 import Parser.*;
+import java_cup.runtime.Symbol;
 
 /**
  * Simple test driver for the java parser. Just runs it on some input files, gives no useful output.
@@ -25,7 +29,10 @@ public class JavaParser {
         System.out.println("Parsing [" + argv[i] + "]");
         Scanner s = new Scanner(new UnicodeEscapes(new FileReader(argv[i])));
         parser p = new parser(s);
-        p.parse();
+        Symbol root = p.parse();
+        Program program = (Program)root.value;
+        program.accept(new ASTvisitor());
+
         System.out.println("No errors.");
       } catch (Exception e) {
         e.printStackTrace(System.err);
