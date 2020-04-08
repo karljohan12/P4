@@ -1,13 +1,12 @@
 package AST.NonAbstract.Node;
 import AST.Abstract.*;
-import AST.NonAbstract.Nonterminal.Name;
 import AST.Visitor.Visitor;
 
 
 public class NameType extends AbstractReferenceType {
-    public Name n;
+    public Identifier n;
 
-    public NameType(Name n1, int ln){
+    public NameType(Identifier n1, int ln){
         super(ln);
         n = n1;
     }

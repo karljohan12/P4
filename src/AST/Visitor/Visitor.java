@@ -1,7 +1,6 @@
 package AST.Visitor;
 
 import AST.Abstract.AbstractUnaryExprNotPlusMinus;
-import AST.NonAbstract.Nonterminal.*;
 import AST.NonAbstract.Node.*;
 
 public interface Visitor {
@@ -63,7 +62,7 @@ public interface Visitor {
     public void visit(FunctionDeclerator n);
     public void visit(FunctionDecleratorBrack n);
     public void visit(FunctionDeclStatement n);
-    public void visit(AST.NonAbstract.Node.FunctionHeaderBody n);
+    public void visit(FunctionHeaderBody n);
     public void visit(FunctionStmtsFunctionDecl n);
     public void visit(GlobalVarfuncStmtOpt n);
     public void visit(GlobalVariablesStmt n);
@@ -137,7 +136,7 @@ public interface Visitor {
     public void visit(RelationExpression n);
     public void visit(ReturnStatementWithoutSubstatement n);
     public void visit(ReturnStmtExpr n);
-    public void visit(robotType n);
+    public void visit(RobotType n);
     public void visit(Semicolon n);
     public void visit(SemiColonFunction n);
     public void visit(ServoInitLiteral n);
@@ -184,33 +183,4 @@ public interface Visitor {
     public void visit(voidFunctionDeclerator n);
     public void visit(WhileExpr n);
     public void visit(WhileStmtExpr n);
-    public void visit(Assignment n);
-    public void visit(Block n);
-    public void visit(BracketEnclosureExpr n);
-    public void visit(BracketEnclosureOpt n);
-    public void visit(BreakStmt n);
-    public void visit(ConstantExpr n);
-    public void visit(EmptyStmt n);
-    public void visit(Expr n);
-    public void visit(ExprStmt n);
-    public void visit(ForStmt n);
-    public void visit(FunctionCall n);
-    public void visit(FunctionHeaderBody n);
-    public void visit(GlobalVariable n);
-    public void visit(GlobalVariables n);
-    public void visit(IfThenElseIfWithoutElse n);
-    public void visit(IfThenElseStmt n);
-    public void visit(IfThenStmt n);
-    public void visit(LocalVariableDeclStmt n);
-    public void visit(Name n);
-    public void visit(PostdecrementExpr n);
-    public void visit(PostincrementExpr n);
-    public void visit(PredecrementExpr n);
-    public void visit(AbstractUnaryExprNotPlusMinus.AbstractPreincrementExpr n);
-    public void visit(ReturnStmt n);
-    public void visit(ServoInit n);
-    public void visit(SwitchBlockStmtGroup n);
-    public void visit(SwitchStmt n);
-    public void visit(WhileStmt n);
-
 }

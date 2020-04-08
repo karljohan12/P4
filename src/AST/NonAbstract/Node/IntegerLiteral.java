@@ -5,14 +5,19 @@ import AST.Abstract.AbstractLiteral;
 import AST.Visitor.Visitor;
 //revision
 public class IntegerLiteral extends AbstractLiteral {
-    public Literal l;
+    public int i;
 
-    public IntegerLiteral(Literal l, int ln) {
+    public IntegerLiteral(int i, int ln) {
         super(ln);
-        this.l = l;
+        this.i = i;
     }
 
     public void accept(Visitor v) {
         v.visit(this);
+    }
+
+    public String toString() {
+        String s = String.valueOf(i);
+        return s;
     }
 }

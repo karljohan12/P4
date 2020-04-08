@@ -1,10 +1,9 @@
 package AST.Abstract;
 
+import AST.Visitor.Visitor;
+
 abstract public class AbstractAssignmentOperator extends ASTNode {
     public AbstractAssignmentOperator(int ln) {
         super(ln);
     }
-    public void accept(Visitor v) {
-        v.visit(this);
-    }
-}
+    public abstract void accept(Visitor v);}

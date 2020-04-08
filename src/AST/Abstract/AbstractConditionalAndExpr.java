@@ -1,10 +1,9 @@
 package AST.Abstract;
 
+import AST.Visitor.Visitor;
+
 abstract public class AbstractConditionalAndExpr extends ASTNode {
     public AbstractConditionalAndExpr(int ln) {
         super(ln);
     }
-    public void accept(Visitor v) {
-        v.visit(this);
-    }
-}
+    public abstract void accept(Visitor v);}

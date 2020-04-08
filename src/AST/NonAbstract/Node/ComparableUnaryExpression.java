@@ -7,8 +7,6 @@ import AST.Visitor.Visitor;
 public class ComparableUnaryExpression extends AbstractUnaryExprNotPlusMinus {
     public AbstractunaryExpr aue;
 
-
-
     public ComparableUnaryExpression(AbstractunaryExpr aue, int ln) {
         super(ln);
         this.aue = aue;

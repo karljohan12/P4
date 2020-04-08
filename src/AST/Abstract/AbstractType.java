@@ -1,10 +1,9 @@
 package AST.Abstract;
 
+import AST.Visitor.Visitor;
+
 abstract public class AbstractType extends ASTNode {
     public AbstractType(int ln) {
         super(ln);
     }
-    public void accept(Visitor v) {
-        v.visit(this);
-    }
-}
+    public abstract void accept(Visitor v);}

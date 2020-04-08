@@ -5,13 +5,17 @@ import AST.Abstract.AbstractLiteral;
 import AST.Visitor.Visitor;
 //revision
 public class NullLiteral extends AbstractLiteral {
-    public Literal l;
+    public Object o;
 
-    public NullLiteral(Literal l, int ln) {
+    public NullLiteral(Object o, int ln) {
         super(ln);
-        this.l = l;
+        this.o = o;
     }
     public void accept(Visitor v) {
         v.visit(this);
+    }
+
+    public String toString() {
+        return "NULL";
     }
 }

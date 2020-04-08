@@ -11,8 +11,6 @@ public class BracketEnclosureBrack extends AbstractBracketEnclosure {
         abe = abe1;
     }
 
-
-
     public void accept(Visitor v) {
         v.visit(this);
     }

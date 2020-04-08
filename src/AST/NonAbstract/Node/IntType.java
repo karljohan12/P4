@@ -3,11 +3,9 @@ import AST.Abstract.*;
 import AST.Visitor.Visitor;
 //revision
 public class IntType extends AbstractNumericType {
-    public IntType it;
 
-    public IntType(IntType it1, int ln){
+    public IntType(int ln){
         super(ln);
-        it = it1;
     }
 
     public void accept(Visitor v) {

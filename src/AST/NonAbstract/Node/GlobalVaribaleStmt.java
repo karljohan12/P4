@@ -4,9 +4,9 @@ import AST.Abstract.AbstractGlobalVariables;
 import AST.Visitor.Visitor;
 
 public class GlobalVaribaleStmt extends AbstractGlobalVariables {
-    public GlobalVariable gv;
+    public localVariableDeclStmtGlobal gv;
 
-    public GlobalVaribaleStmt(GlobalVariable gv1, int ln){
+    public GlobalVaribaleStmt(localVariableDeclStmtGlobal gv1, int ln){
         super(ln);
         gv = gv1;
     }

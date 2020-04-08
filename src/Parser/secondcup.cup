@@ -49,8 +49,8 @@ terminal PLUSEQ, MINUSEQ;
 terminal WHEN, THEN;
 terminal ROBOT, SERVOPOSITION, SERVO;
 
-terminal java.lang.Number INTEGER_LITERAL;
-terminal java.lang.Number FLOATING_POINT_LITERAL;
+terminal Integer INTEGER_LITERAL;
+terminal double FLOATING_POINT_LITERAL;
 terminal java.lang.Boolean BOOLEAN_LITERAL;
 terminal java.lang.String IDENTIFIER;
 terminal java.lang.String STRING_LITERAL;
@@ -166,9 +166,9 @@ literal                         ::=	INTEGER_LITERAL:il
 	                              |	FLOATING_POINT_LITERAL:fl
 	                                  {: RESULT = new FloatLiteral(fl, flleft); :}
 	                              |	BOOLEAN_LITERAL:bl
-	                                  {: RESULT =new BoolLiteral(bl, blleft); :}
+	                                  {: RESULT = new BoolLiteral(bl, blleft); :}
 	                              |	NULL_LITERAL: nl
-	                                  {: RESULT =new NullLiteral(nl, nlleft); :}
+	                                  {: RESULT = new NullLiteral(nl, nlleft); :}
                                   |	STRING_LITERAL:sl
                                       {: RESULT = new StrLiteral(sl, slleft); :};
 
@@ -180,14 +180,14 @@ type	                        ::=	primitiveType:pt
 primitiveType                   ::= numericType:nt
 	                            	  {: RESULT = new NumericType(nt, ntleft); :}
 	                              | SERVO:st
-	                                  {: RESULT = new ServoPrimitiveType(st, stleft); :}
+	                                  {: RESULT = new ServoPrimitiveType(stleft); :}
 	                              |	BOOLEAN:bt
-	                                  {: RESULT = new BoolType(bt, btleft); :};
+	                                  {: RESULT = new BoolType(btleft); :};
 
 numericType                     ::= INT:it
-                                      {: RESULT = new IntType(it, itleft); :}
+                                      {: RESULT = new IntType(itleft); :}
 	                              |	DOUBLE:ft
-	                                  {: RESULT = new FloatType(ft, ftleft); :};
+	                                  {: RESULT = new FloatType(ftleft); :};
 
 referenceType                   ::= arrayType:at
                                       {: RESULT = new ArrayType(at, atleft); :}
@@ -240,7 +240,7 @@ variableDecl                    ::= variableDeclId:vdi
 	                                  {: RESULT = new VariableDeclIdVariableInit(vdi, vi, vdileft); :};
 
 variableDeclId                  ::= IDENTIFIER:ident
-	                                  {: RESULT = new Ident(ident.s, identleft); :}
+	                                  {: RESULT = new Ident(ident.toString(), identleft); :}
 	                              |	variableDeclId:vdi LBRACK RBRACK
 	                                  {: RESULT = new variableDecIDBrackBrack(vdi, vdileft); :};
 

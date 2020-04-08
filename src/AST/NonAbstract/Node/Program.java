@@ -1,18 +1,19 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.ASTNode;
-import AST.Abstract.AbstractLiteral;
+import AST.Abstract.AbstractStart;
 import AST.Visitor.Visitor;
 
-public class StrLiteral extends AbstractLiteral {
-    public String s;
+public class Program extends ASTNode {
+    public AbstractStart s;
 
-    public StrLiteral(String s, int ln) {
+    public Program(AbstractStart as, int ln){
         super(ln);
-        this.s = s;
-    }
+        s = as;
 
+    }
     public void accept(Visitor v) {
         v.visit(this);
     }
+
 }

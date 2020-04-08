@@ -4,14 +4,18 @@ import AST.Abstract.ASTNode;
 import AST.Visitor.Visitor;
 
 public class Identifier extends ASTNode {
-    public Identifier i;
+    public String s;
 
-    public Identifier(Identifier i1, int ln){
+    public Identifier(String s, int ln){
         super(ln);
-        i = i1;
+        this.s = s;
     }
 
     public void accept(Visitor v) {
         v.visit(this);
+    }
+
+    public String toString() {
+        return s;
     }
 }

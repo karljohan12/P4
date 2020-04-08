@@ -6,7 +6,5 @@ abstract public class AbstractBracketEnclosureOpt extends ASTNode {
     public AbstractBracketEnclosureOpt(int ln) {
         super(ln);
     }
-    public void accept(Visitor v) {
-        v.visit(this);
-    }
+    public abstract void accept(Visitor v);
 }

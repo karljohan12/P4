@@ -6,7 +6,4 @@ abstract public class AbstractGlobalVariables extends ASTNode {
     public AbstractGlobalVariables(int ln) {
         super(ln);
     }
-    public void accept(Visitor v) {
-        v.visit(this);
-    }
-}
+    public abstract void accept(Visitor v);}

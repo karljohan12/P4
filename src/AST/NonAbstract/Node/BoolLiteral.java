@@ -5,14 +5,19 @@ import AST.Abstract.AbstractLiteral;
 import AST.Visitor.Visitor;
 //revision
 public class BoolLiteral extends AbstractLiteral {
-    public Literal l;
+    public boolean b;
 
-    public BoolLiteral(Literal l, int ln) {
+    public BoolLiteral(boolean b, int ln) {
         super(ln);
-        this.l = l;
+        this.b = b;
     }
 
     public void accept(Visitor v) {
         v.visit(this);
+    }
+
+    public String toString() {
+        String s = String.valueOf(b);
+        return s;
     }
 }

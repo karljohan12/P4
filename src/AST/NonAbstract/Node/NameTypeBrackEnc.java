@@ -3,10 +3,10 @@ import AST.Abstract.*;
 import AST.Visitor.Visitor;
 
 public class NameTypeBrackEnc extends AbstractArrayType {
-    public Name n;
+    public Identifier n;
     public AbstractBracketEnclosure abe;
 
-    public NameTypeBrackEnc(Name n1, AbstractBracketEnclosure abe1, int ln){
+    public NameTypeBrackEnc(Identifier n1, AbstractBracketEnclosure abe1, int ln){
         super(ln);
         n = n1;
         abe = abe1;

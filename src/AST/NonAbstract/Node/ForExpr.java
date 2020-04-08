@@ -17,7 +17,6 @@ public class ForExpr extends ASTNode {
         this.asel = asel;
     }
 
-
     public void accept(Visitor v) {
         v.visit(this);
     }

@@ -1,10 +1,9 @@
 package AST.Abstract;
 
+import AST.Visitor.Visitor;
+
 abstract public class AbstractSwitchLabel extends ASTNode {
     public AbstractSwitchLabel(int ln) {
         super(ln);
     }
-    public void accept(Visitor v) {
-        v.visit(this);
-    }
-}
+    public abstract void accept(Visitor v);}

@@ -11,8 +11,6 @@ public class LbrackexprRbrack extends ASTNode {
         e = e1;
     }
 
-
-
     public void accept(Visitor v) {
         v.visit(this);
     }

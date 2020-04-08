@@ -1,10 +1,10 @@
 package AST.Abstract;
 
+import AST.Visitor.Visitor;
+
 abstract public class AbstractArrayCreationExpr extends ASTNode{
     public AbstractArrayCreationExpr(int ln) {
         super(ln);
     }
-    public void accept(Visitor v) {
-        v.visit(this);
-    }
+    public abstract void accept(Visitor v);
 }
