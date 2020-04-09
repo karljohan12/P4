@@ -1,5 +1,2 @@
-int s = 1;
+void haps(int i);
 
-int main() BEGIN
-
-END

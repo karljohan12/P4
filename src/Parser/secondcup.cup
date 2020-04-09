@@ -159,7 +159,9 @@ start with program;
 
 
 program                         ::=	Start:s
-                                      {: RESULT = new Program(s, sleft); :};
+                                        {:RESULT = s;:}
+                                      //{: RESULT = new Program(s, sleft); :}
+                                      ;
 
 literal                         ::=	INTEGER_LITERAL:il
                                       {: RESULT = new IntegerLiteral(il, illeft); :}
@@ -173,12 +175,16 @@ literal                         ::=	INTEGER_LITERAL:il
                                       {: RESULT = new StrLiteral(sl, slleft); :};
 
 type	                        ::=	primitiveType:pt
-                                      {: RESULT = new PrimitiveType(pt, ptleft); :}
+                                        {:RESULT = pt;:}
+                                      //{: RESULT = new PrimitiveType(pt, ptleft); :}
 	                              |	referenceType:rt
-	                                  {: RESULT = new ReferenceType(rt, rtleft); :};
+	                                    {:RESULT = rt;:}
+	                                  //{: RESULT = new ReferenceType(rt, rtleft); :}
+	                                  ;
 
 primitiveType                   ::= numericType:nt
-	                            	  {: RESULT = new NumericType(nt, ntleft); :}
+                                        {:RESULT = nt;:}
+	                            	  //{: RESULT = new NumericType(nt, ntleft); :}
 	                              | SERVO:st
 	                                  {: RESULT = new ServoPrimitiveType(stleft); :}
 	                              |	BOOLEAN:bt
@@ -190,13 +196,16 @@ numericType                     ::= INT:it
 	                                  {: RESULT = new FloatType(ftleft); :};
 
 referenceType                   ::= arrayType:at
-                                      {: RESULT = new ArrayType(at, atleft); :}
+                                        {:RESULT = at;:}
+                                      //{: RESULT = new ArrayType(at, atleft); :}
                                   | ROBOT:rt
                                       {: RESULT = new RobotType(rtleft); :}
                                   | SERVOPOSITION:st
                                       {: RESULT = new ServoType(stleft); :}
                                   | name:n
-                                      {: RESULT = new NameType(n, nleft); :};
+                                        {:RESULT = n;:}
+                                      //{: RESULT = new NameType(n, nleft); :}
+                                      ;
 
 arrayType                       ::= primitiveType:pt bracketEnclosure:be
                                       {: RESULT = new PrimTypeBrackEnc(pt, be, ptleft);:}
@@ -208,37 +217,43 @@ name	                        ::= IDENTIFIER:ident
 
 Start                           ::= globalVariables:gvs functionStmtsOpt:fso
                                       {: RESULT = new GlobalVarfuncStmtOpt(gvs, fso, gvsleft); :}
-                                  | functionStmts
-
-
-                                  :fso
-                                      {: RESULT = new FuncStmtOpt(fso, fsoleft); :};
+                                  | functionStmts :fso
+                                        {:RESULT = fso;:}
+                                      //{: RESULT = new FuncStmtOpt(fso, fsoleft); :}
+                                      ;
 
 
 globalVariables                 ::= globalVariable:gv
-                                      {: RESULT = new GlobalVaribaleStmt(gv, gvleft); :}
+                                        {:RESULT = gv;:}
+                                      //{: RESULT = new GlobalVaribaleStmt(gv, gvleft); :}
                                   | globalVariables:gvs globalVariable:gv
                                       {: RESULT = new GlobalVariablesStmt(gvs, gv, gvsleft); :};
 
 globalVariable                  ::= localVariableDeclStmt:lvds
-                                      {: RESULT = new localVariableDeclStmtGlobal(lvds, lvdsleft); :};
+                                        {:RESULT = lvds;:}
+                                      //{: RESULT = new localVariableDeclStmtGlobal(lvds, lvdsleft); :}
+                                      ;
 
 functionStmtsOpt                ::= functionStmts:fs
-                                      {: RESULT = new Function(fs, fsleft); :}
+                                        {:RESULT = fs;:}
+                                      //{: RESULT = new Function(fs, fsleft); :}
                                   | ;
 
 functionStmts                   ::= functionDecl:fd
-                                      {: RESULT = new FunctionDeclStatement(fd, fdleft); :}
+                                        {:RESULT = fd;:}
+                                      //{: RESULT = new FunctionDeclStatement(fd, fdleft); :}
                                   | functionStmts:fs functionDecl:fd
                                       {: RESULT = new FunctionStmtsFunctionDecl(fs, fd, fsleft); :};
 
 variableDecls                   ::= variableDecl:vd
-                                      {: RESULT = new VariableDecl(vd, vdleft); :}
+                                        {:RESULT = vd;:}
+                                      //{: RESULT = new VariableDecl(vd, vdleft); :}
 	                              |	variableDecls:vds COMMA variableDecl:vd
 	                                  {: RESULT = new variableDeclsVariableDecl(vds, vd, vdsleft); :};
 
 variableDecl                    ::= variableDeclId:vdi
-	                                  {: RESULT = new VariableDeclId(vdi, vdileft); :}
+                                        {:RESULT = vdi;:}
+	                                  //{: RESULT = new VariableDeclId(vdi, vdileft); :}
 	                              |	variableDeclId:vdi EQ variableInit:vi
 	                                  {: RESULT = new VariableDeclIdVariableInit(vdi, vi, vdileft); :};
 
@@ -248,11 +263,15 @@ variableDeclId                  ::= IDENTIFIER:ident
 	                                  {: RESULT = new variableDecIDBrackBrack(vdi, vdileft); :};
 
 variableInit                    ::= expr:e
-		                              {: RESULT = new expr(e, eleft); :}
+                                        {:RESULT = e;:}
+		                              //{: RESULT = new expr(e, eleft); :}
 	                              |	arrayInit:ai
-	                                  {: RESULT = new ArrayInit(ai, aileft); :}
+	                                    {:RESULT = ai;:}
+	                                  //{: RESULT = new ArrayInit(ai, aileft); :}
 	                              | servoInit:sis
-	                                  {: RESULT = new ServoInitStmt(sis, sisleft); :};
+	                                    {:RESULT = sis;:}
+	                                  //{: RESULT = new ServoInitStmt(sis, sisleft); :}
+	                                  ;
 
 functionDecl                    ::= functionHeader:fh functionBody:fb
 		                              {: RESULT = new FunctionHeaderBody(fh, fb, fhleft); :};
@@ -269,10 +288,13 @@ functionDeclerator              ::= IDENTIFIER LPAREN formalParamListOpt:fplo RP
 
 formalParamListOpt              ::=
 	                              |	formalParamList:fpl
-	                                  {: RESULT = new FormalParamList(fpl, fplleft); :};
+	                                    {:RESULT = fpl;:}
+	                                  //{: RESULT = new FormalParamList(fpl, fplleft); :}
+	                                  ;
 
 formalParamList                 ::= formalParam:fp
-		                              {: RESULT = new FormalParam(fp, fpleft);:}
+                                        {:RESULT = fp;:}
+		                              //{: RESULT = new FormalParam(fp, fpleft);:}
      	                          | formalParamList:fpl COMMA formalParam:fp
     	                              {: RESULT = new FormalParamListFormalParam(fpl, fp, fplleft); :};
 
@@ -282,7 +304,8 @@ formalParam                     ::= type:t variableDeclId:vdi
 	                                  {: RESULT = new ConstTypeVariableDelcId(t, vdi, tleft); :};
 
 functionBody                    ::= block:b
-                                      {: RESULT = new FunctionBlock(b, bleft); :}
+                                     // {: RESULT = new FunctionBlock(b, bleft); :}
+                                        {:RESULT = b;:}
 	                              |	SEMICOLON:sc
 	                                  {: RESULT = new SemiColonFunction(scleft); :};
 
@@ -304,7 +327,8 @@ servoInit                       ::= LBRACE servoInits:si RBRACE
                                       {: RESULT = new ServoInitsStmt(si, sileft); :};
 
 variableInits                   ::= variableInit:vi
-		                              {: RESULT = new  VariableInit(vi, vileft); :}
+		                              //{: RESULT = new  VariableInit(vi, vileft); :}
+		                                {:RESULT = vi;:}
 	                              |	variableInits:vis COMMA variableInit:vi
 	                                  {: RESULT = new VariableInitsInit(vis, vi, visleft); :};
 
@@ -313,17 +337,23 @@ block                           ::= BEGIN blockStmtsOpt:bso END
 
 blockStmtsOpt                   ::=
 	                              |	blockStmts:bss
-	                                  {: RESULT = new BlockStmts(bss, bssleft); :};
+	                                    {:RESULT = bss;:}
+	                                  //{: RESULT = new BlockStmts(bss, bssleft); :}
+	                                  ;
 
 blockStmts                      ::= blockStmt:bs
-		                              {: RESULT = new BlockStmt(bs, bsleft); :}
+                                        {:RESULT = bs;:}
+		                              //{: RESULT = new BlockStmt(bs, bsleft); :}
 	                              |	blockStmts:bss blockStmt:bs
                                       {: RESULT = new BlockStmtstmt(bss, bs, bssleft); :};
 
 blockStmt                       ::= localVariableDeclStmt:lvds
-		                              {: RESULT = new localVariableDeclBlockStmt(lvds, lvdsleft); :}
+                                        {:RESULT = lvds;:}
+		                              //{: RESULT = new localVariableDeclBlockStmt(lvds, lvdsleft); :}
 	                              |	stmt:s
-	                                  {: RESULT = new stmt(s, sleft); :};
+	                                    {:RESULT = s;:}
+	                                  //{: RESULT = new stmt(s, sleft); :}
+	                                  ;
 
 localVariableDeclStmt           ::= localVariableDecl:lvd SEMICOLON
 		                              {: RESULT = new LocalVariableDeclStatement(lvd, lvdleft); :};
@@ -334,33 +364,49 @@ localVariableDecl               ::= type:t variableDecls:vds
 	                                  {: RESULT = new TypeVariableDecls(t, vds, tleft); :};
 
 stmt                            ::= stmtWithoutTrailingSubstatement:swtss
-                                      {: RESULT = new StmtWithoutTrailingSubstmt(swtss, swtssleft); :}
+                                        {:RESULT = swtss;:}
+                                      //{: RESULT = new StmtWithoutTrailingSubstmt(swtss, swtssleft); :}
 	                              |	ifThenStmt:its
-	                                  {: RESULT = new IfThenStmtExpr(its, itsleft); :}
+	                                    {:RESULT = its;:}
+	                                  //{: RESULT = new IfThenStmtExpr(its, itsleft); :}
 	                              |	ifThenElseStmt:ites
-	                                  {: RESULT = new IfThenElseStmtExpr(ites, itesleft); :}
+	                                    {:RESULT = ites;:}
+	                                  //{: RESULT = new IfThenElseStmtExpr(ites, itesleft); :}
 	                              |	whileStmt:ws
-	                                  {: RESULT = new WhileStmtExpr(ws, wsleft); :}
+	                                    {:RESULT = ws;:}
+	                                  //{: RESULT = new WhileStmtExpr(ws, wsleft); :}
 	                              |	forStmt:fs
-	                                  {: RESULT = new ForStmtExpr(fs, fsleft); :};
+	                                    {:RESULT = fs;:}
+	                                  //{: RESULT = new ForStmtExpr(fs, fsleft); :}
+	                                  ;
 
 stmtIfWithoutElse               ::= stmtWithoutTrailingSubstatement:swtss
-		                              {: RESULT = new StmtWithoutTrailingSubstatement(swtss, swtssleft); :} // same as 361
+                                        {:RESULT = swtss;:}
+		                              //{: RESULT = new StmtWithoutTrailingSubstatement(swtss, swtssleft); :}
 	                              |	ifThenElseIfWithoutElse:iteiwe
-	                                  {: RESULT = new IfThenElseIfWithoutElseStatement(iteiwe, iteiweleft); :};
+	                                    {:RESULT = iteiwe;:}
+	                                  //{: RESULT = new IfThenElseIfWithoutElseStatement(iteiwe, iteiweleft); :}
+	                                  ;
 
 stmtWithoutTrailingSubstatement ::= block:b
-		                              {: RESULT = new StatementBlock(b, bleft); :}
+                                        {:RESULT = b;:}
+		                              //{: RESULT = new StatementBlock(b, bleft); :}
 	                              |	emptyStmt:es
-	                                  {: RESULT = new EmptystmtWithoutSubstatement(es, esleft); :}
+	                                    {:RESULT = es;:}
+	                                  //{: RESULT = new EmptystmtWithoutSubstatement(es, esleft); :}
 	                              |	exprStmt:exs
-	                                  {: RESULT = new ExprStmtWithoutSubstatement(exs, exsleft); :}
+	                                    {:RESULT = exs;:}
+	                                  //{: RESULT = new ExprStmtWithoutSubstatement(exs, exsleft); :}
 	                              |	switchStmt:ss
-	                                  {: RESULT = new SwitchStmtWithoutSubstatement(ss, ssleft); :}
+	                                    {:RESULT = ss;:}
+	                                  //{: RESULT = new SwitchStmtWithoutSubstatement(ss, ssleft); :}
 	                              |	breakStmt:breaks
-	                                  {: RESULT = new BreakStatementWithoutSubstatement(breaks, breaksleft); :}
+	                                    {:RESULT = breaks;:}
+	                                  //{: RESULT = new BreakStatementWithoutSubstatement(breaks, breaksleft); :}
 	                              |	returnStmt:rs
-	                                  {: RESULT = new ReturnStatementWithoutSubstatement(rs, rsleft); :};
+	                                    {:RESULT = rs;:}
+	                                  //{: RESULT = new ReturnStatementWithoutSubstatement(rs, rsleft); :}
+	                                  ;
 
 emptyStmt                       ::= SEMICOLON:sc
 		                              {: RESULT = new Semicolon(scleft); :};
@@ -369,17 +415,24 @@ exprStmt                        ::= stmtExpr:se SEMICOLON
 		                              {: RESULT = new StmtExpr(se, seleft); :};
 
 stmtExpr                        ::= assignment:a
-		                              {: RESULT =  new AssignmentStmt(a, aleft); :}
+                                        {:RESULT = a;:}
+		                              //{: RESULT =  new AssignmentStmt(a, aleft); :}
 	                              |	preincrementExpr:pie
-	                                  {: RESULT = new PreIncrementExprStmt(pie, pieleft); :}
+	                                    {:RESULT = pie;:}
+	                                  //{: RESULT = new PreIncrementExprStmt(pie, pieleft); :}
 	                              |	predecrementExpr:pde
-	                                  {: RESULT = new PreDecrementExprStmt(pde, pdeleft); :}
+	                                    {:RESULT = pde;:}
+	                                  //{: RESULT = new PreDecrementExprStmt(pde, pdeleft); :}
 	                              |	postincrementExpr:post
-	                                  {: RESULT = new PostincrementExprStmt(post, postleft); :}
+	                                    {:RESULT = post;:}
+	                                  //{: RESULT = new PostincrementExprStmt(post, postleft); :}
                                   |	postdecrementExpr:pode
-	                                  {: RESULT = new PostdecrementExprStmt(pode, podeleft); :}
+                                        {:RESULT = pode;:}
+	                                  //{: RESULT = new PostdecrementExprStmt(pode, podeleft); :}
 	                              |	functionCall:fc
-	                                  {: RESULT = new FunctionCallStatement(fc, fcleft); :};
+	                                    {:RESULT = fc;:}
+	                                  //{: RESULT = new FunctionCallStatement(fc, fcleft); :}
+	                                  ;
 
 ifThenStmt                      ::= IF LPAREN expr:e RPAREN stmt:s
 		                              {: RESULT = new IfLparenExprRparen(e, s, eleft); :};
@@ -403,7 +456,8 @@ switchBlock                     ::= BEGIN switchBlockStmtGroups:sbsgs switchLabe
 	                                  {: RESULT = new Beginings(bleft); :};
 
 switchBlockStmtGroups           ::= switchBlockStmtGroup:sbsg
-		                              {: RESULT = new SwitchBlockGroup(sbsg, sbsgleft);:}
+                                        {:RESULT = sbsg;:}
+		                              //{: RESULT = new SwitchBlockGroup(sbsg, sbsgleft);:}
 	                              |	switchBlockStmtGroups:sbsgs switchBlockStmtGroup:sbsg
 	                                  {: RESULT = new switchBlockSwitchBlock(sbsgs, sbsg, sbsgsleft); :};
 
@@ -411,7 +465,8 @@ switchBlockStmtGroup            ::= switchLabels:sls blockStmts:bs
 		                              {: RESULT = new SwitchLabelBlock(sls, bs, slsleft); :};
 
 switchLabels                    ::= switchLabel:sl
-		                              {: RESULT = new SwitchLabel(sl, slleft); :}
+                                        {:RESULT = sl;:}
+		                              //{: RESULT = new SwitchLabel(sl, slleft); :}
 	                              |	switchLabels:sls switchLabel:sl
 	                                  {: RESULT = new SwitchLabelsLabel(sls, sl, slsleft); :};
 
@@ -427,12 +482,16 @@ forStmt                         ::= FOR LPAREN forInit:fi WHEN expr:e THEN stmtE
 			                          {: RESULT = new ForExpr(fi, e, sel, fileft); :};
 
 forInit                         ::= stmtExprList:sel
-                                      {: RESULT = new StmtExprList(sel, selleft); :}
+                                        {:RESULT = sel;:}
+                                      //{: RESULT = new StmtExprList(sel, selleft); :}
 	                              |	localVariableDecl:lvd
-	                                  {: RESULT = new localVariableDecl(lvd, lvdleft); :};
+	                                    {:RESULT = lvd;:}
+	                                  //{: RESULT = new localVariableDecl(lvd, lvdleft); :}
+	                                  ;
 
 stmtExprList                    ::= stmtExpr:se
-		                              {: RESULT = new StExpr(se, seleft); :}
+                                      {:RESULT = se;:}
+		                              //{: RESULT = new StExpr(se, seleft); :}
 	                              |	stmtExprList:sel COMMA stmtExpr:se
 	                                  {: RESULT = new StmtExprListStmtExpr(sel, se, selleft); :};
 
@@ -443,25 +502,36 @@ returnStmt                      ::= RETURN expr:e SEMICOLON
 		                              {: RESULT = new ReturnStmtExpr(e, eleft); :};
 
 primary                         ::= primaryNoNewArray:pnna
-                                      {: RESULT = new PrimaryNoNewArr(pnna, pnnaleft); :}
+                                        {:RESULT = pnna;:}
+                                      //{: RESULT = new PrimaryNoNewArr(pnna, pnnaleft); :}
 	                              |	arrayCreationExpr:ace
-	                                  {: RESULT = new ArrCreate(ace, aceleft); :};
+	                                    {:RESULT = ace;:}
+	                                  //{: RESULT = new ArrCreate(ace, aceleft); :}
+	                                  ;
 	                          
 primaryNoNewArray               ::= literal:l
-                                      {: RESULT = new NoArrayLiteral(l, lleft);:}
+                                        {:RESULT = l;:}
+                                      //{: RESULT = new NoArrayLiteral(l, lleft);:}
 	                              |	LPAREN expr:e RPAREN
-	                                  {: RESULT = new LeftParenthesisExpressionRightParenthesis(e, eleft); :}
+	                                   {:RESULT = e;:}
+	                                  //{: RESULT = new LeftParenthesisExpressionRightParenthesis(e, eleft); :}
 	                              |	functionCall:fc
-	                                  {: RESULT = new FunctionCallArray(fc, fcleft); :}
+	                                    {:RESULT = fc;:}
+	                                  //{: RESULT = new FunctionCallArray(fc, fcleft); :}
 	                              |	arrayAccess:aa
-	                                  {: RESULT = new ArrayAccessNoNewArray(aa, aaleft); :};
+	                                  {:RESULT = aa;:}
+	                                  //{: RESULT = new ArrayAccessNoNewArray(aa, aaleft); :}
+	                                  ;
 
 argumentListOpt                 ::=
 	                              |	argumentList:al
-	                                  {: RESULT = new ArgumentList(al, alleft);:};
+	                                    {:RESULT = al;:}
+	                                  //{: RESULT = new ArgumentList(al, alleft);:}
+	                                  ;
 
 argumentList                    ::= expr:e
-		                              {: RESULT = new Expression(e, eleft); :}
+                                        {:RESULT = e;:}
+		                              //{: RESULT = new Expression(e, eleft); :}
 	                              |	argumentList:al COMMA expr:e
 	                                  {: RESULT = new ArgumentListCommaExpression(al, e, alleft); :};
 
@@ -471,7 +541,8 @@ arrayCreationExpr               ::= primitiveType:pt bracketEnclosureExprs:bee b
 	                                  {: RESULT = new PrimitiveTypeBracketEnclosureArrayInit(pt, be, ai, ptleft); :};
 
 bracketEnclosureExprs           ::= bracketEnclosureExpr:bee
-                                      {: RESULT = new BracketEnclosureExpression(bee, beeleft); :}
+                                        {:RESULT = bee;:}
+                                      //{: RESULT = new BracketEnclosureExpression(bee, beeleft); :}
 	                              |	bracketEnclosureExprs:bees bracketEnclosureExpr:bee
 	                                  {: RESULT = new BracketEnclosureExprsExpr(bees, bee, beesleft); :};
 
@@ -480,7 +551,9 @@ bracketEnclosureExpr            ::= LBRACK expr:e RBRACK
 
 bracketEnclosureOpt             ::=
 	                              |	bracketEnclosure:be
-	                                  {: RESULT = new BracketEnc(be, beleft); :};
+	                                    {:RESULT = be;:}
+	                                  //{: RESULT = new BracketEnc(be, beleft); :}
+	                                  ;
 
 bracketEnclosure                ::= LBRACK:lb RBRACK
                                       {: RESULT = new LbrackRbrack(lbleft); :}
@@ -496,13 +569,18 @@ arrayAccess                     ::= name:n LBRACK expr:e RBRACK
 	                                  {: RESULT = new PrimaryNoNewArrayLeftBracketExpressionRightBracket(pnna, e, pnnaleft); :};
 
 postfixExpr                     ::= primary:p
-	                                  {: RESULT = new Primary(p, pleft); :}
+                                        {:RESULT = p;:}
+	                                  //{: RESULT = new Primary(p, pleft); :}
 	                              |	name:n
-	                                  {: RESULT = new NameExpression(n, nleft); :}
+	                                    {:RESULT = n;:}
+	                                  //{: RESULT = new NameExpression(n, nleft); :}
 	                              |	postincrementExpr:pie
-	                                  {: RESULT = new PostIncrementExpression(pie, pieleft); :}
+	                                    {:RESULT = pie;:}
+	                                  //{: RESULT = new PostIncrementExpression(pie, pieleft); :}
 	                              |	postdecrementExpr:pde
-	                                  {: RESULT = new PostDecrementExpression(pde, pdeleft); :};
+	                                    {:RESULT = pde;:}
+	                                  //{: RESULT = new PostDecrementExpression(pde, pdeleft); :}
+	                                  ;
 
 postincrementExpr               ::= postfixExpr:pe PLUSPLUS
 		                              {: RESULT = new postfixExpressionPlusPlus(pe, peleft); :};
@@ -511,9 +589,11 @@ postdecrementExpr               ::= postfixExpr:pe MINUSMINUS
                                       {: RESULT = new PostfixExpressionMinusMinus(pe, peleft); :};
 
 unaryExpr                       ::= preincrementExpr:pie
-		                              {: RESULT = new PreIncrementExpression(pie, pieleft); :}
+                                        {:RESULT = pie;:}
+		                              //{: RESULT = new PreIncrementExpression(pie, pieleft); :}
 	                              |	predecrementExpr:pde
-	                                  {: RESULT = new PredecrementExpression(pde, pdeleft); :}
+	                                    {:RESULT = pde;:}
+	                                  //{: RESULT = new PredecrementExpression(pde, pdeleft); :}
 	                              |	PLUS unaryExpr:ue
 	                                  {: RESULT = new PlusUnaryExpression(ue, ueleft); :}
 	                              |	MINUS unaryExpr:ue
@@ -528,14 +608,16 @@ predecrementExpr                ::= MINUSMINUS unaryExpr:ue
 		                              {: RESULT = new MinusMinusUnaryExpression(ue, ueleft); :};
 
 unaryExprNotPlusMinus           ::= postfixExpr:pe
-		                              {: RESULT = new PostfixExpression(pe, peleft); :}
+                                      {:RESULT = pe;:}
+		                              //{: RESULT = new PostfixExpression(pe, peleft); :}
 	                              |	COMP unaryExpr:ue
 	                                  {: RESULT = new ComparableUnaryExpression(ue, ueleft); :}
 	                              |	NOT unaryExpr:ue
 	                                  {: RESULT = new NotUnaryExpression(ue, ueleft); :};
 
 mulExpr                         ::= unaryExpr:ue
-		                              {: RESULT = new UnaryExpression(ue, ueleft); :}
+                                        {:RESULT = ue;:}
+		                              //{: RESULT = new UnaryExpression(ue, ueleft); :}
 	                              |	mulExpr:me MULT unaryExpr:ue
 	                                  {: RESULT = new MultiplicationExpressionMultiplicationUnaryExpression(me, ue, meleft); :}
 	                              |	mulExpr:me DIV unaryExpr:ue
@@ -544,14 +626,16 @@ mulExpr                         ::= unaryExpr:ue
 	                                  {: RESULT = new MultiplicationExpressionModuloUnaryExpression(me, ue, meleft); :};
 
 plusExpr                        ::= mulExpr:me
-	                                  {: RESULT = new MultipicationExpression(me, meleft); :}
+                                        {:RESULT = me;:}
+	                                  //{: RESULT = new MultipicationExpression(me, meleft); :}
 	                              |	plusExpr:pe PLUS mulExpr:me
 	                                  {: RESULT = new PlusExpressionPlusMultiplicationExpression(pe, me, peleft); :}
 	                              |	plusExpr:pe MINUS mulExpr:me
 	                                  {: RESULT = new PlusExpressionMinusMtiplicationExpression(pe, me, peleft); :};
 
 relationalExpr                  ::= plusExpr:pe
-		                              {: RESULT = new PlusExpression(pe, peleft); :}
+                                        {:RESULT = pe;:}
+		                              //{: RESULT = new PlusExpression(pe, peleft); :}
 	                              |	relationalExpr:re LT plusExpr:pe
 	                                  {: RESULT = new LessThan(re, pe, releft); :}
 	                              |	relationalExpr:re GT plusExpr:pe
@@ -562,42 +646,52 @@ relationalExpr                  ::= plusExpr:pe
 	                                  {: RESULT = new GreaterThanEqual(re, pe, releft); :};
 
 equalExpr                       ::= relationalExpr:re
-		                              {: RESULT = new RelationExpression(re, releft); :}
+                                        {:RESULT = re;:}
+		                              //{: RESULT = new RelationExpression(re, releft); :}
 	                              |	equalExpr:ee EQEQ relationalExpr:re
 	                                  {: RESULT = new EqualEqualExpression(ee, re, eeleft); :}
 	                              |	equalExpr:ee NOTEQ relationalExpr:re
 	                                  {: RESULT = new NotEqualExpression(ee, re, eeleft); :};
 
 conditionalAndExpr              ::= equalExpr:ee
-                                      {: RESULT = new EqualExpression(ee, eeleft); :}
+                                        {:RESULT = ee;:}
+                                      //{: RESULT = new EqualExpression(ee, eeleft); :}
 	                              |	conditionalAndExpr:cae ANDAND equalExpr:ee
 	                                  {: RESULT = new ConditionalAndAndExpression(cae, ee, caeleft); :};
 
 conditionalOrExpr               ::= conditionalAndExpr:cae
-		                              {: RESULT = new ConditionalAndExpression(cae, caeleft); :}
+                                        {:RESULT = cae;:}
+		                              //{: RESULT = new ConditionalAndExpression(cae, caeleft); :}
 	                              |	conditionalOrExpr:coe OROR conditionalAndExpr:cae
 	                                  {: RESULT = new ConditionalOrExprOrOrConditionalAndExpr(coe, cae, coeleft) ;:};
 
 conditionalExpr                 ::= conditionalOrExpr:coe
-                                      {: RESULT = new ConditionalOrExpression(coe, coeleft); :}
+                                        {:RESULT = coe;:}
+                                      //{: RESULT = new ConditionalOrExpression(coe, coeleft); :}
 	                              | conditionalOrExpr:coe QUESTION expr:e COLON conditionalExpr:ce
 			                          {: RESULT = new TernaryExpression(coe, e, ce, coeleft); :};
 
 assignmentExpr                  ::= conditionalExpr:ce
-		                              {: RESULT = new ConditionalExpression(ce, celeft); :}
+                                        {:RESULT = ce;:}
+		                              //{: RESULT = new ConditionalExpression(ce, celeft); :}
 	                              | assignment:a
-	                                  {: RESULT = new AssignmentExpression(a, aleft); :};
+	                                    {:RESULT = a;:}
+	                                  //{: RESULT = new AssignmentExpression(a, aleft); :}
+	                                  ;
 
 assignment                      ::=	leftHandSide:lhs assignmentOperator:ao assignmentExpr:ae
                                       {: RESULT = new AssignmentExpr(lhs, ao, ae, lhsleft); :};
 
 leftHandSide                    ::= name:n
-		                              {: RESULT = new NameAssign(n, nleft); :}
+                                        {:RESULT = n;:}
+		                              //{: RESULT = new NameAssign(n, nleft); :}
 	                              |	arrayAccess:aa
 	                                  {: RESULT = new ArrayAccess(aa, aaleft); :};
 
 expr                            ::=	assignmentExpr:ae
-                                      {: RESULT = new ExpressionAssignment(ae, aeleft); :};
+                                        {:RESULT = ae;:}
+                                      //{: RESULT = new ExpressionAssignment(ae, aeleft); :}
+                                      ;
 
 assignmentOperator              ::= EQ:eq
 		                              {: RESULT = new Equal(eqleft); :}
@@ -607,4 +701,6 @@ assignmentOperator              ::= EQ:eq
 	                                  {: RESULT = new MinusEqual(meleft); :};
 
 constantExpr                    ::= expr:e
-		                              {: RESULT = new ConstantExpression(e, eleft); :};
+                                        {:RESULT = e;:}
+		                              //{: RESULT = new ConstantExpression(e, eleft); :}
+		                              ;
