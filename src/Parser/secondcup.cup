@@ -686,7 +686,9 @@ leftHandSide                    ::= name:n
                                         {:RESULT = n;:}
 		                              //{: RESULT = new NameAssign(n, nleft); :}
 	                              |	arrayAccess:aa
-	                                  {: RESULT = new ArrayAccess(aa, aaleft); :};
+	                                    {:RESULT = aa;:}
+	                                  //{: RESULT = new ArrayAccess(aa, aaleft); :}
+	                                  	                                  ;
 
 expr                            ::=	assignmentExpr:ae
                                         {:RESULT = ae;:}
