@@ -6,8 +6,10 @@ import AST.Visitor.Visitor;
 public class ConstantExpression extends ASTNode {
     public ExpressionAssignment e;
 
+
     public ConstantExpression(ExpressionAssignment e, int ln) {
         super(ln);
+        this.e=e;
     }
     public void accept(Visitor v) {
         v.visit(this);

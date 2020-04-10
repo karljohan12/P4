@@ -55,7 +55,7 @@ TraditionalComment = "/*" [^*] ~"*/" | "/*" "*"+ "/"
 SingleLineComment = "//" [^\r\n]*[\r|\n|\r\n]?
 
 /*Identifiers*/
-Identifier = [A-z][A-z|0-9]*
+Identifier = [A-Z|a-z][A-Z|a-z|0-9]*
 
 /*integers*/
 Integer = 0 |[1-9][0-9]*
@@ -127,7 +127,7 @@ StringCharacter = [^\r\n\"\\]
       ">"                            { return symbol(GT); }
       "<"                            { return symbol(LT); }
       "!"                            { return symbol(NOT); }
-      "~"                            { return symbol(COMP); }
+      "%"                            { return symbol(MOD); }
       "?"                            { return symbol(QUESTION); }
       ":"                            { return symbol(COLON); }
       "=="                           { return symbol(EQEQ); }

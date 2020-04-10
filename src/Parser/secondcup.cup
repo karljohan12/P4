@@ -39,7 +39,7 @@ terminal BREAK;
 terminal RETURN;
 terminal PLUSPLUS;
 terminal MINUSMINUS;
-terminal PLUS, MINUS, COMP, NOT, DIV, MOD;
+terminal PLUS, MINUS, NOT, DIV, MOD;
 terminal LT, GT, LTEQ, GTEQ;
 terminal EQEQ, NOTEQ;
 terminal ANDAND;
@@ -208,10 +208,7 @@ name	                        ::= IDENTIFIER:ident
 
 Start                           ::= globalVariables:gvs functionStmtsOpt:fso
                                       {: RESULT = new GlobalVarfuncStmtOpt(gvs, fso, gvsleft); :}
-                                  | functionStmts
-
-
-                                  :fso
+                                  | functionStmts:fso
                                       {: RESULT = new FuncStmtOpt(fso, fsoleft); :};
 
 
@@ -243,9 +240,7 @@ variableDecl                    ::= variableDeclId:vdi
 	                                  {: RESULT = new VariableDeclIdVariableInit(vdi, vi, vdileft); :};
 
 variableDeclId                  ::= IDENTIFIER:ident
-	                                  {: RESULT = new Ident(ident.toString(), identleft); :}
-	                              |	variableDeclId:vdi LBRACK RBRACK
-	                                  {: RESULT = new variableDecIDBrackBrack(vdi, vdileft); :};
+	                                  {: RESULT = new Ident(ident.toString(), identleft); :};
 
 variableInit                    ::= expr:e
 		                              {: RESULT = new expr(e, eleft); :}
@@ -263,9 +258,7 @@ functionHeader                  ::= type:t functionDeclerator:fd
 	                                  {: RESULT = new voidFunctionDeclerator(fd, fdleft); :};
 
 functionDeclerator              ::= IDENTIFIER LPAREN formalParamListOpt:fplo RPAREN
-		                              {: RESULT = new FunctionDeclerator(fplo, fploleft); :}
-	                              |	functionDeclerator:fd LBRACK RBRACK
-	                                  {: RESULT = new FunctionDecleratorBrack(fd, fdleft); :};
+		                              {: RESULT = new FunctionDeclerator(fplo, fploleft); :};
 
 formalParamListOpt              ::=
 	                              |	formalParamList:fpl
@@ -286,12 +279,8 @@ functionBody                    ::= block:b
 	                              |	SEMICOLON:sc
 	                                  {: RESULT = new SemiColonFunction(scleft); :};
 
-arrayInit                       ::= LBRACE variableInits:vi COMMA RBRACE
-		                              {: RESULT = new VariableInitsComma(vi, vileft); :}
-	                              |	LBRACE variableInits:vi RBRACE
+arrayInit                       ::=	LBRACE variableInits:vi RBRACE
 	                                  {: RESULT = new VariableInitsBracks(vi, vileft); :}
-	                              |	LBRACE:lb COMMA RBRACE
-	                                  {: RESULT = new LBraceCommaRBrace(lbleft); :}
 	                              |	LBRACE:lb RBRACE
 	                                  {: RESULT = new LBRACERBRACE(lbleft); :};
 
@@ -346,8 +335,7 @@ stmt                            ::= stmtWithoutTrailingSubstatement:swtss
 
 stmtIfWithoutElse               ::= stmtWithoutTrailingSubstatement:swtss
 		                              {: RESULT = new StmtWithoutTrailingSubstatement(swtss, swtssleft); :} // same as 361
-	                              |	ifThenElseIfWithoutElse:iteiwe
-	                                  {: RESULT = new IfThenElseIfWithoutElseStatement(iteiwe, iteiweleft); :};
+		                              ;
 
 stmtWithoutTrailingSubstatement ::= block:b
 		                              {: RESULT = new StatementBlock(b, bleft); :}
@@ -387,8 +375,6 @@ ifThenStmt                      ::= IF LPAREN expr:e RPAREN stmt:s
 ifThenElseStmt                  ::= IF LPAREN expr:e RPAREN stmtIfWithoutElse:siwe ELSE stmt:s
 			                          {: RESULT = new IfLparenExprRparenStmtIfWithoutElseElseStmt(e, siwe, s, eleft); :};
 
-ifThenElseIfWithoutElse         ::= IF LPAREN expr:e RPAREN stmtIfWithoutElse:siwe1 ELSE stmtIfWithoutElse:siwe2
-			                          {: RESULT = new IfLparenExprRparenStmtWithoutElseElseStmtIfWithoutElse(e, siwe1, siwe2, eleft); :};
 
 switchStmt                      ::= SWITCH LPAREN expr:e RPAREN switchBlock:sb
 		                              {: RESULT = new Switch(e, sb, eleft); :};
@@ -432,9 +418,7 @@ forInit                         ::= stmtExprList:sel
 	                                  {: RESULT = new localVariableDecl(lvd, lvdleft); :};
 
 stmtExprList                    ::= stmtExpr:se
-		                              {: RESULT = new StExpr(se, seleft); :}
-	                              |	stmtExprList:sel COMMA stmtExpr:se
-	                                  {: RESULT = new StmtExprListStmtExpr(sel, se, selleft); :};
+		                              {: RESULT = new StExpr(se, seleft); :};
 
 breakStmt                       ::= BREAK:breaks SEMICOLON
 		                              {:RESULT = new BreakStmtExpr(breaksleft);:};
@@ -444,8 +428,7 @@ returnStmt                      ::= RETURN expr:e SEMICOLON
 
 primary                         ::= primaryNoNewArray:pnna
                                       {: RESULT = new PrimaryNoNewArr(pnna, pnnaleft); :}
-	                              |	arrayCreationExpr:ace
-	                                  {: RESULT = new ArrCreate(ace, aceleft); :};
+                                    ;
 	                          
 primaryNoNewArray               ::= literal:l
                                       {: RESULT = new NoArrayLiteral(l, lleft);:}
@@ -465,23 +448,6 @@ argumentList                    ::= expr:e
 	                              |	argumentList:al COMMA expr:e
 	                                  {: RESULT = new ArgumentListCommaExpression(al, e, alleft); :};
 
-arrayCreationExpr               ::= primitiveType:pt bracketEnclosureExprs:bee bracketEnclosureOpt:beo
-		                              {: RESULT = new PrimitiveTypeBracketEnclosureExpressionsBracketEnclosureOptional(pt, bee, beo, ptleft); :}
-	                              |	primitiveType:pt bracketEnclosure:be arrayInit:ai
-	                                  {: RESULT = new PrimitiveTypeBracketEnclosureArrayInit(pt, be, ai, ptleft); :};
-
-bracketEnclosureExprs           ::= bracketEnclosureExpr:bee
-                                      {: RESULT = new BracketEnclosureExpression(bee, beeleft); :}
-	                              |	bracketEnclosureExprs:bees bracketEnclosureExpr:bee
-	                                  {: RESULT = new BracketEnclosureExprsExpr(bees, bee, beesleft); :};
-
-bracketEnclosureExpr            ::= LBRACK expr:e RBRACK
-                                      {: RESULT = new LbrackexprRbrack(e, eleft); :};
-
-bracketEnclosureOpt             ::=
-	                              |	bracketEnclosure:be
-	                                  {: RESULT = new BracketEnc(be, beleft); :};
-
 bracketEnclosure                ::= LBRACK:lb RBRACK
                                       {: RESULT = new LbrackRbrack(lbleft); :}
 	                              |	bracketEnclosure:be LBRACK RBRACK
@@ -498,11 +464,7 @@ arrayAccess                     ::= name:n LBRACK expr:e RBRACK
 postfixExpr                     ::= primary:p
 	                                  {: RESULT = new Primary(p, pleft); :}
 	                              |	name:n
-	                                  {: RESULT = new NameExpression(n, nleft); :}
-	                              |	postincrementExpr:pie
-	                                  {: RESULT = new PostIncrementExpression(pie, pieleft); :}
-	                              |	postdecrementExpr:pde
-	                                  {: RESULT = new PostDecrementExpression(pde, pdeleft); :};
+	                                  {: RESULT = new NameExpression(n, nleft); :};
 
 postincrementExpr               ::= postfixExpr:pe PLUSPLUS
 		                              {: RESULT = new postfixExpressionPlusPlus(pe, peleft); :};
@@ -510,13 +472,7 @@ postincrementExpr               ::= postfixExpr:pe PLUSPLUS
 postdecrementExpr               ::= postfixExpr:pe MINUSMINUS
                                       {: RESULT = new PostfixExpressionMinusMinus(pe, peleft); :};
 
-unaryExpr                       ::= preincrementExpr:pie
-		                              {: RESULT = new PreIncrementExpression(pie, pieleft); :}
-	                              |	predecrementExpr:pde
-	                                  {: RESULT = new PredecrementExpression(pde, pdeleft); :}
-	                              |	PLUS unaryExpr:ue
-	                                  {: RESULT = new PlusUnaryExpression(ue, ueleft); :}
-	                              |	MINUS unaryExpr:ue
+unaryExpr                       ::= MINUS unaryExpr:ue
 	                                  {: RESULT = new UnaryExpressionstmt(ue, ueleft); :}
 	                              |	unaryExprNotPlusMinus:uenpm
 	                                  {: RESULT = new UnaryExpressionNotPlusMinus(uenpm, uenpmleft); :};
@@ -529,8 +485,6 @@ predecrementExpr                ::= MINUSMINUS unaryExpr:ue
 
 unaryExprNotPlusMinus           ::= postfixExpr:pe
 		                              {: RESULT = new PostfixExpression(pe, peleft); :}
-	                              |	COMP unaryExpr:ue
-	                                  {: RESULT = new ComparableUnaryExpression(ue, ueleft); :}
 	                              |	NOT unaryExpr:ue
 	                                  {: RESULT = new NotUnaryExpression(ue, ueleft); :};
 

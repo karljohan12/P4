@@ -3,9 +3,9 @@ import AST.Abstract.*;
 import AST.Visitor.Visitor;
 
 public class FuncStmtOpt extends AbstractStart {
-    public AbstractFunctionStmtsOpt afso;
+    public AbstractFunctionStmts afso;
 
-    public FuncStmtOpt(AbstractFunctionStmtsOpt afso1, int ln){
+    public FuncStmtOpt(AbstractFunctionStmts afso1, int ln){
         super(ln);
         afso = afso1;
     }

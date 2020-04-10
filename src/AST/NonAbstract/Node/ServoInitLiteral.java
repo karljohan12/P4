@@ -11,6 +11,7 @@ public class ServoInitLiteral extends AbstractServoInits {
     public ServoInitLiteral(AbstractServoInits asi, AbstractLiteral al, int ln){
         super(ln);
         si = asi;
+        l = al;
 
     }
 

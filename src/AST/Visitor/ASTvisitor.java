@@ -323,9 +323,9 @@ public class ASTvisitor implements Visitor {
     public void visit(ConstantExpression n) {
         printNode(n);
         increaseIndent();
-
-        n.e.accept(this);
-
+      //  if(n.e != null) {
+            n.e.accept(this);
+     //   }
         decreaseIndent();
     }
 
