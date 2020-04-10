@@ -1,6 +1,5 @@
 package AST.NonAbstract.Node;
 
-import AST.Abstract.ASTNode;
 import AST.Abstract.AbstractLocalVariableDecl;
 import AST.Abstract.AbstractType;
 import AST.Abstract.AbstractVariableDecls;

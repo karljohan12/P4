@@ -1,5 +1,4 @@
 package AST.NonAbstract.Node;
-import AST.Abstract.*;
 import AST.Visitor.Visitor;
 
 public class NameTypeBrackEnc extends AbstractArrayType {
