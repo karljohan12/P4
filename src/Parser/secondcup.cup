@@ -216,11 +216,17 @@ Start                           ::= globalVariables:gvs functionStmtsOpt:fso
                                       {: RESULT = fso;:};
 
 
-globalVariables                 ::= globalVariable:gv
-                                      //{: RESULT = new GlobalVaribaleStmt(gv, gvleft); :}
-                                      {: RESULT = gv;:}
+globalVariables                 ::=
+                                      {: RESULT = new GlobalVariableList(); :}
+                                  | globalVariable:gv
+                                      {: GlobalVariableList gvl = new GlobalVariableList();
+                                         gvl.add(gv);
+                                         RESULT = gvl;
+                                      :}
                                   | globalVariables:gvs globalVariable:gv
-                                      {: RESULT = new GlobalVariablesStmt(gvs, gv, gvsleft); :};
+                                      {: gvl.add(gv);
+                                         RESULT = gvs;
+                                      :};
 
 globalVariable                  ::= localVariableDeclStmt:lvds
                                       //{: RESULT = new localVariableDeclStmtGlobal(lvds, lvdsleft); :}
@@ -232,17 +238,29 @@ functionStmtsOpt                ::= functionStmts:fs
                                       {: RESULT = fs;:}
                                   | ;
 
-functionStmts                   ::= functionDecl:fd
-                                      //{: RESULT = new FunctionDeclStatement(fd, fdleft); :}
-                                      {: RESULT = fd;:}
+functionStmts                   ::=
+                                     {: RESULT = new FunctionStatementList(); :}
+                                  | functionDecl:fd
+                                      {: FunctionStatementList fsl = new FunctionStatementList();
+                                         fsl.add(fd);
+                                         RESULT = fsl;
+                                      :}
                                   | functionStmts:fs functionDecl:fd
-                                      {: RESULT = new FunctionStmtsFunctionDecl(fs, fd, fsleft); :};
+                                      {: fsl.add(fd);
+                                          RESULT = fs;
+                                      :};
 
-variableDecls                   ::= variableDecl:vd
-                                      //{: RESULT = new VariableDecl(vd, vdleft); :}
-                                      {: RESULT = vd;:}
+variableDecls                   ::=
+                                     {: RESULT = new VariableDeclarationList(); :}
+                                  | variableDecl:vd
+                                      {: VariableDeclarationList vdl = new VariableDeclarationList();
+                                         vdl.add(vd);
+                                         RESULT = vdl;
+                                      :}
 	                              |	variableDecls:vds COMMA variableDecl:vd
-	                                  {: RESULT = new variableDeclsVariableDecl(vds, vd, vdsleft); :};
+	                                  {: vdl.add(vd);
+                                         RESULT = vds;
+                                      :};
 
 variableDecl                    ::= variableDeclId:vdi
 	                                  //{: RESULT = new VariableDeclId(vdi, vdileft); :}
@@ -281,11 +299,17 @@ formalParamListOpt              ::=
 	                                  {: RESULT = fpl;:}
 	                                  	                                  ;
 
-formalParamList                 ::= formalParam:fp
-		                              //{: RESULT = new FormalParam(fp, fpleft);:}
-		                              {: RESULT = fp;:}
+formalParamList                 ::=
+                                    {: RESULT = new FormalParamList(); :}
+                                  | formalParam:fp
+		                              {: FormalParamList fpl = new FormalParamList();
+                                         fpl.add(fp);
+                                         RESULT = fpl;
+                                      :}
      	                          | formalParamList:fpl COMMA formalParam:fp
-    	                              {: RESULT = new FormalParamListFormalParam(fpl, fp, fplleft); :};
+    	                              {: flp.add(fp);
+                                         RESULT = fpl;
+                                      :};
 
 formalParam                     ::= type:t variableDeclId:vdi
 		                              //{: RESULT = new TypeVariableDelcId(t, vdi, tleft); :}
@@ -316,11 +340,17 @@ servoInit                       ::= LBRACE servoInits:si RBRACE
                                       //{: RESULT = new ServoInitsStmt(si, sileft); :}
                                       {: RESULT = si;:};
 
-variableInits                   ::= variableInit:vi
-		                              //{: RESULT = new  VariableInit(vi, vileft); :}
-		                              {: RESULT = vi;:}
+variableInits                   ::=
+                                      {: RESULT = new VariableInitList(); :}
+                                  | variableInit:vi
+		                              {: VariableInitList vil = new VariableInitList();
+                                        vil.add(vi);
+                                      	RESULT = vil;
+                                      :}
 	                              |	variableInits:vis COMMA variableInit:vi
-	                                  {: RESULT = new VariableInitsInit(vis, vi, visleft); :};
+	                                  {: vil.add(vi);
+                                         RESULT = vis;
+                                      :};
 
 block                           ::= BEGIN blockStmtsOpt:bso END
                                       {: RESULT = new BlockStmtsOpt(bso, bsoleft); :};
@@ -331,11 +361,17 @@ blockStmtsOpt                   ::=
 	                                  {: RESULT = bss;:}
 	                                  ;
 
-blockStmts                      ::= blockStmt:bs
+blockStmts                      ::=
+                                      {: RESULT = new BlockStatementList(); :}
+                                  | blockStmt:bs
 		                              //{: RESULT = new BlockStmt(bs, bsleft); :}
-		                              {: RESULT = bs;:}
+		                              {: BlockStatememtList bsl = new BlockStatementList();
+		                                 bsl.add(bs);
+		                                 RESULT = bsl;
+		                              :}
 	                              |	blockStmts:bss blockStmt:bs
-                                      {: RESULT = new BlockStmtstmt(bss, bs, bssleft); :};
+                                      {: bsl.add(bs);
+                                         RESULT = bss; :};
 
 blockStmt                       ::= localVariableDeclStmt:lvds
 		                              //{: RESULT = new localVariableDeclBlockStmt(lvds, lvdsleft); :}
@@ -448,11 +484,18 @@ switchBlockStmtGroups           ::= switchBlockStmtGroup:sbsg
 switchBlockStmtGroup            ::= switchLabels:sls blockStmts:bs
 		                              {: RESULT = new SwitchLabelBlock(sls, bs, slsleft); :};
 
-switchLabels                    ::= switchLabel:sl
-		                              //{: RESULT = new SwitchLabel(sl, slleft); :}
-		                              {: RESULT = sl;:}
+switchLabels                    ::=
+                                    {: RESULT = new SwitchLabelList(); :}
+                                  | switchLabel:sl
+		                              {: SwitchLabelList sll = new SwitchLabelList();
+                                         sll.add(sl);
+                                         RESULT =  sl;
+                                      :}
 	                              |	switchLabels:sls switchLabel:sl
-	                                  {: RESULT = new SwitchLabelsLabel(sls, sl, slsleft); :};
+	                                  {:
+	                                    al.add(sl);
+                                        RESULT = sls;
+                                      :};
 
 switchLabel                     ::= CASE constantExpr:cs COLON
 		                              {: RESULT = new ConstExpr(cs, csleft); :}
@@ -470,13 +513,15 @@ forInit                         ::= stmtExprList:sel
                                       {: RESULT = sel;:}
 	                              |	localVariableDecl:lvd
 	                                  //{: RESULT = new localVariableDecl(lvd, lvdleft); :}
-	                                  {: RESULT = lvd;:}
-	                                  ;
+	                                  {: RESULT = lvd;:};
 
-stmtExprList                    ::= stmtExpr:se
-		                              //{: RESULT = new StExpr(se, seleft); :}
-		                              {: RESULT = se;:}
-		                              ;
+stmtExprList                    ::=
+                                    {: RESULT = new StatementExpressionList(); :}
+                                  | stmtExpr:se
+		                              {: sel = new StatementExpressionList();
+                                         sel.add(se);
+                                         RESULT = sel;
+                                      :};
 
 breakStmt                       ::= BREAK:breaks SEMICOLON
 		                              {:RESULT = new BreakStmtExpr(breaksleft);:};
@@ -488,7 +533,7 @@ primary                         ::= primaryNoNewArray:pnna
                                       //{: RESULT = new PrimaryNoNewArr(pnna, pnnaleft); :}
                                       {: RESULT = pnna;:}
                                     ;
-	                          
+
 primaryNoNewArray               ::= literal:l
                                       //{: RESULT = new NoArrayLiteral(l, lleft);:}
                                       {: RESULT = l;:}
@@ -509,11 +554,17 @@ argumentListOpt                 ::=
 	                                  {: RESULT = al;:}
 	                                  ;
 
-argumentList                    ::= expression:e
-		                              //{: RESULT = new Expression(e, eleft); :}
-		                              {: RESULT = e;:}
+argumentList                    ::=
+                                      {: RESULT = new ArgumentList(); :}
+                                  | expression:e
+		                              {: ArguemntList al = new ArgumentList();
+		                                 al.add(e);
+		                                 RESULT =  al;
+		                              :}
 	                              |	argumentList:al COMMA expression:e
-	                                  {: RESULT = new ArgumentListCommaExpression(al, e, alleft); :};
+	                                  {: al.add(e);
+	                                     RESULT = al;
+	                                  :};
 
 bracketEnclosure                ::= LBRACK:lb RBRACK
                                       {: RESULT = new LbrackRbrack(lbleft); :}
