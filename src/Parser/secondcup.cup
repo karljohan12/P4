@@ -1,6 +1,7 @@
 import java_cup.runtime.*;
 import AST.Abstract.*;
 import AST.NonAbstract.Node.*;
+import AST.List.*;
 
 parser code  {:
   public void report_error(String message, Object info) {
@@ -59,61 +60,61 @@ terminal NULL_LITERAL;
 
 
 non terminal Program program;
-non terminal literal;
+non terminal Expression literal;
 
 
-non terminal type;
-non terminal primitiveType;
-non terminal numericType;
-non terminal referenceType;
-non terminal arrayType;
+non terminal Type type;
+non terminal Type primitiveType;
+non terminal Type numericType;
+non terminal Type referenceType;
+non terminal Type arrayType;
 
 non terminal Identifier name;
-non terminal initial;
+non terminal Initial initial;
 non terminal FunctionStatementList functionStatements;
 
 non terminal VariableDeclarationList variableDeclarations;
-non terminal variableDeclaration;
-non terminal variableInitial;
+non terminal AVariableDeclaration variableDeclaration;
+non terminal VariableInitial variableInitial;
 
-non terminal FunctionHeaderBody functionDeclaration;
-non terminal functionHeader;
-non terminal functionDeclarator;
-non terminal FormalParamList formalParameterList;
-non terminal formalParameter;
-non terminal functionBody, blockStatementsOptional;
+non terminal Function functionDeclaration;
+non terminal FunctionHeader functionHeader;
+non terminal FunctionDeclarator functionDeclarator;
+non terminal FormalParameterList formalParameterList;
+non terminal AFormalParameter formalParameter;
+non terminal FunctionBody functionBody;
+non terminal BlockStatementList blockStatementsOptional;
+non terminal VariableInitial arrayInitial;
+non terminal VariableInitializationList variableInitials;
 
-non terminal arrayInitial;
-non terminal VariableInitList variableInitials;
-
-non terminal BlockStmtsOpt block;
+nonterminal  Block block;
 non terminal BlockStatementList blockStatements;
-non terminal blockStatement;
-non terminal LocalVariableDeclStatement localVariableDeclarationstatement;
-non terminal localVariableDecl;
-non terminal Statement;
-non terminal statementIfWithoutElse;
-non terminal statementWithoutTrailingSubstatement;
-non terminal StmtExpr expressionStatement;
-non terminal statementExpression;
-non terminal IfLparenExprRparen ifThenStatement;
-non terminal IfLparenExprRparenStmtIfWithoutElseElseStmt ifThenElseStmt;
-non terminal Switch switchStatement;
-non terminal switchBlock;
-non terminal switchBlockStatementGroups;
+non terminal BlockStatement blockStatement;
+non terminal LocalVariableDeclarationStatement localVariableDeclarationstatement;
+non terminal Statement localVariableDecl;
+non terminal Statement statement;
+non terminal Statement statementIfWithoutElse;
+non terminal Statement statementWithoutTrailingSubstatement;
+non terminal Statement statementBlock;
+non terminal Statement statementExpression;
+non terminal Statement ifThenStatement;
+non terminal Statement ifThenElseStatement;
+non terminal Statement switchStatement;
+non terminal SwitchBlock switchBlock;
+non terminal SwitchGroupList switchBlockStatementGroups;
 non terminal SwitchLabelBlock switchBlockStatementGroup;
 non terminal SwitchLabelList switchLabels;
-non terminal switchLabel;
-non terminal WhileExpr whileStatement;
-non terminal ForExpr forStatement;
-non terminal forInitial;
-non terminal ReturnStmtExpr returnStatement;
+non terminal SwitchLabel switchLabel;
+non terminal Statement whileStatement;
+non terminal Statement forStatement;
+non terminal Statement forInitial;
+non terminal Statement returnStatement;
 
-non terminal primary;
-non terminal primaryNoNewArray;
+non terminal Expression primary;
+non terminal PrimaryNoNewArray primaryNoNewArray;
 non terminal ArgumentList argumentList;
-non terminal NameLeftParenthesisArgumentListOptionalRightParenthesis functionCall;
-non terminal arrayAccess;
+non terminal FunctionCall functionCall;
+non terminal Expression arrayAccess;
 non terminal Expression postfixExpression;
 non terminal Expression unaryExpression;
 non terminal Expression unaryExprNotPlusMinus;
@@ -129,469 +130,485 @@ non terminal Expression assignment;
 non terminal Expression leftHandSide;
 non terminal Expression assignmentOperator;
 non terminal Expression expression;
-non terminal ConstantExpression constantExpression;
-non terminal localVariableDeclStmtGlobal globalVariable;
+non terminal Expression constantExpression;
+non terminal GlobalVariable globalVariable;
 non terminal GlobalVariableList globalVariables;
-non terminal ServoInitsStmt servoInitial;
-non terminal servoInitials;
-non terminal functionStmtsOpt;
+non terminal ServoPositionVariables servoInitial;
+non terminal ServoInitializationList servoInitials;
+non terminal FunctionStatementsOptional functionStatemntsOptional;
 
 
 
 start with program;
 
 
-program                         ::=	initial:s
-                                     // {: RESULT = new Program(s, sleft); :}
-                                      {: RESULT = s;:}
-                                      ;
-
-literal                         ::=	INTEGER_LITERAL:il
-                                      {: RESULT = new IntegerLiteral(il, illeft); :}
-	                              |	FLOATING_POINT_LITERAL:fl
-	                                  {: RESULT = new FloatLiteral(fl, flleft); :}
-	                              |	BOOLEAN_LITERAL:bl
-	                                  {: RESULT = new BoolLiteral(bl, blleft); :}
-	                              |	NULL_LITERAL: nl
-	                                  {: RESULT = new NullLiteral(nl, nlleft); :}
-                                  |	STRING_LITERAL:sl
-                                      {: RESULT = new StrLiteral(sl, slleft); :};
-
-type	                        ::=	primitiveType:pt
-                                      {: RESULT = pt;:}
-	                              |	referenceType:rt
-	                                  {: RESULT = rt;:};
-
-primitiveType                   ::= numericType:nt
-	                            	  {: RESULT = nt;:}
-	                              | SERVO:st
-	                                  {: RESULT = new ServoPrimitiveType(stleft); :}
-	                              |	BOOLEAN:bt
-	                                  {: RESULT = new BoolType(btleft); :};
-
-numericType                     ::= INT:it
-                                      {: RESULT = new IntType(itleft); :}
-	                              |	DOUBLE:ft
-	                                  {: RESULT = new FloatType(ftleft); :};
-
-referenceType                   ::= arrayType:at
-                                      {: RESULT = at;:}
-                                  | ROBOT:rt
-                                      {: RESULT = new RobotType(rtleft); :}
-                                  | SERVOPOSITION:st
-                                      {: RESULT = new ServoType(stleft); :}
-                                  | name:n
-                                      {: RESULT = n; :};
-
-arrayType                       ::= primitiveType:pt LBRACK RBRACK
-                                      {: RESULT = new ArrayType(pt, ptleft); :};
-
-name	                        ::= IDENTIFIER:ident
-                                      {: RESULT = new Identifier(ident, identleft); :};
-
-initial                           ::= globalVariables:gvs functionStmtsOpt:fso
-                                      {: RESULT = new GlobalVariablePlusFunctionStatements(gvs, fso, gvsleft); :}
-                                  | functionStmtsOpt:fso
-                                      {: RESULT = fso; :};
-
-
-globalVariables                 ::=
-                                     globalVariable:gv
-                                      {: GlobalVariableList gvs = new GlobalVariableList();
-                                         gvs.add(gv);
-                                         RESULT = gvs;
-                                      :}
-                                  | globalVariables:gvs globalVariable:gv
-                                      {: gvs.add(gv);
-                                         RESULT = gvs;
-                                      :};
-
-globalVariable                  ::= localVariableDeclarationstatement:lvds
-                                      {: RESULT = lvds; :};
-
-functionStmtsOpt                ::=
-
-                                    {: RESULT = new FunctionStatementList(); :}
-                                   | functionStatements:fs
-                                      //{: RESULT = new Function(fs, fsleft); :}
-                                      {: RESULT = fs;:}
-                                  ;
-
-functionStatements              ::=
-
-                                     functionDeclaration:fd
-                                      {: FunctionStatementList fs = new FunctionStatementList();
-                                         fs.add(fd);
-                                         RESULT = fs;
-                                      :}
-                                  | functionStatements:fs functionDeclaration:fd
-                                      {: fs.add(fd);
-                                          RESULT = fs;
-                                      :};
-
-variableDeclarations                   ::=
-                                   variableDeclaration:vd
-                                      {: VariableDeclarationList vds = new VariableDeclarationList();
-                                         vds.add(vd);
-                                         RESULT = vds;
-                                      :}
-	                              |	variableDeclarations:vds COMMA variableDeclaration:vd
-	                                  {: vds.add(vd);
-                                         RESULT = vds;
-                                      :};
-
-variableDeclaration                    ::= name:vdi
-	                                  //{: RESULT = new VariableDeclId(vdi, vdileft); :}
-	                                  {: RESULT = vdi;:}
-	                              |	name:vdi EQ variableInitial:vi
-	                                  {: RESULT = new VariableAssignmentDeclaration(vdi, vi, vdileft); :};
-
-variableInitial                    ::= expression:e
-		                              //{: RESULT = new expr(e, eleft); :}
-		                              {: RESULT = e; :}
-	                              |	arrayInitial:ai
-	                                  //{: RESULT = new ArrayInit(ai, aileft); :}
-	                                  {: RESULT = ai; :}
-	                              | servoInitial:sis
-	                                  //{: RESULT = new ServoInitStmt(sis, sisleft); :}
-	                                  {: RESULT = sis; :};
-
-functionDeclaration                    ::= functionHeader:fh functionBody:fb
-		                              {: RESULT = new Function(fh, fb, fhleft); :};
-
-functionHeader                  ::= type:t functionDeclarator:fd
-	                                  {: RESULT = new TypeFunctionHeader(t, fd, fdleft); :}
-	                              | VOID functionDeclarator:fd
-	                                  {: RESULT = new VoidFunctionHeader(fd, fdleft); :};
-
-functionDeclarator              ::= IDENTIFIER LPAREN formalParameterList:fplo RPAREN
-		                              {: RESULT = new FunctionDeclarator(fplo, fploleft); :};
-
-//formalParamListOpt              ::=
-//	                              |	formalParamList:fpl
-	                                  //{: RESULT = new FormalParamList(fpl, fplleft); :}
-//	                                  {: RESULT = fpl;:}
-//	                                  	                                  ;
-
-formalParameterList                 ::=
-                                    {: RESULT = new FormalParameterList(); :}
-                                  | formalParameter:fp
-		                              {: FormalParameterList fpl = new FormalParameterList();
-                                         fpl.add(fp);
-                                         RESULT = fpl;
-                                      :}
-     	                          | formalParameterList:fpl COMMA formalParameter:fp
-    	                              {: fpl.add(fp);
-                                         RESULT = fpl;
-                                      :};
-
-formalParameter                     ::= type:t name:vdi
-		                              {: RESULT = new FormalParameter(t, vdi, tleft); :}
-	                              | CONST type:t name:vdi
-	                                  {: RESULT = new ConstantFormalParameter(t, vdi, tleft); :};
-
-functionBody                    ::= block:b
-                                      //{: RESULT = new FunctionBlock(b, bleft); :}
-                                      {: RESULT = b; :}
-	                              |	SEMICOLON:sc
-	                                  //{: RESULT = new SemiColonFunction(scleft); :}
-	                                  {: RESULT = sc; :};
-
-arrayInitial                       ::=	LBRACE variableInitials:vi RBRACE
-	                                  {: RESULT = new ArrayVariables(vi, vileft); :}
-	                              |	LBRACE:lb RBRACE
-	                                  {: RESULT = new EmptyArray(lbleft); :};
-
-servoInitials                      ::=
-                                     IDENTIFIER COLON literal:l
-                                      {: ServoInitializationList si = new ServoInitializationList();
-                                         si.add(l);
-                                         RESULT = si;
-                                      :}
-                                  | servoInitials:si COMMA IDENTIFIER COLON literal:l
-                                      {: sil.add(l);
-                                         RESULT = si;
-                                      :};
-
-servoInitial                       ::= LBRACE servoInitials:si RBRACE // ServoPosition sp;
-                                      {: RESULT = new ServoPositionVariables(si, sileft); :}; //ServoPosition PlaceSubjectCNC = {80, 30, 72};
-
-variableInitials                   ::=
-                                   variableInitial:vi
-		                              {: VariableInitList vis = new VariableInitList();
-                                        vis.add(vi);
-                                      	RESULT = vis;
-                                      :}
-	                              |	variableInitials:vis COMMA variableInitial:vi
-	                                  {: vis.add(vi);
-                                         RESULT = vis;
-                                      :};
-
-block                           ::= BEGIN blockStatementsOptional:bso END
-                                      {: RESULT = new Block(bso, bsoleft); :};
-
-blockStatementsOptional                   ::=
-                               {: RESULT = new BlockStatementList(); :}
-                               |	blockStatements:bss
-                               {: RESULT = bss;:};
-
-blockStatements                      ::=
-
-                                   blockStatement:bs
-		                              {: BlockStatememtList bss = new BlockStatementList();
-		                                 bss.add(bs);
-		                                 RESULT = bss;
-		                              :}
-	                              |	blockStatements:bss blockStatement:bs
-                                      {: bss.add(bs);
-                                         RESULT = bss; :};
-
-blockStatement                       ::= localVariableDeclarationstatement:lvds
-		                              //{: RESULT = new localVariableDeclBlockStmt(lvds, lvdsleft); :}
-		                              {: RESULT = lvds;:}
-	                              |	Statement:s
-	                                  //{: RESULT = new stmt(s, sleft); :}
-	                                  {: RESULT = s;:}
-	                                  ;
-
-localVariableDeclarationstatement           ::= localVariableDecl:lvd SEMICOLON
-		                              {: RESULT = new LocalVariableDeclarationStatement(lvd, lvdleft); :};
-
-localVariableDecl               ::= type:t variableDeclarations:vds
-		                              {: RESULT = new VariableDeclaration(t, vds, vdsleft); :}
-	                              |	CONST type:t variableDeclarations:vds
-	                                  {: RESULT = new ConstantVariableDeclaration(t, vds, tleft); :};
-
-Statement                            ::= statementWithoutTrailingSubstatement:swtss
-                                      {: RESULT = swtss;:}
-	                              |	ifThenStatement:its
-	                                  {: RESULT = its;:}
-	                              |	ifThenElseStmt:ites
-	                                  {: RESULT = ites;:}
-	                              |	whileStatement:ws
-	                                  {: RESULT = ws;:}
-	                              |	forStatement:fs
-	                                  {: RESULT = fs;:};
-
-statementIfWithoutElse               ::= statementWithoutTrailingSubstatement:swtss
-		                              {: RESULT = swtss;:};
-
-statementWithoutTrailingSubstatement ::= block:b
-		                              {: RESULT = b; :}
-	                              |	SEMICOLON:es
-	                                  {: RESULT = es; :}
-	                              |	expressionStatement:exs
-	                                  {: RESULT = exs; :}
-	                              |	switchStatement:ss
-	                                  {: RESULT = ss; :}
-	                              |	BREAK:b SEMICOLON
-                                      {: RESULT = new Break(bleft); :}
-	                              |	returnStatement:rs
-	                                  {: RESULT = rs; :};
-
-expressionStatement                        ::= statementExpression:se SEMICOLON
-		                              {: RESULT = new StatementExpression(se, seleft); :};
-
-statementExpression                        ::= assignment:a
-		                              {: RESULT = a; :}
-	                              |	PLUSPLUS unaryExpression:ue
-                                      {: RESULT = new PlusPlusUnaryExpression(ue, ueleft); :}
-	                              |	MINUSMINUS unaryExpression:ue
-                                      {: RESULT = new MinusMinusUnaryExpression(ue, ueleft); :}
-	                              |	postfixExpression:pe PLUSPLUS
-                                      {: RESULT = new postfixExpressionPlusPlus(pe, peleft); :}
-                                  |	postfixExpression:pe MINUSMINUS
-                                      {: RESULT = new PostfixExpressionMinusMinus(pe, peleft); :}
-	                              |	functionCall:fc
-	                                  {: RESULT = fc; :};
-
-ifThenStatement                      ::= IF LPAREN expression:e RPAREN Statement:s
-		                              {: RESULT = new If(e, s, eleft); :};
-
-ifThenElseStmt                  ::= IF LPAREN expression:e RPAREN statementIfWithoutElse:siwe ELSE Statement:s
-			                          {: RESULT = new IfElse(e, siwe, s, eleft); :};
-
-
-switchStatement                      ::= SWITCH LPAREN expression:e RPAREN switchBlock:sb
-		                              {: RESULT = new Switch(e, sb, eleft); :};
-
-switchBlock                     ::= BEGIN switchBlockStatementGroups:sbsgs switchLabels:sl END
-		                              {: RESULT = new SwitchBlockLabels(sbsgs, sl, sbsgsleft); :}
-	                              |	BEGIN switchBlockStatementGroups:sbsgs END
-	                                  {: RESULT = new SwitchGroups(sbsgs, sbsgsleft); :}
-	                              |	BEGIN switchLabels:sls END
-	                                  {: RESULT = new SwitchLabels(sls, slsleft); :}
-	                              |	BEGIN:b END
-	                                  {: RESULT = new EmptySwitch(bleft); :};
-
-switchBlockStatementGroups           ::=
-                                      switchBlockStatementGroup:sbsg
-		                              {: SwitchGroupList sbsgs = new SwitchGroupList();
-                                         sbsgs.add(sbsg);
-                                         RESULT = sbsgs;
-                                      :}
-	                              |	switchBlockStatementGroups:sbsgs switchBlockStatementGroup:sbsg
-	                                  {:
-                                      	 sbsgs.add(sbgs);
-                                         RESULT = sbsgs;
-                                      :};
-
-switchBlockStatementGroup            ::= switchLabels:sls blockStatements:bs
-		                              {: RESULT = new SwitchLabelBlock(sls, bs, slsleft); :};
-
-switchLabels                    ::=
-                                    switchLabel:sl
-		                              {: SwitchLabelList sls = new SwitchLabelList();
-                                         sls.add(sl);
-                                         RESULT =  sls;
-                                      :}
-	                              |	switchLabels:sls switchLabel:sl
-	                                  {:
-	                                    sls.add(sl);
-                                        RESULT = sls;
-                                      :};
-
-switchLabel                     ::= CASE constantExpression:cs COLON
-		                              {: RESULT = new ConstantExpression(cs, csleft); :}
-	                              |	DEFAULT:def COLON
-	                                  {: RESULT = new DefaultCase(defleft); :};
-
-whileStatement                       ::= WHILE LPAREN expression:e RPAREN
-		                              {: RESULT = new WhileLoop(e, eleft); :};
-
-forStatement                         ::= FOR LPAREN forInitial:fi WHEN expression:e THEN statementExpression:sel RPAREN
-			                          {: RESULT = new ForLoop(fi, e, sel, fileft); :};
-
-forInitial                         ::= statementExpression:sel
-                                      {: RESULT = sel; :}
-	                              |	localVariableDecl:lvd
-	                                  {: RESULT = lvd; :};
-
-
-returnStatement                      ::= RETURN expression:e SEMICOLON
-		                              {: RESULT = new ReturnStmtExpr(e, eleft); :};
-
-primary                         ::= primaryNoNewArray:pnna
-                                      {: RESULT = pnna;:}
-                                    ;
-
-primaryNoNewArray               ::= literal:l
-                                      {: RESULT = l; :}
-	                              |	LPAREN expression:e RPAREN
-	                                  {: RESULT = e; :}
-	                              |	functionCall:fc
-	                                  {: RESULT = fc; :}
-	                              |	arrayAccess:aa
-	                                  {: RESULT = aa; :};
-
-argumentList                    ::=
-                                      {: RESULT = new ArgumentList(); :}
-                                  | expression:e
-		                              {: ArguemntList al = new ArgumentList();
-		                                 al.add(e);
-		                                 RESULT = al;
-		                              :}
-	                              |	argumentList:al COMMA expression:e
-	                                  {: al.add(e);
-	                                     RESULT = al;
-	                                  :};
-
-functionCall                    ::= name:n LPAREN argumentList:alo RPAREN
-		                              {: RESULT = new FunctionCall(n, alo, nleft); :};
-
-arrayAccess                     ::= name:n LBRACK expression:e RBRACK
-		                              {: RESULT = new arrayAccessIndex(n, e, nleft); :}
-	                              //|	primaryNoNewArray:pnna LBRACK expression:e RBRACK
-	                                //  {: RESULT = new PrimaryNoNewArrayLeftBracketExpressionRightBracket(pnna, e, pnnaleft); :}
-	                                  ;
-
-postfixExpression                     ::= primary:p
-	                                  {: RESULT = p; :}
-	                              |	name:n
-	                                  {: RESULT = n; :};
-
-unaryExpression                       ::= MINUS unaryExpression:ue
-	                                  {: RESULT = new UnaryExpression(ue, ueleft); :}
-	                              |	unaryExprNotPlusMinus:uenpm
-	                                  {: RESULT = uenpm; :};
-
-unaryExprNotPlusMinus           ::= postfixExpression:pe
-		                              {: RESULT = pe;:}
-	                              |	NOT unaryExpression:ue
-	                                  {: RESULT = new NotUnaryExpression(ue, ueleft); :};
-
-mulExpression                         ::= unaryExpression:ue
-		                              {: RESULT = ue; :}
-	                              |	mulExpression:me MULT unaryExpression:ue
-	                                  {: RESULT = new MultiplicationExpression(me, ue, meleft); :}
-	                              |	mulExpression:me DIV unaryExpression:ue
-	                                  {: RESULT = new DivisionExpression(me, ue, meleft); :}
-	                              |	mulExpression:me MOD unaryExpression:ue
-	                                  {: RESULT = new ModuloExpression(me, ue, meleft); :};
-
-plusExpression                        ::= mulExpression:me
-	                                  {: RESULT = me;:}
-	                              |	plusExpression:pe PLUS mulExpression:me
-	                                  {: RESULT = new PlusExpression(pe, me, peleft); :}
-	                              |	plusExpression:pe MINUS mulExpression:me
-	                                  {: RESULT = new MinusExpression(pe, me, peleft); :};
-
-relationalExpression                  ::= plusExpression:pe
-		                              {: RESULT = pe;:}
-	                              |	relationalExpression:re LT plusExpression:pe
-	                                  {: RESULT = new LessThan(re, pe, releft); :}
-	                              |	relationalExpression:re GT plusExpression:pe
-	                                  {: RESULT = new GreaterThan(re, pe, releft); :}
-	                              |	relationalExpression:re LTEQ plusExpression:pe
-	                                  {: RESULT = new LessThanEqual(re, pe, releft); :}
-	                              |	relationalExpression:re GTEQ plusExpression:pe
-	                                  {: RESULT = new GreaterThanEqual(re, pe, releft); :};
-
-equalExpression                       ::= relationalExpression:re
-		                              {: RESULT = re; :}
-	                              |	equalExpression:ee EQEQ relationalExpression:re
-	                                  {: RESULT = new EqualExpression(ee, re, eeleft); :}
-	                              |	equalExpression:ee NOTEQ relationalExpression:re
-	                                  {: RESULT = new NotEqualExpression(ee, re, eeleft); :};
-
-conditionalAndExpression              ::= equalExpression:ee
-                                      {: RESULT = ee; :}
-	                              |	conditionalAndExpression:cae ANDAND equalExpression:ee
-	                                  {: RESULT = new AndExpression(cae, ee, caeleft); :};
-
-conditionalOrExpression               ::= conditionalAndExpression:cae
-		                              {: RESULT = cae; :}
-	                              |	conditionalOrExpression:coe OROR conditionalAndExpression:cae
-	                                  {: RESULT = new OrExpression(coe, cae, coeleft); :};
-
-conditionalExpression                 ::= conditionalOrExpression:coe
-                                      {: RESULT = coe;:}
-	                              | conditionalOrExpression:coe QUESTION expression:e COLON conditionalExpression:ce
-			                          {: RESULT = new TernaryExpression(coe, e, ce, coeleft); :};
-
-assignmentOrConditionalExpression                  ::= conditionalExpression:ce
-		                              {: RESULT = ce; :}
-	                              | assignment:a
-	                                  {: RESULT = a; :};
-
-assignment                      ::=	leftHandSide:lhs assignmentOperator:ao assignmentOrConditionalExpression:ae
-                                      {: RESULT = new AssignmentExpression(lhs, ao, ae, lhsleft); :};
-
-leftHandSide                    ::= name:n
-		                              {: RESULT = n; :}
-
-	                              |	arrayAccess:aa
-	                                  {: RESULT = aa; :};
-
-expression                      ::=	assignmentOrConditionalExpression:ae
-                                      {: RESULT = ee; :};
-
-assignmentOperator              ::= EQ:eq
-		                              {: RESULT = new Equal(eqleft); :}
-	                              |	PLUSEQ:pe
-	                                  {: RESULT = new PlusEqual(peleft); :}
-	                              |	MINUSEQ:me
-	                                  {: RESULT = new MinusEqual(meleft); :};
-
-constantExpression                    ::= expression:e
-                                      {: RESULT = e; :};
+program                             ::=	initial:s
+                                          {: RESULT = s; :};
+
+
+literal                             ::=	INTEGER_LITERAL:il
+                                          {: RESULT = new IntegerLiteral(il, illeft); :}
+	                                  |	FLOATING_POINT_LITERAL:fl
+	                                      {: RESULT = new FloatLiteral(fl, flleft); :}
+	                                  |	BOOLEAN_LITERAL:bl
+	                                      {: RESULT = new BoolLiteral(bl, blleft); :}
+	                                  |	NULL_LITERAL: nl
+	                                      {: RESULT = new NullLiteral(nl, nlleft); :}
+                                      |	STRING_LITERAL:sl
+                                          {: RESULT = new StrLiteral(sl, slleft); :};
+
+
+type	                                ::=	primitiveType:pt
+                                            {: RESULT = pt; :}
+	                                      |	referenceType:rt
+	                                          {: RESULT = rt; :};
+
+
+primitiveType                           ::= numericType:nt
+	                            	          {: RESULT = nt;:}
+	                                      | SERVO:st
+	                                          {: RESULT = new ServoPrimitiveType(stleft); :}
+	                                      |	BOOLEAN:bt
+	                                          {: RESULT = new BoolType(btleft); :};
+
+
+numericType                             ::= INT:it
+                                              {: RESULT = new IntType(itleft); :}
+	                                      |	DOUBLE:ft
+	                                          {: RESULT = new FloatType(ftleft); :};
+
+
+referenceType                           ::= arrayType:at
+                                              {: RESULT = at; :}
+                                          | ROBOT:rt
+                                              {: RESULT = new RobotType(rtleft); :}
+                                          | SERVOPOSITION:st
+                                              {: RESULT = new ServoType(stleft); :};
+
+
+arrayType                               ::= primitiveType:pt LBRACK RBRACK
+                                              {: RESULT = new ArrayType(pt, ptleft); :};
+
+
+name	                                ::= IDENTIFIER:ident
+                                              {: RESULT = new Identifier(ident, identleft); :};
+
+
+initial                                 ::= globalVariables:gvs functionStatemntsOptional:fso
+                                              {: RESULT = new GlobalVariablePlusFunctionStatements(gvs, fso, gvsleft); :}
+                                          | functionStatemntsOptional:fso
+                                              {: RESULT = fso; :};
+
+
+globalVariables                         ::= globalVariable:gv
+                                              {: GlobalVariableList gvs = new GlobalVariableList();
+                                                 gvs.add(gv);
+                                                 RESULT = gvs;
+                                              :}
+                                          | globalVariables:gvs globalVariable:gv
+                                              {: gvs.add(gv);
+                                                 RESULT = gvs;
+                                              :};
+
+
+globalVariable                          ::= localVariableDeclarationstatement:lvds
+                                              {: RESULT = lvds; :};
+
+
+functionStatemntsOptional                        ::=
+                                              {: RESULT = new FunctionStatementList(); :}
+                                          | functionStatements:fs
+                                              {: RESULT = fs;:};
+
+
+functionStatements                      ::= functionDeclaration:fd
+                                              {: FunctionStatementList fs = new FunctionStatementList();
+                                                 fs.add(fd);
+                                                 RESULT = fs;
+                                              :}
+                                          | functionStatements:fs functionDeclaration:fd
+                                              {: fs.add(fd);
+                                                 RESULT = fs;
+                                              :};
+
+
+variableDeclarations                    ::= variableDeclaration:vd
+                                              {: VariableDeclarationList vds = new VariableDeclarationList();
+                                                 vds.add(vd);
+                                                 RESULT = vds;
+                                              :}
+	                                      |	variableDeclarations:vds COMMA variableDeclaration:vd
+	                                          {: vds.add(vd);
+                                                 RESULT = vds;
+                                              :};
+
+
+variableDeclaration                     ::= name:vdi
+	                                          {: RESULT = vdi; :}
+	                                      |	name:vdi EQ variableInitial:vi
+	                                          {: RESULT = new VariableAssignmentDeclaration(vdi, vi, vdileft); :};
+
+
+variableInitial                         ::= expression:e
+		                                      {: RESULT = e; :}
+	                                      |	arrayInitial:ai
+	                                          {: RESULT = ai; :}
+	                                      | servoInitial:sis
+	                                          {: RESULT = sis; :};
+
+
+functionDeclaration                     ::= functionHeader:fh functionBody:fb
+		                                      {: RESULT = new Function(fh, fb, fhleft); :};
+
+
+functionHeader                          ::= type:t functionDeclarator:fd
+	                                          {: RESULT = new TypeFunctionHeader(t, fd, fdleft); :}
+	                                      | VOID functionDeclarator:fd
+	                                          {: RESULT = new VoidFunctionHeader(fd, fdleft); :};
+
+
+functionDeclarator                      ::= IDENTIFIER LPAREN formalParameterList:fplo RPAREN
+		                                      {: RESULT = new FunctionDeclarator(fplo, fploleft); :};
+
+
+formalParameterList                     ::=
+                                              {: RESULT = new FormalParameterList(); :}
+                                          | formalParameter:fp
+		                                      {: FormalParameterList fpl = new FormalParameterList();
+                                                 fpl.add(fp);
+                                                 RESULT = fpl;
+                                              :}
+     	                                  | formalParameterList:fpl COMMA formalParameter:fp
+    	                                      {: fpl.add(fp);
+                                                 RESULT = fpl;
+                                              :};
+
+
+formalParameter                         ::= type:t name:vdi
+		                                      {: RESULT = new FormalParameter(t, vdi, tleft); :}
+	                                      | CONST type:t name:vdi
+	                                          {: RESULT = new ConstantFormalParameter(t, vdi, tleft); :};
+
+
+functionBody                            ::= block:b
+                                              {: RESULT = b; :}
+	                                      |	SEMICOLON:sc
+	                                          {: RESULT = sc; :};
+
+
+arrayInitial                            ::=	LBRACE variableInitials:vi RBRACE
+	                                          {: RESULT = new ArrayVariables(vi, vileft); :}
+	                                      |	LBRACE:lb RBRACE
+	                                          {: RESULT = new EmptyArray(lbleft); :};
+
+
+servoInitials                           ::= IDENTIFIER COLON variableInitial:l
+                                              {: ServoInitializationList si = new ServoInitializationList();
+                                                 si.add(l);
+                                                 RESULT = si;
+                                              :}
+                                          | servoInitials:si COMMA IDENTIFIER COLON variableInitial:l
+                                              {: sil.add(l);
+                                                 RESULT = si;
+                                              :};
+
+
+servoInitial                            ::= LBRACE servoInitials:si RBRACE
+                                              {: RESULT = new ServoPositionVariables(si, sileft); :};
+
+
+variableInitials                        ::= variableInitial:vi
+		                                      {: VariableInitializationList vis = new VariableInitializationList();
+                                                 vis.add(vi);
+                                                 RESULT = vis;
+                                              :}
+	                                      |	variableInitials:vis COMMA variableInitial:vi
+	                                          {: vis.add(vi);
+                                                 RESULT = vis;
+                                              :};
+
+
+block                                   ::= BEGIN blockStatementsOptional:bso END
+                                              {: RESULT = new Block(bso, bsoleft); :};
+
+
+blockStatementsOptional                 ::=
+                                              {: RESULT = new BlockStatementList(); :}
+                                          |	blockStatements:bss
+                                              {: RESULT = bss; :};
+
+
+blockStatements                         ::= blockStatement:bs
+		                                      {: BlockStatementList bss = new BlockStatementList();
+		                                         bss.add(bs);
+		                                         RESULT = bss;
+		                                      :}
+	                                      |	blockStatements:bss blockStatement:bs
+                                              {: bss.add(bs);
+                                                 RESULT = bss;
+                                              :};
+
+
+blockStatement                          ::= localVariableDeclarationstatement:lvds
+		                                      {: RESULT = lvds; :}
+	                                      |	statement:s
+	                                          {: RESULT = s; :};
+
+
+localVariableDeclarationstatement       ::= localVariableDecl:lvd SEMICOLON
+		                                      {: RESULT = new LocalVariableDeclarationStatement(lvd, lvdleft); :};
+
+
+localVariableDecl                       ::= type:t variableDeclarations:vds
+		                                      {: RESULT = new VariableDeclaration(t, vds, vdsleft); :}
+	                                      |	CONST type:t variableDeclarations:vds
+	                                          {: RESULT = new ConstantVariableDeclaration(t, vds, tleft); :};
+
+
+statement                               ::= statementWithoutTrailingSubstatement:swtss
+                                              {: RESULT = swtss; :}
+	                                      |	ifThenStatement:its
+	                                          {: RESULT = its; :}
+	                                      |	ifThenElseStatement:ites
+	                                          {: RESULT = ites; :}
+	                                      |	whileStatement:ws
+	                                          {: RESULT = ws; :}
+	                                      |	forStatement:fs
+	                                          {: RESULT = fs; :};
+
+
+statementIfWithoutElse                  ::= statementWithoutTrailingSubstatement:swtss
+		                                      {: RESULT = swtss;:};
+
+
+statementWithoutTrailingSubstatement    ::= block:b
+		                                      {: RESULT = b; :}
+	                                      |	SEMICOLON:es
+	                                          {: RESULT = es; :}
+	                                      |	statementBlock:exs
+	                                          {: RESULT = exs; :}
+	                                      |	switchStatement:ss
+	                                          {: RESULT = ss; :}
+	                                      |	BREAK:b SEMICOLON
+                                              {: RESULT = new Break(bleft); :}
+	                                      |	returnStatement:rs
+	                                          {: RESULT = rs; :};
+
+statementBlock                          ::= statementExpression:se SEMICOLON
+		                                      {: RESULT = new StatementBlock(se, seleft); :};
+
+
+statementExpression                     ::= assignment:a
+		                                     {: RESULT = a; :}
+	                                      |	PLUSPLUS unaryExpression:ue
+                                              {: RESULT = new PlusPlusUnaryExpression(ue, ueleft); :}
+	                                      |	MINUSMINUS unaryExpression:ue
+                                              {: RESULT = new MinusMinusUnaryExpression(ue, ueleft); :}
+	                                      |	postfixExpression:pe PLUSPLUS
+                                              {: RESULT = new PostfixExpressionPlusPlus(pe, peleft); :}
+                                          |	postfixExpression:pe MINUSMINUS
+                                              {: RESULT = new PostfixExpressionMinusMinus(pe, peleft); :}
+	                                      |	functionCall:fc
+	                                          {: RESULT = fc; :};
+
+ifThenStatement                         ::= IF LPAREN expression:e RPAREN statement:s
+		                                      {: RESULT = new If(e, s, eleft); :};
+
+
+ifThenElseStatement                          ::= IF LPAREN expression:e RPAREN statementIfWithoutElse:siwe ELSE statement:s
+			                                  {: RESULT = new IfElse(e, siwe, s, eleft); :};
+
+
+switchStatement                         ::= SWITCH LPAREN expression:e RPAREN switchBlock:sb
+		                                      {: RESULT = new Switch(e, sb, eleft); :};
+
+
+switchBlock                             ::= BEGIN switchBlockStatementGroups:sbsgs switchLabels:sl END
+		                                      {: RESULT = new SwitchBlockLabels(sbsgs, sl, sbsgsleft); :}
+	                                      |	BEGIN switchBlockStatementGroups:sbsgs END
+	                                          {: RESULT = new SwitchGroups(sbsgs, sbsgsleft); :}
+	                                      |	BEGIN switchLabels:sls END
+	                                          {: RESULT = new SwitchLabels(sls, slsleft); :}
+	                                      |	BEGIN:b END
+	                                          {: RESULT = new EmptySwitch(bleft); :};
+
+
+switchBlockStatementGroups              ::= switchBlockStatementGroup:sbsg
+		                                      {: SwitchGroupList sbsgs = new SwitchGroupList();
+                                                 sbsgs.add(sbsg);
+                                                 RESULT = sbsgs;
+                                              :}
+	                                      |	switchBlockStatementGroups:sbsgs switchBlockStatementGroup:sbsg
+	                                          {: sbsgs.add(sbgs);
+                                                 RESULT = sbsgs;
+                                              :};
+
+
+switchBlockStatementGroup               ::= switchLabels:sls blockStatements:bs
+		                                      {: RESULT = new SwitchLabelBlock(sls, bs, slsleft); :};
+
+
+switchLabels                            ::= switchLabel:sl
+		                                      {: SwitchLabelList sls = new SwitchLabelList();
+                                                 sls.add(sl);
+                                                 RESULT =  sls;
+                                             :}
+	                                      |	switchLabels:sls switchLabel:sl
+	                                        {: sls.add(sl);
+                                               RESULT = sls;
+                                            :};
+
+
+switchLabel                             ::= CASE constantExpression:cs COLON
+		                                      {: RESULT = new ConstantExpression(cs, csleft); :}
+	                                      |	DEFAULT:def COLON
+	                                          {: RESULT = new DefaultCase(defleft); :};
+
+
+whileStatement                          ::= WHILE LPAREN expression:e RPAREN
+		                                      {: RESULT = new WhileLoop(e, eleft); :};
+
+
+forStatement                            ::= FOR LPAREN forInitial:fi WHEN expression:e THEN statementExpression:sel RPAREN
+			                                  {: RESULT = new ForLoop(fi, e, sel, fileft); :};
+
+
+forInitial                              ::= statementExpression:sel
+                                              {: RESULT = sel; :}
+	                                      |	localVariableDecl:lvd
+	                                          {: RESULT = lvd; :};
+
+
+returnStatement                         ::= RETURN expression:e SEMICOLON
+		                                      {: RESULT = new ReturnStatementExpression(e, eleft); :};
+
+
+
+primary                       ::= literal:l
+                                              {: RESULT = l; :}
+	                                      |	LPAREN expression:e RPAREN
+	                                          {: RESULT = e; :}
+	                                      |	name:n LPAREN argumentList:alo RPAREN:fc
+	                                          {: RESULT = new ReturningFunctionCall(n, alo, nleft); :}
+	                                      |	arrayAccess:aa
+	                                          {: RESULT = aa; :};
+
+argumentList                            ::=
+                                              {: RESULT = new ArgumentList(0); :}
+                                          | expression:e
+		                                      {: ArgumentList al = new ArgumentList(0);
+                                                 al.add(e);
+                                                 RESULT = al;
+		                                      :}
+	                                      |	argumentList:al COMMA expression:e
+	                                          {: al.add(e);
+	                                             RESULT = al;
+	                                          :};
+
+
+functionCall                            ::= name:n LPAREN argumentList:alo RPAREN
+		                                      {: RESULT = new FunctionCall(n, alo, nleft); :};
+
+arrayAccess                             ::= name:n LBRACK expression:e RBRACK
+		                                      {: RESULT = new ArrayAccessIndex(n, e, nleft); :};
+
+postfixExpression                       ::= primary:p
+	                                          {: RESULT = p; :}
+	                                      |	IDENTIFIER:ident
+                                              {: RESULT = new IdentifierExpression(ident, identleft); :};
+
+
+unaryExpression                         ::= MINUS unaryExpression:ue
+	                                          {: RESULT = new UnaryExpression(ue, ueleft); :}
+	                                      |	unaryExprNotPlusMinus:uenpm
+	                                          {: RESULT = uenpm; :};
+
+
+unaryExprNotPlusMinus                   ::= postfixExpression:pe
+		                                      {: RESULT = pe; :}
+	                                      |	NOT unaryExpression:ue
+	                                          {: RESULT = new NotUnaryExpression(ue, ueleft); :};
+
+
+mulExpression                           ::= unaryExpression:ue
+		                                      {: RESULT = ue; :}
+	                                      |	mulExpression:me MULT unaryExpression:ue
+	                                          {: RESULT = new MultiplicationExpression(me, ue, meleft); :}
+	                                      |	mulExpression:me DIV unaryExpression:ue
+	                                          {: RESULT = new DivisionExpression(me, ue, meleft); :}
+	                                      |	mulExpression:me MOD unaryExpression:ue
+	                                          {: RESULT = new ModuloExpression(me, ue, meleft); :};
+
+plusExpression                          ::= mulExpression:me
+	                                          {: RESULT = me;:}
+	                                      |	plusExpression:pe PLUS mulExpression:me
+	                                          {: RESULT = new PlusExpression(pe, me, peleft); :}
+	                                      |	plusExpression:pe MINUS mulExpression:me
+	                                          {: RESULT = new MinusExpression(pe, me, peleft); :};
+
+relationalExpression                    ::= plusExpression:pe
+		                                      {: RESULT = pe;:}
+	                                      |	relationalExpression:re LT plusExpression:pe
+	                                          {: RESULT = new LessThan(re, pe, releft); :}
+	                                      |	relationalExpression:re GT plusExpression:pe
+	                                          {: RESULT = new GreaterThan(re, pe, releft); :}
+	                                      |	relationalExpression:re LTEQ plusExpression:pe
+	                                          {: RESULT = new LessThanEqual(re, pe, releft); :}
+	                                      |	relationalExpression:re GTEQ plusExpression:pe
+	                                          {: RESULT = new GreaterThanEqual(re, pe, releft); :};
+
+equalExpression                         ::= relationalExpression:re
+		                                      {: RESULT = re; :}
+	                                      |	equalExpression:ee EQEQ relationalExpression:re
+	                                          {: RESULT = new EqualExpression(ee, re, eeleft); :}
+	                                      |	equalExpression:ee NOTEQ relationalExpression:re
+	                                          {: RESULT = new NotEqualExpression(ee, re, eeleft); :};
+
+conditionalAndExpression                ::= equalExpression:ee
+                                              {: RESULT = ee; :}
+	                                      |	conditionalAndExpression:cae ANDAND equalExpression:ee
+	                                          {: RESULT = new AndExpression(cae, ee, caeleft); :};
+
+
+conditionalOrExpression                 ::= conditionalAndExpression:cae
+		                                      {: RESULT = cae; :}
+	                                      |	conditionalOrExpression:coe OROR conditionalAndExpression:cae
+	                                          {: RESULT = new OrExpression(coe, cae, coeleft); :};
+
+
+conditionalExpression                   ::= conditionalOrExpression:coe
+                                              {: RESULT = coe; :}
+	                                      | conditionalOrExpression:coe QUESTION expression:e COLON conditionalExpression:ce
+			                                  {: RESULT = new TernaryExpression(coe, e, ce, coeleft); :};
+
+
+assignmentOrConditionalExpression       ::= conditionalExpression:ce
+		                                      {: RESULT = ce; :}
+	                                      | assignment:a
+	                                          {: RESULT = a; :};
+
+
+assignment                              ::=	leftHandSide:lhs assignmentOperator:ao assignmentOrConditionalExpression:ae
+                                              {: RESULT = new AssignmentExpression(lhs, ao, ae, lhsleft); :};
+
+
+leftHandSide                            ::= IDENTIFIER:ident
+                                            {: RESULT = new IdentifierExpression(ident, identleft); :}
+	                                      |	arrayAccess:aa
+	                                          {: RESULT = aa; :};
+
+
+expression                              ::=	assignmentOrConditionalExpression:ae
+                                              {: RESULT = ae; :};
+
+
+assignmentOperator                      ::= EQ:eq
+		                                      {: RESULT = new Equal(eqleft); :}
+	                                      |	PLUSEQ:pe
+	                                          {: RESULT = new PlusEqual(peleft); :}
+	                                      |	MINUSEQ:me
+	                                          {: RESULT = new MinusEqual(meleft); :};
+
+
+constantExpression                      ::= expression:e
+                                              {: RESULT = e; :};

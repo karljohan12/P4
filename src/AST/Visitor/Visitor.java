@@ -118,7 +118,7 @@ public interface Visitor {
     public void visit(PostdecrementExprStmt n);
     public void visit(PostfixExpression n);
     public void visit(PostfixExpressionMinusMinus n);
-    public void visit(postfixExpressionPlusPlus n);
+    public void visit(PostfixExpressionPlusPlus n);
     public void visit(PostIncrementExpression n);
     public void visit(PostincrementExprStmt n);
     public void visit(PredecrementExpression n);
@@ -135,7 +135,7 @@ public interface Visitor {
     public void visit(ReferenceType n);
     public void visit(RelationExpression n);
     public void visit(ReturnStatementWithoutSubstatement n);
-    public void visit(ReturnStmtExpr n);
+    public void visit(ReturnStatementExpression n);
     public void visit(RobotType n);
     public void visit(Semicolon n);
     public void visit(SemiColonFunction n);
@@ -183,4 +183,25 @@ public interface Visitor {
     public void visit(voidFunctionDeclerator n);
     public void visit(WhileExpr n);
     public void visit(WhileStmtExpr n);
+    public void visit(IdentifierExpression n);
+
+    void visit(AndExpression andExpression);
+
+    void visit(OrExpression orExpression);
+
+    void visit(MinusExpression minusExpression);
+
+    void visit(ModuloExpression moduloExpression);
+
+    void visit(DivisionExpression divisionExpression);
+
+    void visit(MultiplicationExpression multiplicationExpression);
+
+    void visit(PrimaryExpression primaryExpression);
+
+    void visit(ArrayAccessIndex arrayAccessIndex);
+
+    void visit(ReturningFunctionCall functionCall);
+
+    void visit(ForLoop forLoop);
 }

@@ -1,5 +1,9 @@
 package AST.List;
 
+import AST.Abstract.ASTNode;
+
+import java.util.List;
+
 public class BlockStatementList extends ASTNode {
     private List<?> list;
 

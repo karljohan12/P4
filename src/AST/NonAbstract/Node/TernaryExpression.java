@@ -1,4 +1,21 @@
 package AST.NonAbstract.Node;
 
-public class TernaryExpression {
+import AST.Abstract.Expression;
+import AST.Visitor.Visitor;
+
+public class TernaryExpression extends Expression {
+    public Expression e1, e2, e3;
+
+    public TernaryExpression(Expression ae1, Expression ae2, Expression ae3, int ln){
+        super(ln);
+        e1 = ae1;
+        e2 = ae2;
+        e3 = ae3;
+
+
+    }
+    public void accept(Visitor v) {
+        v.visit(this);
+    }
+
 }

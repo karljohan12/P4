@@ -1,4 +1,4 @@
-package AST.NonAbstract.Node;
+package AST.List;
 
 public class SwitchGroupList {
 }

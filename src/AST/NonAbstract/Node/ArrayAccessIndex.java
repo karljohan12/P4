@@ -3,15 +3,17 @@ package AST.NonAbstract.Node;
 import AST.Abstract.Expression;
 import AST.Visitor.Visitor;
 
-public class UnaryExpression extends Expression {
+public class ArrayAccessIndex extends Expression {
+    public Identifier i;
     public Expression e;
 
-    public UnaryExpression(Expression ae, int ln){
+    public ArrayAccessIndex(Identifier i, Expression e, int ln){
         super(ln);
-        e = ae;
-
+        this.i = i;
+        this.e = e;
     }
     public void accept(Visitor v) {
         v.visit(this);
     }
+
 }

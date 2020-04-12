@@ -1,4 +1,4 @@
 package AST.NonAbstract.Node;
 
-public class FunctionCall {
+public class SwitchLabel {
 }

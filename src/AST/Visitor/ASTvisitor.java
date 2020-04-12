@@ -1111,7 +1111,7 @@ public class ASTvisitor implements Visitor {
     }
 
     @Override
-    public void visit(postfixExpressionPlusPlus n) {
+    public void visit(PostfixExpressionPlusPlus n) {
         printNode(n);
         increaseIndent();
 
@@ -1290,7 +1290,7 @@ public class ASTvisitor implements Visitor {
     }
 
     @Override
-    public void visit(ReturnStmtExpr n) {
+    public void visit(ReturnStatementExpression n) {
         printNode(n);
         increaseIndent();
 

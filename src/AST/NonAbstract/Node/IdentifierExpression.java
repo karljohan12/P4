@@ -3,19 +3,15 @@ package AST.NonAbstract.Node;
 import AST.Abstract.Expression;
 import AST.Visitor.Visitor;
 
-public class OrExpression extends Expression {
-    public Expression e1, e2;
+public class IdentifierExpression extends Expression {
+    String s;
 
-    public OrExpression(Expression ae1, Expression ae2, int ln){
+    public IdentifierExpression(String as, int ln){
         super(ln);
-        e1 = ae1;
-        e2 = ae2;
-
-
-
+        s = as;
     }
+
     public void accept(Visitor v) {
         v.visit(this);
     }
-
 }

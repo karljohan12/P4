@@ -275,7 +275,8 @@ Servo grapper = PIN3;
 Robot CNC = {body, shoulder, grapper};
 
 //Declare predefined robotpositions
-ServoPosition pickupSubjectStart = {30, 50, 0};
+int header = 12;
+ServoPosition pickupSubjectStart = { header, 30 50, 0};
 ServoPosition PlaceSubjectCNC = {80, 30, 72};
 ServoPosition Waiting = {80, 10, 0};
 ServoPosition pickupSubjectCNC = {80, 30, 0};
