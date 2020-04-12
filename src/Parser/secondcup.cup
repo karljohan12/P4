@@ -81,7 +81,7 @@ non terminal functionHeader;
 non terminal functionDeclarator;
 non terminal FormalParamList formalParameterList;
 non terminal formalParameter;
-non terminal functionBody;
+non terminal functionBody, blockStatementsOptional;
 
 non terminal arrayInitial;
 non terminal VariableInitList variableInitials;
@@ -107,7 +107,6 @@ non terminal switchLabel;
 non terminal WhileExpr whileStatement;
 non terminal ForExpr forStatement;
 non terminal forInitial;
-non terminal StatementExpressionsList stmtExprList;
 non terminal ReturnStmtExpr returnStatement;
 
 non terminal primary;
@@ -135,6 +134,7 @@ non terminal localVariableDeclStmtGlobal globalVariable;
 non terminal GlobalVariableList globalVariables;
 non terminal ServoInitsStmt servoInitial;
 non terminal servoInitials;
+non terminal functionStmtsOpt;
 
 
 
@@ -189,15 +189,14 @@ arrayType                       ::= primitiveType:pt LBRACK RBRACK
 name	                        ::= IDENTIFIER:ident
                                       {: RESULT = new Identifier(ident, identleft); :};
 
-initial                           ::= globalVariables:gvs functionStatements:fso
+initial                           ::= globalVariables:gvs functionStmtsOpt:fso
                                       {: RESULT = new GlobalVariablePlusFunctionStatements(gvs, fso, gvsleft); :}
-                                  | functionStatements:fso
+                                  | functionStmtsOpt:fso
                                       {: RESULT = fso; :};
 
 
 globalVariables                 ::=
-                                      {: RESULT = new GlobalVariableList(); :}
-                                  | globalVariable:gv
+                                     globalVariable:gv
                                       {: GlobalVariableList gvs = new GlobalVariableList();
                                          gvs.add(gv);
                                          RESULT = gvs;
@@ -210,14 +209,17 @@ globalVariables                 ::=
 globalVariable                  ::= localVariableDeclarationstatement:lvds
                                       {: RESULT = lvds; :};
 
-//functionStmtsOpt                ::= functionStmts:fs
+functionStmtsOpt                ::=
+
+                                    {: RESULT = new FunctionStatementList(); :}
+                                   | functionStatements:fs
                                       //{: RESULT = new Function(fs, fsleft); :}
-  //                                    {: RESULT = fs;:}
-    //                              | ;
+                                      {: RESULT = fs;:}
+                                  ;
 
 functionStatements              ::=
-                                     {: RESULT = new FunctionStatementList(); :}
-                                  | functionDeclaration:fd
+
+                                     functionDeclaration:fd
                                       {: FunctionStatementList fs = new FunctionStatementList();
                                          fs.add(fd);
                                          RESULT = fs;
@@ -228,8 +230,7 @@ functionStatements              ::=
                                       :};
 
 variableDeclarations                   ::=
-                                     {: RESULT = new VariableDeclarationList(); :}
-                                  | variableDeclaration:vd
+                                   variableDeclaration:vd
                                       {: VariableDeclarationList vds = new VariableDeclarationList();
                                          vds.add(vd);
                                          RESULT = vds;
@@ -302,8 +303,7 @@ arrayInitial                       ::=	LBRACE variableInitials:vi RBRACE
 	                                  {: RESULT = new EmptyArray(lbleft); :};
 
 servoInitials                      ::=
-                                      {: RESULT = new ServoInitializationList(); :}
-                                  | IDENTIFIER COLON literal:l
+                                     IDENTIFIER COLON literal:l
                                       {: ServoInitializationList si = new ServoInitializationList();
                                          si.add(l);
                                          RESULT = si;
@@ -313,12 +313,11 @@ servoInitials                      ::=
                                          RESULT = si;
                                       :};
 
-servoInitial                       ::= LBRACE servoInitials:si RBRACE
-                                      {: RESULT = new ServoPositionVariables(si, sileft); :};
+servoInitial                       ::= LBRACE servoInitials:si RBRACE // ServoPosition sp;
+                                      {: RESULT = new ServoPositionVariables(si, sileft); :}; //ServoPosition PlaceSubjectCNC = {80, 30, 72};
 
 variableInitials                   ::=
-                                      {: RESULT = new VariableInitList(); :}
-                                  | variableInitial:vi
+                                   variableInitial:vi
 		                              {: VariableInitList vis = new VariableInitList();
                                         vis.add(vi);
                                       	RESULT = vis;
@@ -328,18 +327,17 @@ variableInitials                   ::=
                                          RESULT = vis;
                                       :};
 
-block                           ::= BEGIN blockStatements:bso END
+block                           ::= BEGIN blockStatementsOptional:bso END
                                       {: RESULT = new Block(bso, bsoleft); :};
 
-//blockStmtsOpt                   ::=
-//	                              |	blockStmts:bss
-	                                  //{: RESULT = new BlockStmts(bss, bssleft); :}
-//                                {: RESULT = bss;:}
-	//                                  ;
+blockStatementsOptional                   ::=
+                               {: RESULT = new BlockStatementList(); :}
+                               |	blockStatements:bss
+                               {: RESULT = bss;:};
 
 blockStatements                      ::=
-                                      {: RESULT = new BlockStatementList(); :}
-                                  | blockStatement:bs
+
+                                   blockStatement:bs
 		                              {: BlockStatememtList bss = new BlockStatementList();
 		                                 bss.add(bs);
 		                                 RESULT = bss;
@@ -427,8 +425,7 @@ switchBlock                     ::= BEGIN switchBlockStatementGroups:sbsgs switc
 	                                  {: RESULT = new EmptySwitch(bleft); :};
 
 switchBlockStatementGroups           ::=
-                                      {: RESULT = new SwitchGroupList(); :}
-                                  | switchBlockStatementGroup:sbsg
+                                      switchBlockStatementGroup:sbsg
 		                              {: SwitchGroupList sbsgs = new SwitchGroupList();
                                          sbsgs.add(sbsg);
                                          RESULT = sbsgs;
@@ -443,8 +440,7 @@ switchBlockStatementGroup            ::= switchLabels:sls blockStatements:bs
 		                              {: RESULT = new SwitchLabelBlock(sls, bs, slsleft); :};
 
 switchLabels                    ::=
-                                    {: RESULT = new SwitchLabelList(); :}
-                                  | switchLabel:sl
+                                    switchLabel:sl
 		                              {: SwitchLabelList sls = new SwitchLabelList();
                                          sls.add(sl);
                                          RESULT =  sls;
