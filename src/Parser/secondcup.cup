@@ -70,7 +70,7 @@ non terminal Type referenceType;
 non terminal Type arrayType;
 
 non terminal Identifier name;
-non terminal FunctionStatementList initial;
+non terminal Initial initial;
 non terminal FunctionStatementList functionStatements;
 
 non terminal VariableDeclarationList variableDeclarations;
@@ -193,7 +193,7 @@ name	                                ::= IDENTIFIER:ident
 initial                                 ::= globalVariables:gvs functionStatemntsOptional:fso
                                               {: RESULT = new GlobalVariablePlusFunctionStatements(gvs, fso, gvsleft); :}
                                           | functionStatemntsOptional:fso
-                                              {: RESULT = fso; :};
+                                              {: RESULT = new FunctionList(fso, fsoleft); :};
 
 
 
@@ -290,7 +290,6 @@ formalParameter                         ::= type:t name:vdi
 
 functionBody                            ::= block:b
                                               {: RESULT = b; :}
-	                                      |	SEMICOLON:sc
                                             ;
 
 

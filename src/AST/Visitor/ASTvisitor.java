@@ -37,9 +37,6 @@ public class ASTvisitor implements Visitor {
 
 
         decreaseIndent();
-
-
-
     }
 
     @Override
@@ -707,7 +704,9 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         for ( int i = 0; i < n.sl.size(); i++ ) {
-            n.sl.get(i).accept(this);
+            if(n.sl.get(i) != null) {
+                n.sl.get(i).accept(this);
+            }
         }
 
         decreaseIndent();
@@ -743,9 +742,8 @@ public class ASTvisitor implements Visitor {
         printNode(program);
         increaseIndent();
 
-        for (int i = 0; i < program.sl.size(); i++ ) {
-            program.sl.get(i).accept(this);
-        }
+        program.sl.accept(this);
+
 
         decreaseIndent();
     }
@@ -761,6 +759,17 @@ public class ASTvisitor implements Visitor {
 
         for ( int i = 0; i < globalVariablePlusFunctionStatements.sl.size(); i++ ) {
             globalVariablePlusFunctionStatements.sl.get(i).accept(this);
+        }
+
+        decreaseIndent();
+    }
+
+    @Override
+    public void visit(FunctionList functionList) {
+        printNode(functionList);
+        increaseIndent();
+        for ( int i = 0; i < functionList.fsl.size(); i++ ) {
+            functionList.fsl.get(i).accept(this);
         }
 
         decreaseIndent();

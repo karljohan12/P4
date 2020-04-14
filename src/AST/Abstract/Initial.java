@@ -2,11 +2,10 @@ package AST.Abstract;
 
 import AST.Visitor.Visitor;
 
-abstract public class Statement extends VariableInitial {
+public abstract class Initial extends ASTNode {
 
-    public Statement(int ln) {
+    public Initial(int ln) {
         super(ln);
     };
     public abstract void accept(Visitor v);
 }
-

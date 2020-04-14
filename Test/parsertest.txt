@@ -1,7 +1,7 @@
 int s = 1;
 int i = 2;
 
-int main(const int i, int i) BEGIN
+int main(const int i, int pik9) BEGIN
 
 i = 23;
 
@@ -9,11 +9,10 @@ i = 23;
 
 END
 
-int main(int i);
 
 
 
-int main(int i) BEGIN
+int main(int pik) BEGIN
 int i = 2;
 int i = 2;
 int i, u;
@@ -231,7 +230,6 @@ i--;
 
     END
     else BEGIN
-
 
 
 if(A)

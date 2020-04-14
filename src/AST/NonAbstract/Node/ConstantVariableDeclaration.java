@@ -9,13 +9,12 @@ public class ConstantVariableDeclaration extends Statement {
     public Type t;
     public VariableDeclarationList vdl;
 
-    public ConstantVariableDeclaration(Type t, VariableDeclarationList Vdl, int ln){
+    public ConstantVariableDeclaration(Type t, VariableDeclarationList vdl, int ln){
         super(ln);
         this.t = t;
         this.vdl = vdl;
-
-
     }
+
     public void accept(Visitor v) {
         v.visit(this);
     }

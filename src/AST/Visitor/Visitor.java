@@ -151,4 +151,5 @@ public interface Visitor {
 
     public void visit(GlobalVariablePlusFunctionStatements globalVariablePlusFunctionStatements);
 
+    void visit(FunctionList functionList);
 }

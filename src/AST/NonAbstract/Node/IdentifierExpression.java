@@ -4,7 +4,7 @@ import AST.Abstract.Expression;
 import AST.Visitor.Visitor;
 
 public class IdentifierExpression extends Expression {
-    String s;
+    public String s;
 
     public IdentifierExpression(String as, int ln){
         super(ln);
@@ -13,5 +13,9 @@ public class IdentifierExpression extends Expression {
 
     public void accept(Visitor v) {
         v.visit(this);
+    }
+
+    public String toString() {
+        return s;
     }
 }

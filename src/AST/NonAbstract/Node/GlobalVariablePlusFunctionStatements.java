@@ -1,11 +1,12 @@
 package AST.NonAbstract.Node;
 
 
+import AST.Abstract.Initial;
 import AST.List.FunctionStatementList;
 import AST.List.GlobalVariableList;
 import AST.Visitor.Visitor;
 
-public class GlobalVariablePlusFunctionStatements extends FunctionStatementList {
+public class GlobalVariablePlusFunctionStatements extends Initial {
     public GlobalVariableList v;
     public FunctionStatementList sl;
 
