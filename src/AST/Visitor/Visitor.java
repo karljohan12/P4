@@ -1,207 +1,154 @@
 package AST.Visitor;
 
-import AST.Abstract.AbstractUnaryExprNotPlusMinus;
+import AST.List.*;
 import AST.NonAbstract.Node.*;
 
 public interface Visitor {
 
-    public void visit(Program n);
-    public void visit(ArgumentList n);
-    public void visit(ArgumentListCommaExpression n);
-    public void visit(ArrayAccess n);
-    public void visit(ArrayAccessNoNewArray n);
-    public void visit(ArrayInit n);
     public void visit(ArrayType n);
-    public void visit(ArrCreate n);
-    public void visit(AssignmentExpr n);
+
     public void visit(AssignmentExpression n);
-    public void visit(AssignmentStmt n);
-    public void visit(Beginings n);
-    public void visit(BlockStmt n);
-    public void visit(BlockStmts n);
-    public void visit(BlockStmtsOpt n);
-    public void visit(BlockStmtstmt n);
+
     public void visit(BoolLiteral n);
+
     public void visit(BoolType n);
-    public void visit(BracketEnc n);
-    public void visit(BracketEnclosureBrack n);
-    public void visit(BracketEnclosureExpression n);
-    public void visit(BracketEnclosureExprsExpr n);
-    public void visit(BreakStatementWithoutSubstatement n);
-    public void visit(BreakStmtExpr n);
-    public void visit(ComparableUnaryExpression n);
-    public void visit(ConditionalAndAndExpression n);
-    public void visit(ConditionalAndExpression n);
-    public void visit(ConditionalExpression n);
-    public void visit(ConditionalOrExpression n);
-    public void visit(ConditionalOrExprOrOrConditionalAndExpr n);
+
     public void visit(ConstantExpression n);
-    public void visit(ConstExpr n);
-    public void visit(ConstTypeVariableDelcId n);
-    public void visit(DEF n);
-    public void visit(EmptystmtWithoutSubstatement n);
+
     public void visit(Equal n);
-    public void visit(EqualEqualExpression n);
+
     public void visit(EqualExpression n);
-    public void visit(expr n);
-    public void visit(Expression n);
-    public void visit(ExpressionAssignment n);
-    public void visit(ExprStmtWithoutSubstatement n);
+
     public void visit(FloatLiteral n);
+
     public void visit(FloatType n);
-    public void visit(ForExpr n);
-    public void visit(FormalParam n);
-    public void visit(FormalParamList n);
-    public void visit(FormalParamListFormalParam n);
-    public void visit(ForStmtExpr n);
-    public void visit(FuncStmtOpt n);
+
     public void visit(Function n);
-    public void visit(FunctionBlock n);
-    public void visit(FunctionCallArray n);
-    public void visit(FunctionCallStatement n);
-    public void visit(FunctionDeclerator n);
-    public void visit(FunctionDecleratorBrack n);
-    public void visit(FunctionDeclStatement n);
-    public void visit(FunctionHeaderBody n);
-    public void visit(FunctionStmtsFunctionDecl n);
-    public void visit(GlobalVarfuncStmtOpt n);
-    public void visit(GlobalVariablesStmt n);
-    public void visit(GlobalVaribaleStmt n);
+
     public void visit(GreaterThan n);
+
     public void visit(GreaterThanEqual n);
-    public void visit(Ident n);
+
     public void visit(Identifier n);
-    public void visit(IfLparenExprRparen n);
-    public void visit(IfLparenExprRparenStmtIfWithoutElseElseStmt n);
-    public void visit(IfLparenExprRparenStmtWithoutElseElseStmtIfWithoutElse n);
-    public void visit(IfThenElseIfWithoutElseStatement n);
-    public void visit(IfThenElseStmtExpr n);
-    public void visit(IfThenStmtExpr n);
+
     public void visit(IntegerLiteral n);
+
     public void visit(IntType n);
-    public void visit(LBraceCommaRBrace n);
-    public void visit(LBRACERBRACE n);
-    public void visit(LbrackexprRbrack n);
-    public void visit(LbrackRbrack n);
-    public void visit(LeftParenthesisExpressionRightParenthesis n);
+
     public void visit(LessThan n);
+
     public void visit(LessThanEqual n);
-    public void visit(Literal n);
-    public void visit(localVariableDecl n);
-    public void visit(localVariableDeclBlockStmt n);
-    public void visit(LocalVariableDeclStatement n);
-    public void visit(localVariableDeclStmtGlobal n);
+
     public void visit(MinusEqual n);
+
     public void visit(MinusMinusUnaryExpression n);
-    public void visit(MultipicationExpression n);
-    public void visit(MultiplicationExpresionDivisionUnaryExpression n);
-    public void visit(MultiplicationExpressionModuloUnaryExpression n);
-    public void visit(MultiplicationExpressionMultiplicationUnaryExpression n);
-    public void visit(NameAssign n);
-    public void visit(NameExpression n);
-    public void visit(NameLeftBracketExpressionRightBracket n);
-    public void visit(NameLeftParenthesisArgumentListOptionalRightParenthesis n);
-    public void visit(NameType n);
-    public void visit(NameTypeBrackEnc n);
-    public void visit(NoArrayLiteral n);
+
     public void visit(NotEqualExpression n);
+
     public void visit(NotUnaryExpression n);
-    public void visit(NullLiteral n);
-    public void visit(NumericType n);
+
     public void visit(PlusEqual n);
+
     public void visit(PlusExpression n);
-    public void visit(PlusExpressionMinusMtiplicationExpression n);
-    public void visit(PlusExpressionPlusMultiplicationExpression n);
+
     public void visit(PlusPlusUnaryExpression n);
-    public void visit(PlusUnaryExpression n);
-    public void visit(PostDecrementExpression n);
-    public void visit(PostdecrementExprStmt n);
-    public void visit(PostfixExpression n);
+
     public void visit(PostfixExpressionMinusMinus n);
+
     public void visit(PostfixExpressionPlusPlus n);
-    public void visit(PostIncrementExpression n);
-    public void visit(PostincrementExprStmt n);
-    public void visit(PredecrementExpression n);
-    public void visit(PreDecrementExprStmt n);
-    public void visit(PreIncrementExpression n);
-    public void visit(PreIncrementExprStmt n);
-    public void visit(Primary n);
-    public void visit(PrimaryNoNewArr n);
-    public void visit(PrimaryNoNewArrayLeftBracketExpressionRightBracket n);
-    public void visit(PrimitiveType n);
-    public void visit(PrimitiveTypeBracketEnclosureArrayInit n);
-    public void visit(PrimitiveTypeBracketEnclosureExpressionsBracketEnclosureOptional n);
-    public void visit(PrimTypeBrackEnc n);
-    public void visit(ReferenceType n);
-    public void visit(RelationExpression n);
-    public void visit(ReturnStatementWithoutSubstatement n);
+
     public void visit(ReturnStatementExpression n);
+
     public void visit(RobotType n);
-    public void visit(Semicolon n);
-    public void visit(SemiColonFunction n);
-    public void visit(ServoInitLiteral n);
-    public void visit(ServoInitsStmt n);
-    public void visit(ServoInitStmt n);
+
     public void visit(ServoPrimitiveType n);
+
     public void visit(ServoType n);
+
     public void visit(StatementBlock n);
-    public void visit(StExpr n);
-    public void visit(stmt n);
-    public void visit(StmtExpr n);
-    public void visit(StmtExprList n);
-    public void visit(StmtExprListStmtExpr n);
-    public void visit(StmtWithoutTrailingSubstatement n);
-    public void visit(StmtWithoutTrailingSubstmt n);
+
     public void visit(StrLiteral n);
+
     public void visit(Switch n);
-    public void visit(SwitchBlockGroup n);
+
     public void visit(SwitchBlockLabels n);
-    public void visit(switchBlockSwitchBlock n);
+
     public void visit(SwitchGroups n);
-    public void visit(SwitchLabel n);
+
     public void visit(SwitchLabelBlock n);
+
     public void visit(SwitchLabels n);
-    public void visit(SwitchLabelsLabel n);
-    public void visit(SwitchStmtWithoutSubstatement n);
+
     public void visit(TernaryExpression n);
-    public void visit(TypeFunctionDeclerator n);
-    public void visit(TypeVariableDecls n);
-    public void visit(TypeVariableDelcId n);
-    public void visit(UnaryExpressionNotPlusMinus n);
+
     public void visit(UnaryExpression n);
-    public void visit(UnaryExpressionstmt n);
-    public void visit(variableDecIDBrackBrack n);
-    public void visit(VariableDecl n);
-    public void visit(VariableDeclId n);
-    public void visit(VariableDeclIdVariableInit n);
-    public void visit(VariableDecls n);
-    public void visit(variableDeclsVariableDecl n);
-    public void visit(VariableInit n);
-    public void visit(VariableInitsBracks n);
-    public void visit(VariableInitsComma n);
-    public void visit(VariableInitsInit n);
-    public void visit(voidFunctionDeclerator n);
-    public void visit(WhileExpr n);
-    public void visit(WhileStmtExpr n);
+
     public void visit(IdentifierExpression n);
 
-    void visit(AndExpression andExpression);
+    public void visit(AndExpression n);
 
-    void visit(OrExpression orExpression);
+    public void visit(OrExpression n);
 
-    void visit(MinusExpression minusExpression);
+    public void visit(MinusExpression n);
 
-    void visit(ModuloExpression moduloExpression);
+    public void visit(ModuloExpression n);
 
-    void visit(DivisionExpression divisionExpression);
+    public void visit(DivisionExpression n);
 
-    void visit(MultiplicationExpression multiplicationExpression);
+    public void visit(MultiplicationExpression n);
 
-    void visit(PrimaryExpression primaryExpression);
+    public void visit(ArrayAccessIndex n);
 
-    void visit(ArrayAccessIndex arrayAccessIndex);
+    public void visit(ReturningFunctionCall n);
 
-    void visit(ReturningFunctionCall functionCall);
+    public void visit(ForLoop n);
 
-    void visit(ForLoop forLoop);
+    public void visit(WhileLoop n);
+
+    public void visit(IfElse n);
+
+    public void visit(If n);
+
+    public void visit(NonReturningFunctionCall n);
+
+    public void visit(Break n);
+
+    public void visit(ConstantVariableDeclaration n);
+
+    public void visit(VariableDeclaration n);
+
+    public void visit(DefaultCase n);
+
+    public void visit(EmptySwitch n);
+
+    public void visit(LocalVariableDeclarationStatement n);
+
+    public void visit(Block n);
+
+    public void visit(ServoPositionVariables n);
+
+    public void visit(EmptyArray n);
+
+    public void visit(ConstantFormalParameter n);
+
+    public void visit(FormalParameter n);
+
+    public void visit(VoidFunctionHeader n);
+
+    public void visit(TypeFunctionHeader n);
+
+    public void visit(VariableAssignmentDeclaration n);
+
+    public void visit(IdentifierVariable n);
+
+    public void visit(ABlockStatement n);
+
+    public void visit(FunctionDeclarator n);
+
+    public void visit(ArrayVariables n);
+
+    public void visit(Program program);
+
+    public void visit(GlobalVariablePlusFunctionStatements globalVariablePlusFunctionStatements);
+
 }

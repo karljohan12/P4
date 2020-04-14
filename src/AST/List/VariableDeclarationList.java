@@ -1,16 +1,31 @@
 package AST.List;
 
-public class VariableDeclarationList extends ASTNode {
-    private List<?> list;
+import AST.Abstract.ASTNode;
+import AST.Abstract.VariableInitial;
 
-    public FormalParamList(int ln) {
+import java.util.ArrayList;
+import java.util.List;
+
+public class VariableDeclarationList extends ASTNode {
+    private List<VariableInitial> list;
+
+    public VariableDeclarationList(int ln) {
         super(ln);
-        list = new ArrayList<?>();
+        list = new ArrayList<VariableInitial>();
     }
 
-    public void add(? e) { list.add(e); }
+    public void add(VariableInitial e) {
+        list.add(e);
+    }
 
-    public ? get(int i) { return list.get(i); }
+    public VariableInitial get(int i) {
+        return list.get(i);
+    }
 
-    public int size() { return list.size(); }{
+    public int size() {
+        return list.size();
+    }
+
+
+
 }

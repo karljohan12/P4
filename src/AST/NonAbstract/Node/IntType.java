@@ -1,4 +1,16 @@
 package AST.NonAbstract.Node;
 
-public class IntType {
+import AST.Abstract.Type;
+import AST.Visitor.Visitor;
+
+public class IntType extends Type {
+    public IntType(int ln){
+        super(ln);
+
+
+    }
+    public void accept(Visitor v) {
+        v.visit(this);
+    }
+
 }

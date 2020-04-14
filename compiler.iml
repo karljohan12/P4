@@ -5,7 +5,9 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/Test/Nonterminal" />
+      <excludeFolder url="file://$MODULE_DIR$/Test/Obselete" />
       <excludeFolder url="file://$MODULE_DIR$/Test/Shit" />
+      <excludeFolder url="file://$MODULE_DIR$/src/AST/Visitor/DIE" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

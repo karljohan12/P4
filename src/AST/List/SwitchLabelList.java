@@ -1,16 +1,30 @@
 package AST.List;
 
-public class SwitchLabelList extends ASTNode {
-    private List<?> list;
+import AST.Abstract.ASTNode;
+import AST.Abstract.Statement;
 
-    public FormalParamList(int ln) {
+import java.util.ArrayList;
+import java.util.List;
+
+public class SwitchLabelList extends ASTNode {
+    public List<Statement> list;
+
+    public SwitchLabelList(int ln) {
         super(ln);
-        list = new ArrayList<?>();
+        list = new ArrayList<Statement>();
     }
 
-    public void add(? e) { list.add(e); }
+    public void add(Statement e) {
+        list.add(e);
+    }
 
-    public ? get(int i) { return list.get(i); }
+    public Statement get(int i) {
+        return list.get(i);
+    }
 
-    public int size() { return list.size(); }{
+    public int size() {
+        return list.size();
+    }
+
+
 }

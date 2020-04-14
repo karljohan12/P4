@@ -1,4 +1,20 @@
 package AST.NonAbstract.Node;
 
-public class MinusMinusUnaryExpression {
+import AST.Abstract.Expression;
+import AST.Abstract.Statement;
+import AST.Visitor.Visitor;
+
+public class MinusMinusUnaryExpression extends Statement {
+    public Expression e;
+
+    public MinusMinusUnaryExpression(Expression e, int ln){
+        super(ln);
+        this.e = e;
+
+    }
+    public void accept(Visitor v) {
+        v.visit(this);
+    }
+
+
 }

@@ -2,7 +2,7 @@ package AST.Abstract;
 
 import AST.Visitor.Visitor;
 
-abstract public class BlockStatement extends ASTNode {
+abstract public class BlockStatement extends AFunction {
 
     public BlockStatement(int ln) {
         super(ln);

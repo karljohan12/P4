@@ -1,20 +1,22 @@
 package AST.List;
 
 import AST.Abstract.ASTNode;
+import AST.Abstract.BlockStatement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BlockStatementList extends ASTNode {
-    private List<?> list;
+    private List<BlockStatement> list;
 
     public BlockStatementList(int ln) {
         super(ln);
-        list = new ArrayList<?>();
+        list = new ArrayList<BlockStatement>();
     }
 
-    public void add(? e) { list.add(e); }
+    public void add(BlockStatement e) { list.add(e); }
 
-    public ? get(int i) { return list.get(i); }
+    public BlockStatement get(int i) { return list.get(i); }
 
     public int size() { return list.size(); }
 }

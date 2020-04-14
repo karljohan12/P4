@@ -1,4 +1,14 @@
 package AST.NonAbstract.Node;
 
-public class RobotType {
+import AST.Abstract.Type;
+import AST.Visitor.Visitor;
+
+public class RobotType extends Type {
+    public RobotType(int ln){
+        super(ln);
+    }
+    public void accept(Visitor v) {
+        v.visit(this);
+    }
+
 }

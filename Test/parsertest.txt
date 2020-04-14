@@ -2,10 +2,10 @@ int s = 1;
 int i = 2;
 
 int main(const int i, int i) BEGIN
-int[][] array;
+
 i = 23;
 
-haps haps;
+
 
 END
 
@@ -19,11 +19,11 @@ int i = 2;
 int i, u;
 int[] array;
 array[1] = 1;
-array[1][1] = 2;
+
 
 int l = 2 % 2;
 
-int[][] d;
+
 
 
 u = hamseanders(jesus);
@@ -52,10 +52,10 @@ END
 
 t = null;
 
-Ost[] oste;
 
 
-String s = "hey";
+
+
 
 double i = 2.0;
 double i = 2;
@@ -79,7 +79,7 @@ int i;
 
 i = 2*2;
 i = 2/2;
-String value = object == null ? 23 : null;
+
 
 break;
 END
@@ -145,7 +145,7 @@ while(i < 3 AND 3 OR 2) BEGIN
 int i = 0;
 END
 
-String sw = "hej";
+
 switch(sw) BEGIN
     case 2:
     i++;
@@ -189,7 +189,7 @@ switch(sw) BEGIN
 END
 
 
-String sw = "hej";
+
 switch(sw) BEGIN
     case 2:
     i++;
@@ -276,7 +276,6 @@ Robot CNC = {body, shoulder, grapper};
 
 //Declare predefined robotpositions
 int header = 12;
-ServoPosition pickupSubjectStart = { header, 30 50, 0};
 ServoPosition PlaceSubjectCNC = {80, 30, 72};
 ServoPosition Waiting = {80, 10, 0};
 ServoPosition pickupSubjectCNC = {80, 30, 0};

@@ -2,7 +2,7 @@ package AST.Abstract;
 
 import AST.Visitor.Visitor;
 
-abstract public class Expression extends ASTNode {
+abstract public class Expression extends Statement {
     public Expression(int ln) {
         super(ln);
     }

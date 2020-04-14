@@ -1,13 +1,13 @@
 package AST.NonAbstract.Node;
 
-import AST.Abstract.BlockStatement;
+import AST.Abstract.Statement;
 import AST.List.BlockStatementList;
 import AST.Visitor.Visitor;
 
-public class Block extends BlockStatement {
+public class ABlockStatement extends Statement {
     public BlockStatementList sl;
 
-    public Block(BlockStatementList sl, int ln){
+    public ABlockStatement(BlockStatementList sl, int ln){
         super(ln);
         this.sl = sl;
     }

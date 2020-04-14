@@ -55,7 +55,7 @@ terminal double FLOATING_POINT_LITERAL;
 terminal java.lang.Boolean BOOLEAN_LITERAL;
 terminal java.lang.String IDENTIFIER;
 terminal java.lang.String STRING_LITERAL;
-terminal NULL_LITERAL;
+
 
 
 
@@ -70,27 +70,27 @@ non terminal Type referenceType;
 non terminal Type arrayType;
 
 non terminal Identifier name;
-non terminal Initial initial;
+non terminal FunctionStatementList initial;
 non terminal FunctionStatementList functionStatements;
 
 non terminal VariableDeclarationList variableDeclarations;
-non terminal AVariableDeclaration variableDeclaration;
+non terminal VariableInitial variableDeclaration;
 non terminal VariableInitial variableInitial;
 
-non terminal Function functionDeclaration;
-non terminal FunctionHeader functionHeader;
-non terminal FunctionDeclarator functionDeclarator;
+non terminal AFunction functionDeclaration;
+non terminal AFunction functionHeader;
+non terminal AFunction functionDeclarator;
 non terminal FormalParameterList formalParameterList;
-non terminal AFormalParameter formalParameter;
-non terminal FunctionBody functionBody;
+non terminal AFunction formalParameter;
+non terminal AFunction functionBody;
 non terminal BlockStatementList blockStatementsOptional;
 non terminal VariableInitial arrayInitial;
 non terminal VariableInitializationList variableInitials;
 
-nonterminal  Block block;
+non terminal  BlockStatement block;
 non terminal BlockStatementList blockStatements;
 non terminal BlockStatement blockStatement;
-non terminal LocalVariableDeclarationStatement localVariableDeclarationstatement;
+non terminal VariableInitial localVariableDeclarationstatement;
 non terminal Statement localVariableDecl;
 non terminal Statement statement;
 non terminal Statement statementIfWithoutElse;
@@ -100,20 +100,18 @@ non terminal Statement statementExpression;
 non terminal Statement ifThenStatement;
 non terminal Statement ifThenElseStatement;
 non terminal Statement switchStatement;
-non terminal SwitchBlock switchBlock;
+non terminal Statement switchBlock;
 non terminal SwitchGroupList switchBlockStatementGroups;
-non terminal SwitchLabelBlock switchBlockStatementGroup;
+non terminal Statement switchBlockStatementGroup;
 non terminal SwitchLabelList switchLabels;
-non terminal SwitchLabel switchLabel;
+non terminal Statement switchLabel;
 non terminal Statement whileStatement;
 non terminal Statement forStatement;
 non terminal Statement forInitial;
 non terminal Statement returnStatement;
 
 non terminal Expression primary;
-non terminal PrimaryNoNewArray primaryNoNewArray;
 non terminal ArgumentList argumentList;
-non terminal FunctionCall functionCall;
 non terminal Expression arrayAccess;
 non terminal Expression postfixExpression;
 non terminal Expression unaryExpression;
@@ -131,29 +129,27 @@ non terminal Expression leftHandSide;
 non terminal Expression assignmentOperator;
 non terminal Expression expression;
 non terminal Expression constantExpression;
-non terminal GlobalVariable globalVariable;
+non terminal VariableInitial globalVariable;
 non terminal GlobalVariableList globalVariables;
-non terminal ServoPositionVariables servoInitial;
+non terminal VariableInitial servoInitial;
 non terminal ServoInitializationList servoInitials;
-non terminal FunctionStatementsOptional functionStatemntsOptional;
+non terminal FunctionStatementList functionStatemntsOptional;
 
 
 
 start with program;
 
 
-program                             ::=	initial:s
-                                          {: RESULT = s; :};
+program                                 ::=	initial:s
+                                          {: RESULT = new Program(s, sleft); :};
 
 
-literal                             ::=	INTEGER_LITERAL:il
+literal                                 ::=	INTEGER_LITERAL:il
                                           {: RESULT = new IntegerLiteral(il, illeft); :}
-	                                  |	FLOATING_POINT_LITERAL:fl
+	                                      |	FLOATING_POINT_LITERAL:fl
 	                                      {: RESULT = new FloatLiteral(fl, flleft); :}
 	                                  |	BOOLEAN_LITERAL:bl
 	                                      {: RESULT = new BoolLiteral(bl, blleft); :}
-	                                  |	NULL_LITERAL: nl
-	                                      {: RESULT = new NullLiteral(nl, nlleft); :}
                                       |	STRING_LITERAL:sl
                                           {: RESULT = new StrLiteral(sl, slleft); :};
 
@@ -165,7 +161,7 @@ type	                                ::=	primitiveType:pt
 
 
 primitiveType                           ::= numericType:nt
-	                            	          {: RESULT = nt;:}
+	                            	          {: RESULT = nt; :}
 	                                      | SERVO:st
 	                                          {: RESULT = new ServoPrimitiveType(stleft); :}
 	                                      |	BOOLEAN:bt
@@ -200,8 +196,10 @@ initial                                 ::= globalVariables:gvs functionStatemnt
                                               {: RESULT = fso; :};
 
 
+
+
 globalVariables                         ::= globalVariable:gv
-                                              {: GlobalVariableList gvs = new GlobalVariableList();
+                                              {: GlobalVariableList gvs = new GlobalVariableList(0);
                                                  gvs.add(gv);
                                                  RESULT = gvs;
                                               :}
@@ -216,13 +214,13 @@ globalVariable                          ::= localVariableDeclarationstatement:lv
 
 
 functionStatemntsOptional                        ::=
-                                              {: RESULT = new FunctionStatementList(); :}
+                                              {: RESULT = new FunctionStatementList(0); :}
                                           | functionStatements:fs
                                               {: RESULT = fs;:};
 
 
 functionStatements                      ::= functionDeclaration:fd
-                                              {: FunctionStatementList fs = new FunctionStatementList();
+                                              {: FunctionStatementList fs = new FunctionStatementList(0);
                                                  fs.add(fd);
                                                  RESULT = fs;
                                               :}
@@ -233,7 +231,7 @@ functionStatements                      ::= functionDeclaration:fd
 
 
 variableDeclarations                    ::= variableDeclaration:vd
-                                              {: VariableDeclarationList vds = new VariableDeclarationList();
+                                              {: VariableDeclarationList vds = new VariableDeclarationList(0);
                                                  vds.add(vd);
                                                  RESULT = vds;
                                               :}
@@ -243,8 +241,8 @@ variableDeclarations                    ::= variableDeclaration:vd
                                               :};
 
 
-variableDeclaration                     ::= name:vdi
-	                                          {: RESULT = vdi; :}
+variableDeclaration                     ::= IDENTIFIER:ident
+	                                          {: RESULT = new IdentifierVariable(ident, identleft); :}
 	                                      |	name:vdi EQ variableInitial:vi
 	                                          {: RESULT = new VariableAssignmentDeclaration(vdi, vi, vdileft); :};
 
@@ -272,9 +270,9 @@ functionDeclarator                      ::= IDENTIFIER LPAREN formalParameterLis
 
 
 formalParameterList                     ::=
-                                              {: RESULT = new FormalParameterList(); :}
+                                              {: RESULT = new FormalParameterList(0); :}
                                           | formalParameter:fp
-		                                      {: FormalParameterList fpl = new FormalParameterList();
+		                                      {: FormalParameterList fpl = new FormalParameterList(0);
                                                  fpl.add(fp);
                                                  RESULT = fpl;
                                               :}
@@ -293,7 +291,7 @@ formalParameter                         ::= type:t name:vdi
 functionBody                            ::= block:b
                                               {: RESULT = b; :}
 	                                      |	SEMICOLON:sc
-	                                          {: RESULT = sc; :};
+                                            ;
 
 
 arrayInitial                            ::=	LBRACE variableInitials:vi RBRACE
@@ -303,12 +301,12 @@ arrayInitial                            ::=	LBRACE variableInitials:vi RBRACE
 
 
 servoInitials                           ::= IDENTIFIER COLON variableInitial:l
-                                              {: ServoInitializationList si = new ServoInitializationList();
+                                              {: ServoInitializationList si = new ServoInitializationList(0);
                                                  si.add(l);
                                                  RESULT = si;
                                               :}
                                           | servoInitials:si COMMA IDENTIFIER COLON variableInitial:l
-                                              {: sil.add(l);
+                                              {: si.add(l);
                                                  RESULT = si;
                                               :};
 
@@ -333,13 +331,13 @@ block                                   ::= BEGIN blockStatementsOptional:bso EN
 
 
 blockStatementsOptional                 ::=
-                                              {: RESULT = new BlockStatementList(); :}
+                                              {: RESULT = new BlockStatementList(0); :}
                                           |	blockStatements:bss
                                               {: RESULT = bss; :};
 
 
 blockStatements                         ::= blockStatement:bs
-		                                      {: BlockStatementList bss = new BlockStatementList();
+		                                      {: BlockStatementList bss = new BlockStatementList(0);
 		                                         bss.add(bs);
 		                                         RESULT = bss;
 		                                      :}
@@ -381,10 +379,10 @@ statementIfWithoutElse                  ::= statementWithoutTrailingSubstatement
 		                                      {: RESULT = swtss;:};
 
 
-statementWithoutTrailingSubstatement    ::= block:b
-		                                      {: RESULT = b; :}
+statementWithoutTrailingSubstatement    ::= BEGIN blockStatementsOptional:bso END
+		                                      {: RESULT = new ABlockStatement(bso, bsoleft); :}
 	                                      |	SEMICOLON:es
-	                                          {: RESULT = es; :}
+
 	                                      |	statementBlock:exs
 	                                          {: RESULT = exs; :}
 	                                      |	switchStatement:ss
@@ -408,8 +406,8 @@ statementExpression                     ::= assignment:a
                                               {: RESULT = new PostfixExpressionPlusPlus(pe, peleft); :}
                                           |	postfixExpression:pe MINUSMINUS
                                               {: RESULT = new PostfixExpressionMinusMinus(pe, peleft); :}
-	                                      |	functionCall:fc
-	                                          {: RESULT = fc; :};
+	                                      |	name:n LPAREN argumentList:alo RPAREN
+	                                          {: RESULT = new NonReturningFunctionCall(n, alo, nleft); :};
 
 ifThenStatement                         ::= IF LPAREN expression:e RPAREN statement:s
 		                                      {: RESULT = new If(e, s, eleft); :};
@@ -434,12 +432,12 @@ switchBlock                             ::= BEGIN switchBlockStatementGroups:sbs
 
 
 switchBlockStatementGroups              ::= switchBlockStatementGroup:sbsg
-		                                      {: SwitchGroupList sbsgs = new SwitchGroupList();
+		                                      {: SwitchGroupList sbsgs = new SwitchGroupList(0);
                                                  sbsgs.add(sbsg);
                                                  RESULT = sbsgs;
                                               :}
 	                                      |	switchBlockStatementGroups:sbsgs switchBlockStatementGroup:sbsg
-	                                          {: sbsgs.add(sbgs);
+	                                          {: sbsgs.add(sbsg);
                                                  RESULT = sbsgs;
                                               :};
 
@@ -449,7 +447,7 @@ switchBlockStatementGroup               ::= switchLabels:sls blockStatements:bs
 
 
 switchLabels                            ::= switchLabel:sl
-		                                      {: SwitchLabelList sls = new SwitchLabelList();
+		                                      {: SwitchLabelList sls = new SwitchLabelList(0);
                                                  sls.add(sl);
                                                  RESULT =  sls;
                                              :}
@@ -484,7 +482,7 @@ returnStatement                         ::= RETURN expression:e SEMICOLON
 
 
 
-primary                       ::= literal:l
+primary                                 ::= literal:l
                                               {: RESULT = l; :}
 	                                      |	LPAREN expression:e RPAREN
 	                                          {: RESULT = e; :}
@@ -505,9 +503,6 @@ argumentList                            ::=
 	                                             RESULT = al;
 	                                          :};
 
-
-functionCall                            ::= name:n LPAREN argumentList:alo RPAREN
-		                                      {: RESULT = new FunctionCall(n, alo, nleft); :};
 
 arrayAccess                             ::= name:n LBRACK expression:e RBRACK
 		                                      {: RESULT = new ArrayAccessIndex(n, e, nleft); :};

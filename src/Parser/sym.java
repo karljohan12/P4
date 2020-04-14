@@ -36,7 +36,6 @@ public interface sym {
   public static final int SERVOPOSITION = 50;
   public static final int MINUSEQ = 46;
   public static final int PLUS = 31;
-  public static final int NULL_LITERAL = 57;
   public static final int IF = 21;
   public static final int EOF = 0;
   public static final int BOOLEAN = 2;
@@ -123,8 +122,7 @@ public interface sym {
   "FLOATING_POINT_LITERAL",
   "BOOLEAN_LITERAL",
   "IDENTIFIER",
-  "STRING_LITERAL",
-  "NULL_LITERAL"
+  "STRING_LITERAL"
   };
 }
 

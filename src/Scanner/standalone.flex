@@ -109,8 +109,6 @@ StringCharacter = [^\r\n\"\\]
     "true"                   { return symbol(BOOLEAN_LITERAL, true); }
     "false"                   { return symbol(BOOLEAN_LITERAL, false); }
 
-    /*null literal*/
-    "null"                   { return symbol(NULL_LITERAL); }
 
     /*separators*/
      "("                            { return symbol(LPAREN); }

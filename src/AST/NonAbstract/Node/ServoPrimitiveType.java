@@ -1,4 +1,17 @@
 package AST.NonAbstract.Node;
 
-public class ServoPrimitiveType {
+import AST.Abstract.Type;
+import AST.Visitor.Visitor;
+
+public class ServoPrimitiveType extends Type {
+
+    public ServoPrimitiveType(int ln){
+        super(ln);
+
+
+    }
+    public void accept(Visitor v) {
+        v.visit(this);
+    }
+
 }

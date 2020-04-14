@@ -8,6 +8,7 @@
 
 import java.io.*;
 
+import AST.NonAbstract.Node.Program;
 import AST.Visitor.ASTvisitor;
 import Scanner.*;
 import Parser.*;

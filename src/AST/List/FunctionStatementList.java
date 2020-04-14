@@ -1,16 +1,22 @@
 package AST.List;
 
-public class FunctionStatementList extends ASTNode {
-    private List<?> list;
+import AST.Abstract.AFunction;
+import AST.Abstract.ASTNode;
 
-    public FormalParamList(int ln) {
+import java.util.ArrayList;
+import java.util.List;
+
+public class FunctionStatementList extends ASTNode {
+    private List<AFunction> list;
+
+    public FunctionStatementList(int ln) {
         super(ln);
-        list = new ArrayList<?>();
+        list = new ArrayList<>();
     }
 
-    public void add(? e) { list.add(e); }
+    public void add(AFunction e) { list.add(e); }
 
-    public ? get(int i) { return list.get(i); }
+    public AFunction get(int i) { return list.get(i); }
 
-    public int size() { return list.size(); }{
+    public int size() { return list.size(); }
 }
