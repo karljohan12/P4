@@ -12,6 +12,7 @@ import AST.NonAbstract.Node.Program;
 import AST.Visitor.ASTvisitor;
 import Scanner.*;
 import Parser.*;
+import SymbolTable.SymbolTable;
 import java_cup.runtime.Symbol;
 
 /**

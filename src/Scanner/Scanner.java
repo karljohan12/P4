@@ -24,7 +24,7 @@ import Parser.*;
 
 // See https://github.com/jflex-de/jflex/issues/222
 @SuppressWarnings("FallThrough")
-public class Scanner implements sym, java_cup.runtime.Scanner {
+public class Scanner extends sym implements java_cup.runtime.Scanner {
 
   /** This character denotes the end of file. */
   public static final int YYEOF = -1;

@@ -2,8 +2,12 @@ import java_cup.runtime.*;
 import AST.Abstract.*;
 import AST.NonAbstract.Node.*;
 import AST.List.*;
+import SymbolTable.SymbolTable;
 
 parser code  {:
+
+  SymbolTable st = new SymbolTable();
+
   public void report_error(String message, Object info) {
     StringBuilder m = new StringBuilder("Error ");
 
@@ -18,6 +22,10 @@ parser code  {:
   public void report_fatal_error(String message, Object info) {
     report_error(message, info);
     throw new RuntimeException("Fatal Syntax Error");
+  }
+
+  public void SemanticError(String lexeme) {
+
   }
 :};
 
@@ -145,13 +153,13 @@ program                                 ::=	initial:s
 
 
 literal                                 ::=	INTEGER_LITERAL:il
-                                          {: RESULT = new IntegerLiteral(il, illeft); :}
+                                              {: RESULT = new IntegerLiteral(il, illeft); :}
 	                                      |	FLOATING_POINT_LITERAL:fl
-	                                      {: RESULT = new FloatLiteral(fl, flleft); :}
-	                                  |	BOOLEAN_LITERAL:bl
-	                                      {: RESULT = new BoolLiteral(bl, blleft); :}
-                                      |	STRING_LITERAL:sl
-                                          {: RESULT = new StrLiteral(sl, slleft); :};
+	                                          {: RESULT = new FloatLiteral(fl, flleft); :}
+	                                      |	BOOLEAN_LITERAL:bl
+	                                          {: RESULT = new BoolLiteral(bl, blleft); :}
+                                          |	STRING_LITERAL:sl
+                                              {: RESULT = new StrLiteral(sl, slleft); :};
 
 
 type	                                ::=	primitiveType:pt
@@ -187,10 +195,16 @@ arrayType                               ::= primitiveType:pt LBRACK RBRACK
 
 
 name	                                ::= IDENTIFIER:ident
-                                              {: RESULT = new Identifier(ident, identleft); :};
+                                              {: RESULT = new Identifier(ident, identleft);
 
 
-initial                                 ::= globalVariables:gvs functionStatemntsOptional:fso
+
+
+
+                                               :};
+
+
+initial                                 ::=  globalVariables:gvs functionStatemntsOptional:fso
                                               {: RESULT = new GlobalVariablePlusFunctionStatements(gvs, fso, gvsleft); :}
                                           | functionStatemntsOptional:fso
                                               {: RESULT = new FunctionList(fso, fsoleft); :};
@@ -242,7 +256,9 @@ variableDeclarations                    ::= variableDeclaration:vd
 
 
 variableDeclaration                     ::= IDENTIFIER:ident
-	                                          {: RESULT = new IdentifierVariable(ident, identleft); :}
+	                                          {: RESULT = new IdentifierVariable(ident, identleft);
+	                                           boolean ost = st.lookupSymbol(ident);
+                                                                                             st.addVariable(ident, 0);:}
 	                                      |	name:vdi EQ variableInitial:vi
 	                                          {: RESULT = new VariableAssignmentDeclaration(vdi, vi, vdileft); :};
 
@@ -288,7 +304,7 @@ formalParameter                         ::= type:t name:vdi
 	                                          {: RESULT = new ConstantFormalParameter(t, vdi, tleft); :};
 
 
-functionBody                            ::= block:b
+functionBody                            ::= {:st.createScope(0) ;:} block:b {:st.closeScope() ;:}
                                               {: RESULT = b; :}
                                             ;
 
@@ -325,7 +341,7 @@ variableInitials                        ::= variableInitial:vi
                                               :};
 
 
-block                                   ::= BEGIN blockStatementsOptional:bso END
+block                                   ::= BEGIN {:st.createScope(0) ;:}  blockStatementsOptional:bso {:st.closeScope() ;:} END
                                               {: RESULT = new Block(bso, bsoleft); :};
 
 
