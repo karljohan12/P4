@@ -1,6 +1,11 @@
 
 int main() BEGIN
 int i;
+
+
+END
+
+int maine() BEGIN
 int i;
 
 END

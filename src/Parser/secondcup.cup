@@ -7,6 +7,7 @@ import SymbolTable.SymbolTable;
 parser code  {:
 
   SymbolTable st = new SymbolTable();
+  int errorDetected = 0;
 
   public void report_error(String message, Object info) {
     StringBuilder m = new StringBuilder("Error ");
@@ -24,7 +25,13 @@ parser code  {:
     throw new RuntimeException("Fatal Syntax Error");
   }
 
-  public void SemanticError(String lexeme) {
+  public void SemanticError(String lexeme, boolean f, int ln) {
+
+  if(f == false){
+      errorDetected++;
+      System.out.println("Duplicate variable identifier: \"" + lexeme + "\" on line: " + ln);
+
+  }
 
   }
 :};
@@ -149,7 +156,13 @@ start with program;
 
 
 program                                 ::=	initial:s
-                                          {: RESULT = new Program(s, sleft); :};
+                                          {: RESULT = new Program(s, sleft);
+
+                                           if(errorDetected != 0){
+
+                                                       report_fatal_error("", null);
+                                                     }
+                                           :};
 
 
 literal                                 ::=	INTEGER_LITERAL:il
@@ -257,10 +270,14 @@ variableDeclarations                    ::= variableDeclaration:vd
 
 variableDeclaration                     ::= IDENTIFIER:ident
 	                                          {: RESULT = new IdentifierVariable(ident, identleft);
-	                                           boolean ost = st.lookupSymbol(ident);
-                                                                                             st.addVariable(ident, 0);:}
+	                                           boolean f = st.addVariable(ident, 0);
+	                                           SemanticError(ident, f, identleft);:}
+
 	                                      |	name:vdi EQ variableInitial:vi
-	                                          {: RESULT = new VariableAssignmentDeclaration(vdi, vi, vdileft); :};
+	                                          {: RESULT = new VariableAssignmentDeclaration(vdi, vi, vdileft);
+	                                           boolean f = st.addVariable(vdi.s, 0);
+	                                           SemanticError(vdi.s, f, vdileft);:}
+                                            ;
 
 
 variableInitial                         ::= expression:e
@@ -304,9 +321,8 @@ formalParameter                         ::= type:t name:vdi
 	                                          {: RESULT = new ConstantFormalParameter(t, vdi, tleft); :};
 
 
-functionBody                            ::= {:st.createScope(0) ;:} block:b {:st.closeScope() ;:}
-                                              {: RESULT = b; :}
-                                            ;
+functionBody                            ::= block:b
+                                              {: RESULT = b; :};
 
 
 arrayInitial                            ::=	LBRACE variableInitials:vi RBRACE
@@ -394,7 +410,7 @@ statementIfWithoutElse                  ::= statementWithoutTrailingSubstatement
 		                                      {: RESULT = swtss;:};
 
 
-statementWithoutTrailingSubstatement    ::= BEGIN blockStatementsOptional:bso END
+statementWithoutTrailingSubstatement    ::= BEGIN {:st.createScope(0) ;:} blockStatementsOptional:bso {:st.closeScope() ;:} END
 		                                      {: RESULT = new ABlockStatement(bso, bsoleft); :}
 	                                      |	SEMICOLON:es
 

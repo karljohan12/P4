@@ -28,8 +28,8 @@ public class SymbolTable {
     public boolean lookupSymbol(String symbolName) {
         Scope scope = this.topmostScope;
         while (scope != null) {
-            Symbol symbol = scope.lookupSymbol(symbolName);
-            if (symbol != null) {
+            boolean error = scope.lookupSymbol(symbolName);
+            if (error) {
                 return true;
             }
             scope = scope.link;
@@ -43,9 +43,8 @@ public class SymbolTable {
         return new_function;
     }
 
-    public Variable addVariable(String name, int type) {
-        Variable new_variable = new Variable(name, type);
-        this.topmostScope.addSymbol(new_variable);
-        return new_variable;
+    public boolean addVariable(String name, int type) {
+        Variable var = new Variable(name, type);
+        return this.topmostScope.addSymbol(var);
     }
 }
