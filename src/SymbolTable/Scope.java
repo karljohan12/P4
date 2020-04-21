@@ -10,7 +10,7 @@ public class Scope {
     public int level;
 
     public Scope(int returnType, int level) {
-        symbolTable = new HashMap();
+        symbolTable = new HashMap<>();
         this.returnType = returnType;
         this.level = level;
     }
@@ -19,13 +19,16 @@ public class Scope {
         return symbolTable.get(symbolName) != null;
     }
 
-    public void checkAvailability(String name) {
-
+    public boolean isFunctionAvailable(String name) {
+        return !symbolTable.containsKey(name);
     }
 
-    public void addSymbol(Function f) {
-        this.checkAvailability(f.name);
-        this.symbolTable.put(f.name, f);
+    public boolean addSymbol(Function f) {
+        if(this.isFunctionAvailable(f.name)) {
+            this.symbolTable.put(f.name, f);
+            return true;
+        }
+        return false;
     }
 
     public boolean addSymbol(Variable v) {

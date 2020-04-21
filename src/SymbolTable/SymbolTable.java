@@ -12,14 +12,12 @@ public class SymbolTable {
         udefinedVariable = new Variable("undefined", "ost");
     }
 
-    // open a new scope and make it the current scope (topScope)
     public void createScope(int type) {
         Scope newScope = new Scope(type, this.currentLevel++);
         newScope.link = topmostScope;
         this.topmostScope = newScope;
     }
 
-    // close the current scope
     public void closeScope() {
         this.topmostScope = topmostScope.link;
         this.currentLevel--;
@@ -37,14 +35,16 @@ public class SymbolTable {
         return false;
     }
 
-    public Function addFunction(String name, String type, String label) {
-        Function new_function = new Function(name, type, label);
-        this.topmostScope.addSymbol(new_function);
-        return new_function;
+    public boolean addFunction(String name) {
+        Function function = new Function(name);
+        return this.topmostScope.addSymbol(function);
     }
 
     public boolean addVariable(String name, String type) {
         Variable var = new Variable(name, type);
-        return this.topmostScope.addSymbol(var);
+        if(!lookupSymbol(name)) {
+            return this.topmostScope.addSymbol(var);
+        }
+        return false;
     }
 }

@@ -9,6 +9,7 @@ parser code  {:
   SymbolTable st = new SymbolTable();
   int errorDetected = 0;
   boolean isLoopScope = false;
+  String typePlaceholder;
 
 
   public void report_error(String message, Object info) {
@@ -34,6 +35,17 @@ parser code  {:
       System.out.println("Duplicate variable identifier: \"" + lexeme + "\" on line: " + ln);
 
   }
+
+  }
+
+
+  public void FunctionSemanticError(String lexeme, boolean f, int ln){
+
+    if(f == false){
+        errorDetected++;
+        System.out.println("Duplicate function identifier: \"" + lexeme + "\" on line: " + ln);
+
+    }
 
   }
 :};
@@ -186,23 +198,29 @@ type	                                ::=	primitiveType:pt
 primitiveType                           ::= numericType:nt
 	                            	          {: RESULT = nt; :}
 	                                      | SERVO:st
-	                                          {: RESULT = new ServoPrimitiveType(stleft); :}
+	                                          {: RESULT = new ServoPrimitiveType(stleft);
+	                                           typePlaceholder = "servo";:}
 	                                      |	BOOLEAN:bt
-	                                          {: RESULT = new BoolType(btleft); :};
+	                                          {: RESULT = new BoolType(btleft);
+	                                           typePlaceholder = "boolean";:};
 
 
 numericType                             ::= INT:it
-                                              {: RESULT = new IntType(itleft); :}
+                                              {: RESULT = new IntType(itleft);
+                                               typePlaceholder = "int";:}
 	                                      |	DOUBLE:ft
-	                                          {: RESULT = new FloatType(ftleft); :};
+	                                          {: RESULT = new FloatType(ftleft);
+	                                           typePlaceholder = "double";:};
 
 
 referenceType                           ::= arrayType:at
                                               {: RESULT = at; :}
                                           | ROBOT:rt
-                                              {: RESULT = new RobotType(rtleft); :}
+                                              {: RESULT = new RobotType(rtleft);
+                                               typePlaceholder = "robot";:}
                                           | SERVOPOSITION:st
-                                              {: RESULT = new ServoType(stleft); :};
+                                              {: RESULT = new ServoType(stleft);
+                                               typePlaceholder = "servoposition";:};
 
 
 arrayType                               ::= primitiveType:pt LBRACK RBRACK
@@ -272,12 +290,12 @@ variableDeclarations                    ::= variableDeclaration:vd
 
 variableDeclaration                     ::= IDENTIFIER:ident
 	                                          {: RESULT = new IdentifierVariable(ident, identleft);
-	                                           boolean f = st.addVariable(ident, "ham");
+	                                           boolean f = st.addVariable(ident, typePlaceholder);
 	                                           SemanticError(ident, f, identleft);:}
 
 	                                      |	name:vdi EQ variableInitial:vi
 	                                          {: RESULT = new VariableAssignmentDeclaration(vdi, vi, vdileft);
-	                                           boolean f = st.addVariable(vdi.s, "ham");
+	                                           boolean f = st.addVariable(vdi.s, typePlaceholder);
 	                                           SemanticError(vdi.s, f, vdileft);:}
                                             ;
 
@@ -300,8 +318,11 @@ functionHeader                          ::= type:t functionDeclarator:fd
 	                                          {: RESULT = new VoidFunctionHeader(fd, fdleft); :};
 
 
-functionDeclarator                      ::= IDENTIFIER LPAREN formalParameterList:fplo RPAREN
-		                                      {: RESULT = new FunctionDeclarator(fplo, fploleft); :};
+functionDeclarator                      ::= IDENTIFIER:i LPAREN formalParameterList:fplo RPAREN
+		                                      {: RESULT = new FunctionDeclarator(fplo, fploleft);
+		                                      boolean s = st.addFunction(i);
+		                                      FunctionSemanticError(i, s, ileft);
+		                                       :};
 
 
 formalParameterList                     ::=

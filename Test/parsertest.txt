@@ -1,8 +1,15 @@
 
+int i = 5;
+
+
 
 int maine(int i) BEGIN
 
-int t = 26;
+
+
+int t = 26.9;
+
+
 
 
 
@@ -17,4 +24,6 @@ int y;
 
 
 END
+
+
 
