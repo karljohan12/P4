@@ -8,6 +8,8 @@ parser code  {:
 
   SymbolTable st = new SymbolTable();
   int errorDetected = 0;
+  boolean isLoopScope = false;
+
 
   public void report_error(String message, Object info) {
     StringBuilder m = new StringBuilder("Error ");
@@ -270,12 +272,12 @@ variableDeclarations                    ::= variableDeclaration:vd
 
 variableDeclaration                     ::= IDENTIFIER:ident
 	                                          {: RESULT = new IdentifierVariable(ident, identleft);
-	                                           boolean f = st.addVariable(ident, 0);
+	                                           boolean f = st.addVariable(ident, "ham");
 	                                           SemanticError(ident, f, identleft);:}
 
 	                                      |	name:vdi EQ variableInitial:vi
 	                                          {: RESULT = new VariableAssignmentDeclaration(vdi, vi, vdileft);
-	                                           boolean f = st.addVariable(vdi.s, 0);
+	                                           boolean f = st.addVariable(vdi.s, "ham");
 	                                           SemanticError(vdi.s, f, vdileft);:}
                                             ;
 
@@ -357,14 +359,19 @@ variableInitials                        ::= variableInitial:vi
                                               :};
 
 
-block                                   ::= BEGIN {:st.createScope(0) ;:}  blockStatementsOptional:bso {:st.closeScope() ;:} END
+block                                   ::= BEGIN  blockStatementsOptional:bso  END
                                               {: RESULT = new Block(bso, bsoleft); :};
 
 
 blockStatementsOptional                 ::=
-                                              {: RESULT = new BlockStatementList(0); :}
-                                          |	blockStatements:bss
-                                              {: RESULT = bss; :};
+                                              {: RESULT = new BlockStatementList(0);
+                                               if(isLoopScope == true){
+                                               st.closeScope();}
+                                               isLoopScope = false;:}
+                                          |	 {:if(isLoopScope == false) {st.createScope(0);}:} blockStatements:bss
+                                              {: RESULT = bss;
+                                               isLoopScope = false;
+                                               st.closeScope();:};
 
 
 blockStatements                         ::= blockStatement:bs
@@ -410,9 +417,9 @@ statementIfWithoutElse                  ::= statementWithoutTrailingSubstatement
 		                                      {: RESULT = swtss;:};
 
 
-statementWithoutTrailingSubstatement    ::= BEGIN {:st.createScope(0) ;:} blockStatementsOptional:bso {:st.closeScope() ;:} END
+statementWithoutTrailingSubstatement    ::= BEGIN blockStatementsOptional:bso END
 		                                      {: RESULT = new ABlockStatement(bso, bsoleft); :}
-	                                      |	SEMICOLON:es
+	                                  //    |	SEMICOLON:es
 
 	                                      |	statementBlock:exs
 	                                          {: RESULT = exs; :}
@@ -494,12 +501,14 @@ switchLabel                             ::= CASE constantExpression:cs COLON
 	                                          {: RESULT = new DefaultCase(defleft); :};
 
 
-whileStatement                          ::= WHILE LPAREN expression:e RPAREN
-		                                      {: RESULT = new WhileLoop(e, eleft); :};
+whileStatement                          ::= {:st.createScope(0);:} WHILE LPAREN expression:e RPAREN
+		                                      {: RESULT = new WhileLoop(e, eleft);
+		                                       isLoopScope = true;:};
 
 
-forStatement                            ::= FOR LPAREN forInitial:fi WHEN expression:e THEN statementExpression:sel RPAREN
-			                                  {: RESULT = new ForLoop(fi, e, sel, fileft); :};
+forStatement                            ::= {:st.createScope(0);:} FOR LPAREN forInitial:fi WHEN expression:e THEN statementExpression:sel RPAREN
+			                                  {: RESULT = new ForLoop(fi, e, sel, fileft);
+			                                   isLoopScope = true;:};
 
 
 forInitial                              ::= statementExpression:sel

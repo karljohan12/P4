@@ -3,10 +3,10 @@ package SymbolTable;
 import java.util.ArrayList;
 
 public class Function extends Symbol {
-    public int label;
+    public String label;
     public ArrayList<Variable> parameters = new ArrayList<>();
 
-    public Function(String name, int type, int label) {
+    public Function(String name, String type, String label) {
         super(name, type);
         this.label = label;
     }

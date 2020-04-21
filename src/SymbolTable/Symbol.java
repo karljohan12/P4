@@ -2,9 +2,9 @@ package SymbolTable;
 
 public class Symbol {
     String name;
-    int type; // For functions this is the return type
+    String type;
 
-    public Symbol(String name, int type) {
+    public Symbol(String name, String type) {
         this.name = name;
         this.type = type;
     }

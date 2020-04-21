@@ -9,7 +9,7 @@ public class SymbolTable {
     public SymbolTable() {
         this.topmostScope = new Scope(3, 0); // new Scope();
         this.currentLevel = 0;
-        udefinedVariable = new Variable("undefined", 0);
+        udefinedVariable = new Variable("undefined", "ost");
     }
 
     // open a new scope and make it the current scope (topScope)
@@ -37,13 +37,13 @@ public class SymbolTable {
         return false;
     }
 
-    public Function addFunction(String name, int type, int label) {
+    public Function addFunction(String name, String type, String label) {
         Function new_function = new Function(name, type, label);
         this.topmostScope.addSymbol(new_function);
         return new_function;
     }
 
-    public boolean addVariable(String name, int type) {
+    public boolean addVariable(String name, String type) {
         Variable var = new Variable(name, type);
         return this.topmostScope.addSymbol(var);
     }
