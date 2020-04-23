@@ -1,15 +1,13 @@
 
-int i = 5;
+
 
 
 
 int maine(int i) BEGIN
 
-
-
-int t = 26.9;
-
-
+int i = 34;
+const int j = 34;
+int ee = 34;
 
 
 

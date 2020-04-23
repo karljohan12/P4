@@ -6,10 +6,11 @@ import SymbolTable.SymbolTable;
 
 parser code  {:
 
-  SymbolTable st = new SymbolTable();
+  public static SymbolTable st = new SymbolTable();
   int errorDetected = 0;
   boolean isLoopScope = false;
   String typePlaceholder;
+
 
 
   public void report_error(String message, Object info) {
@@ -341,7 +342,10 @@ formalParameterList                     ::=
 formalParameter                         ::= type:t name:vdi
 		                                      {: RESULT = new FormalParameter(t, vdi, tleft); :}
 	                                      | CONST type:t name:vdi
-	                                          {: RESULT = new ConstantFormalParameter(t, vdi, tleft); :};
+	                                          {: RESULT = new ConstantFormalParameter(t, vdi, tleft);
+
+
+	                                           :};
 
 
 functionBody                            ::= block:b
@@ -419,7 +423,9 @@ localVariableDeclarationstatement       ::= localVariableDecl:lvd SEMICOLON
 localVariableDecl                       ::= type:t variableDeclarations:vds
 		                                      {: RESULT = new VariableDeclaration(t, vds, vdsleft); :}
 	                                      |	CONST type:t variableDeclarations:vds
-	                                          {: RESULT = new ConstantVariableDeclaration(t, vds, tleft); :};
+	                                          {: RESULT = new ConstantVariableDeclaration(t, vds, tleft);
+                                                st.ConvertToConstant();
+	                                           :};
 
 
 statement                               ::= statementWithoutTrailingSubstatement:swtss

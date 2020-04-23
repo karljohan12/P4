@@ -4,9 +4,11 @@ public class TESTING {
 
 
     public void pik(int i){
+        boolean iw = true;
+        boolean se = true;
 
 
-        if(i == 0) {
+        if(iw == se) {
 
 
             int k;

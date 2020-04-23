@@ -3,11 +3,13 @@ package AST.Visitor;
 import AST.Abstract.ASTNode;
 import AST.List.*;
 import AST.NonAbstract.Node.*;
+import SymbolTable.SymbolTable;
 
 
 public class ASTvisitor implements Visitor {
 
     private int Indent = 0;
+    private int lastType;
 
     private void increaseIndent() { Indent += 2; }
 
@@ -44,9 +46,18 @@ public class ASTvisitor implements Visitor {
         printNode(n);
         increaseIndent();
 
+
         n.e1.accept(this);
+        int left = lastType;
         n.e2.accept(this);
         n.e3.accept(this);
+        int right = lastType;
+
+        if (!isCompatible(left, right)){
+
+            System.out.println("dieNow");
+        }
+
 
 
         decreaseIndent();
@@ -54,11 +65,13 @@ public class ASTvisitor implements Visitor {
 
     @Override
     public void visit(BoolLiteral n) {
+        lastType = 2;
         printNodeWithValue(n, n.toString());
     }
 
     @Override
     public void visit(BoolType n) {
+        lastType = 2;
         printNode(n);
     }
 
@@ -83,18 +96,26 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.e1.accept(this);
+        int left = lastType;
         n.e2.accept(this);
+        int right = lastType;
+
+        if(!isComparable(left, right)){
+
+        }
         
         decreaseIndent();
     }
 
     @Override
     public void visit(FloatLiteral n) {
+        lastType = 1;
         printNodeWithValue(n, n.toString());
     }
 
     @Override
     public void visit(FloatType n) {
+        lastType = 1;
         printNode(n);
     }
 
@@ -115,7 +136,13 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.e1.accept(this);
+        int left = lastType;
         n.e2.accept(this);
+        int right = lastType;
+
+        if(!isComparable(left, right)){
+
+        }
 
         decreaseIndent();
     }
@@ -126,24 +153,32 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
         
         n.e1.accept(this);
+        int left = lastType;
         n.e2.accept(this);
+        int right = lastType;
 
+        if(!isComparable(left, right)){
+
+        }
 
         decreaseIndent();
     }
 
     @Override
     public void visit(Identifier n) {
+        lastType = Parser.parser.st.ReturnType(n.toString());
         printNodeWithValue(n, n.toString());
     }
 
     @Override
     public void visit(IntegerLiteral n) {
+        lastType = 0;
         printNodeWithValue(n, n.toString());
     }
 
     @Override
     public void visit(IntType n) {
+        lastType = 0;
         printNode(n);
     }
 
@@ -153,7 +188,13 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.e1.accept(this);
+        int left = lastType;
         n.e2.accept(this);
+        int right = lastType;
+
+        if(!isComparable(left, right)){
+
+        }
 
         decreaseIndent();
     }
@@ -164,7 +205,13 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.e1.accept(this);
+        int left = lastType;
         n.e2.accept(this);
+        int right = lastType;
+
+        if(!isComparable(left, right)){
+
+        }
 
         decreaseIndent();
     }
@@ -216,7 +263,13 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.e1.accept(this);
+        int left = lastType;
         n.e2.accept(this);
+        int right = lastType;
+
+        if(!isCompatible(left, right)){
+
+        }
 
         decreaseIndent();
     }
@@ -263,6 +316,7 @@ public class ASTvisitor implements Visitor {
 
     @Override
     public void visit(RobotType n) {
+        lastType = 4;
         printNode(n);
     }
 
@@ -383,6 +437,7 @@ public class ASTvisitor implements Visitor {
 
     @Override
     public void visit(IdentifierExpression n) {
+        lastType = Parser.parser.st.ReturnType(n.toString());
         printNodeWithValue(n, n.toString());
     }
 
@@ -414,7 +469,13 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.e1.accept(this);
+        int left = lastType;
         n.e2.accept(this);
+        int right = lastType;
+
+        if(!isCompatible(left, right)){
+
+        }
 
         decreaseIndent();
     }
@@ -425,7 +486,13 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.e1.accept(this);
+        int left = lastType;
         n.e2.accept(this);
+        int right = lastType;
+
+        if(!isCompatible(left, right)){
+
+        }
 
         decreaseIndent();
     }
@@ -436,7 +503,13 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.e1.accept(this);
+        int left = lastType;
         n.e2.accept(this);
+        int right = lastType;
+
+        if(!isCompatible(left, right)){
+
+        }
 
         decreaseIndent();
     }
@@ -447,7 +520,13 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.e1.accept(this);
+        int left = lastType;
         n.e2.accept(this);
+        int right = lastType;
+
+        if(!isCompatible(left, right)){
+
+        }
 
         decreaseIndent();
     }
@@ -551,9 +630,14 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.t.accept(this);
+        int left = lastType;
 
         for ( int i = 0; i < n.vdl.size(); i++ ) {
             n.vdl.get(i).accept(this);
+            int right = lastType;
+            if (!isCompatible(left, right)) {
+                System.out.println("dieNow2");
+            }
         }
 
         decreaseIndent();
@@ -565,9 +649,14 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.t.accept(this);
+        int left = lastType;
 
         for ( int i = 0; i < n.vdl.size(); i++ ) {
             n.vdl.get(i).accept(this);
+            int right = lastType;
+            if (!isCompatible(left, right)) {
+                System.out.println("dieNow2");
+            }
         }
 
         decreaseIndent();
@@ -774,4 +863,42 @@ public class ASTvisitor implements Visitor {
 
         decreaseIndent();
     }
+
+    private boolean isCompatible(int left, int right){
+        switch (left){
+            case 0:
+                if (right == 0){
+                    return true;
+
+                }
+                return false;
+            case 1:
+                if (right == 1 || right == 0){
+                    return true;
+                }
+                return false;
+            default:
+                System.out.println("FAIL isCompatible");
+                return false;
+        }
+    }
+
+    public boolean isComparable(int left, int right){
+        switch(left){
+            case 0:
+                if(right == 0 || right == 1){
+                    return true;
+                }
+            case 1:
+                if(right == 0 || right == 1){
+                    return true;
+                }
+            default:
+                System.out.println("FAIL isComparable");
+                return false;
+        }
+
+    }
+
+
 }

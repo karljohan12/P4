@@ -786,10 +786,11 @@ public class parser extends java_cup.runtime.lr_parser {
 
 
 
-  SymbolTable st = new SymbolTable();
+  public static SymbolTable st = new SymbolTable();
   int errorDetected = 0;
   boolean isLoopScope = false;
   String typePlaceholder;
+
 
 
   public void report_error(String message, Object info) {
@@ -1440,6 +1441,9 @@ class CUP$parser$actions {
 		int vdiright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Identifier vdi = (Identifier)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		 RESULT = new ConstantFormalParameter(t, vdi, tleft);
+
+
+
               CUP$parser$result = parser.getSymbolFactory().newSymbol("formalParameter",17, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1699,6 +1703,8 @@ if(isLoopScope == false) {st.createScope(0);}
 		int vdsright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		VariableDeclarationList vds = (VariableDeclarationList)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		 RESULT = new ConstantVariableDeclaration(t, vds, tleft);
+                                                st.ConvertToConstant();
+
               CUP$parser$result = parser.getSymbolFactory().newSymbol("localVariableDecl",26, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;

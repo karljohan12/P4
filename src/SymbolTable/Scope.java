@@ -8,6 +8,7 @@ public class Scope {
     HashMap<String, Symbol> symbolTable;
     public int returnType;
     public int level;
+    public Variable lastDecl;
 
     public Scope(int returnType, int level) {
         symbolTable = new HashMap<>();
@@ -32,11 +33,29 @@ public class Scope {
     }
 
     public boolean addSymbol(Variable v) {
+        lastDecl = v;
         if(!this.lookupSymbol(v.name)) {
             this.symbolTable.put(v.name, v);
             return true;
         }
         return false;
+    }
+
+    public Symbol ReturnType(String symbolName){
+        return symbolTable.get(symbolName);
+
+    }
+
+    public void ConvertToConstant(){
+        lastDecl.isConstant = true;
+        symbolTable.replace(lastDecl.name, lastDecl);
+    }
+
+    public Variable IsConstant(String symbolName){
+        Symbol e = symbolTable.get(symbolName);
+        symbolTable.
+
+
     }
 
     public void printScopeContent() {
