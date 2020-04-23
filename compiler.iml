@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/Test/Nonterminal" />
       <excludeFolder url="file://$MODULE_DIR$/Test/Obselete" />
+      <excludeFolder url="file://$MODULE_DIR$/Test/Settings" />
       <excludeFolder url="file://$MODULE_DIR$/Test/Shit" />
       <excludeFolder url="file://$MODULE_DIR$/src/AST/Visitor/DIE" />
     </content>
