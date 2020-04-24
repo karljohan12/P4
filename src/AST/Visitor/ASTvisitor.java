@@ -11,8 +11,10 @@ public class ASTvisitor implements Visitor {
 
     private int Indent = 0;
     private int lastType;
+    private String lastIdentifier;
 
     private void increaseIndent() { Indent += 2; }
+    private int errorDetected = 0;
 
     private void decreaseIndent() { Indent -= 2; }
 
@@ -21,6 +23,10 @@ public class ASTvisitor implements Visitor {
         for (int i = 0; i < Indent; i++) { line += " "; }
         System.out.println(line + s);
     }
+    private void reportError(String message){
+        errorDetected++;
+        System.out.println(message);
+    }
 
     private void printNode(ASTNode a) {
         printNodeLine(a.getClass().getSimpleName() + "'" + a.lineNumber);
@@ -28,6 +34,29 @@ public class ASTvisitor implements Visitor {
 
     private void printNodeWithValue(ASTNode a, String s) {
         printNodeLine(a.getClass().getSimpleName() + ":" + s + "'" + a.lineNumber);
+    }
+
+    private String convertToType(int convert){
+        switch (convert) {
+            case 0:
+                return "int";
+            case 1:
+                return "double";
+            case 2:
+                return "boolean";
+            case 3:
+                return "String";
+            case 4:
+                return "Robot";
+            case 5:
+                return "ServoPosition";
+            case 6:
+                return "Servo";
+
+            default:
+                System.out.println("Type does not exist");
+                return "Unknown";
+        }
     }
 
 
@@ -50,22 +79,27 @@ public class ASTvisitor implements Visitor {
 
         n.e1.accept(this);
         int left = lastType;
-        if(parser.st.IsConstant(n.e1.toString())){
+        if(left != -1) {
+            if (parser.st.IsConstant(n.e1.toString())) {
 
-            System.out.println(n.e1.toString() + " is constant");
+                System.out.println(n.e1.toString() + " is constant");
+            }
         }
-
+        else{
+           errorDetected++;
+           System.out.println("Line " + n.line + ": \"" + lastIdentifier +"\" is not declared");
+        }
 
         n.e2.accept(this);
         n.e3.accept(this);
         int right = lastType;
-
-        if (!isCompatible(left, right)){
-
-            System.out.println("dieNow");
+        if(left != -1) {
+            if (!isCompatible(left, right)) {
+                String first = convertToType(left);
+                String second = convertToType(right);
+                reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not compatible");
+            }
         }
-
-
 
         decreaseIndent();
     }
@@ -108,9 +142,10 @@ public class ASTvisitor implements Visitor {
         int right = lastType;
 
         if(!isComparable(left, right)){
-
+            String first = convertToType(left);
+            String second = convertToType(right);
+            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not compatible");
         }
-        
         decreaseIndent();
     }
 
@@ -148,7 +183,9 @@ public class ASTvisitor implements Visitor {
         int right = lastType;
 
         if(!isComparable(left, right)){
-
+            String first = convertToType(left);
+            String second = convertToType(right);
+            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable");
         }
 
         decreaseIndent();
@@ -165,7 +202,9 @@ public class ASTvisitor implements Visitor {
         int right = lastType;
 
         if(!isComparable(left, right)){
-
+            String first = convertToType(left);
+            String second = convertToType(right);
+            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable");
         }
 
         decreaseIndent();
@@ -200,7 +239,9 @@ public class ASTvisitor implements Visitor {
         int right = lastType;
 
         if(!isComparable(left, right)){
-
+            String first = convertToType(left);
+            String second = convertToType(right);
+            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable");
         }
 
         decreaseIndent();
@@ -217,7 +258,9 @@ public class ASTvisitor implements Visitor {
         int right = lastType;
 
         if(!isComparable(left, right)){
-
+            String first = convertToType(left);
+            String second = convertToType(right);
+            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable");
         }
 
         decreaseIndent();
@@ -275,7 +318,9 @@ public class ASTvisitor implements Visitor {
         int right = lastType;
 
         if(!isCompatible(left, right)){
-
+            String first = convertToType(left);
+            String second = convertToType(right);
+            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not compatible");
         }
 
         decreaseIndent();
@@ -358,6 +403,13 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.e.accept(this);
+        if (lastType == -1){
+            System.out.println("Line " + n.line + ": \"" + lastIdentifier +"\" is not declared");
+        }
+
+        else if(lastType != 0){
+            reportError("Line " + n.line + ": " + convertToType(lastType) + " is not compatible with a switch");
+        }
         n.s.accept(this);
 
         decreaseIndent();
@@ -444,6 +496,7 @@ public class ASTvisitor implements Visitor {
 
     @Override
     public void visit(IdentifierExpression n) {
+        lastIdentifier = n.toString();
         lastType = Parser.parser.st.ReturnType(n.toString());
         printNodeWithValue(n, n.toString());
     }
@@ -481,6 +534,9 @@ public class ASTvisitor implements Visitor {
         int right = lastType;
 
         if(!isCompatible(left, right)){
+            String first = convertToType(left);
+            String second = convertToType(right);
+            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not compatible");
 
         }
 
@@ -498,6 +554,9 @@ public class ASTvisitor implements Visitor {
         int right = lastType;
 
         if(!isCompatible(left, right)){
+            String first = convertToType(left);
+            String second = convertToType(right);
+            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not compatible");
 
         }
 
@@ -515,7 +574,9 @@ public class ASTvisitor implements Visitor {
         int right = lastType;
 
         if(!isCompatible(left, right)){
-
+            String first = convertToType(left);
+            String second = convertToType(right);
+            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not compatible");
         }
 
         decreaseIndent();
@@ -532,6 +593,9 @@ public class ASTvisitor implements Visitor {
         int right = lastType;
 
         if(!isCompatible(left, right)){
+            String first = convertToType(left);
+            String second = convertToType(right);
+            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not compatible");
 
         }
 
@@ -643,7 +707,9 @@ public class ASTvisitor implements Visitor {
             n.vdl.get(i).accept(this);
             int right = lastType;
             if (!isCompatible(left, right)) {
-                System.out.println("dieNow2");
+                String first = convertToType(left);
+                String second = convertToType(right);
+                reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not compatible");
             }
         }
 
@@ -662,7 +728,9 @@ public class ASTvisitor implements Visitor {
             n.vdl.get(i).accept(this);
             int right = lastType;
             if (!isCompatible(left, right)) {
-                System.out.println("dieNow2");
+                String first = convertToType(left);
+                String second = convertToType(right);
+                reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable");
             }
         }
 
@@ -839,6 +907,10 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         program.sl.accept(this);
+        if(errorDetected != 0){
+            throw new RuntimeException("Fatal Syntax Error");
+        }
+
 
 
         decreaseIndent();
@@ -885,7 +957,6 @@ public class ASTvisitor implements Visitor {
                 }
                 return false;
             default:
-                System.out.println("FAIL isCompatible");
                 return false;
         }
     }
@@ -901,7 +972,6 @@ public class ASTvisitor implements Visitor {
                     return true;
                 }
             default:
-                System.out.println("FAIL isComparable");
                 return false;
         }
 

@@ -6,6 +6,7 @@ public class TESTING {
     public void pik(int i){
         boolean iw = true;
         boolean se = true;
+        double r = 23;
 
 
         if(iw == se) {
@@ -15,7 +16,7 @@ public class TESTING {
         }
 
 
-        switch (i){
+        switch (2534){
             case 1: int k;
             case 2:
 

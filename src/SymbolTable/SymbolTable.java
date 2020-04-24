@@ -122,8 +122,6 @@ public class SymbolTable {
         System.out.println("Error constantLookup");
         return false;
 
-
-
     }
 
     public boolean checkForLoopAndSetup() {
@@ -144,4 +142,5 @@ public class SymbolTable {
             return (loopSymbol instanceof Function) && (setupSymbol instanceof Function) && (loopSymbol.type.equals("void")) && (setupSymbol.type.equals("void"));*/
 
     }
+
 }

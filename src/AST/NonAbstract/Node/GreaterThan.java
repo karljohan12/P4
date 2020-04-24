@@ -5,12 +5,13 @@ import AST.Visitor.Visitor;
 
 public class GreaterThan extends Expression {
     public Expression e1, e2;
+    public int line;
 
     public GreaterThan(Expression ae1, Expression ae2, int ln){
         super(ln);
         e1 = ae1;
         e2 = ae2;
-
+        line = ln;
 
 
     }

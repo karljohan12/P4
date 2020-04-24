@@ -17,7 +17,9 @@ import java_cup.runtime.XMLElement;
 @SuppressWarnings({"rawtypes"})
 public class parser extends java_cup.runtime.lr_parser {
 
- public final Class getSymbolContainer() {
+
+
+  public final Class getSymbolContainer() {
     return sym.class;
 }
 
@@ -787,7 +789,7 @@ public class parser extends java_cup.runtime.lr_parser {
 
 
   public static SymbolTable st = new SymbolTable();
-  int errorDetected = 0;
+  public int errorDetected = 0;
   boolean isLoopScope = false;
   String typePlaceholder;
   String Functionidentifier;

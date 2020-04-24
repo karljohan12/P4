@@ -1,4 +1,4 @@
-double hamse;
+double hamse = 5;
 int jesus;
 
 void setup() BEGIN
@@ -17,9 +17,22 @@ const int j = 34;
 int ee = 34;
 
 j = 365;
+pik = 34;
 
+double l = 6.5;
+int i = 5;
 
- switch (i) BEGIN
+i += l;
+
+i > "hey";
+
+i = i + 5.5;
+
+if(j <= true) BEGIN
+
+END
+
+ switch (gede) BEGIN
             case 1: int k;
             case 2:
 
