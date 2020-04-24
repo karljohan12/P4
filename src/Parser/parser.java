@@ -790,6 +790,9 @@ public class parser extends java_cup.runtime.lr_parser {
   int errorDetected = 0;
   boolean isLoopScope = false;
   String typePlaceholder;
+  String Functionidentifier;
+
+
 
 
 
@@ -813,7 +816,7 @@ public class parser extends java_cup.runtime.lr_parser {
 
   if(f == false){
       errorDetected++;
-      System.out.println("Duplicate variable identifier: \"" + lexeme + "\" on line: " + ln);
+      System.out.println("Duplicate identifier: \"" + lexeme + "\" on line: " + ln);
 
   }
 
@@ -824,11 +827,17 @@ public class parser extends java_cup.runtime.lr_parser {
 
     if(f == false){
         errorDetected++;
-        System.out.println("Duplicate function identifier: \"" + lexeme + "\" on line: " + ln);
+        System.out.println("Duplicate identifier: \"" + lexeme + "\" on line: " + ln);
 
     }
 
   }
+
+    public void errorMessage(String message, int ln){
+      errorDetected++;
+      System.out.println(message);
+
+    }
 
 
 /** Cup generated class to encapsulate user supplied action code.*/
@@ -877,11 +886,15 @@ class CUP$parser$actions {
 		int sright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Initial s = (Initial)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		 RESULT = new Program(s, sleft);
-
+                                            if(!st.checkForLoopAndSetup()){
+                                           errorMessage("void setup() and void loop() must be declared", sleft);}
                                            if(errorDetected != 0){
 
                                                        report_fatal_error("", null);
                                                      }
+
+
+
 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("program",0, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -979,7 +992,11 @@ class CUP$parser$actions {
 		int stright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object st = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		 RESULT = new ServoPrimitiveType(stleft);
+
 	                                           typePlaceholder = "servo";
+
+
+
               CUP$parser$result = parser.getSymbolFactory().newSymbol("primitiveType",3, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -992,7 +1009,10 @@ class CUP$parser$actions {
 		int btright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object bt = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		 RESULT = new BoolType(btleft);
+
 	                                           typePlaceholder = "boolean";
+
+
               CUP$parser$result = parser.getSymbolFactory().newSymbol("primitiveType",3, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1005,7 +1025,10 @@ class CUP$parser$actions {
 		int itright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object it = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		 RESULT = new IntType(itleft);
+
                                                typePlaceholder = "int";
+
+
               CUP$parser$result = parser.getSymbolFactory().newSymbol("numericType",4, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1018,7 +1041,10 @@ class CUP$parser$actions {
 		int ftright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object ft = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		 RESULT = new FloatType(ftleft);
+
 	                                           typePlaceholder = "double";
+
+
               CUP$parser$result = parser.getSymbolFactory().newSymbol("numericType",4, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1043,7 +1069,10 @@ class CUP$parser$actions {
 		int rtright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object rt = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		 RESULT = new RobotType(rtleft);
+
                                                typePlaceholder = "robot";
+
+
               CUP$parser$result = parser.getSymbolFactory().newSymbol("referenceType",5, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1056,7 +1085,10 @@ class CUP$parser$actions {
 		int stright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object st = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		 RESULT = new ServoType(stleft);
+
                                                typePlaceholder = "servoposition";
+
+
               CUP$parser$result = parser.getSymbolFactory().newSymbol("referenceType",5, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1340,6 +1372,24 @@ class CUP$parser$actions {
 		int fdright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		AFunction fd = (AFunction)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		 RESULT = new TypeFunctionHeader(t, fd, fdleft);
+                                                String reg = t.toString();
+                                                    boolean e = false;
+                                                if(reg.matches(".*\\bFloatType\\b.*")){
+                                                    e = st.addFunction(Functionidentifier, "float");
+                                                }
+                                                else if(reg.matches(".*\\bIntType\\b.*")){
+                                                    e = st.addFunction(Functionidentifier, "int");
+                                                }
+                                                else if(reg.matches(".*\\bBooleanType\\b.*")){
+                                                    e = st.addFunction(Functionidentifier, "boolean");
+                                                }
+                                                else{
+                                                errorMessage("Return type is not recognized", fdleft);
+                                                    e = true;
+                                                }
+                             //                   boolean s = st.addFunction(i, ?);
+                                                FunctionSemanticError(Functionidentifier, e, fdleft);
+
               CUP$parser$result = parser.getSymbolFactory().newSymbol("functionHeader",14, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1352,6 +1402,9 @@ class CUP$parser$actions {
 		int fdright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		AFunction fd = (AFunction)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		 RESULT = new VoidFunctionHeader(fd, fdleft);
+                                                  boolean s = st.addFunction(Functionidentifier, "void");
+                                                  FunctionSemanticError(Functionidentifier, s, fdleft);
+
               CUP$parser$result = parser.getSymbolFactory().newSymbol("functionHeader",14, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1367,8 +1420,10 @@ class CUP$parser$actions {
 		int fploright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		FormalParameterList fplo = (FormalParameterList)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		 RESULT = new FunctionDeclarator(fplo, fploleft);
-		                                      boolean s = st.addFunction(i);
-		                                      FunctionSemanticError(i, s, ileft);
+		                                      Functionidentifier = i.toString();
+
+
+
 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("functionDeclarator",15, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }

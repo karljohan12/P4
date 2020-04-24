@@ -39,8 +39,8 @@ public class SymbolTable {
         return false;
     }
 
-    public boolean addFunction(String name) {
-        Function function = new Function(name);
+    public boolean addFunction(String name, String returnType) {
+        Function function = new Function(name, returnType);
         return this.topmostScope.addSymbol(function);
     }
 
@@ -100,7 +100,7 @@ public class SymbolTable {
         topmostScope.ConvertToConstant();
     }
 
-   /* public boolean IsConstant(String symbolName) {
+    public boolean IsConstant(String symbolName) {
         Variable var;
         boolean lastScopeChecked = false;
         Scope scope = this.topmostScope;
@@ -124,5 +124,24 @@ public class SymbolTable {
 
 
 
-    }*/
+    }
+
+    public boolean checkForLoopAndSetup() {
+        Scope scope = this.topmostScope;
+        String loop = "loop";
+        String setup = "setup";
+
+        Function loopCheck = scope.lookupFunction(loop);
+        Function setupCheck = scope.lookupFunction(setup);
+        if(loopCheck != null && setupCheck != null) {
+            return (loopCheck.name.equals(loop) && setupCheck.name.equals(setup) && loopCheck.returnType.equals("void") && setupCheck.returnType.equals("void"));
+        }
+        return false;
+        //{
+            /*Symbol loopSymbol = scope.ReturnType(loop);
+            Symbol setupSymbol = scope.ReturnType(loop);
+
+            return (loopSymbol instanceof Function) && (setupSymbol instanceof Function) && (loopSymbol.type.equals("void")) && (setupSymbol.type.equals("void"));*/
+
+    }
 }

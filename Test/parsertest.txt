@@ -1,15 +1,22 @@
+double hamse;
+int jesus;
+
+void setup() BEGIN
+
+END
+
+void loop() BEGIN
+
+END
 
 
+int ga(int i) BEGIN
 
 
-
-int maine(int i) BEGIN
-
-int i = 34;
 const int j = 34;
 int ee = 34;
 
-
+j = 365;
 
 
  switch (i) BEGIN
@@ -20,6 +27,10 @@ int ee = 34;
         END
 int y;
 
+
+END
+
+int gya(int d) BEGIN
 
 END
 

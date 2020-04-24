@@ -51,11 +51,24 @@ public class Scope {
         symbolTable.replace(lastDecl.name, lastDecl);
     }
 
-    public Variable IsConstant(String symbolName){
+    public Variable IsConstant(String symbolName) {
         Symbol e = symbolTable.get(symbolName);
-        symbolTable.
+
+        if (e instanceof Variable) {
+            Variable v = (Variable) e;
+            return v;
+        }
+        return null;
+    }
+    public Function lookupFunction(String symbolName) {
 
 
+        Symbol e = symbolTable.get(symbolName);
+
+        if (e instanceof Function) {
+            return (Function) e;
+        }
+        return null;
     }
 
     public void printScopeContent() {

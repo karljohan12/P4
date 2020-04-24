@@ -3,6 +3,7 @@ package AST.Visitor;
 import AST.Abstract.ASTNode;
 import AST.List.*;
 import AST.NonAbstract.Node.*;
+import Parser.parser;
 import SymbolTable.SymbolTable;
 
 
@@ -49,6 +50,12 @@ public class ASTvisitor implements Visitor {
 
         n.e1.accept(this);
         int left = lastType;
+        if(parser.st.IsConstant(n.e1.toString())){
+
+            System.out.println(n.e1.toString() + " is constant");
+        }
+
+
         n.e2.accept(this);
         n.e3.accept(this);
         int right = lastType;

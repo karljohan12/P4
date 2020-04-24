@@ -10,6 +10,9 @@ parser code  {:
   int errorDetected = 0;
   boolean isLoopScope = false;
   String typePlaceholder;
+  String Functionidentifier;
+
+
 
 
 
@@ -33,7 +36,7 @@ parser code  {:
 
   if(f == false){
       errorDetected++;
-      System.out.println("Duplicate variable identifier: \"" + lexeme + "\" on line: " + ln);
+      System.out.println("Duplicate identifier: \"" + lexeme + "\" on line: " + ln);
 
   }
 
@@ -44,11 +47,17 @@ parser code  {:
 
     if(f == false){
         errorDetected++;
-        System.out.println("Duplicate function identifier: \"" + lexeme + "\" on line: " + ln);
+        System.out.println("Duplicate identifier: \"" + lexeme + "\" on line: " + ln);
 
     }
 
   }
+
+    public void errorMessage(String message, int ln){
+      errorDetected++;
+      System.out.println(message);
+
+    }
 :};
 
 terminal BOOLEAN;
@@ -172,11 +181,15 @@ start with program;
 
 program                                 ::=	initial:s
                                           {: RESULT = new Program(s, sleft);
-
+                                            if(!st.checkForLoopAndSetup()){
+                                           errorMessage("void setup() and void loop() must be declared", sleft);}
                                            if(errorDetected != 0){
 
                                                        report_fatal_error("", null);
                                                      }
+
+
+
                                            :};
 
 
@@ -200,28 +213,49 @@ primitiveType                           ::= numericType:nt
 	                            	          {: RESULT = nt; :}
 	                                      | SERVO:st
 	                                          {: RESULT = new ServoPrimitiveType(stleft);
-	                                           typePlaceholder = "servo";:}
+
+	                                           typePlaceholder = "servo";
+
+
+	                                           :}
 	                                      |	BOOLEAN:bt
+
 	                                          {: RESULT = new BoolType(btleft);
-	                                           typePlaceholder = "boolean";:};
+
+	                                           typePlaceholder = "boolean";
+
+	                                           :};
 
 
 numericType                             ::= INT:it
                                               {: RESULT = new IntType(itleft);
-                                               typePlaceholder = "int";:}
+
+                                               typePlaceholder = "int";
+
+                                               :}
 	                                      |	DOUBLE:ft
 	                                          {: RESULT = new FloatType(ftleft);
-	                                           typePlaceholder = "double";:};
+
+	                                           typePlaceholder = "double";
+
+	                                           :};
 
 
 referenceType                           ::= arrayType:at
                                               {: RESULT = at; :}
                                           | ROBOT:rt
                                               {: RESULT = new RobotType(rtleft);
-                                               typePlaceholder = "robot";:}
+
+                                               typePlaceholder = "robot";
+
+                                               :}
                                           | SERVOPOSITION:st
+
                                               {: RESULT = new ServoType(stleft);
-                                               typePlaceholder = "servoposition";:};
+
+                                               typePlaceholder = "servoposition";
+
+                                               :};
 
 
 arrayType                               ::= primitiveType:pt LBRACK RBRACK
@@ -313,16 +347,39 @@ functionDeclaration                     ::= functionHeader:fh functionBody:fb
 		                                      {: RESULT = new Function(fh, fb, fhleft); :};
 
 
-functionHeader                          ::= type:t functionDeclarator:fd
-	                                          {: RESULT = new TypeFunctionHeader(t, fd, fdleft); :}
-	                                      | VOID functionDeclarator:fd
-	                                          {: RESULT = new VoidFunctionHeader(fd, fdleft); :};
+functionHeader                          ::=    type:t functionDeclarator:fd
+	                                          {: RESULT = new TypeFunctionHeader(t, fd, fdleft);
+                                                String reg = t.toString();
+                                                    boolean e = false;
+                                                if(reg.matches(".*\\bFloatType\\b.*")){
+                                                    e = st.addFunction(Functionidentifier, "float");
+                                                }
+                                                else if(reg.matches(".*\\bIntType\\b.*")){
+                                                    e = st.addFunction(Functionidentifier, "int");
+                                                }
+                                                else if(reg.matches(".*\\bBooleanType\\b.*")){
+                                                    e = st.addFunction(Functionidentifier, "boolean");
+                                                }
+                                                else{
+                                                errorMessage("Return type is not recognized", fdleft);
+                                                    e = true;
+                                                }
+                             //                   boolean s = st.addFunction(i, ?);
+                                                FunctionSemanticError(Functionidentifier, e, fdleft);
+	                                             	                                           :}
+                                              | VOID functionDeclarator:fd
+                                                  {: RESULT = new VoidFunctionHeader(fd, fdleft);
+                                                  boolean s = st.addFunction(Functionidentifier, "void");
+                                                  FunctionSemanticError(Functionidentifier, s, fdleft);
+                                                                                                   :};
 
 
 functionDeclarator                      ::= IDENTIFIER:i LPAREN formalParameterList:fplo RPAREN
 		                                      {: RESULT = new FunctionDeclarator(fplo, fploleft);
-		                                      boolean s = st.addFunction(i);
-		                                      FunctionSemanticError(i, s, ileft);
+		                                      Functionidentifier = i.toString();
+
+
+
 		                                       :};
 
 
