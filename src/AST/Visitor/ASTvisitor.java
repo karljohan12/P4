@@ -4,7 +4,9 @@ import AST.Abstract.ASTNode;
 import AST.List.*;
 import AST.NonAbstract.Node.*;
 import Parser.parser;
-import SymbolTable.SymbolTable;
+import SymbolTable.Variable;
+
+import java.util.ArrayList;
 
 
 public class ASTvisitor implements Visitor {
@@ -12,6 +14,10 @@ public class ASTvisitor implements Visitor {
     private int Indent = 0;
     private int lastType;
     private String lastIdentifier;
+    private boolean isAssignmentDecl = false;
+    private String functionType;
+    private ArrayList<Variable> parameters = new ArrayList<>();
+    boolean constantFormalParameter = false;
 
     private void increaseIndent() { Indent += 2; }
     private int errorDetected = 0;
@@ -78,6 +84,7 @@ public class ASTvisitor implements Visitor {
 
 
         n.e1.accept(this);
+        parser.st.setVariableInit(lastIdentifier);
         int left = lastType;
         if(left != -1) {
             if (parser.st.IsConstant(n.e1.toString())) {
@@ -85,14 +92,15 @@ public class ASTvisitor implements Visitor {
                 System.out.println(n.e1.toString() + " is constant");
             }
         }
-        else{
-           errorDetected++;
-           System.out.println("Line " + n.line + ": \"" + lastIdentifier +"\" is not declared");
-        }
+//        else{
+//           errorDetected++;
+//           System.out.println("Line " + n.line + ": \"" + lastIdentifier +"\" is not declared");
+//        }
 
         n.e2.accept(this);
         n.e3.accept(this);
         int right = lastType;
+
         if(left != -1) {
             if (!isCompatible(left, right)) {
                 String first = convertToType(left);
@@ -169,7 +177,12 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.a1.accept(this);
+        String functionIdentifier = lastIdentifier;
         n.a2.accept(this);
+
+        if(!parser.st.addFunction(functionIdentifier, functionType, parameters)){
+            reportError("Line " + n.line + ": \"" + lastIdentifier + "\" already declared");
+        }
 
         decreaseIndent();
     }
@@ -214,7 +227,8 @@ public class ASTvisitor implements Visitor {
 
     @Override
     public void visit(Identifier n) {
-        lastType = Parser.parser.st.ReturnType(n.toString());
+        lastIdentifier = n.toString();
+       // lastType = Parser.parser.st.ReturnType(n.toString());
         printNodeWithValue(n, n.toString());
     }
 
@@ -503,6 +517,16 @@ public class ASTvisitor implements Visitor {
     public void visit(IdentifierExpression n) {
         lastIdentifier = n.toString();
         lastType = Parser.parser.st.ReturnType(n.toString());
+        if(!parser.st.lookupSymbol(lastIdentifier)){
+            System.out.println("Line " + n.line + ": \"" + lastIdentifier +"\" is not declared");
+
+        }
+
+
+        else if(!parser.st.isVariableInitialized(lastIdentifier)){
+            reportError("Line " + n.line + ": " + lastIdentifier + " has not been initialized");
+
+        }
         printNodeWithValue(n, n.toString());
     }
 
@@ -649,7 +673,10 @@ public class ASTvisitor implements Visitor {
         printNode(n);
         increaseIndent();
 
+        n.fi.accept(this);
         n.e.accept(this);
+        n.sel.accept(this);
+
 
         decreaseIndent();
     }
@@ -726,7 +753,14 @@ public class ASTvisitor implements Visitor {
                 String first = convertToType(left);
                 String second = convertToType(right);
                 reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not compatible");
+            } else if(!parser.st.addVariable(lastIdentifier, convertToType(left))){
+                reportError("Line " + n.line + ": \"" + lastIdentifier + "\" already declared");
+
             }
+            else {
+                parser.st.ConvertToConstant();
+            }
+
         }
 
         decreaseIndent();
@@ -740,14 +774,28 @@ public class ASTvisitor implements Visitor {
         n.t.accept(this);
         int left = lastType;
 
+
         for ( int i = 0; i < n.vdl.size(); i++ ) {
             n.vdl.get(i).accept(this);
             int right = lastType;
-            if (!isCompatible(left, right)) {
+            if (!isCompatible(left, right) && right != -1) {
                 String first = convertToType(left);
                 String second = convertToType(right);
-                reportError("Line " + n.line + ": " + "Type \"" + second + "\" cannot be assigned to \"" + first + "\"");
+
+                    reportError("Line " + n.line + ": " + "Type \"" + second + "\" cannot be assigned to \"" + first + "\"");
+
             }
+            else if (!parser.st.addVariable(lastIdentifier, convertToType(left))) {
+                reportError("Line " + n.line + ": \"" + lastIdentifier + "\" already declared");
+
+
+            }
+            else if (isAssignmentDecl){
+                parser.st.setVariableInit(lastIdentifier);
+                isAssignmentDecl = false;
+            }
+
+
         }
         decreaseIndent();
     }
@@ -788,9 +836,11 @@ public class ASTvisitor implements Visitor {
         printNode(n);
         increaseIndent();
 
+        parser.st.createScope(0);
         for ( int i = 0; i < n.sl.size(); i++ ) {
             n.sl.get(i).accept(this);
         }
+        parser.st.closeScope();
 
         decreaseIndent();
     }
@@ -822,6 +872,7 @@ public class ASTvisitor implements Visitor {
 
         n.t.accept(this);
         n.i.accept(this);
+        constantFormalParameter = true;
 
         decreaseIndent();
     }
@@ -843,6 +894,7 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.a.accept(this);
+        functionType = "void";
 
         decreaseIndent();
     }
@@ -853,7 +905,9 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.t.accept(this);
+        functionType = convertToType(lastType);
         n.a.accept(this);
+
 
         decreaseIndent();
     }
@@ -862,9 +916,10 @@ public class ASTvisitor implements Visitor {
     public void visit(VariableAssignmentDeclaration n) {
         printNode(n);
         increaseIndent();
-
-        n.i.accept(this);
         n.a.accept(this);
+        n.i.accept(this);
+        isAssignmentDecl = true;
+
 
 
 
@@ -873,9 +928,10 @@ public class ASTvisitor implements Visitor {
 
     @Override
     public void visit(IdentifierVariable n) {
-        printNodeWithValue(n, n.s);
-        increaseIndent();
+        lastIdentifier = n.toString();
 
+        increaseIndent();
+        printNodeWithValue(n, n.s);
         decreaseIndent();
     }
 
@@ -884,11 +940,13 @@ public class ASTvisitor implements Visitor {
         printNode(n);
         increaseIndent();
 
+        parser.st.createScope(0);
         for ( int i = 0; i < n.sl.size(); i++ ) {
             if(n.sl.get(i) != null) {
                 n.sl.get(i).accept(this);
             }
         }
+        parser.st.closeScope();
 
         decreaseIndent();
     }
@@ -899,9 +957,13 @@ public class ASTvisitor implements Visitor {
         printNodeWithValue(n, n.i);
         increaseIndent();
 
+        parameters = new ArrayList<>();
         for ( int i = 0; i < n.fplo.list.size(); i++ ) {
             n.fplo.list.get(i).accept(this);
+            parameters.add(new Variable(lastIdentifier, convertToType(lastType), constantFormalParameter));
+            constantFormalParameter = false;
         }
+        lastIdentifier = n.i;
 
         decreaseIndent();
     }
@@ -924,7 +986,13 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         program.sl.accept(this);
-        if(errorDetected != 0){
+
+        if(!parser.st.checkForLoopAndSetup()){
+            reportError("void setup() and void loop() must be declared");
+            throw new RuntimeException("Fatal Syntax Error");
+        }
+
+        else if(errorDetected != 0){
             throw new RuntimeException("Fatal Syntax Error");
         }
 
@@ -1001,11 +1069,13 @@ public class ASTvisitor implements Visitor {
                     return 0;
                 if (right == 1)
                     return 1;
+                break;
             case 1:
                 return 1;
             default:
                 return -1;
         }
+        return -1;
 
 
     }

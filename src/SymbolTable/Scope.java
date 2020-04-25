@@ -61,8 +61,6 @@ public class Scope {
         return null;
     }
     public Function lookupFunction(String symbolName) {
-
-
         Symbol e = symbolTable.get(symbolName);
 
         if (e instanceof Function) {
@@ -73,5 +71,24 @@ public class Scope {
 
     public void printScopeContent() {
         // TODO: Print shits
+    }
+
+    public void setVariableInit(String symbolName){
+        Symbol e = symbolTable.get(symbolName);
+
+        if(e instanceof Variable){
+            Variable v = (Variable)e;
+            v.hasBeenInit = true;
+        }
+    }
+
+    public boolean getVariableInit(String symbolName) {
+        Symbol e = symbolTable.get(symbolName);
+
+        if(e instanceof Variable){
+            Variable v = (Variable)e;
+            return v.hasBeenInit;
+        }
+        return false;
     }
 }

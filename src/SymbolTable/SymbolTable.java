@@ -1,6 +1,8 @@
 package SymbolTable;
 import Parser.parser;
 
+import java.util.ArrayList;
+
 public class SymbolTable {
     int currentLevel;    // nesting level of current scope
     Variable udefinedVariable;    // object node for erroneous symbols
@@ -39,8 +41,8 @@ public class SymbolTable {
         return false;
     }
 
-    public boolean addFunction(String name, String returnType) {
-        Function function = new Function(name, returnType);
+    public boolean addFunction(String name, String returnType, ArrayList<Variable> varList) {
+        Function function = new Function(name, returnType, varList);
         return this.topmostScope.addSymbol(function);
     }
 
@@ -54,14 +56,14 @@ public class SymbolTable {
 
     public int ReturnType(String symbolName) {
         boolean lastScopeChecked = false;
-        Symbol type;
+        Symbol type = null;
         Scope scope = this.topmostScope;
         while (scope != null || lastScopeChecked == false) {
 
             if (lastScopeChecked == true) {
                 type = scope.ReturnType(symbolName);
-            } else {
-                type = lastClosedScope.ReturnType(symbolName);
+            //} else {
+               // type = lastClosedScope.ReturnType(symbolName);
             }
 
 
@@ -101,15 +103,15 @@ public class SymbolTable {
     }
 
     public boolean IsConstant(String symbolName) {
-        Variable var;
+        Variable var = null;
         boolean lastScopeChecked = false;
         Scope scope = this.topmostScope;
         while (scope != null || lastScopeChecked == false) {
 
             if (lastScopeChecked == true) {
                 var = scope.IsConstant(symbolName);
-            } else {
-                var = lastClosedScope.IsConstant(symbolName);
+           // } else {
+             //   var = lastClosedScope.IsConstant(symbolName);
             }
             if (var != null) {
                 return var.isConstant;
@@ -141,6 +143,31 @@ public class SymbolTable {
 
             return (loopSymbol instanceof Function) && (setupSymbol instanceof Function) && (loopSymbol.type.equals("void")) && (setupSymbol.type.equals("void"));*/
 
+    }
+
+    public void setVariableInit(String symbolName){
+        Scope scope = this.topmostScope;
+
+        while(scope != null){
+            scope.setVariableInit(symbolName);
+            scope = scope.link;
+        }
+
+    }
+
+    public boolean isVariableInitialized(String symbolName) {
+        Scope scope = this.topmostScope;
+        boolean found = false;
+
+        while(scope != null){
+            found = scope.getVariableInit(symbolName);
+            scope = scope.link;
+            if(found){
+                return true;
+            }
+
+        }
+        return found;
     }
 
 }

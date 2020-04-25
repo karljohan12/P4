@@ -1,303 +1,78 @@
-int s = 1;
-int i = 2;
+double hamse, henning;
+const int jesus;
+double m = i - 2.5 + 2.5 + 2.5;
+int ty = i - 3 * 3 / 3.5;
+int asd = ghjkl - 3 * 3 / 3.5;
 
-int main(const int i, int pik9) BEGIN
 
-i = 23;
+void setup() BEGIN
+boolean i;
+END
 
+void loop() BEGIN
+
+
+
+for(int t = 0 WHEN i < 0 THEN i++) BEGIN
+
+for(int tgdfg = 0 WHEN i < 0 THEN i++) BEGIN
+
+int ee = 2;
+
+int we = ee;
+
+END
 
 
 END
 
 
 
-
-int main(int pik) BEGIN
-int i = 2;
-int i = 2;
-int i, u;
-int[] array;
-array[1] = 1;
-
-
-int l = 2 % 2;
-
-
-
-
-u = hamseanders(jesus);
-u = hamseanders(jesus, juden);
-
-
-
-
-
-
-int[] array = {1, 2};
-
-int[] array = { };
-
-
-int ai = array[1];
-
-i += 5;
-i -= 5;
-
-boolean x = false;
-if(!x) BEGIN
-
 END
 
 
-t = null;
+int ga(int i) BEGIN
 
 
+const int j = 34;
+int ee = 34;
+
+j = 365;
+pik = 34;
+i = 5;
+double l = 6.5;
+int i = 5;
 
 
+i += l;
 
-
-double i = 2.0;
-double i = 2;
-int i = -1;
-
-i = k;
-
-const int co = 1;
-
-for(i = 0 WHEN i < 0 THEN i++) BEGIN
-int i;
-
-break;
-END
-
-
-
-
-for( int i = 0 WHEN i < 0 THEN i++) BEGIN
-int i;
-
-i = 2*2;
-i = 2/2;
-
-
-break;
-END
-
-if(i==(2+3)) BEGIN
-;
-return i;
-END
-
-if(i<0) BEGIN
-i++;
-i--;
---i;
-++i;
-
-a = b = 1;
-
-if(i>-1) BEGIN
+if(i > false) BEGIN
 
 END
 
-if(i>=1) BEGIN
+i = i + 5.5;
 
+int v = l;
+
+
+if(j <= true) BEGIN
+int gede = 5;
 END
-
-if(i<=1) BEGIN
-
-END
-
-if(i != 1) BEGIN
-
-END
-
-i = 2 * -1;
-s = 2 + 1 - 2 * 2;
-
-END
-
-if(i<0) BEGIN
-
-END
-
-else BEGIN
-
-END
-
-if(i<0) BEGIN
+int gede = 5;
+ switch (gede) BEGIN
+            case 1: int k;
+            case 2:
 
 
-
-if(i<0) BEGIN
-
-
-END
-else BEGIN
-
-END
-
-END
-
-
-while(i < 3 AND 3 OR 2) BEGIN
-int i = 0;
-END
-
-
-switch(sw) BEGIN
-    case 2:
-    i++;
-        break;
-
-        case 32:
-        i = 3;
-        break;
-
-        default:
-
-
-
-        break;
-END
-
-switch(sw) BEGIN
-                    case 32:
-                    i = 3;
-                    break;
-
-        default:
-
-
-END
-
-
-switch(sw) BEGIN
-
-
-
-END
-
-
-switch(sw) BEGIN
-
-
-        default:
-
-
-END
-
-
-
-switch(sw) BEGIN
-    case 2:
-    i++;
-        break;
-
-        case 32:
-        i = 3;
-        break;
-
-        case 2:
-
-        default:
-
-
-
-        break;
-END
-
-
-if(i == 3) BEGIN
-i--;
-    if(i < 4) BEGIN
-    i++;
-    END
-END
-else BEGIN
-    if(i < 3) BEGIN
-    i++;
-    END
-END
-
-if(i == 3) BEGIN
-i--;
-    if(i < 4) BEGIN
-    i++;
-    END
-
-    if(i) BEGIN
-
-    END
-    else BEGIN
-
-
-
-if(A)
-BEGIN
-    if(B)
-    BEGIN
-        C1=2;
-     END
-    else BEGIN
-        C2=2;
         END
+int y;
+
+
 END
 
-
-
-
-
-
-
-
-    END
-END
-else BEGIN
-    if(i < 3) BEGIN
-    i++;
-    END
-END
+int gya(int d) BEGIN
 
 END
 
 
 
-void setup()BEGIN
-//Associate servos with an identifier
-
-Servo body = PIN1;
-Servo shoulder = PIN2;
-Servo grapper = PIN3;
-
-//Construct a robot of servos
-Robot CNC = {body, shoulder, grapper};
-
-//Declare predefined robotpositions
-int header = 12;
-ServoPosition PlaceSubjectCNC = {80, 30, 72};
-ServoPosition Waiting = {80, 10, 0};
-ServoPosition pickupSubjectCNC = {80, 30, 0};
-ServoPosition HandInSubject = {0, 30, 0};
-
-//Declare predefined robotpositions, however only one or more servos are defined to move
-ServoPosition openGrapper = {grapper: 72, hap: 23};
-
-END
-
-void loop()BEGIN
-//Moving the robot using the predefined positions, with delay in between
-CNC(pickupSubjectStart);
-delay(5000);
-CNC(PlaceSubjectCNC);
-delay(5000);
-CNC(Waiting);
-delay(2000);
-CNC(openGrapper);
-delay(20000);
-CNC(pickupSubjectCNC);
-delay(5000);
-CNC(HandInSubject);
-delay(2000);
-
-END

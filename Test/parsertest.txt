@@ -1,61 +1,47 @@
-double hamse = 5;
-int jesus;
-double m = i - 2.5 + 2.5 + 2.5;
-int ty = i - 3 * 3 / 3.5;
-int asd = ghjkl - 3 * 3 / 3.5;
+int a;
+int rty = a + q;
 
+int hamse(const int i, int e, double ged) BEGIN
+rty = 34 + 3;
+double u;
+
+
+
+
+if(true == true) BEGIN
+
+int i;
+i++;
+
+END
+
+for(int i = 0 WHEN i < 0 THEN i++) BEGIN
+
+i=23;
+
+
+END
+
+switch(u) BEGIN
+case 1:
+rty++;
+break;
+case 2:
+default:
+rty=0;
+
+
+END
+
+
+
+END
 
 void setup() BEGIN
-boolean i;
+
+
 END
 
 void loop() BEGIN
 
 END
-
-
-int ga(int i) BEGIN
-
-
-const int j = 34;
-int ee = 34;
-
-j = 365;
-pik = 34;
-i = 5;
-double l = 6.5;
-int i = 5;
-
-
-i += l;
-
-if(i > false) BEGIN
-
-END
-
-i = i + 5.5;
-
-int v = l;
-
-
-if(j <= true) BEGIN
-
-END
-
- switch (gede) BEGIN
-            case 1: int k;
-            case 2:
-
-
-        END
-int y;
-
-
-END
-
-int gya(int d) BEGIN
-
-END
-
-
-

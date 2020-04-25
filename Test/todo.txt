@@ -1,0 +1,13 @@
+Formal parameters:
+-How to handle formal parameters in sym table
+-Formal parameters are recognized in scope
+
+
+Function call:
+-check all parameters are met in function
+
+Strings:
+-Handle strings
+
+Array:
+-Handle arrays + index(arrayaccess)
