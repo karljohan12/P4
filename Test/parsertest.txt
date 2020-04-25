@@ -1,8 +1,12 @@
 double hamse = 5;
 int jesus;
+double m = i - 2.5 + 2.5 + 2.5;
+int ty = i - 3 * 3 / 3.5;
+int asd = ghjkl - 3 * 3 / 3.5;
+
 
 void setup() BEGIN
-
+boolean i;
 END
 
 void loop() BEGIN
@@ -18,15 +22,21 @@ int ee = 34;
 
 j = 365;
 pik = 34;
-
+i = 5;
 double l = 6.5;
 int i = 5;
 
+
 i += l;
 
-i > "hey";
+if(i > false) BEGIN
+
+END
 
 i = i + 5.5;
+
+int v = l;
+
 
 if(j <= true) BEGIN
 

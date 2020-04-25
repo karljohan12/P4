@@ -7,7 +7,7 @@ import SymbolTable.SymbolTable;
 parser code  {:
 
   public static SymbolTable st = new SymbolTable();
-  static int errorDetected = 0;
+  int errorDetected = 0;
   boolean isLoopScope = false;
   String typePlaceholder;
   String Functionidentifier;
@@ -53,7 +53,7 @@ parser code  {:
 
   }
 
-    public static void errorMessage(String message, int ln){
+    public void errorMessage(String message, int ln){
       errorDetected++;
       System.out.println(message);
 
@@ -375,7 +375,7 @@ functionHeader                          ::=    type:t functionDeclarator:fd
 
 
 functionDeclarator                      ::= IDENTIFIER:i LPAREN formalParameterList:fplo RPAREN
-		                                      {: RESULT = new FunctionDeclarator(fplo, fploleft);
+		                                      {: RESULT = new FunctionDeclarator(i, fplo, fploleft);
 		                                      Functionidentifier = i.toString();
 
 

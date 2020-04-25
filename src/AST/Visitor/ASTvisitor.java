@@ -141,11 +141,13 @@ public class ASTvisitor implements Visitor {
         n.e2.accept(this);
         int right = lastType;
 
-        if(!isComparable(left, right)){
+        lastType = EvaluateExpression(left, right);
+
+ /*       if(!isComparable(left, right)){
             String first = convertToType(left);
             String second = convertToType(right);
             reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not compatible");
-        }
+        }*/
         decreaseIndent();
     }
 
@@ -317,11 +319,14 @@ public class ASTvisitor implements Visitor {
         n.e2.accept(this);
         int right = lastType;
 
-        if(!isCompatible(left, right)){
+        lastType = EvaluateExpression(left, right);
+
+
+    /*    if(!isCompatible(left, right)){
             String first = convertToType(left);
             String second = convertToType(right);
             reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not compatible");
-        }
+        }*/
 
         decreaseIndent();
     }
@@ -533,12 +538,14 @@ public class ASTvisitor implements Visitor {
         n.e2.accept(this);
         int right = lastType;
 
-        if(!isCompatible(left, right)){
+        lastType = EvaluateExpression(left, right);
+
+       /* if(!isCompatible(left, right)){
             String first = convertToType(left);
             String second = convertToType(right);
             reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not compatible");
 
-        }
+        }*/
 
         decreaseIndent();
     }
@@ -553,12 +560,15 @@ public class ASTvisitor implements Visitor {
         n.e2.accept(this);
         int right = lastType;
 
-        if(!isCompatible(left, right)){
+        lastType = EvaluateExpression(left, right);
+
+
+/*        if(!isCompatible(left, right)){
             String first = convertToType(left);
             String second = convertToType(right);
             reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not compatible");
 
-        }
+        }*/
 
         decreaseIndent();
     }
@@ -573,11 +583,14 @@ public class ASTvisitor implements Visitor {
         n.e2.accept(this);
         int right = lastType;
 
-        if(!isCompatible(left, right)){
+        lastType = EvaluateExpression(left, right);
+
+
+     /*   if(!isCompatible(left, right)){
             String first = convertToType(left);
             String second = convertToType(right);
             reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not compatible");
-        }
+        }*/
 
         decreaseIndent();
     }
@@ -592,12 +605,15 @@ public class ASTvisitor implements Visitor {
         n.e2.accept(this);
         int right = lastType;
 
-        if(!isCompatible(left, right)){
+        lastType = EvaluateExpression(left, right);
+
+
+    /*    if(!isCompatible(left, right)){
             String first = convertToType(left);
             String second = convertToType(right);
             reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not compatible");
 
-        }
+        }*/
 
         decreaseIndent();
     }
@@ -730,10 +746,9 @@ public class ASTvisitor implements Visitor {
             if (!isCompatible(left, right)) {
                 String first = convertToType(left);
                 String second = convertToType(right);
-                reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable");
+                reportError("Line " + n.line + ": " + "Type \"" + second + "\" cannot be assigned to \"" + first + "\"");
             }
         }
-
         decreaseIndent();
     }
 
@@ -851,6 +866,8 @@ public class ASTvisitor implements Visitor {
         n.i.accept(this);
         n.a.accept(this);
 
+
+
         decreaseIndent();
     }
 
@@ -879,7 +896,7 @@ public class ASTvisitor implements Visitor {
 
     @Override
     public void visit(FunctionDeclarator n) {
-        printNode(n);
+        printNodeWithValue(n, n.i);
         increaseIndent();
 
         for ( int i = 0; i < n.fplo.list.size(); i++ ) {
@@ -974,6 +991,22 @@ public class ASTvisitor implements Visitor {
             default:
                 return false;
         }
+
+    }
+
+    private int EvaluateExpression(int left, int right){
+        switch (left){
+            case 0:
+                if(right == 0)
+                    return 0;
+                if (right == 1)
+                    return 1;
+            case 1:
+                return 1;
+            default:
+                return -1;
+        }
+
 
     }
 

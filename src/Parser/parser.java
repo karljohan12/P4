@@ -17,9 +17,7 @@ import java_cup.runtime.XMLElement;
 @SuppressWarnings({"rawtypes"})
 public class parser extends java_cup.runtime.lr_parser {
 
-
-
-  public final Class getSymbolContainer() {
+ public final Class getSymbolContainer() {
     return sym.class;
 }
 
@@ -789,7 +787,7 @@ public class parser extends java_cup.runtime.lr_parser {
 
 
   public static SymbolTable st = new SymbolTable();
-  public int errorDetected = 0;
+  int errorDetected = 0;
   boolean isLoopScope = false;
   String typePlaceholder;
   String Functionidentifier;
@@ -1421,7 +1419,7 @@ class CUP$parser$actions {
 		int fploleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int fploright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		FormalParameterList fplo = (FormalParameterList)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 RESULT = new FunctionDeclarator(fplo, fploleft);
+		 RESULT = new FunctionDeclarator(i, fplo, fploleft);
 		                                      Functionidentifier = i.toString();
 
 
@@ -1567,7 +1565,7 @@ class CUP$parser$actions {
 		int lright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		VariableInitial l = (VariableInitial)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		 si.add(l);
-                                                 RESULT = si;
+   RESULT = si;
 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("servoInitials",66, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -1930,7 +1928,7 @@ if(isLoopScope == false) {st.createScope(0);}
 		int ueright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Expression ue = (Expression)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		 RESULT = new PlusPlusUnaryExpression(ue, ueleft);
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("statementExpression",31, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+             CUP$parser$result = parser.getSymbolFactory().newSymbol("statementExpression",31, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
 
