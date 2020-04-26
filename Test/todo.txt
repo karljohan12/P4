@@ -8,3 +8,9 @@ Strings:
 
 Array:
 -Handle arrays + index(arrayaccess)
+
+Servo
+
+ServoPosition
+
+Robot

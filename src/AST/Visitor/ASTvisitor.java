@@ -21,6 +21,12 @@ public class ASTvisitor implements Visitor {
     boolean constantFormalParameter = false;
     boolean isFunctionBlock = false;
     boolean checkingForPrototypes = true;
+    int functionNumber = 0;
+    private ArrayList<Variable> prototypes = new ArrayList<Variable>();
+    private ArrayList<ArrayList<Variable>> functionListParameterList = new ArrayList<ArrayList<Variable>>();
+    private String  functionIdentifier;
+    int linePlaceholder;
+
 
     private void increaseIndent() { Indent += 2; }
     private int errorDetected = 0;
@@ -61,6 +67,8 @@ public class ASTvisitor implements Visitor {
                 return "ServoPosition";
             case 6:
                 return "Servo";
+            case 7:
+                return "void";
 
             default:
                 System.out.println("Type does not exist");
@@ -185,14 +193,25 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.a1.accept(this);
-        
-        String functionIdentifier = lastIdentifier;
+
+
+        if(!checkingForPrototypes) {
+
         isFunctionBlock = true;
+
+
         n.a2.accept(this);
 
-        if(!parser.st.addFunction(functionIdentifier, functionType, parameters)){
-            reportError("Line " + n.line + ": \"" + lastIdentifier + "\" already declared");
+
+//            if (!parser.st.addFunction(functionIdentifier, functionType, parameters)) {
+////                reportError("Line " + n.line + ": \"" + lastIdentifier + "\" already declared");
+////            }
         }
+        else {
+            functionIdentifier = lastIdentifier;
+            linePlaceholder = n.line;
+        }
+
 
         decreaseIndent();
     }
@@ -677,18 +696,32 @@ public class ASTvisitor implements Visitor {
         printNode(n);
         increaseIndent();
         String AssignedTo = lastIdentifier;
+        boolean passSizeCheck = true;
         n.i.accept(this);
-        int wsefs = parser.st.ReturnType(n.i.toString());
+        //int wsefs = parser.st.returnTypeOfFunction(n.i.toString());
 
 
-        if(!(parser.st.ReturnType(AssignedTo) == parser.st.ReturnType(n.i.toString()))){
-//            reportError("Line " + n.line + ": " + "Function" + "\"" + n.i.toString() + "\"" + "has type" + "\"" +
-//                    convertToType(parser.st.ReturnType(n.i.toString())) + "\"" + "which can not be assigned to" + AssignedTo
-//                    + "(" + convertToType(parser.st.ReturnType(AssignedTo)) + ")"   );
+        if(!(parser.st.ReturnType(AssignedTo) == parser.st.returnTypeOfFunction(n.i.toString()))){
+            reportError("Line " + n.line + ": " + "Function" + " \"" + n.i.toString() + "\" " + "has type " + "\"" +
+                   convertToType(parser.st.returnTypeOfFunction(n.i.toString())) + "\" " + "which can not be assigned to " + AssignedTo
+                    + "(" + convertToType(parser.st.ReturnType(AssignedTo)) + ")"   );
+        }
+        ArrayList<Variable> formal = parser.st.returnFormalParameters(n.i.toString());
+
+        if(formal.size() != n.al.size()){
+            reportError("Line " + n.line + ": " + "Function" + " \"" + n.i.toString() + "\" " + "expects " + formal.size()
+                    +" parameters, but received " + n.al.size());
+            passSizeCheck = false;
         }
 
         for ( int i = 0; i < n.al.size(); i++ ) {
             n.al.get(i).accept(this);
+            if(passSizeCheck && formal.size()>0){
+                if(!formal.get(i).type.equals(convertToType(lastType))){
+                    reportError("Line " + n.line + ": parameter " + (i+1) + " of function expects type " + "\"" + formal.get(i).type
+                    + "\" but \"" + convertToType(lastType) + "\" was provided");
+                }
+            }
         }
 
         decreaseIndent();
@@ -744,11 +777,29 @@ public class ASTvisitor implements Visitor {
     public void visit(NonReturningFunctionCall n) {
         printNode(n);
         increaseIndent();
+        boolean passSizeCheck = true;
 
         n.i.accept(this);
+        //DO NOT EDIT IF STATEMENTS IN THIS VISIT
+        ArrayList<Variable> formal = parser.st.returnFormalParameters(n.i.toString());
+        if(formal != null && formal.size() != n.al.size()){
+            reportError("Line " + n.line + ": " + "Function" + " \"" + n.i.toString() + "\" " + "expects " + formal.size()
+                    +" parameters, but received " + n.al.size());
+            passSizeCheck = false;
+        }
+        else if(formal == null){
+            reportError("Line " + n.line + ": " + "Function" + " \"" + n.i.toString() + "\" has not been declared");
+            passSizeCheck = false;
+        }
 
         for ( int i = 0; i < n.al.size(); i++ ) {
             n.al.get(i).accept(this);
+            if(passSizeCheck && formal.size()>0){
+                if(!formal.get(i).type.equals(convertToType(lastType))){
+                    reportError("Line " + n.line + ": parameter " + (i+1) + " of function expects type " + "\"" + formal.get(i).type
+                            + "\" but \"" + convertToType(lastType) + "\" was provided");
+                }
+            }
         }
 
         decreaseIndent();
@@ -864,15 +915,23 @@ public class ASTvisitor implements Visitor {
 
         parser.st.createScope(0);
         if(isFunctionBlock){
-            for(Variable p : parameters){
+//            for(Variable p : parameters){
+//                parser.st.addVariable(p.name, p.type);
+//                parser.st.setVariableInit(p.name);
+//                if(p.isConstant){
+//                    parser.st.setVariableConstant(p.name);
+//                }
+//
+//            }
+            for(Variable p : functionListParameterList.get(functionNumber)){
                 parser.st.addVariable(p.name, p.type);
                 parser.st.setVariableInit(p.name);
-                if(p.isConstant){
+                 if(p.isConstant){
                     parser.st.setVariableConstant(p.name);
                 }
 
             }
-
+            functionNumber++;
             isFunctionBlock = false;
         }
 
@@ -997,11 +1056,14 @@ public class ASTvisitor implements Visitor {
         printNodeWithValue(n, n.i);
         increaseIndent();
 
-        parameters = new ArrayList<>();
+        //parameters = new ArrayList<>();
         for ( int i = 0; i < n.fplo.list.size(); i++ ) {
             n.fplo.list.get(i).accept(this);
-            parameters.add(new Variable(lastIdentifier, convertToType(lastType), constantFormalParameter));
-            constantFormalParameter = false;
+            //parameters.add(new Variable(lastIdentifier, convertToType(lastType), constantFormalParameter));
+            if(checkingForPrototypes) {
+                prototypes.add(new Variable(lastIdentifier, convertToType(lastType), constantFormalParameter));
+                constantFormalParameter = false;
+            }
         }
         lastIdentifier = n.i;
 
@@ -1050,10 +1112,19 @@ public class ASTvisitor implements Visitor {
             globalVariablePlusFunctionStatements.v.get(i).accept(this);
         }
 
-        for (int i = 0; i < globalVariablePlusFunctionStatements.sl.size(); i++){
-            globalVariablePlusFunctionStatements.sl.
+        for (functionNumber = 0; functionNumber < globalVariablePlusFunctionStatements.sl.size(); functionNumber++){
+            prototypes = new ArrayList<Variable>();
+            globalVariablePlusFunctionStatements.sl.get(functionNumber).accept(this);
+            if (!parser.st.addFunction(functionIdentifier, functionType, prototypes)) {
+                reportError("Line " + linePlaceholder + ": \"" + functionIdentifier + "\" already declared");
+            }
+                functionListParameterList.add(prototypes);
+
+
 
         }
+        checkingForPrototypes = false;
+        functionNumber = 0;
 
 
         for ( int i = 0; i < globalVariablePlusFunctionStatements.sl.size(); i++ ) {

@@ -1,17 +1,23 @@
 int a;
 int rty = a + q;
 
+ServoPosition yy() BEGIN
+
+END
 
 int hamse(const int i, int e, double ged) BEGIN
 rty = 34 + 3;
 double u;
 
+ServoPosition pickupSubjectStart = {30, 50, 0};
 u = 1 * i;
 i = 23;
 i += 1;
 i += 2;
-
-u = hamse(i, e, u);
+setup(i);
+u = hamse(i, e, i);
+//CNC(pickupSubjectStart);
+fghmj(i);
 
 if(true == true) BEGIN
 

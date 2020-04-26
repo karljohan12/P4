@@ -8,7 +8,7 @@ public class SymbolTable {
     Variable udefinedVariable;    // object node for erroneous symbols
     public Scope topmostScope;    // topmost procedure scope
     public Scope lastClosedScope;
-    int intType = 0, doubleType = 1, booleanType = 2, stringType = 3, robotType = 4, servoPosition = 5, servo = 6;
+    int intType = 0, doubleType = 1, booleanType = 2, stringType = 3, robotType = 4, servoPosition = 5, servo = 6, voidType =7;
 
 
     public SymbolTable() {
@@ -178,5 +178,54 @@ public class SymbolTable {
             scope = scope.link;
         }
     }
+    public int returnTypeOfFunction(String symbolName) {
+        Scope scope = this.topmostScope;
+        Symbol var;
 
+        while (scope != null) {
+
+            var = scope.ReturnType(symbolName);
+            scope = scope.link;
+
+            if (var instanceof Function) {
+                Function e = (Function) var;
+                if (e != null) {
+
+                    switch (e.returnType) {
+                        case "int":
+                            return intType;
+                        case "double":
+                            return doubleType;
+                        case "boolean":
+                            return booleanType;
+                        case "void":
+                            return voidType;
+                        default:
+                            System.out.println("Error ReturnType lookup");
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+
+    public ArrayList<Variable> returnFormalParameters(String symbolName){
+        Scope scope = this.topmostScope;
+        Symbol var;
+
+        while (scope != null) {
+
+            var = scope.ReturnType(symbolName);
+            scope = scope.link;
+
+            if (var instanceof Function) {
+                Function e = (Function) var;
+                if (e != null) {
+                    return e.parameters;
+                }
+            }
+        }
+
+        return null;
+    }
 }
