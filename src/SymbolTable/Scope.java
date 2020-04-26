@@ -91,4 +91,13 @@ public class Scope {
         }
         return false;
     }
+
+    public void setVariableConstant(String symbolName) {
+        Symbol e = symbolTable.get(symbolName);
+
+        if(e instanceof Variable){
+            Variable v = (Variable)e;
+            v.isConstant = true;
+        }
+    }
 }

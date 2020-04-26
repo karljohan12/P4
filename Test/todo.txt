@@ -1,6 +1,3 @@
-Formal parameters:
--How to handle formal parameters in sym table
--Formal parameters are recognized in scope
 
 
 Function call:

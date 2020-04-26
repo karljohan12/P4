@@ -4,6 +4,7 @@ import AST.Abstract.ASTNode;
 import AST.List.*;
 import AST.NonAbstract.Node.*;
 import Parser.parser;
+import SymbolTable.Symbol;
 import SymbolTable.Variable;
 
 import java.util.ArrayList;
@@ -16,8 +17,10 @@ public class ASTvisitor implements Visitor {
     private String lastIdentifier;
     private boolean isAssignmentDecl = false;
     private String functionType;
-    private ArrayList<Variable> parameters = new ArrayList<>();
+    private ArrayList<Variable> parameters = new ArrayList<Variable>();
     boolean constantFormalParameter = false;
+    boolean isFunctionBlock = false;
+    boolean checkingForPrototypes = true;
 
     private void increaseIndent() { Indent += 2; }
     private int errorDetected = 0;
@@ -84,6 +87,11 @@ public class ASTvisitor implements Visitor {
 
 
         n.e1.accept(this);
+
+        if(parser.st.IsConstant(lastIdentifier)){
+            System.out.println("Line " + n.line + ": \"" + lastIdentifier +"\" is a constant, and therefore it can not be modified");
+        }
+
         parser.st.setVariableInit(lastIdentifier);
         int left = lastType;
         if(left != -1) {
@@ -177,7 +185,9 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.a1.accept(this);
+        
         String functionIdentifier = lastIdentifier;
+        isFunctionBlock = true;
         n.a2.accept(this);
 
         if(!parser.st.addFunction(functionIdentifier, functionType, parameters)){
@@ -361,6 +371,10 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.e.accept(this);
+        if(parser.st.IsConstant(lastIdentifier)){
+            System.out.println("Line " + n.line + ": \"" + lastIdentifier +"\" is a constant, and therefore it can not be decremented");
+
+        }
 
         decreaseIndent();
     }
@@ -371,7 +385,10 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.e.accept(this);
+         if(parser.st.IsConstant(lastIdentifier)){
+            System.out.println("Line " + n.line + ": \"" + lastIdentifier +"\" is a constant, and therefore it can not be incremented");
 
+        }
         decreaseIndent();
     }
 
@@ -522,7 +539,6 @@ public class ASTvisitor implements Visitor {
 
         }
 
-
         else if(!parser.st.isVariableInitialized(lastIdentifier)){
             reportError("Line " + n.line + ": " + lastIdentifier + " has not been initialized");
 
@@ -626,8 +642,10 @@ public class ASTvisitor implements Visitor {
 
         n.e1.accept(this);
         int left = lastType;
+
         n.e2.accept(this);
         int right = lastType;
+
 
         lastType = EvaluateExpression(left, right);
 
@@ -658,8 +676,16 @@ public class ASTvisitor implements Visitor {
     public void visit(ReturningFunctionCall n) {
         printNode(n);
         increaseIndent();
-
+        String AssignedTo = lastIdentifier;
         n.i.accept(this);
+        int wsefs = parser.st.ReturnType(n.i.toString());
+
+
+        if(!(parser.st.ReturnType(AssignedTo) == parser.st.ReturnType(n.i.toString()))){
+//            reportError("Line " + n.line + ": " + "Function" + "\"" + n.i.toString() + "\"" + "has type" + "\"" +
+//                    convertToType(parser.st.ReturnType(n.i.toString())) + "\"" + "which can not be assigned to" + AssignedTo
+//                    + "(" + convertToType(parser.st.ReturnType(AssignedTo)) + ")"   );
+        }
 
         for ( int i = 0; i < n.al.size(); i++ ) {
             n.al.get(i).accept(this);
@@ -837,6 +863,20 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         parser.st.createScope(0);
+        if(isFunctionBlock){
+            for(Variable p : parameters){
+                parser.st.addVariable(p.name, p.type);
+                parser.st.setVariableInit(p.name);
+                if(p.isConstant){
+                    parser.st.setVariableConstant(p.name);
+                }
+
+            }
+
+            isFunctionBlock = false;
+        }
+
+
         for ( int i = 0; i < n.sl.size(); i++ ) {
             n.sl.get(i).accept(this);
         }
@@ -1010,6 +1050,12 @@ public class ASTvisitor implements Visitor {
             globalVariablePlusFunctionStatements.v.get(i).accept(this);
         }
 
+        for (int i = 0; i < globalVariablePlusFunctionStatements.sl.size(); i++){
+            globalVariablePlusFunctionStatements.sl.
+
+        }
+
+
         for ( int i = 0; i < globalVariablePlusFunctionStatements.sl.size(); i++ ) {
             globalVariablePlusFunctionStatements.sl.get(i).accept(this);
         }
@@ -1031,16 +1077,9 @@ public class ASTvisitor implements Visitor {
     private boolean isCompatible(int left, int right){
         switch (left){
             case 0:
-                if (right == 0){
-                    return true;
-
-                }
-                return false;
+                return right == 0;
             case 1:
-                if (right == 1 || right == 0){
-                    return true;
-                }
-                return false;
+                return (right == 1 || right == 0);
             default:
                 return false;
         }
@@ -1049,17 +1088,12 @@ public class ASTvisitor implements Visitor {
     public boolean isComparable(int left, int right){
         switch(left){
             case 0:
-                if(right == 0 || right == 1){
-                    return true;
-                }
+                return (right == 0 || right == 1);
             case 1:
-                if(right == 0 || right == 1){
-                    return true;
-                }
+                return (right == 0 || right == 1);
             default:
                 return false;
         }
-
     }
 
     private int EvaluateExpression(int left, int right){

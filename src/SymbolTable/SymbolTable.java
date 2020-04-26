@@ -170,4 +170,13 @@ public class SymbolTable {
         return found;
     }
 
+    public void setVariableConstant(String symbolName) {
+        Scope scope = this.topmostScope;
+
+        while(scope != null){
+            scope.setVariableConstant(symbolName);
+            scope = scope.link;
+        }
+    }
+
 }
