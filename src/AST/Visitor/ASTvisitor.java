@@ -4,9 +4,11 @@ import AST.Abstract.ASTNode;
 import AST.List.*;
 import AST.NonAbstract.Node.*;
 import Parser.parser;
+import SymbolTable.ArrayVariable;
 import SymbolTable.Symbol;
 import SymbolTable.Variable;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -14,6 +16,7 @@ public class ASTvisitor implements Visitor {
 
     private int Indent = 0;
     private int lastType;
+    private boolean isArrayType = false;
     private String lastIdentifier;
     private boolean isAssignmentDecl = false;
     private String functionType;
@@ -26,6 +29,8 @@ public class ASTvisitor implements Visitor {
     private ArrayList<ArrayList<Variable>> functionListParameterList = new ArrayList<ArrayList<Variable>>();
     private String  functionIdentifier;
     int linePlaceholder;
+    ArrayList<Integer> arrayPlaceholder = new ArrayList<Integer>();
+    private boolean isAssigmenExpression = false;
 
 
     private void increaseIndent() { Indent += 2; }
@@ -34,9 +39,14 @@ public class ASTvisitor implements Visitor {
     private void decreaseIndent() { Indent -= 2; }
 
     private void printNodeLine(String s) {
-        String line = "";
-        for (int i = 0; i < Indent; i++) { line += " "; }
-        System.out.println(line + s);
+
+        if(!checkingForPrototypes) {
+            String line = "";
+            for (int i = 0; i < Indent; i++) {
+                line += " ";
+            }
+            System.out.println(line + s);
+        }
     }
     private void reportError(String message){
         errorDetected++;
@@ -83,6 +93,7 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.t.accept(this);
+        isArrayType = true;
 
 
         decreaseIndent();
@@ -93,9 +104,9 @@ public class ASTvisitor implements Visitor {
         printNode(n);
         increaseIndent();
 
-
+        isAssigmenExpression = true;
         n.e1.accept(this);
-
+        isAssigmenExpression = false;
         if(parser.st.IsConstant(lastIdentifier)){
             System.out.println("Line " + n.line + ": \"" + lastIdentifier +"\" is a constant, and therefore it can not be modified");
         }
@@ -429,12 +440,14 @@ public class ASTvisitor implements Visitor {
 
     @Override
     public void visit(ServoPrimitiveType n) {
+        lastType = 6;
         printNode(n);
     }
 
     @Override
     public void visit(ServoType n) {
         printNode(n);
+        lastType = 5;
     }
 
     @Override
@@ -558,7 +571,7 @@ public class ASTvisitor implements Visitor {
 
         }
 
-        else if(!parser.st.isVariableInitialized(lastIdentifier)){
+        else if(!parser.st.isVariableInitialized(lastIdentifier) && !isAssigmenExpression){
             reportError("Line " + n.line + ": " + lastIdentifier + " has not been initialized");
 
         }
@@ -684,9 +697,10 @@ public class ASTvisitor implements Visitor {
         printNode(n);
         increaseIndent();
 
-        n.i.accept(this);
         n.e.accept(this);
+        n.i.accept(this);
 
+        lastType = parser.st.returnTypeOfArray(lastIdentifier);
 
         decreaseIndent();
     }
@@ -780,7 +794,7 @@ public class ASTvisitor implements Visitor {
         boolean passSizeCheck = true;
 
         n.i.accept(this);
-        //DO NOT EDIT IF STATEMENTS IN THIS VISIT
+        //DO NOT EDIT IF STATEMENTS IN THIS VISIT - Emil
         ArrayList<Variable> formal = parser.st.returnFormalParameters(n.i.toString());
         if(formal != null && formal.size() != n.al.size()){
             reportError("Line " + n.line + ": " + "Function" + " \"" + n.i.toString() + "\" " + "expects " + formal.size()
@@ -851,11 +865,48 @@ public class ASTvisitor implements Visitor {
         n.t.accept(this);
         int left = lastType;
 
-
         for ( int i = 0; i < n.vdl.size(); i++ ) {
             n.vdl.get(i).accept(this);
             int right = lastType;
-            if (!isCompatible(left, right) && right != -1) {
+
+            if(isArrayType || left == 4){
+                ArrayVariable av = new ArrayVariable(lastIdentifier, convertToType(left));
+                if(!parser.st.addArrayVariable(av)){
+                    reportError("Line " + n.line + ": \"" + lastIdentifier + "\" already declared");
+                }
+                else if(left == 4){
+                    int counter = 0;
+                    for (Integer v : arrayPlaceholder){
+                        if(v != 6){
+                            reportError("Line " + n.line + ": " + "The robot type is only compatible with Servo type, \"" +
+                                    convertToType(v) + "\" was provided on index: " + counter);
+                            av.addParameter("error");
+                        }
+                        else {
+                            av.addParameter(convertToType(v));
+                        }
+                        counter++;
+                    }
+
+                }
+                else {
+                    int counter = 0;
+                    for (Integer v : arrayPlaceholder) {
+                        if (left != v) {
+                            reportError("Line " + n.line + ": " + "Type \"" + convertToType(v) + "\" can not be assigned to " + lastIdentifier
+                                    + "(" + convertToType(left) + ") " + "on index: " + counter);
+                            av.addParameter("error");
+                        } else {
+                            av.addParameter(convertToType(v));
+                        }
+                        counter++;
+                    }
+                }
+                isArrayType = false;
+
+            }
+
+            else if (!isCompatible(left, right) && right != -1) {
                 String first = convertToType(left);
                 String second = convertToType(right);
 
@@ -1077,6 +1128,7 @@ public class ASTvisitor implements Visitor {
 
         for ( int i = 0; i < n.il.list.size(); i++ ) {
             n.il.list.get(i).accept(this);
+            arrayPlaceholder.add(lastType);
         }
 
         decreaseIndent();
@@ -1097,9 +1149,6 @@ public class ASTvisitor implements Visitor {
         else if(errorDetected != 0){
             throw new RuntimeException("Fatal Syntax Error");
         }
-
-
-
         decreaseIndent();
     }
 
@@ -1119,9 +1168,6 @@ public class ASTvisitor implements Visitor {
                 reportError("Line " + linePlaceholder + ": \"" + functionIdentifier + "\" already declared");
             }
                 functionListParameterList.add(prototypes);
-
-
-
         }
         checkingForPrototypes = false;
         functionNumber = 0;
@@ -1148,6 +1194,7 @@ public class ASTvisitor implements Visitor {
     private boolean isCompatible(int left, int right){
         switch (left){
             case 0:
+            case 6:
                 return right == 0;
             case 1:
                 return (right == 1 || right == 0);
@@ -1159,7 +1206,6 @@ public class ASTvisitor implements Visitor {
     public boolean isComparable(int left, int right){
         switch(left){
             case 0:
-                return (right == 0 || right == 1);
             case 1:
                 return (right == 0 || right == 1);
             default:
@@ -1181,9 +1227,5 @@ public class ASTvisitor implements Visitor {
                 return -1;
         }
         return -1;
-
-
     }
-
-
 }

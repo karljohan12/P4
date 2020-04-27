@@ -1,7 +1,7 @@
+Global var
+-Formal and global ident can not be the same
+-globalvar init interference prototype
 
-
-Function call:
--check all parameters are met in function
 
 Strings:
 -Handle strings
@@ -9,8 +9,9 @@ Strings:
 Array:
 -Handle arrays + index(arrayaccess)
 
-Servo
-
 ServoPosition
 
 Robot
+
+Loop & setup functions
+-add Servo, servopos, robot

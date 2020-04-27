@@ -54,6 +54,10 @@ public class SymbolTable {
         return false;
     }
 
+    public boolean addArrayVariable(ArrayVariable av) {
+        return this.topmostScope.addSymbol(av);
+    }
+
     public int ReturnType(String symbolName) {
         boolean lastScopeChecked = false;
         Symbol type = null;
@@ -152,7 +156,6 @@ public class SymbolTable {
             scope.setVariableInit(symbolName);
             scope = scope.link;
         }
-
     }
 
     public boolean isVariableInitialized(String symbolName) {
@@ -178,6 +181,7 @@ public class SymbolTable {
             scope = scope.link;
         }
     }
+
     public int returnTypeOfFunction(String symbolName) {
         Scope scope = this.topmostScope;
         Symbol var;
@@ -209,7 +213,7 @@ public class SymbolTable {
         return -1;
     }
 
-    public ArrayList<Variable> returnFormalParameters(String symbolName){
+    public ArrayList<Variable> returnFormalParameters(String symbolName) {
         Scope scope = this.topmostScope;
         Symbol var;
 
@@ -225,7 +229,34 @@ public class SymbolTable {
                 }
             }
         }
-
         return null;
+    }
+
+        public int returnTypeOfArray(String symbolName) {
+            Scope scope = this.topmostScope;
+            Symbol var;
+
+            while (scope != null) {
+
+                var = scope.ReturnType(symbolName);
+                scope = scope.link;
+
+                if (var instanceof ArrayVariable) {
+                    ArrayVariable e = (ArrayVariable) var;
+                    switch (e.type) {
+                        case "int":
+                            return intType;
+                        case "double":
+                            return doubleType;
+                        case "boolean":
+                            return booleanType;
+                        case "void":
+                            return voidType;
+                        default:
+                            System.out.println("Error ReturnType lookup");
+                    }
+                }
+            }
+            return -1;
     }
 }

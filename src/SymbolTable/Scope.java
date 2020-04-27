@@ -41,9 +41,16 @@ public class Scope {
         return false;
     }
 
+    public boolean addSymbol(ArrayVariable av) {
+        if(!this.lookupSymbol(av.name)) {
+            this.symbolTable.put(av.name, av);
+            return true;
+        }
+        return false;
+    }
+
     public Symbol ReturnType(String symbolName){
         return symbolTable.get(symbolName);
-
     }
 
     public void ConvertToConstant(){
