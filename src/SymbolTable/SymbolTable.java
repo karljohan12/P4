@@ -259,4 +259,8 @@ public class SymbolTable {
             }
             return -1;
     }
+    public boolean addServoPositionVariable(String symbol, ArrayList<Variable> av) {
+        ServoPositionVariable spv = new ServoPositionVariable(symbol,"servoPosition", av);
+        return this.topmostScope.addSymbol(spv);
+    }
 }

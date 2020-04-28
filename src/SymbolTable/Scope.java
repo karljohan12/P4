@@ -49,6 +49,14 @@ public class Scope {
         return false;
     }
 
+    public boolean addSymbol(ServoPositionVariable spv) {
+        if(!this.lookupSymbol(spv.name)) {
+            this.symbolTable.put(spv.name, spv);
+            return true;
+        }
+        return false;
+    }
+
     public Symbol ReturnType(String symbolName){
         return symbolTable.get(symbolName);
     }
@@ -107,6 +115,4 @@ public class Scope {
             v.isConstant = true;
         }
     }
-
-
 }

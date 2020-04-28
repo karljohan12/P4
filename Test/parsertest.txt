@@ -5,12 +5,13 @@ END
 
 int hamse(const int i, int e, double ged) BEGIN
 //double j = 1;
-//Servo body = 1;
+Servo body = 1;
 //Servo shoulder = 2;
-//Servo grapper = 3;
+Servo grapper = 3;
 
 //Robot CNC = {body, shoulder, grapper};
-ServoPosition pickupSubjectStart = {30, 50, 0};
+//ServoPosition pickupSubjectStart = {30, 50, 0};
+ServoPosition openGrapper = {grapper: 72, body: 34};
 
 //double ost = 1.1;
 //int[] array = { 12, 1.2, ost };

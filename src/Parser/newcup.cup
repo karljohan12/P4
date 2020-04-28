@@ -358,13 +358,15 @@ arrayInitial                            ::=	LBRACE variableInitials:vi RBRACE
 	                                          {: RESULT = new EmptyArray(lbleft); :};
 
 
-servoInitials                           ::= IDENTIFIER COLON variableInitial:l
+servoInitials                           ::= IDENTIFIER:i COLON variableInitial:l
                                               {: ServoInitializationList si = new ServoInitializationList(0);
                                                  si.add(l);
+                                                 si.addIdentifier(i);
                                                  RESULT = si;
                                               :}
-                                          | servoInitials:si COMMA IDENTIFIER COLON variableInitial:l
+                                          | servoInitials:si COMMA IDENTIFIER:i COLON variableInitial:l
                                               {: si.add(l);
+                                                 si.addIdentifier(i);
                                                  RESULT = si;
                                               :};
 

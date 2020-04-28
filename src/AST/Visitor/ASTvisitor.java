@@ -31,6 +31,8 @@ public class ASTvisitor implements Visitor {
     int linePlaceholder;
     ArrayList<Integer> arrayPlaceholder = new ArrayList<Integer>();
     private boolean isAssigmenExpression = false;
+    private boolean alternativeServoPosition = false;
+
 
 
     private void increaseIndent() { Indent += 2; }
@@ -861,6 +863,7 @@ public class ASTvisitor implements Visitor {
     public void visit(VariableDeclaration n) {
         printNode(n);
         increaseIndent();
+        linePlaceholder = n.line;
 
         n.t.accept(this);
         int left = lastType;
@@ -869,9 +872,10 @@ public class ASTvisitor implements Visitor {
             n.vdl.get(i).accept(this);
             int right = lastType;
 
-            if(isArrayType || left == 4){
+            if(isArrayType || left == 4 || left == 5){
                 ArrayVariable av = new ArrayVariable(lastIdentifier, convertToType(left));
-                if(!parser.st.addArrayVariable(av)){
+
+                if(!alternativeServoPosition && !parser.st.addArrayVariable(av)){
                     reportError("Line " + n.line + ": \"" + lastIdentifier + "\" already declared");
                 }
                 else if(left == 4){
@@ -888,6 +892,28 @@ public class ASTvisitor implements Visitor {
                         counter++;
                     }
 
+                }
+                else if(left == 5 && !alternativeServoPosition){
+                    int counter = 0;
+                    for (Integer v : arrayPlaceholder){
+                        if(v != 0){
+                            reportError("Line " + n.line + ": " + "The ServoPosition type is only compatible with int type, \"" +
+                                    convertToType(v) + "\" was provided on index: " + counter);
+                            av.addParameter("error");
+                        }
+                        else {
+                            av.addParameter(convertToType(v));
+                        }
+                        counter++;
+                    }
+
+
+                }
+                else if(left == 5){
+                    if(!parser.st.addServoPositionVariable(lastIdentifier, parameters)){
+                        reportError("Line " + n.line + ": \"" + lastIdentifier + "\" already declared");
+                    }
+                    alternativeServoPosition = false;
                 }
                 else {
                     int counter = 0;
@@ -999,9 +1025,29 @@ public class ASTvisitor implements Visitor {
     public void visit(ServoPositionVariables n) {
         printNode(n);
         increaseIndent();
+        alternativeServoPosition = true;
+        parameters = new ArrayList<Variable>();
+        if(n.vi.list.size() == n.vi.ident.size()) {
 
-        for ( int i = 0; i < n.vi.list.size(); i++ ) {
-            n.vi.list.get(i).accept(this);
+            for (int i = 0; i < n.vi.list.size(); i++) {
+                n.vi.list.get(i).accept(this);
+                if(parser.st.lookupSymbol(n.vi.ident.get(i)) && lastType == 0) {
+                    parameters.add(new Variable(n.vi.ident.get(i), convertToType(lastType)));
+                }
+                else {
+                    if(!parser.st.lookupSymbol(n.vi.ident.get(i))){
+                        reportError("Line " + linePlaceholder + ": " + "Variable" + " \"" + n.vi.ident.get(i) + "\" has not been declared");
+                    }
+                    if(lastType != 0){
+                        reportError("Line " + linePlaceholder + ": " + "ServoPosition is only compatible with int type, \"" +
+                                convertToType(lastType) + "\" was provided");
+                    }
+
+                }
+            }
+        }
+        else{
+            reportError("Fatal error in ServoPosition");
         }
 
         decreaseIndent();
@@ -1127,6 +1173,7 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         for ( int i = 0; i < n.il.list.size(); i++ ) {
+            arrayPlaceholder = new ArrayList<Integer>();
             n.il.list.get(i).accept(this);
             arrayPlaceholder.add(lastType);
         }
