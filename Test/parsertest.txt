@@ -1,4 +1,22 @@
 int i;
+
+void setup(int i) BEGIN
+Servo body = 1;
+Servo shoulder = 2;
+Servo grapper = 3;
+
+Robot CNC = {body, shoulder, grapper};
+
+ServoPosition openGrapper = {grapper: 72, body: 34};
+
+END
+
+void loop() BEGIN
+int i = 2  ;
+
+END
+
+
 ServoPosition yy() BEGIN
 
 END
@@ -53,11 +71,4 @@ END
 
 END
 
-void setup() BEGIN
 
-
-END
-
-void loop() BEGIN
-
-END

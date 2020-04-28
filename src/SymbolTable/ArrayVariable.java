@@ -9,7 +9,16 @@ public class ArrayVariable extends Symbol {
         super(name, type);
     }
 
+    public ArrayVariable(String name, String type, ArrayList<String> al) {
+        super(name, type);
+        variables = al;
+    }
+
     public void addParameter(String var) {
         variables.add(var);
+    }
+
+    public ArrayList<String> getVariables(){
+        return variables;
     }
 }

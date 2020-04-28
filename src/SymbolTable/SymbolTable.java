@@ -43,8 +43,11 @@ public class SymbolTable {
 
     public boolean addFunction(String name, String returnType, ArrayList<Variable> varList) {
         Function function = new Function(name, returnType, varList);
+
         return this.topmostScope.addSymbol(function);
     }
+
+
 
     public boolean addVariable(String name, String type) {
         Variable var = new Variable(name, type);
@@ -252,6 +255,8 @@ public class SymbolTable {
                             return booleanType;
                         case "void":
                             return voidType;
+                        case "ServoPosition":
+                            return servoPosition;
                         default:
                             System.out.println("Error ReturnType lookup");
                     }

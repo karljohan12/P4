@@ -9,4 +9,7 @@ public class ServoPositionVariable extends Symbol {
         super(name, type);
         this.variables = var;
     }
+    public ArrayList<Variable> getVariables(){
+        return variables;
+    }
 }

@@ -5,6 +5,7 @@ import AST.List.*;
 import AST.NonAbstract.Node.*;
 import Parser.parser;
 import SymbolTable.ArrayVariable;
+import SymbolTable.ServoPositionVariable;
 import SymbolTable.Symbol;
 import SymbolTable.Variable;
 
@@ -27,11 +28,12 @@ public class ASTvisitor implements Visitor {
     int functionNumber = 0;
     private ArrayList<Variable> prototypes = new ArrayList<Variable>();
     private ArrayList<ArrayList<Variable>> functionListParameterList = new ArrayList<ArrayList<Variable>>();
-    private String  functionIdentifier;
+    private String functionIdentifier = "global";
     int linePlaceholder;
     ArrayList<Integer> arrayPlaceholder = new ArrayList<Integer>();
     private boolean isAssigmenExpression = false;
     private boolean alternativeServoPosition = false;
+    ArrayList<Symbol> setupPlaceholder = new ArrayList<Symbol>();
 
 
 
@@ -207,7 +209,7 @@ public class ASTvisitor implements Visitor {
 
         n.a1.accept(this);
 
-
+        functionIdentifier = lastIdentifier;
         if(!checkingForPrototypes) {
 
         isFunctionBlock = true;
@@ -872,8 +874,9 @@ public class ASTvisitor implements Visitor {
             n.vdl.get(i).accept(this);
             int right = lastType;
 
+            ArrayVariable av = new ArrayVariable(lastIdentifier, convertToType(left));
             if(isArrayType || left == 4 || left == 5){
-                ArrayVariable av = new ArrayVariable(lastIdentifier, convertToType(left));
+
 
                 if(!alternativeServoPosition && !parser.st.addArrayVariable(av)){
                     reportError("Line " + n.line + ": \"" + lastIdentifier + "\" already declared");
@@ -881,16 +884,16 @@ public class ASTvisitor implements Visitor {
                 else if(left == 4){
                     int counter = 0;
                     for (Integer v : arrayPlaceholder){
-                        if(v != 6){
-                            reportError("Line " + n.line + ": " + "The robot type is only compatible with Servo type, \"" +
-                                    convertToType(v) + "\" was provided on index: " + counter);
-                            av.addParameter("error");
+                            if(v != 6){
+                                reportError("Line " + n.line + ": " + "The robot type is only compatible with Servo type, \"" +
+                                        convertToType(v) + "\" was provided on index: " + counter);
+                                av.addParameter("error");
+                            }
+                            else {
+                                av.addParameter(convertToType(v));
+                            }
+                            counter++;
                         }
-                        else {
-                            av.addParameter(convertToType(v));
-                        }
-                        counter++;
-                    }
 
                 }
                 else if(left == 5 && !alternativeServoPosition){
@@ -913,7 +916,7 @@ public class ASTvisitor implements Visitor {
                     if(!parser.st.addServoPositionVariable(lastIdentifier, parameters)){
                         reportError("Line " + n.line + ": \"" + lastIdentifier + "\" already declared");
                     }
-                    alternativeServoPosition = false;
+
                 }
                 else {
                     int counter = 0;
@@ -941,13 +944,26 @@ public class ASTvisitor implements Visitor {
             }
             else if (!parser.st.addVariable(lastIdentifier, convertToType(left))) {
                 reportError("Line " + n.line + ": \"" + lastIdentifier + "\" already declared");
-
-
             }
             else if (isAssignmentDecl){
                 parser.st.setVariableInit(lastIdentifier);
                 isAssignmentDecl = false;
             }
+
+           if(functionIdentifier.equals("setup")){
+               if(left == 6){
+                   setupPlaceholder.add(new Variable(lastIdentifier, convertToType(left)));
+               }
+               else if(left == 5 || left == 4){
+                   if(alternativeServoPosition){
+                    setupPlaceholder.add(new ServoPositionVariable(lastIdentifier, convertToType(left), parameters));
+                   }
+                   else{
+                       setupPlaceholder.add(new ArrayVariable(lastIdentifier, convertToType(left), av.getVariables()));
+                 }
+               }
+           }
+            alternativeServoPosition = false;
 
 
         }
@@ -992,14 +1008,25 @@ public class ASTvisitor implements Visitor {
 
         parser.st.createScope(0);
         if(isFunctionBlock){
-//            for(Variable p : parameters){
-//                parser.st.addVariable(p.name, p.type);
-//                parser.st.setVariableInit(p.name);
-//                if(p.isConstant){
-//                    parser.st.setVariableConstant(p.name);
-//                }
-//
-//            }
+            if(functionIdentifier.equals("loop")){
+                for(Symbol s : setupPlaceholder){
+                    if(s.type.equals("Servo")){
+                        parser.st.addVariable(s.name, s.type);
+                    }
+                    else if(s.type.equals("Robot")){
+                        parser.st.addArrayVariable((ArrayVariable)s);
+                    }
+                    else if(s.type.equals("ServoPosition")){
+                        if(parser.st.returnTypeOfArray(s.name) == 5){
+                            parser.st.addArrayVariable((ArrayVariable)s);
+                        }
+                        else {
+                            ServoPositionVariable e = (ServoPositionVariable)s;
+                            parser.st.addServoPositionVariable(s.name, e.getVariables());
+                        }
+                    }
+                }
+            }
             for(Variable p : functionListParameterList.get(functionNumber)){
                 parser.st.addVariable(p.name, p.type);
                 parser.st.setVariableInit(p.name);
@@ -1040,9 +1067,8 @@ public class ASTvisitor implements Visitor {
                     }
                     if(lastType != 0){
                         reportError("Line " + linePlaceholder + ": " + "ServoPosition is only compatible with int type, \"" +
-                                convertToType(lastType) + "\" was provided");
+                                convertToType(lastType) + "\" was provided on index: " + i);
                     }
-
                 }
             }
         }
@@ -1172,8 +1198,9 @@ public class ASTvisitor implements Visitor {
         printNode(n);
         increaseIndent();
 
+        arrayPlaceholder = new ArrayList<Integer>();
         for ( int i = 0; i < n.il.list.size(); i++ ) {
-            arrayPlaceholder = new ArrayList<Integer>();
+
             n.il.list.get(i).accept(this);
             arrayPlaceholder.add(lastType);
         }
@@ -1203,7 +1230,7 @@ public class ASTvisitor implements Visitor {
     public void visit(GlobalVariablePlusFunctionStatements globalVariablePlusFunctionStatements) {
         printNode(globalVariablePlusFunctionStatements);
         increaseIndent();
-
+        ArrayList<String> setupAndLoopList = new ArrayList<String>();
         for ( int i = 0; i < globalVariablePlusFunctionStatements.v.size(); i++ ) {
             globalVariablePlusFunctionStatements.v.get(i).accept(this);
         }
@@ -1211,11 +1238,20 @@ public class ASTvisitor implements Visitor {
         for (functionNumber = 0; functionNumber < globalVariablePlusFunctionStatements.sl.size(); functionNumber++){
             prototypes = new ArrayList<Variable>();
             globalVariablePlusFunctionStatements.sl.get(functionNumber).accept(this);
+            setupAndLoopList.add(functionIdentifier);
             if (!parser.st.addFunction(functionIdentifier, functionType, prototypes)) {
                 reportError("Line " + linePlaceholder + ": \"" + functionIdentifier + "\" already declared");
             }
                 functionListParameterList.add(prototypes);
+            }
+
+        if(!setupAndLoopList.get(0).equals("setup")){
+            reportError("Line " + linePlaceholder + ": void setup() and void loop() must be declared as the first two functions");
         }
+        else if(!setupAndLoopList.get(1).equals("loop")){
+            reportError("Line " + linePlaceholder + ": void setup() and void loop() must be declared as the first two functions");
+        }
+
         checkingForPrototypes = false;
         functionNumber = 0;
 
@@ -1226,6 +1262,7 @@ public class ASTvisitor implements Visitor {
 
         decreaseIndent();
     }
+
 
     @Override
     public void visit(FunctionList functionList) {
