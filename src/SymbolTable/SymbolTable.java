@@ -83,6 +83,7 @@ public class SymbolTable {
                         return doubleType;
                     case "boolean":
                         return booleanType;
+                    case "servoPosition":
                     case "ServoPosition":
                         return servoPosition;
                     case "Servo":
@@ -264,8 +265,24 @@ public class SymbolTable {
             }
             return -1;
     }
+
     public boolean addServoPositionVariable(String symbol, ArrayList<Variable> av) {
         ServoPositionVariable spv = new ServoPositionVariable(symbol,"servoPosition", av);
         return this.topmostScope.addSymbol(spv);
+    }
+
+    public Symbol getIdentifierType(String symbolName) {
+        Scope scope = this.topmostScope;
+        Symbol found;
+
+        while(scope != null){
+            found = scope.ReturnType(symbolName);
+            scope = scope.link;
+            if(found != null){
+                return found;
+            }
+
+        }
+        return null;
     }
 }

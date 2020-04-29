@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class ArrayVariable extends Symbol {
     ArrayList<String> variables = new ArrayList<>();
+    public boolean hasBeenInit = false;
 
     public ArrayVariable(String name, String type) {
         super(name, type);

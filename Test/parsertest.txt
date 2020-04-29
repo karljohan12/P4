@@ -4,15 +4,21 @@ void setup(int i) BEGIN
 Servo body = 1;
 Servo shoulder = 2;
 Servo grapper = 3;
+Servo grappers = 4;
+Servo bodyk = 5;
 
 Robot CNC = {body, shoulder, grapper};
 
-ServoPosition openGrapper = {grapper: 72, body: 34};
+ServoPosition openGrapper = {grapper: 72, bodyk: 34};
+ServoPosition pickupSubjectCNC = {80, 30, 0};
 
 END
 
 void loop() BEGIN
-int i = 2  ;
+int i = 2 ;
+CNC(openGrapper);
+CNC(pickupSubjectCNC);
+
 
 END
 
@@ -27,9 +33,7 @@ Servo body = 1;
 //Servo shoulder = 2;
 Servo grapper = 3;
 
-//Robot CNC = {body, shoulder, grapper};
-//ServoPosition pickupSubjectStart = {30, 50, 0};
-ServoPosition openGrapper = {grapper: 72, body: 34};
+
 
 //double ost = 1.1;
 //int[] array = { 12, 1.2, ost };

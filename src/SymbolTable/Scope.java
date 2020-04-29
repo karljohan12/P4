@@ -95,6 +95,14 @@ public class Scope {
             Variable v = (Variable)e;
             v.hasBeenInit = true;
         }
+        else if(e instanceof ArrayVariable){
+            ArrayVariable a = (ArrayVariable)e;
+            a.hasBeenInit = true;
+        }
+        else if(e instanceof ServoPositionVariable){
+            ServoPositionVariable s = (ServoPositionVariable)e;
+            s.hasBeenInit = true;
+        }
     }
 
     public boolean getVariableInit(String symbolName) {
@@ -103,6 +111,14 @@ public class Scope {
         if(e instanceof Variable){
             Variable v = (Variable)e;
             return v.hasBeenInit;
+        }
+        if(e instanceof ArrayVariable){
+            ArrayVariable v = (ArrayVariable)e;
+            return v.hasBeenInit;
+        }
+        if(e instanceof ServoPositionVariable){
+            ServoPositionVariable s = (ServoPositionVariable)e;
+            return s.hasBeenInit;
         }
         return false;
     }
