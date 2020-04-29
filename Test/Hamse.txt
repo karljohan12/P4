@@ -1,78 +1,80 @@
-double hamse, henning;
-const int jesus;
-double m = i - 2.5 + 2.5 + 2.5;
-int ty = i - 3 * 3 / 3.5;
-int asd = ghjkl - 3 * 3 / 3.5;
+int ost;
 
 
-void setup() BEGIN
-boolean i;
-END
+void setup(int i) BEGIN
+Servo body = 1;
+Servo shoulder = 2;
+Servo grapper = 3;
+Servo grappers = 4;
+Servo bodyk = 5;
 
-void loop() BEGIN
+Robot CNC = {body, shoulder, grapper};
 
-
-
-for(int t = 0 WHEN i < 0 THEN i++) BEGIN
-
-for(int tgdfg = 0 WHEN i < 0 THEN i++) BEGIN
-
-int ee = 2;
-
-int we = ee;
+ServoPosition openGrapper = {grapper: 72, bodyk: 34};
+ServoPosition pickupSubjectCNC = {80, 30, 0};
 
 END
 
-
-END
-
-
+void loop(int i) BEGIN
+int i = 2 ;
+CNC(openGrapper);
+CNC(pickupSubjectCNC);
+CNC(pickupSubjectStart);
+CNC(PlaceSubjectCNC);
 
 END
 
 
-int ga(int i) BEGIN
-
-
-const int j = 34;
-int ee = 34;
-
-j = 365;
-pik = 34;
-i = 5;
-double l = 6.5;
-int i = 5;
-
-
-i += l;
-
-if(i > false) BEGIN
+ServoPosition yy() BEGIN
 
 END
 
-i = i + 5.5;
+int hamse(const int i, int e, double ged) BEGIN
+//double j = 1;
+Servo body = 1;
+//Servo shoulder = 2;
+Servo grapper = 3;
 
-int v = l;
 
 
-if(j <= true) BEGIN
-int gede = 5;
+//double ost = 1.1;
+//int[] array = { 12, 1.2, ost };
+//j = array[1];
+//array[1]= j;
+
+//u = hamse(i, e, i);
+//CNC(pickupSubjectStart);
+//fghmj(i);
+
+if(true == true) BEGIN
+
+
+//i++;
+//e++;
+//rty = i;
+
 END
-int gede = 5;
- switch (gede) BEGIN
-            case 1: int k;
-            case 2:
 
+for(int i = 0 WHEN i < 0 THEN i++) BEGIN
 
-        END
-int y;
+i=23;
 
 
 END
 
-int gya(int d) BEGIN
+switch(u) BEGIN
+case 1:
+rty++;
+break;
+case 2:
+default:
+rty=0;
+
 
 END
 
+
+
+END
 
 

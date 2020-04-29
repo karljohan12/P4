@@ -84,6 +84,16 @@ public class Scope {
         return null;
     }
 
+    public boolean lookupVariable(String symbolName){
+        Symbol e = symbolTable.get(symbolName);
+
+
+        if (e instanceof Variable) { return true; }
+        if (e instanceof ArrayVariable) { return true; }
+        if (e instanceof ServoPositionVariable) { return true; }
+        return false;
+    }
+
     public void printScopeContent() {
         // TODO: Print shits
     }

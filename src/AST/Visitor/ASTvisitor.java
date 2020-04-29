@@ -11,6 +11,7 @@ import SymbolTable.Variable;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class ASTvisitor implements Visitor {
@@ -24,7 +25,7 @@ public class ASTvisitor implements Visitor {
     private ArrayList<Variable> parameters = new ArrayList<Variable>();
     boolean constantFormalParameter = false;
     boolean isFunctionBlock = false;
-    boolean checkingForPrototypes = true;
+    boolean checkingForPrototypes = false;
     int functionNumber = 0;
     private ArrayList<Variable> prototypes = new ArrayList<Variable>();
     private ArrayList<ArrayList<Variable>> functionListParameterList = new ArrayList<ArrayList<Variable>>();
@@ -89,6 +90,31 @@ public class ASTvisitor implements Visitor {
                 System.out.println("Type does not exist");
                 return "Unknown";
         }
+    }
+    private int convertFromType(String convert){
+        switch (convert){
+            case "int":
+                return 0;
+            case "double":
+                return 1;
+            case "boolean":
+                return 2;
+            case "String":
+                return 3;
+            case "Robot":
+                return 4;
+            case "ServoPosition":
+                return 5;
+            case "Servo":
+                return 6;
+            case "void":
+                return 7;
+
+            default:
+                System.out.println("Type does not exist");
+                return -1;
+        }
+
     }
 
 
@@ -476,11 +502,8 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.e.accept(this);
-        if (lastType == -1){
-            System.out.println("Line " + n.line + ": \"" + lastIdentifier +"\" is not declared");
-        }
 
-        else if(lastType != 0){
+         if(lastType != 0 && lastType != -1){
             reportError("Line " + n.line + ": " + convertToType(lastType) + " is not compatible with a switch");
         }
         n.s.accept(this);
@@ -571,11 +594,14 @@ public class ASTvisitor implements Visitor {
     public void visit(IdentifierExpression n) {
         lastIdentifier = n.toString();
         lastType = Parser.parser.st.ReturnType(n.toString());
-        if(!parser.st.lookupSymbol(lastIdentifier)){
-            System.out.println("Line " + n.line + ": \"" + lastIdentifier +"\" is not declared");
+        boolean isFunction = false;
 
+        if(parser.st.returnTypeOfFunction(lastIdentifier) != -1){
+            System.out.println("Line " + n.line + ": \"" + lastIdentifier +"\" refers to a function, which cannot be used in the current context");
         }
-
+        else if(!parser.st.lookupSymbol(lastIdentifier, true)){
+            System.out.println("Line " + n.line + ": \"" + lastIdentifier +"\" is not declared");
+        }
         else if(!parser.st.isVariableInitialized(lastIdentifier) && !isAssigmenExpression){
             reportError("Line " + n.line + ": " + lastIdentifier + " has not been initialized");
 
@@ -853,7 +879,7 @@ public class ASTvisitor implements Visitor {
             for (int i = 0; i < n.al.size(); i++) {
                 n.al.get(i).accept(this);
                 if (passSizeCheck && formal.size() > 0) {
-                    if (!formal.get(i).type.equals(convertToType(lastType))) {
+                    if (!isCompatible(convertFromType(formal.get(i).type), lastType)) {
                         reportError("Line " + n.line + ": parameter " + (i + 1) + " of function expects type " + "\"" + formal.get(i).type
                                 + "\" but \"" + convertToType(lastType) + "\" was provided");
                     }
@@ -862,7 +888,7 @@ public class ASTvisitor implements Visitor {
         }
         decreaseIndent();
     }
-
+//!formal.get(i).type.equals(convertToType(lastType))
     @Override
     public void visit(Break n) {
         printNode(n);
@@ -892,8 +918,12 @@ public class ASTvisitor implements Visitor {
                 reportError("Line " + n.line + ": \"" + lastIdentifier + "\" already declared");
 
             }
+            else if(!isAssignmentDecl){
+                reportError("Line " + n.line + ": Constant declaration of variable \"" + lastIdentifier + "\" needs to be initialized");
+            }
             else {
                 parser.st.ConvertToConstant();
+                parser.st.setVariableInit(lastIdentifier);
             }
 
         }
@@ -1088,17 +1118,20 @@ public class ASTvisitor implements Visitor {
                 }
             }
             for(Variable p : functionListParameterList.get(functionNumber)){
-                parser.st.addVariable(p.name, p.type);
-                parser.st.setVariableInit(p.name);
-                 if(p.isConstant){
-                    parser.st.setVariableConstant(p.name);
+                if(!parser.st.addVariable(p.name, p.type)){
+                    reportError("Line " + (n.line-1) + ": Global variable \"" + p.name + "\" and formal parameter \"" + p.name +
+                            "\" in function \"" + functionIdentifier + "\" can not have the same identifier");
                 }
-
+                else {
+                    parser.st.setVariableInit(p.name);
+                    if (p.isConstant) {
+                        parser.st.setVariableConstant(p.name);
+                    }
+                }
             }
             functionNumber++;
             isFunctionBlock = false;
         }
-
 
         for ( int i = 0; i < n.sl.size(); i++ ) {
             n.sl.get(i).accept(this);
@@ -1306,6 +1339,9 @@ public class ASTvisitor implements Visitor {
             globalVariablePlusFunctionStatements.v.get(i).accept(this);
         }
 
+        //parser.st.addFunction("delay", "void", new ArrayList<Variable>() { new Variable("delay", "int")});
+        parser.st.addFunction("delay", "void", new ArrayList<Variable>(Arrays.asList(new Variable("Na", "int"))));
+        checkingForPrototypes = true;
         for (functionNumber = 0; functionNumber < globalVariablePlusFunctionStatements.sl.size(); functionNumber++){
             prototypes = new ArrayList<Variable>();
             globalVariablePlusFunctionStatements.sl.get(functionNumber).accept(this);
@@ -1316,11 +1352,14 @@ public class ASTvisitor implements Visitor {
                 functionListParameterList.add(prototypes);
             }
 
-        if(!setupAndLoopList.get(0).equals("setup")){
-            reportError("Line " + linePlaceholder + ": void setup() and void loop() must be declared as the first two functions");
-        }
-        else if(!setupAndLoopList.get(1).equals("loop")){
-            reportError("Line " + linePlaceholder + ": void setup() and void loop() must be declared as the first two functions");
+
+
+        if(setupAndLoopList.size() >= 2) {
+            if (!setupAndLoopList.get(0).equals("setup")) {
+                reportError("Line " + linePlaceholder + ": void setup() and void loop() must be declared as the first two functions");
+            } else if (!setupAndLoopList.get(1).equals("loop")) {
+                reportError("Line " + linePlaceholder + ": void setup() and void loop() must be declared as the first two functions");
+            }
         }
 
         checkingForPrototypes = false;
@@ -1339,6 +1378,30 @@ public class ASTvisitor implements Visitor {
     public void visit(FunctionList functionList) {
         printNode(functionList);
         increaseIndent();
+        ArrayList<String> setupAndLoopList = new ArrayList<String>();
+        parser.st.addFunction("delay", "void", new ArrayList<Variable>(Arrays.asList(new Variable("Na", "int"))));
+        checkingForPrototypes = true;
+        for (functionNumber = 0; functionNumber < functionList.fsl.size(); functionNumber++){
+            prototypes = new ArrayList<Variable>();
+            functionList.fsl.get(functionNumber).accept(this);
+            setupAndLoopList.add(functionIdentifier);
+            if (!parser.st.addFunction(functionIdentifier, functionType, prototypes)) {
+                reportError("Line " + linePlaceholder + ": \"" + functionIdentifier + "\" already declared");
+            }
+            functionListParameterList.add(prototypes);
+        }
+        if(setupAndLoopList.size() >= 2) {
+            if (!setupAndLoopList.get(0).equals("setup")) {
+                reportError("Line " + linePlaceholder + ": void setup() and void loop() must be declared as the first two functions");
+            } else if (!setupAndLoopList.get(1).equals("loop")) {
+                reportError("Line " + linePlaceholder + ": void setup() and void loop() must be declared as the first two functions");
+            }
+        }
+
+        checkingForPrototypes = false;
+        functionNumber = 0;
+
+
         for ( int i = 0; i < functionList.fsl.size(); i++ ) {
             functionList.fsl.get(i).accept(this);
         }

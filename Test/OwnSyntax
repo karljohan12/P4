@@ -1,6 +1,10 @@
+const int PIN1 = 1;
+const int PIN2 = 2;
+const int PIN3 = 3;
 
 
-void setup() BEGIN
+void setup()BEGIN
+//Associate servos with an identifier
 
 Servo body = PIN1;
 Servo shoulder = PIN2;
@@ -19,9 +23,10 @@ ServoPosition HandInSubject = {0, 30, 0};
 //Declare predefined robotpositions, however only one or more servos are defined to move
 ServoPosition openGrapper = {grapper: 72};
 
+End
 
-
-
+void loop()BEGIN
+int i;
 
 CNC(pickupSubjectStart);
 delay(5000);

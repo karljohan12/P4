@@ -41,6 +41,20 @@ public class SymbolTable {
         return false;
     }
 
+
+
+    public boolean lookupSymbol(String symbolName, boolean lookUpVariable) {
+        Scope scope = this.topmostScope;
+        while (scope != null && lookUpVariable) {
+            boolean error = scope.lookupVariable(symbolName);
+            if (error) {
+                return true;
+            }
+            scope = scope.link;
+        }
+        return false;
+    }
+
     public boolean addFunction(String name, String returnType, ArrayList<Variable> varList) {
         Function function = new Function(name, returnType, varList);
 
@@ -92,6 +106,8 @@ public class SymbolTable {
                         return stringType;
                     case "Robot":
                         return robotType;
+                    case "void":
+                        return voidType;
 
                     default:
                         System.out.println("Error ReturnType lookup");
