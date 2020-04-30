@@ -3,22 +3,61 @@ package AST.Visitor;
 import AST.Abstract.ASTNode;
 import AST.List.*;
 import AST.NonAbstract.Node.*;
-import SymbolTable.SymbolTable;
+import Parser.parser;
+import SymbolTable.ArrayVariable;
+import SymbolTable.ServoPositionVariable;
+import SymbolTable.Symbol;
+import SymbolTable.Variable;
+import javafx.beans.property.ReadOnlyIntegerWrapper;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class ASTvisitor implements Visitor {
 
     private int Indent = 0;
     private int lastType;
+    private boolean isArrayType = false;
+    private String lastIdentifier;
+    private boolean isAssignmentDecl = false;
+    private String functionType;
+    private ArrayList<Variable> parameters = new ArrayList<Variable>();
+    boolean constantFormalParameter = false;
+    boolean isFunctionBlock = false;
+    boolean checkingForPrototypes = false;
+    int functionNumber = 0;
+    private ArrayList<Variable> prototypes = new ArrayList<Variable>();
+    private ArrayList<ArrayList<Variable>> functionListParameterList = new ArrayList<ArrayList<Variable>>();
+    private String functionIdentifier = "global";
+    int linePlaceholder;
+    ArrayList<Integer> arrayPlaceholder = new ArrayList<Integer>();
+    private boolean isAssigmenExpression = false;
+    private boolean alternativeServoPosition = false;
+    ArrayList<Symbol> setupPlaceholder = new ArrayList<Symbol>();
+    ArrayList<String> identifierArray = new ArrayList<>();
+
+
 
     private void increaseIndent() { Indent += 2; }
+    private int errorDetected = 0;
 
     private void decreaseIndent() { Indent -= 2; }
 
     private void printNodeLine(String s) {
-        String line = "";
-        for (int i = 0; i < Indent; i++) { line += " "; }
-        System.out.println(line + s);
+
+        if(!checkingForPrototypes) {
+            String line = "";
+            for (int i = 0; i < Indent; i++) {
+                line += " ";
+            }
+            System.out.println(line + s);
+        }
+    }
+    private void reportError(String message){
+        errorDetected++;
+        System.out.println(message);
     }
 
     private void printNode(ASTNode a) {
@@ -29,6 +68,56 @@ public class ASTvisitor implements Visitor {
         printNodeLine(a.getClass().getSimpleName() + ":" + s + "'" + a.lineNumber);
     }
 
+    private String convertToType(int convert){
+        switch (convert) {
+            case 0:
+                return "int";
+            case 1:
+                return "double";
+            case 2:
+                return "boolean";
+            case 3:
+                return "String";
+            case 4:
+                return "Robot";
+            case 5:
+                return "ServoPosition";
+            case 6:
+                return "Servo";
+            case 7:
+                return "void";
+
+            default:
+                System.out.println("Type does not exist");
+                return "Unknown";
+        }
+    }
+    private int convertFromType(String convert){
+        switch (convert){
+            case "int":
+                return 0;
+            case "double":
+                return 1;
+            case "boolean":
+                return 2;
+            case "String":
+                return 3;
+            case "Robot":
+                return 4;
+            case "ServoPosition":
+                return 5;
+            case "Servo":
+                return 6;
+            case "void":
+                return 7;
+
+            default:
+                System.out.println("Type does not exist");
+                return -1;
+        }
+
+    }
+
 
     @Override
     public void visit(ArrayType n) {
@@ -36,6 +125,7 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.t.accept(this);
+        isArrayType = true;
 
 
         decreaseIndent();
@@ -46,19 +136,37 @@ public class ASTvisitor implements Visitor {
         printNode(n);
         increaseIndent();
 
-
+        isAssigmenExpression = true;
         n.e1.accept(this);
+        isAssigmenExpression = false;
+        if(parser.st.IsConstant(lastIdentifier)){
+            reportError("Line " + n.line + ": \"" + lastIdentifier +"\" is a constant, and therefore it can not be modified");
+        }
+
+        parser.st.setVariableInit(lastIdentifier);
         int left = lastType;
+//        if(left != -1) {
+//            if (parser.st.IsConstant(n.e1.toString())) {
+//
+//                System.out.println(n.e1.toString() + " is constant");
+//            }
+//        }
+//        else{
+//           errorDetected++;
+//           System.out.println("Line " + n.line + ": \"" + lastIdentifier +"\" is not declared");
+//        }
+
         n.e2.accept(this);
         n.e3.accept(this);
         int right = lastType;
 
-        if (!isCompatible(left, right)){
-
-            System.out.println("dieNow");
+        if(left != -1) {
+            if (!isCompatible(left, right)) {
+                String first = convertToType(left);
+                String second = convertToType(right);
+                reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not compatible");
+            }
         }
-
-
 
         decreaseIndent();
     }
@@ -100,10 +208,13 @@ public class ASTvisitor implements Visitor {
         n.e2.accept(this);
         int right = lastType;
 
-        if(!isComparable(left, right)){
+        lastType = EvaluateExpression(left, right);
 
-        }
-        
+ /*       if(!isComparable(left, right)){
+            String first = convertToType(left);
+            String second = convertToType(right);
+            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not compatible");
+        }*/
         decreaseIndent();
     }
 
@@ -125,7 +236,25 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.a1.accept(this);
+
+        functionIdentifier = lastIdentifier;
+        if(!checkingForPrototypes) {
+
+        isFunctionBlock = true;
+
+
         n.a2.accept(this);
+
+
+//            if (!parser.st.addFunction(functionIdentifier, functionType, parameters)) {
+////                reportError("Line " + n.line + ": \"" + lastIdentifier + "\" already declared");
+////            }
+        }
+        else {
+            functionIdentifier = lastIdentifier;
+            linePlaceholder = n.line;
+        }
+
 
         decreaseIndent();
     }
@@ -141,7 +270,9 @@ public class ASTvisitor implements Visitor {
         int right = lastType;
 
         if(!isComparable(left, right)){
-
+            String first = convertToType(left);
+            String second = convertToType(right);
+            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable");
         }
 
         decreaseIndent();
@@ -158,7 +289,9 @@ public class ASTvisitor implements Visitor {
         int right = lastType;
 
         if(!isComparable(left, right)){
-
+            String first = convertToType(left);
+            String second = convertToType(right);
+            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable");
         }
 
         decreaseIndent();
@@ -166,7 +299,8 @@ public class ASTvisitor implements Visitor {
 
     @Override
     public void visit(Identifier n) {
-        lastType = Parser.parser.st.ReturnType(n.toString());
+        lastIdentifier = n.toString();
+       // lastType = Parser.parser.st.ReturnType(n.toString());
         printNodeWithValue(n, n.toString());
     }
 
@@ -193,7 +327,9 @@ public class ASTvisitor implements Visitor {
         int right = lastType;
 
         if(!isComparable(left, right)){
-
+            String first = convertToType(left);
+            String second = convertToType(right);
+            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable");
         }
 
         decreaseIndent();
@@ -210,7 +346,9 @@ public class ASTvisitor implements Visitor {
         int right = lastType;
 
         if(!isComparable(left, right)){
-
+            String first = convertToType(left);
+            String second = convertToType(right);
+            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable");
         }
 
         decreaseIndent();
@@ -267,9 +405,14 @@ public class ASTvisitor implements Visitor {
         n.e2.accept(this);
         int right = lastType;
 
-        if(!isCompatible(left, right)){
+        lastType = EvaluateExpression(left, right);
 
-        }
+
+    /*    if(!isCompatible(left, right)){
+            String first = convertToType(left);
+            String second = convertToType(right);
+            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not compatible");
+        }*/
 
         decreaseIndent();
     }
@@ -290,6 +433,10 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.e.accept(this);
+        if(parser.st.IsConstant(lastIdentifier)){
+            reportError("Line " + n.line + ": \"" + lastIdentifier +"\" is a constant, and therefore it can not be decremented");
+
+        }
 
         decreaseIndent();
     }
@@ -300,7 +447,10 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.e.accept(this);
+         if(parser.st.IsConstant(lastIdentifier)){
+             reportError("Line " + n.line + ": \"" + lastIdentifier +"\" is a constant, and therefore it can not be incremented");
 
+        }
         decreaseIndent();
     }
 
@@ -322,12 +472,14 @@ public class ASTvisitor implements Visitor {
 
     @Override
     public void visit(ServoPrimitiveType n) {
+        lastType = 6;
         printNode(n);
     }
 
     @Override
     public void visit(ServoType n) {
         printNode(n);
+        lastType = 5;
     }
 
     @Override
@@ -351,6 +503,10 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.e.accept(this);
+
+         if(lastType != 0 && lastType != -1){
+            reportError("Line " + n.line + ": " + convertToType(lastType) + " is not compatible with a switch");
+        }
         n.s.accept(this);
 
         decreaseIndent();
@@ -437,7 +593,20 @@ public class ASTvisitor implements Visitor {
 
     @Override
     public void visit(IdentifierExpression n) {
+        lastIdentifier = n.toString();
         lastType = Parser.parser.st.ReturnType(n.toString());
+        boolean isFunction = false;
+
+        if(parser.st.returnTypeOfFunction(lastIdentifier) != -1){
+            reportError("Line " + n.line + ": \"" + lastIdentifier +"\" refers to a function, which cannot be used in the current context");
+        }
+        else if(!parser.st.lookupSymbol(lastIdentifier, true)){
+            reportError("Line " + n.line + ": \"" + lastIdentifier +"\" is not declared");
+        }
+        else if(!parser.st.isVariableInitialized(lastIdentifier) && !isAssigmenExpression){
+            reportError("Line " + n.line + ": " + lastIdentifier + " has not been initialized");
+
+        }
         printNodeWithValue(n, n.toString());
     }
 
@@ -473,9 +642,14 @@ public class ASTvisitor implements Visitor {
         n.e2.accept(this);
         int right = lastType;
 
-        if(!isCompatible(left, right)){
+        lastType = EvaluateExpression(left, right);
 
-        }
+       /* if(!isCompatible(left, right)){
+            String first = convertToType(left);
+            String second = convertToType(right);
+            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not compatible");
+
+        }*/
 
         decreaseIndent();
     }
@@ -490,9 +664,15 @@ public class ASTvisitor implements Visitor {
         n.e2.accept(this);
         int right = lastType;
 
-        if(!isCompatible(left, right)){
+        lastType = EvaluateExpression(left, right);
 
-        }
+
+/*        if(!isCompatible(left, right)){
+            String first = convertToType(left);
+            String second = convertToType(right);
+            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not compatible");
+
+        }*/
 
         decreaseIndent();
     }
@@ -507,9 +687,14 @@ public class ASTvisitor implements Visitor {
         n.e2.accept(this);
         int right = lastType;
 
-        if(!isCompatible(left, right)){
+        lastType = EvaluateExpression(left, right);
 
-        }
+
+     /*   if(!isCompatible(left, right)){
+            String first = convertToType(left);
+            String second = convertToType(right);
+            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not compatible");
+        }*/
 
         decreaseIndent();
     }
@@ -521,12 +706,20 @@ public class ASTvisitor implements Visitor {
 
         n.e1.accept(this);
         int left = lastType;
+
         n.e2.accept(this);
         int right = lastType;
 
-        if(!isCompatible(left, right)){
 
-        }
+        lastType = EvaluateExpression(left, right);
+
+
+    /*    if(!isCompatible(left, right)){
+            String first = convertToType(left);
+            String second = convertToType(right);
+            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not compatible");
+
+        }*/
 
         decreaseIndent();
     }
@@ -536,9 +729,10 @@ public class ASTvisitor implements Visitor {
         printNode(n);
         increaseIndent();
 
-        n.i.accept(this);
         n.e.accept(this);
+        n.i.accept(this);
 
+        lastType = parser.st.returnTypeOfArray(lastIdentifier);
 
         decreaseIndent();
     }
@@ -547,11 +741,33 @@ public class ASTvisitor implements Visitor {
     public void visit(ReturningFunctionCall n) {
         printNode(n);
         increaseIndent();
-
+        String AssignedTo = lastIdentifier;
+        boolean passSizeCheck = true;
         n.i.accept(this);
+        //int wsefs = parser.st.returnTypeOfFunction(n.i.toString());
+
+
+        if(!(parser.st.ReturnType(AssignedTo) == parser.st.returnTypeOfFunction(n.i.toString()))){
+            reportError("Line " + n.line + ": " + "Function" + " \"" + n.i.toString() + "\" " + "has type " + "\"" +
+                   convertToType(parser.st.returnTypeOfFunction(n.i.toString())) + "\" " + "which can not be assigned to " + AssignedTo
+                    + "(" + convertToType(parser.st.ReturnType(AssignedTo)) + ")"   );
+        }
+        ArrayList<Variable> formal = parser.st.returnFormalParameters(n.i.toString());
+
+        if(formal.size() != n.al.size()){
+            reportError("Line " + n.line + ": " + "Function" + " \"" + n.i.toString() + "\" " + "expects " + formal.size()
+                    +" parameters, but received " + n.al.size());
+            passSizeCheck = false;
+        }
 
         for ( int i = 0; i < n.al.size(); i++ ) {
             n.al.get(i).accept(this);
+            if(passSizeCheck && formal.size()>0){
+                if(!formal.get(i).type.equals(convertToType(lastType))){
+                    reportError("Line " + n.line + ": parameter " + (i+1) + " of function expects type " + "\"" + formal.get(i).type
+                    + "\" but \"" + convertToType(lastType) + "\" was provided");
+                }
+            }
         }
 
         decreaseIndent();
@@ -562,7 +778,10 @@ public class ASTvisitor implements Visitor {
         printNode(n);
         increaseIndent();
 
+        n.fi.accept(this);
         n.e.accept(this);
+        n.sel.accept(this);
+
 
         decreaseIndent();
     }
@@ -604,16 +823,73 @@ public class ASTvisitor implements Visitor {
     public void visit(NonReturningFunctionCall n) {
         printNode(n);
         increaseIndent();
+        boolean passSizeCheck = true;
 
         n.i.accept(this);
+        if(parser.st.ReturnType(lastIdentifier) == 4){
+            String robotIdentifier = lastIdentifier;
+            Symbol servoPositionObject;
+            if(n.al.size() == 1){
+               n.al.get(0).accept(this);
+               servoPositionObject = parser.st.getIdentifierType(lastIdentifier);
+                if(servoPositionObject instanceof ArrayVariable && servoPositionObject.type.equals("ServoPosition")){
+                    ArrayVariable robotObject = (ArrayVariable) parser.st.getIdentifierType(robotIdentifier);
+                    ArrayVariable servoPositionObjectArray = (ArrayVariable) servoPositionObject;
+                    if(!(robotObject.getVariables().size() == servoPositionObjectArray.getVariables().size())){
+                        reportError("Line " + n.line + ": " + robotObject.getVariables().size() + " parameters expected " +
+                                + servoPositionObjectArray.getVariables().size() + " were provided");
+                    }
+                }
+                else if(servoPositionObject instanceof ServoPositionVariable && servoPositionObject.type.equals("servoPosition")){
+                    ArrayList<String> variableNames = new ArrayList<>();
+                    for(Variable element : ((ServoPositionVariable) servoPositionObject).getVariables()) {
+                        variableNames.add(element.name);
+                    }
+                    ArrayVariable robotObject = (ArrayVariable) parser.st.getIdentifierType(robotIdentifier);
+                    for (String element: variableNames) {
+                        if(!robotObject.getVariables().contains(element)) {
+                            reportError("Line " + n.line + ": " + "Reference to element " + element + " was not found in " + robotObject.name);
+                        }
+                    }
+                }
+                else{
+                    reportError("Line " + n.line + ": " + "A ServoPosition type is expected here");
+                }
+            }
+            else {
+                if(n.al.size() > 1) {
+                    reportError("Line " + n.line + ": " + "The robot can only move to 1 position at a time, however" + n.al.size() +
+                            "was provided");
+                }
+                else{
+                    reportError("Line " + n.line + ": " + "Position required");
+                }
+            }
+        } else {
+            //DO NOT EDIT IF STATEMENTS IN THIS VISIT - Emil
+            ArrayList<Variable> formal = parser.st.returnFormalParameters(n.i.toString());
+            if (formal != null && formal.size() != n.al.size()) {
+                reportError("Line " + n.line + ": " + "Function" + " \"" + n.i.toString() + "\" " + "expects " + formal.size()
+                        + " parameters, but received " + n.al.size());
+                passSizeCheck = false;
+            } else if (formal == null) {
+                reportError("Line " + n.line + ": " + "Function" + " \"" + n.i.toString() + "\" has not been declared");
+                passSizeCheck = false;
+            }
 
-        for ( int i = 0; i < n.al.size(); i++ ) {
-            n.al.get(i).accept(this);
+            for (int i = 0; i < n.al.size(); i++) {
+                n.al.get(i).accept(this);
+                if (passSizeCheck && formal.size() > 0) {
+                    if (!isCompatible(convertFromType(formal.get(i).type), lastType)) {
+                        reportError("Line " + n.line + ": parameter " + (i + 1) + " of function expects type " + "\"" + formal.get(i).type
+                                + "\" but \"" + convertToType(lastType) + "\" was provided");
+                    }
+                }
+            }
         }
-
         decreaseIndent();
     }
-
+//!formal.get(i).type.equals(convertToType(lastType))
     @Override
     public void visit(Break n) {
         printNode(n);
@@ -636,8 +912,21 @@ public class ASTvisitor implements Visitor {
             n.vdl.get(i).accept(this);
             int right = lastType;
             if (!isCompatible(left, right)) {
-                System.out.println("dieNow2");
+                String first = convertToType(left);
+                String second = convertToType(right);
+                reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not compatible");
+            } else if(!parser.st.addVariable(lastIdentifier, convertToType(left))){
+                reportError("Line " + n.line + ": \"" + lastIdentifier + "\" already declared");
+
             }
+            else if(!isAssignmentDecl){
+                reportError("Line " + n.line + ": Constant declaration of variable \"" + lastIdentifier + "\" needs to be initialized");
+            }
+            else {
+                parser.st.ConvertToConstant();
+                parser.st.setVariableInit(lastIdentifier);
+            }
+
         }
 
         decreaseIndent();
@@ -647,6 +936,7 @@ public class ASTvisitor implements Visitor {
     public void visit(VariableDeclaration n) {
         printNode(n);
         increaseIndent();
+        linePlaceholder = n.line;
 
         n.t.accept(this);
         int left = lastType;
@@ -654,11 +944,115 @@ public class ASTvisitor implements Visitor {
         for ( int i = 0; i < n.vdl.size(); i++ ) {
             n.vdl.get(i).accept(this);
             int right = lastType;
-            if (!isCompatible(left, right)) {
-                System.out.println("dieNow2");
-            }
-        }
 
+            ArrayVariable av = new ArrayVariable(lastIdentifier, convertToType(left));
+            if(isArrayType || left == 4 || left == 5){
+
+
+                if(!alternativeServoPosition && !parser.st.addArrayVariable(av)){
+                    reportError("Line " + n.line + ": \"" + lastIdentifier + "\" already declared");
+                }
+                else if(left == 4){
+                    int counter = 0;
+                    for (String v : identifierArray){
+                            if(parser.st.ReturnType(v) != 6){
+                                reportError("Line " + n.line + ": " + "The robot type is only compatible with Servo type, \"" +
+                                        v + "\" was provided on index: " + counter);
+                                av.addParameter("error");
+                            }
+                            else {
+                                av.addParameter(v);
+                            }
+                            counter++;
+                        }
+                    if(isAssignmentDecl){
+                        av.hasBeenInit = true;
+                        isAssignmentDecl = false;
+                    }
+                }
+                else if(left == 5 && !alternativeServoPosition){
+                    int counter = 0;
+                    for (Integer v : arrayPlaceholder){
+                        if(v != 0){
+                            reportError("Line " + n.line + ": " + "The ServoPosition type is only compatible with int type, \"" +
+                                    convertToType(v) + "\" was provided on index: " + counter);
+                            av.addParameter("error");
+                        }
+                        else {
+                            av.addParameter(convertToType(v));
+                        }
+                        if(isAssignmentDecl){
+                            av.hasBeenInit = true;
+                            isAssignmentDecl = false;
+                        }
+                        counter++;
+                    }
+
+
+                }
+                else if(left == 5){
+                    if(!parser.st.addServoPositionVariable(lastIdentifier, parameters)){
+                        reportError("Line " + n.line + ": \"" + lastIdentifier + "\" already declared");
+                    }
+                    else if(isAssignmentDecl){
+                        parser.st.setVariableConstant(lastIdentifier);
+                        isAssignmentDecl = false;
+                    }
+
+                }
+                else {
+                    int counter = 0;
+                    for (Integer v : arrayPlaceholder) {
+                        if (left != v) {
+                            reportError("Line " + n.line + ": " + "Type \"" + convertToType(v) + "\" can not be assigned to " + lastIdentifier
+                                    + "(" + convertToType(left) + ") " + "on index: " + counter);
+                            av.addParameter("error");
+                        } else {
+                            av.addParameter(convertToType(v));
+                        }
+                        counter++;
+                    }
+                    if(isAssignmentDecl){
+                        av.hasBeenInit = true;
+                        isAssignmentDecl = false;
+                    }
+                }
+                isArrayType = false;
+
+            }
+
+            else if (!isCompatible(left, right) && right != -1) {
+                String first = convertToType(left);
+                String second = convertToType(right);
+
+                    reportError("Line " + n.line + ": " + "Type \"" + second + "\" cannot be assigned to \"" + first + "\"");
+
+            }
+            else if (!parser.st.addVariable(lastIdentifier, convertToType(left))) {
+                reportError("Line " + n.line + ": \"" + lastIdentifier + "\" already declared");
+            }
+            else if (isAssignmentDecl){
+                parser.st.setVariableInit(lastIdentifier);
+                isAssignmentDecl = false;
+            }
+
+           if(functionIdentifier.equals("setup")){
+               if(left == 6){
+                   setupPlaceholder.add(new Variable(lastIdentifier, convertToType(left)));
+               }
+               else if(left == 5 || left == 4){
+                   if(alternativeServoPosition){
+                    setupPlaceholder.add(new ServoPositionVariable(lastIdentifier, convertToType(left), parameters));
+                   }
+                   else{
+                       setupPlaceholder.add(new ArrayVariable(lastIdentifier, convertToType(left), av.getVariables()));
+                 }
+               }
+           }
+            alternativeServoPosition = false;
+
+
+        }
         decreaseIndent();
     }
 
@@ -698,9 +1092,52 @@ public class ASTvisitor implements Visitor {
         printNode(n);
         increaseIndent();
 
+        parser.st.createScope(0);
+        if(isFunctionBlock){
+            if(functionIdentifier.equals("loop")){
+                for(Symbol s : setupPlaceholder){
+                    if(s.type.equals("Servo")){
+                        parser.st.addVariable(s.name, s.type);
+                        parser.st.setVariableConstant(s.name);
+                        parser.st.setVariableInit(s.name);
+                    }
+                    else if(s.type.equals("Robot")){
+                        parser.st.addArrayVariable((ArrayVariable)s);
+                        parser.st.setVariableInit(s.name);
+                    }
+                    else if(s.type.equals("ServoPosition")){
+                        if(s instanceof ArrayVariable){
+                            parser.st.addArrayVariable((ArrayVariable)s);
+                            parser.st.setVariableInit(s.name);
+                        }
+                        else {
+                            ServoPositionVariable e = (ServoPositionVariable)s;
+                            parser.st.addServoPositionVariable(s.name, e.getVariables());
+                            parser.st.setVariableInit(s.name);
+                        }
+                    }
+                }
+            }
+            for(Variable p : functionListParameterList.get(functionNumber)){
+                if(!parser.st.addVariable(p.name, p.type)){
+                    reportError("Line " + (n.line-1) + ": Global variable \"" + p.name + "\" and formal parameter \"" + p.name +
+                            "\" in function \"" + functionIdentifier + "\" can not have the same identifier");
+                }
+                else {
+                    parser.st.setVariableInit(p.name);
+                    if (p.isConstant) {
+                        parser.st.setVariableConstant(p.name);
+                    }
+                }
+            }
+            functionNumber++;
+            isFunctionBlock = false;
+        }
+
         for ( int i = 0; i < n.sl.size(); i++ ) {
             n.sl.get(i).accept(this);
         }
+        parser.st.closeScope();
 
         decreaseIndent();
     }
@@ -709,9 +1146,28 @@ public class ASTvisitor implements Visitor {
     public void visit(ServoPositionVariables n) {
         printNode(n);
         increaseIndent();
+        alternativeServoPosition = true;
+        parameters = new ArrayList<Variable>();
+        if(n.vi.list.size() == n.vi.ident.size()) {
 
-        for ( int i = 0; i < n.vi.list.size(); i++ ) {
-            n.vi.list.get(i).accept(this);
+            for (int i = 0; i < n.vi.list.size(); i++) {
+                n.vi.list.get(i).accept(this);
+                if(parser.st.lookupSymbol(n.vi.ident.get(i)) && lastType == 0) {
+                    parameters.add(new Variable(n.vi.ident.get(i), convertToType(lastType)));
+                }
+                else {
+                    if(!parser.st.lookupSymbol(n.vi.ident.get(i))){
+                        reportError("Line " + linePlaceholder + ": " + "Variable" + " \"" + n.vi.ident.get(i) + "\" has not been declared");
+                    }
+                    if(lastType != 0){
+                        reportError("Line " + linePlaceholder + ": " + "ServoPosition is only compatible with int type, \"" +
+                                convertToType(lastType) + "\" was provided on index: " + i);
+                    }
+                }
+            }
+        }
+        else{
+            reportError("Fatal error in ServoPosition");
         }
 
         decreaseIndent();
@@ -732,6 +1188,7 @@ public class ASTvisitor implements Visitor {
 
         n.t.accept(this);
         n.i.accept(this);
+        constantFormalParameter = true;
 
         decreaseIndent();
     }
@@ -753,6 +1210,7 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.a.accept(this);
+        functionType = "void";
 
         decreaseIndent();
     }
@@ -763,7 +1221,9 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.t.accept(this);
+        functionType = convertToType(lastType);
         n.a.accept(this);
+
 
         decreaseIndent();
     }
@@ -772,18 +1232,22 @@ public class ASTvisitor implements Visitor {
     public void visit(VariableAssignmentDeclaration n) {
         printNode(n);
         increaseIndent();
-
-        n.i.accept(this);
         n.a.accept(this);
+        n.i.accept(this);
+        isAssignmentDecl = true;
+
+
+
 
         decreaseIndent();
     }
 
     @Override
     public void visit(IdentifierVariable n) {
-        printNodeWithValue(n, n.s);
-        increaseIndent();
+        lastIdentifier = n.toString();
 
+        increaseIndent();
+        printNodeWithValue(n, n.s);
         decreaseIndent();
     }
 
@@ -792,11 +1256,13 @@ public class ASTvisitor implements Visitor {
         printNode(n);
         increaseIndent();
 
+        parser.st.createScope(0);
         for ( int i = 0; i < n.sl.size(); i++ ) {
             if(n.sl.get(i) != null) {
                 n.sl.get(i).accept(this);
             }
         }
+        parser.st.closeScope();
 
         decreaseIndent();
     }
@@ -804,12 +1270,19 @@ public class ASTvisitor implements Visitor {
 
     @Override
     public void visit(FunctionDeclarator n) {
-        printNode(n);
+        printNodeWithValue(n, n.i);
         increaseIndent();
 
+        //parameters = new ArrayList<>();
         for ( int i = 0; i < n.fplo.list.size(); i++ ) {
             n.fplo.list.get(i).accept(this);
+            //parameters.add(new Variable(lastIdentifier, convertToType(lastType), constantFormalParameter));
+            if(checkingForPrototypes) {
+                prototypes.add(new Variable(lastIdentifier, convertToType(lastType), constantFormalParameter));
+                constantFormalParameter = false;
+            }
         }
+        lastIdentifier = n.i;
 
         decreaseIndent();
     }
@@ -819,8 +1292,23 @@ public class ASTvisitor implements Visitor {
         printNode(n);
         increaseIndent();
 
-        for ( int i = 0; i < n.il.list.size(); i++ ) {
-            n.il.list.get(i).accept(this);
+        identifierArray = new ArrayList<String>();
+        arrayPlaceholder = new ArrayList<Integer>();
+        if (lastType != 4) {
+            for (int i = 0; i < n.il.list.size(); i++) {
+
+                n.il.list.get(i).accept(this);
+                arrayPlaceholder.add(lastType);
+            }
+        } else {
+            for (int i = 0; i < n.il.list.size(); i++) {
+
+                n.il.list.get(i).accept(this);
+
+                    identifierArray.add(lastIdentifier);
+
+
+            }
         }
 
         decreaseIndent();
@@ -833,7 +1321,16 @@ public class ASTvisitor implements Visitor {
 
         program.sl.accept(this);
 
+        if(!parser.st.checkForLoopAndSetup()){
+            reportError("void setup() and void loop() must be declared, in respective order");
+            reportError("Errors: " + errorDetected);
+            throw new RuntimeException("Fatal Syntax Error");
+        }
 
+        else if(errorDetected != 0){
+            reportError("Errors: " + errorDetected);
+            throw new RuntimeException("Fatal Syntax Error");
+        }
         decreaseIndent();
     }
 
@@ -841,10 +1338,27 @@ public class ASTvisitor implements Visitor {
     public void visit(GlobalVariablePlusFunctionStatements globalVariablePlusFunctionStatements) {
         printNode(globalVariablePlusFunctionStatements);
         increaseIndent();
-
+        ArrayList<String> setupAndLoopList = new ArrayList<String>();
         for ( int i = 0; i < globalVariablePlusFunctionStatements.v.size(); i++ ) {
             globalVariablePlusFunctionStatements.v.get(i).accept(this);
         }
+
+        //parser.st.addFunction("delay", "void", new ArrayList<Variable>() { new Variable("delay", "int")});
+        parser.st.addFunction("delay", "void", new ArrayList<Variable>(Arrays.asList(new Variable("Na", "int"))));
+        checkingForPrototypes = true;
+        for (functionNumber = 0; functionNumber < globalVariablePlusFunctionStatements.sl.size(); functionNumber++){
+            prototypes = new ArrayList<Variable>();
+            globalVariablePlusFunctionStatements.sl.get(functionNumber).accept(this);
+            setupAndLoopList.add(functionIdentifier);
+            if (!parser.st.addFunction(functionIdentifier, functionType, prototypes)) {
+                reportError("Line " + linePlaceholder + ": \"" + functionIdentifier + "\" already declared");
+            }
+                functionListParameterList.add(prototypes);
+            }
+
+
+        CheckForLoopAndSetupInFunctionList(setupAndLoopList);
+
 
         for ( int i = 0; i < globalVariablePlusFunctionStatements.sl.size(); i++ ) {
             globalVariablePlusFunctionStatements.sl.get(i).accept(this);
@@ -853,10 +1367,26 @@ public class ASTvisitor implements Visitor {
         decreaseIndent();
     }
 
+
     @Override
     public void visit(FunctionList functionList) {
         printNode(functionList);
         increaseIndent();
+        ArrayList<String> setupAndLoopList = new ArrayList<String>();
+        parser.st.addFunction("delay", "void", new ArrayList<Variable>(Arrays.asList(new Variable("Na", "int"))));
+        checkingForPrototypes = true;
+        for (functionNumber = 0; functionNumber < functionList.fsl.size(); functionNumber++){
+            prototypes = new ArrayList<Variable>();
+            functionList.fsl.get(functionNumber).accept(this);
+            setupAndLoopList.add(functionIdentifier);
+            if (!parser.st.addFunction(functionIdentifier, functionType, prototypes)) {
+                reportError("Line " + linePlaceholder + ": \"" + functionIdentifier + "\" already declared");
+            }
+            functionListParameterList.add(prototypes);
+        }
+        CheckForLoopAndSetupInFunctionList(setupAndLoopList);
+
+
         for ( int i = 0; i < functionList.fsl.size(); i++ ) {
             functionList.fsl.get(i).accept(this);
         }
@@ -864,21 +1394,27 @@ public class ASTvisitor implements Visitor {
         decreaseIndent();
     }
 
+    private void CheckForLoopAndSetupInFunctionList(ArrayList<String> setupAndLoopList) {
+        if(setupAndLoopList.size() >= 2) {
+            if (!setupAndLoopList.get(0).equals("setup")) {
+                reportError("Line " + linePlaceholder + ": void setup() and void loop() must be declared as the first two functions, in respective order");
+            } else if (!setupAndLoopList.get(1).equals("loop")) {
+                reportError("Line " + linePlaceholder + ": void setup() and void loop() must be declared as the first two functions, in respective order");
+            }
+        }
+
+        checkingForPrototypes = false;
+        functionNumber = 0;
+    }
+
     private boolean isCompatible(int left, int right){
         switch (left){
             case 0:
-                if (right == 0){
-                    return true;
-
-                }
-                return false;
+            case 6:
+                return right == 0;
             case 1:
-                if (right == 1 || right == 0){
-                    return true;
-                }
-                return false;
+                return (right == 1 || right == 0);
             default:
-                System.out.println("FAIL isCompatible");
                 return false;
         }
     }
@@ -886,19 +1422,26 @@ public class ASTvisitor implements Visitor {
     public boolean isComparable(int left, int right){
         switch(left){
             case 0:
-                if(right == 0 || right == 1){
-                    return true;
-                }
             case 1:
-                if(right == 0 || right == 1){
-                    return true;
-                }
+                return (right == 0 || right == 1);
             default:
-                System.out.println("FAIL isComparable");
                 return false;
         }
-
     }
 
-
+    private int EvaluateExpression(int left, int right){
+        switch (left){
+            case 0:
+                if(right == 0)
+                    return 0;
+                if (right == 1)
+                    return 1;
+                break;
+            case 1:
+                return 1;
+            default:
+                return -1;
+        }
+        return -1;
+    }
 }

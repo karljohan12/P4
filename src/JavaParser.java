@@ -34,6 +34,7 @@ public class JavaParser {
         Program program = (Program)root.value;
         program.accept(new ASTvisitor());
 
+
         System.out.println("No errors.");
       } catch (Exception e) {
         e.printStackTrace(System.err);

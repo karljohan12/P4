@@ -1,8 +1,8 @@
 package SymbolTable;
 
 public class Symbol {
-    String name;
-    String type;
+    public String name;
+    public String type;
 
     public Symbol(String name, String type) {
         this.name = name;
