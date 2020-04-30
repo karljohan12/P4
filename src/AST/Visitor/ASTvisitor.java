@@ -1306,6 +1306,10 @@ public class ASTvisitor implements Visitor {
                 n.il.list.get(i).accept(this);
 
                     identifierArray.add(lastIdentifier);
+                    if (lastType != 6){
+                        reportError("Line " + n.lineNumber + ": " + "The robot type is only compatible with Servo type, \"" +
+                                convertToType(lastType) + "\" was provided on index: " + i);
+                    }
 
 
             }
