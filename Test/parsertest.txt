@@ -9,6 +9,7 @@ Servo shoulder = PIN2;
 Servo grapper = PIN3;
 
 //Construct a robot of servos
+Robot ROBERT = {2, 1, 5};
 Robot CNC = {body, shoulder, grapper};
 
 //Declare predefined robotpositions

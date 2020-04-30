@@ -8,6 +8,7 @@ import SymbolTable.ArrayVariable;
 import SymbolTable.ServoPositionVariable;
 import SymbolTable.Symbol;
 import SymbolTable.Variable;
+import javafx.beans.property.ReadOnlyIntegerWrapper;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -1291,6 +1292,7 @@ public class ASTvisitor implements Visitor {
         printNode(n);
         increaseIndent();
 
+        identifierArray = new ArrayList<String>();
         arrayPlaceholder = new ArrayList<Integer>();
         if (lastType != 4) {
             for (int i = 0; i < n.il.list.size(); i++) {
