@@ -19,7 +19,9 @@ ServoPosition HandInSubject = {0, 30, 0};
 //Declare predefined robotpositions, however only one or more servos are defined to move
 ServoPosition openGrapper = {grapper: 72};
 
+END
 
+void loop() BEGIN
 
 
 

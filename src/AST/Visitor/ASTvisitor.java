@@ -1320,11 +1320,13 @@ public class ASTvisitor implements Visitor {
         program.sl.accept(this);
 
         if(!parser.st.checkForLoopAndSetup()){
-            reportError("void setup() and void loop() must be declared");
+            reportError("void setup() and void loop() must be declared, in respective order");
+            System.out.println("Errors: " + errorDetected);
             throw new RuntimeException("Fatal Syntax Error");
         }
 
         else if(errorDetected != 0){
+            System.out.println("Errors: " + errorDetected);
             throw new RuntimeException("Fatal Syntax Error");
         }
         decreaseIndent();
@@ -1353,17 +1355,7 @@ public class ASTvisitor implements Visitor {
             }
 
 
-
-        if(setupAndLoopList.size() >= 2) {
-            if (!setupAndLoopList.get(0).equals("setup")) {
-                reportError("Line " + linePlaceholder + ": void setup() and void loop() must be declared as the first two functions");
-            } else if (!setupAndLoopList.get(1).equals("loop")) {
-                reportError("Line " + linePlaceholder + ": void setup() and void loop() must be declared as the first two functions");
-            }
-        }
-
-        checkingForPrototypes = false;
-        functionNumber = 0;
+        CheckForLoopAndSetupInFunctionList(setupAndLoopList);
 
 
         for ( int i = 0; i < globalVariablePlusFunctionStatements.sl.size(); i++ ) {
@@ -1390,16 +1382,7 @@ public class ASTvisitor implements Visitor {
             }
             functionListParameterList.add(prototypes);
         }
-        if(setupAndLoopList.size() >= 2) {
-            if (!setupAndLoopList.get(0).equals("setup")) {
-                reportError("Line " + linePlaceholder + ": void setup() and void loop() must be declared as the first two functions");
-            } else if (!setupAndLoopList.get(1).equals("loop")) {
-                reportError("Line " + linePlaceholder + ": void setup() and void loop() must be declared as the first two functions");
-            }
-        }
-
-        checkingForPrototypes = false;
-        functionNumber = 0;
+        CheckForLoopAndSetupInFunctionList(setupAndLoopList);
 
 
         for ( int i = 0; i < functionList.fsl.size(); i++ ) {
@@ -1407,6 +1390,19 @@ public class ASTvisitor implements Visitor {
         }
 
         decreaseIndent();
+    }
+
+    private void CheckForLoopAndSetupInFunctionList(ArrayList<String> setupAndLoopList) {
+        if(setupAndLoopList.size() >= 2) {
+            if (!setupAndLoopList.get(0).equals("setup")) {
+                reportError("Line " + linePlaceholder + ": void setup() and void loop() must be declared as the first two functions, in respective order");
+            } else if (!setupAndLoopList.get(1).equals("loop")) {
+                reportError("Line " + linePlaceholder + ": void setup() and void loop() must be declared as the first two functions, in respective order");
+            }
+        }
+
+        checkingForPrototypes = false;
+        functionNumber = 0;
     }
 
     private boolean isCompatible(int left, int right){
