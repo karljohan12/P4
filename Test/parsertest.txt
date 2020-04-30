@@ -1,4 +1,6 @@
-
+const int PIN1 = 1;
+const int PIN2 = 2;
+const int PIN3 = 3;
 
 void setup() BEGIN
 

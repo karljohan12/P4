@@ -139,17 +139,17 @@ public class ASTvisitor implements Visitor {
         n.e1.accept(this);
         isAssigmenExpression = false;
         if(parser.st.IsConstant(lastIdentifier)){
-            System.out.println("Line " + n.line + ": \"" + lastIdentifier +"\" is a constant, and therefore it can not be modified");
+            reportError("Line " + n.line + ": \"" + lastIdentifier +"\" is a constant, and therefore it can not be modified");
         }
 
         parser.st.setVariableInit(lastIdentifier);
         int left = lastType;
-        if(left != -1) {
-            if (parser.st.IsConstant(n.e1.toString())) {
-
-                System.out.println(n.e1.toString() + " is constant");
-            }
-        }
+//        if(left != -1) {
+//            if (parser.st.IsConstant(n.e1.toString())) {
+//
+//                System.out.println(n.e1.toString() + " is constant");
+//            }
+//        }
 //        else{
 //           errorDetected++;
 //           System.out.println("Line " + n.line + ": \"" + lastIdentifier +"\" is not declared");
@@ -433,7 +433,7 @@ public class ASTvisitor implements Visitor {
 
         n.e.accept(this);
         if(parser.st.IsConstant(lastIdentifier)){
-            System.out.println("Line " + n.line + ": \"" + lastIdentifier +"\" is a constant, and therefore it can not be decremented");
+            reportError("Line " + n.line + ": \"" + lastIdentifier +"\" is a constant, and therefore it can not be decremented");
 
         }
 
@@ -447,7 +447,7 @@ public class ASTvisitor implements Visitor {
 
         n.e.accept(this);
          if(parser.st.IsConstant(lastIdentifier)){
-            System.out.println("Line " + n.line + ": \"" + lastIdentifier +"\" is a constant, and therefore it can not be incremented");
+             reportError("Line " + n.line + ": \"" + lastIdentifier +"\" is a constant, and therefore it can not be incremented");
 
         }
         decreaseIndent();
@@ -597,10 +597,10 @@ public class ASTvisitor implements Visitor {
         boolean isFunction = false;
 
         if(parser.st.returnTypeOfFunction(lastIdentifier) != -1){
-            System.out.println("Line " + n.line + ": \"" + lastIdentifier +"\" refers to a function, which cannot be used in the current context");
+            reportError("Line " + n.line + ": \"" + lastIdentifier +"\" refers to a function, which cannot be used in the current context");
         }
         else if(!parser.st.lookupSymbol(lastIdentifier, true)){
-            System.out.println("Line " + n.line + ": \"" + lastIdentifier +"\" is not declared");
+            reportError("Line " + n.line + ": \"" + lastIdentifier +"\" is not declared");
         }
         else if(!parser.st.isVariableInitialized(lastIdentifier) && !isAssigmenExpression){
             reportError("Line " + n.line + ": " + lastIdentifier + " has not been initialized");
@@ -1321,12 +1321,12 @@ public class ASTvisitor implements Visitor {
 
         if(!parser.st.checkForLoopAndSetup()){
             reportError("void setup() and void loop() must be declared, in respective order");
-            System.out.println("Errors: " + errorDetected);
+            reportError("Errors: " + errorDetected);
             throw new RuntimeException("Fatal Syntax Error");
         }
 
         else if(errorDetected != 0){
-            System.out.println("Errors: " + errorDetected);
+            reportError("Errors: " + errorDetected);
             throw new RuntimeException("Fatal Syntax Error");
         }
         decreaseIndent();
