@@ -15,11 +15,12 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/java-cup-bin-11b-20160615/java-cup-11b-runtime.jar!/" />
+          <root url="jar://$USER_HOME$/Downloads/java-cup-11b-runtime.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="java-cup-11b (2)" level="project" />
   </component>
 </module>
