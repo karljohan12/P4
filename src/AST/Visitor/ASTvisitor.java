@@ -8,9 +8,7 @@ import SymbolTable.ArrayVariable;
 import SymbolTable.ServoPositionVariable;
 import SymbolTable.Symbol;
 import SymbolTable.Variable;
-import javafx.beans.property.ReadOnlyIntegerWrapper;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -1005,10 +1003,10 @@ public class ASTvisitor implements Visitor {
 
         for ( int i = 0; i < n.vdl.size(); i++ ) {
 
-            VariableAssignmentDeclaration hamse = new VariableAssignmentDeclaration(null, null, 0);
+            VariableAssignmentDeclaration ChildLookup = new VariableAssignmentDeclaration(null, null, 0);
 
             if(n.vdl.get(i) instanceof VariableAssignmentDeclaration) {
-                hamse = (VariableAssignmentDeclaration) n.vdl.get(i);
+                ChildLookup = (VariableAssignmentDeclaration) n.vdl.get(i);
                 gatheringDeclaration = true;
                 n.vdl.get(i).accept(this);
                 gatheringDeclaration = false;
@@ -1104,7 +1102,7 @@ public class ASTvisitor implements Visitor {
 
             }
 
-            else if (!isCompatible(left, right) && right != -1  && !(hamse.a instanceof ReturningFunctionCall)) {
+            else if (!isCompatible(left, right) && right != -1  && !(ChildLookup.a instanceof ReturningFunctionCall)) {
                 String first = convertToType(left);
                 String second = convertToType(right);
 
@@ -1202,7 +1200,12 @@ public class ASTvisitor implements Visitor {
                 }
             }
             for(Variable p : functionListParameterList.get(functionNumber)){
-                if(!parser.st.addVariable(p.name, p.type)){
+
+
+
+
+
+               if(!parser.st.addVariable(p.name, p.type)){
                     reportError("Line " + (n.line-1) + ": Global variable \"" + p.name + "\" and formal parameter \"" + p.name +
                             "\" in function \"" + functionIdentifier + "\" can not have the same identifier");
                 }
@@ -1362,10 +1365,24 @@ public class ASTvisitor implements Visitor {
         //parameters = new ArrayList<>();
         for ( int i = 0; i < n.fplo.list.size(); i++ ) {
             n.fplo.list.get(i).accept(this);
-            //parameters.add(new Variable(lastIdentifier, convertToType(lastType), constantFormalParameter));
             if(checkingForPrototypes) {
-                prototypes.add(new Variable(lastIdentifier, convertToType(lastType), constantFormalParameter));
-                constantFormalParameter = false;
+                switch(lastType) {
+                    case 0:
+                    case 1:
+                        if(isArrayType){
+                            //add array
+                        }
+                        else{
+                            //add var
+                        }
+                        break;
+                    case 2:
+                        prototypes.add(new Variable(lastIdentifier, convertToType(lastType), constantFormalParameter));
+                        constantFormalParameter = false;
+                        break;
+                    default:
+
+                }
             }
         }
         lastIdentifier = n.i;
