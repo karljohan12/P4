@@ -301,4 +301,15 @@ public class SymbolTable {
         }
         return null;
     }
+
+    public void removeVariable(String symbolName){
+        Scope scope = this.topmostScope;
+        Symbol var;
+
+        while (scope != null) {
+            scope.removeVariable(symbolName);
+            scope = scope.link;
+        }
+
+    }
 }

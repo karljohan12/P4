@@ -37,6 +37,8 @@ public class ASTvisitor implements Visitor {
     private boolean alternativeServoPosition = false;
     ArrayList<Symbol> setupPlaceholder = new ArrayList<Symbol>();
     ArrayList<String> identifierArray = new ArrayList<>();
+    private int warningDetected = 0;
+    private boolean gatheringDeclaration = false;
 
 
 
@@ -59,7 +61,10 @@ public class ASTvisitor implements Visitor {
         errorDetected++;
         System.out.println(message);
     }
-
+    private void reportWarning(String message){
+        warningDetected++;
+        System.out.println(message);
+    }
     private void printNode(ASTNode a) {
         printNodeLine(a.getClass().getSimpleName() + "'" + a.lineNumber);
     }
@@ -208,13 +213,17 @@ public class ASTvisitor implements Visitor {
         n.e2.accept(this);
         int right = lastType;
 
-        lastType = EvaluateExpression(left, right);
+       // lastType = EvaluateExpression(left, right);
 
- /*       if(!isComparable(left, right)){
-            String first = convertToType(left);
-            String second = convertToType(right);
-            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not compatible");
-        }*/
+        if(!(n.e1.toString().contains("@") || n.e1.toString().contains("@"))) {
+            if (!isComparable(left, right, n.lineNumber)) {
+                String first = convertToType(left);
+                String second = convertToType(right);
+                reportError("Line " + n.lineNumber + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable ("
+                        + n.e1.toString() + " != " + n.e2.toString() + ")");
+            }
+        }
+        lastType = 2;
         decreaseIndent();
     }
 
@@ -375,7 +384,19 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.e1.accept(this);
+        int left = lastType;
         n.e2.accept(this);
+        int right = lastType;
+        if(!(n.e1.toString().contains("@") || n.e1.toString().contains("@"))) {
+            if (!isComparable(left, right)) {
+                String first = convertToType(left);
+                String second = convertToType(right);
+                reportError("Line " + n.lineNumber + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable ("
+                        + n.e1.toString() + " != " + n.e2.toString() + ")");
+            }
+        }
+        lastType = 2;
+
 
         decreaseIndent();
     }
@@ -386,6 +407,10 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.e.accept(this);
+        if(lastType != 2){
+            reportError("Line " + n.lineNumber + ": \"" +convertToType(lastType) + "\" can not be negated");
+        }
+
 
         decreaseIndent();
     }
@@ -494,7 +519,8 @@ public class ASTvisitor implements Visitor {
 
     @Override
     public void visit(StrLiteral n) {
-        printNodeWithValue(n, n.toString());
+        printNodeWithValue(n, n.s);
+        lastType = 3;
     }
 
     @Override
@@ -616,8 +642,19 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.e1.accept(this);
+        int left = lastType;
         n.e2.accept(this);
+        int right = lastType;
 
+        if(!(n.e1.toString().contains("@") || n.e1.toString().contains("@"))) {
+            if (!isComparable(left, right)) {
+                String first = convertToType(left);
+                String second = convertToType(right);
+                reportError("Line " + n.lineNumber + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable ("
+                        + n.e1.toString() + " != " + n.e2.toString() + ")");
+            }
+        }
+        lastType = 2;
         decreaseIndent();
     }
 
@@ -627,8 +664,19 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.e1.accept(this);
+        int left = lastType;
         n.e2.accept(this);
+        int right = lastType;
 
+        if(!(n.e1.toString().contains("@") || n.e1.toString().contains("@"))) {
+            if (!isComparable(left, right)) {
+                String first = convertToType(left);
+                String second = convertToType(right);
+                reportError("Line " + n.lineNumber + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable ("
+                        + n.e1.toString() + " != " + n.e2.toString() + ")");
+            }
+        }
+        lastType = 2;
         decreaseIndent();
     }
 
@@ -731,6 +779,11 @@ public class ASTvisitor implements Visitor {
 
         n.e.accept(this);
         n.i.accept(this);
+       String s = n.e.toString();
+       if(lastType != 0){
+           reportError("Line " + n.lineNumber + ": " +lastIdentifier + "[" + s + "]" + " is illegal, as only int can be used to access an index (" +
+                   convertToType(lastType) + " provided) ");
+       }
 
         lastType = parser.st.returnTypeOfArray(lastIdentifier);
 
@@ -746,8 +799,8 @@ public class ASTvisitor implements Visitor {
         n.i.accept(this);
         //int wsefs = parser.st.returnTypeOfFunction(n.i.toString());
 
-
-        if(!(parser.st.ReturnType(AssignedTo) == parser.st.returnTypeOfFunction(n.i.toString()))){
+        if(!isCompatible(parser.st.ReturnType(AssignedTo), parser.st.returnTypeOfFunction(n.i.toString()))){
+       // if(!(parser.st.ReturnType(AssignedTo) == parser.st.returnTypeOfFunction(n.i.toString()))){
             reportError("Line " + n.line + ": " + "Function" + " \"" + n.i.toString() + "\" " + "has type " + "\"" +
                    convertToType(parser.st.returnTypeOfFunction(n.i.toString())) + "\" " + "which can not be assigned to " + AssignedTo
                     + "(" + convertToType(parser.st.ReturnType(AssignedTo)) + ")"   );
@@ -763,7 +816,7 @@ public class ASTvisitor implements Visitor {
         for ( int i = 0; i < n.al.size(); i++ ) {
             n.al.get(i).accept(this);
             if(passSizeCheck && formal.size()>0){
-                if(!formal.get(i).type.equals(convertToType(lastType))){
+                if(!isCompatible(convertFromType(formal.get(i).type), lastType)){
                     reportError("Line " + n.line + ": parameter " + (i+1) + " of function expects type " + "\"" + formal.get(i).type
                     + "\" but \"" + convertToType(lastType) + "\" was provided");
                 }
@@ -777,11 +830,11 @@ public class ASTvisitor implements Visitor {
     public void visit(ForLoop n) {
         printNode(n);
         increaseIndent();
-
+        parser.st.createScope(0);
         n.fi.accept(this);
         n.e.accept(this);
         n.sel.accept(this);
-
+        parser.st.closeScope();
 
         decreaseIndent();
     }
@@ -812,8 +865,17 @@ public class ASTvisitor implements Visitor {
     public void visit(If n) {
         printNode(n);
         increaseIndent();
+        String node = n.e.toString();
+        if(!node.contains("AssignmentExpression")) {
+            n.e.accept(this);
+        }
+        else {
+            reportError("Line " + n.lineNumber + ": Use == instead of =");
+        }
 
-        n.e.accept(this);
+        if(node.matches("[0-9]+[.0-9]*")){
+            reportError("Line " + n.lineNumber + ": \"" + node + "\" can not be used in this context");
+        }
         n.s.accept(this);
 
         decreaseIndent();
@@ -942,7 +1004,25 @@ public class ASTvisitor implements Visitor {
         int left = lastType;
 
         for ( int i = 0; i < n.vdl.size(); i++ ) {
-            n.vdl.get(i).accept(this);
+
+            VariableAssignmentDeclaration hamse = new VariableAssignmentDeclaration(null, null, 0);
+
+            if(n.vdl.get(i) instanceof VariableAssignmentDeclaration) {
+                hamse = (VariableAssignmentDeclaration) n.vdl.get(i);
+                gatheringDeclaration = true;
+                n.vdl.get(i).accept(this);
+                gatheringDeclaration = false;
+               if (parser.st.addVariable(lastIdentifier, convertToType(left))){
+                   n.vdl.get(i).accept(this);
+                    parser.st.removeVariable(lastIdentifier);
+                }
+               else {
+                   n.vdl.get(i).accept(this);
+               }
+            }
+            else {
+                n.vdl.get(i).accept(this);
+            }
             int right = lastType;
 
             ArrayVariable av = new ArrayVariable(lastIdentifier, convertToType(left));
@@ -956,9 +1036,11 @@ public class ASTvisitor implements Visitor {
                     int counter = 0;
                     for (String v : identifierArray){
                             if(parser.st.ReturnType(v) != 6){
-                                reportError("Line " + n.line + ": " + "The robot type is only compatible with Servo type, \"" +
-                                        v + "\" was provided on index: " + counter);
-                                av.addParameter("error");
+                                if(!v.equals("error")) {
+                                    reportError("Line " + n.line + ": " + "The robot type is only compatible with Servo type, \"" +
+                                            v + "\" was provided on index: " + counter);
+                                    av.addParameter("error");
+                                }
                             }
                             else {
                                 av.addParameter(v);
@@ -995,7 +1077,7 @@ public class ASTvisitor implements Visitor {
                         reportError("Line " + n.line + ": \"" + lastIdentifier + "\" already declared");
                     }
                     else if(isAssignmentDecl){
-                        parser.st.setVariableConstant(lastIdentifier);
+                        parser.st.setVariableInit(lastIdentifier);
                         isAssignmentDecl = false;
                     }
 
@@ -1003,7 +1085,8 @@ public class ASTvisitor implements Visitor {
                 else {
                     int counter = 0;
                     for (Integer v : arrayPlaceholder) {
-                        if (left != v) {
+                        if (!isCompatible(left, v)) {
+
                             reportError("Line " + n.line + ": " + "Type \"" + convertToType(v) + "\" can not be assigned to " + lastIdentifier
                                     + "(" + convertToType(left) + ") " + "on index: " + counter);
                             av.addParameter("error");
@@ -1021,7 +1104,7 @@ public class ASTvisitor implements Visitor {
 
             }
 
-            else if (!isCompatible(left, right) && right != -1) {
+            else if (!isCompatible(left, right) && right != -1  && !(hamse.a instanceof ReturningFunctionCall)) {
                 String first = convertToType(left);
                 String second = convertToType(right);
 
@@ -1232,10 +1315,13 @@ public class ASTvisitor implements Visitor {
     public void visit(VariableAssignmentDeclaration n) {
         printNode(n);
         increaseIndent();
-        n.a.accept(this);
-        n.i.accept(this);
-        isAssignmentDecl = true;
+        lastIdentifier=n.i.toString();
 
+        if(!gatheringDeclaration) {
+            n.a.accept(this);
+            n.i.accept(this);
+            isAssignmentDecl = true;
+        }
 
 
 
@@ -1305,10 +1391,14 @@ public class ASTvisitor implements Visitor {
 
                 n.il.list.get(i).accept(this);
 
-                    identifierArray.add(lastIdentifier);
+
                     if (lastType != 6){
                         reportError("Line " + n.lineNumber + ": " + "The robot type is only compatible with Servo type, \"" +
                                 convertToType(lastType) + "\" was provided on index: " + i);
+                        identifierArray.add("error");
+                    }
+                    else {
+                        identifierArray.add(lastIdentifier);
                     }
 
 
@@ -1418,6 +1508,30 @@ public class ASTvisitor implements Visitor {
                 return right == 0;
             case 1:
                 return (right == 1 || right == 0);
+            case 2:
+                return (right == 2);
+            case 3:
+                return (right == 3);
+            case 4:
+                return (right == 4);
+            case 5:
+                return (right == 5);
+            default:
+                return false;
+        }
+    }
+
+    public boolean isComparable(int left, int right, int ln){
+        switch(left){
+            case 0:
+                if(right == 1){
+                    reportWarning("WARNING Line " + ln + ": Checking if \"int\" equals \"double\" could result in errors");
+                }
+            case 1:
+                if(right == 0){
+                    reportWarning("WARNING Line " + ln + ": Checking if \"int\" equals \"double\" could result in errors");
+                }
+                return (right == 0 || right == 1);
             default:
                 return false;
         }

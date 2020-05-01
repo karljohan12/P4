@@ -141,4 +141,13 @@ public class Scope {
             v.isConstant = true;
         }
     }
+    public boolean removeVariable(String symbolName){
+        Symbol e = symbolTable.get(symbolName);
+
+        if(e instanceof Variable){
+            symbolTable.remove(symbolName);
+            return true;
+        }
+        return false;
+    }
 }

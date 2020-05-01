@@ -7,13 +7,15 @@ public class TESTING {
         boolean iw = true;
         boolean se = true;
         double r = 23;
+        boolean e = true;
 
 
-        if(iw == se) {
+        if(true == true) {
 
 
             int k;
         }
+
 
 
         switch (2534){
@@ -24,6 +26,8 @@ public class TESTING {
         }
 
     }
+
+
 
 
 
