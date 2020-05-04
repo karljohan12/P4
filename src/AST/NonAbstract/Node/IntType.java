@@ -7,10 +7,13 @@ public class IntType extends Type {
     public IntType(int ln){
         super(ln);
 
-
     }
     public void accept(Visitor v) {
         v.visit(this);
+    }
+
+    public String toString() {
+        return "int";
     }
 
 }

@@ -10,6 +10,7 @@ import java.io.*;
 
 import AST.NonAbstract.Node.Program;
 import AST.Visitor.ASTvisitor;
+import AST.Visitor.CodeGeneratorVisitor;
 import Scanner.*;
 import Parser.*;
 import SymbolTable.SymbolTable;
@@ -33,6 +34,7 @@ public class JavaParser {
         Symbol root = p.parse();
         Program program = (Program)root.value;
         program.accept(new ASTvisitor());
+        program.accept(new CodeGeneratorVisitor());
 
 
         System.out.println("No errors.");

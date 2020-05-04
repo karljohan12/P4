@@ -41,7 +41,17 @@ public class SymbolTable {
         return false;
     }
 
-
+    public Symbol returnSymbol(String identifier) {
+        Scope scope = this.topmostScope;
+        while (scope != null) {
+            Symbol symbol = scope.getSymbol(identifier);
+            if(symbol != null) {
+                return symbol;
+            }
+            scope = scope.link;
+        }
+        return null;
+    }
 
     public boolean lookupSymbol(String symbolName, boolean lookUpVariable) {
         Scope scope = this.topmostScope;
@@ -55,7 +65,7 @@ public class SymbolTable {
         return false;
     }
 
-    public boolean addFunction(String name, String returnType, ArrayList<Variable> varList) {
+    public boolean addFunction(String name, String returnType, ArrayList<Symbol> varList) {
         Function function = new Function(name, returnType, varList);
 
         return this.topmostScope.addSymbol(function);
@@ -233,7 +243,7 @@ public class SymbolTable {
         return -1;
     }
 
-    public ArrayList<Variable> returnFormalParameters(String symbolName) {
+    public ArrayList<Symbol> returnFormalParameters(String symbolName) {
         Scope scope = this.topmostScope;
         Symbol var;
 

@@ -1,50 +1,16 @@
-//const int PIN1 = 1;
-//const int PIN2 = 2;
-//const int PIN3 = 3;
-
-void setup(int uyf, int[] hapsa) BEGIN
 
 
+void setup(int i) BEGIN
 
-END
+int[] q = {3, 4};
+q[0] = 3;
 
-void loop() BEGIN
 
 
 
 END
 
-void functionOne(int n, double j, Robot ROBOT, ServoPosition position) BEGIN
-
-double[] x = {1, 5.2, 7.5, 2};
-double[] u = x;
-
-
-
-int k = 10;
-ServoPosition posLocal = {30, 10, 2};
-Servo bodyLocal = 1;
-Servo shoulderLocal = 2;
-Servo grapperLocal = 3;
-double do = 5.6;
-
-Robot BOY = ROBOT;
-
-ServoPosition pos = position;
-BOY(pos);
-ROBOT(posLocal);
+void loop(double y) BEGIN
 
 END
 
-
-int returnInt(int i) BEGIN
-    int k = i;
-    k++;
-    return k;
-END
-
-double returnDouble(double i) BEGIN
-    double k = i;
-    k++;
-    return k;
-END

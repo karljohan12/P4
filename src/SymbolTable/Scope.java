@@ -150,4 +150,8 @@ public class Scope {
         }
         return false;
     }
+
+    public Symbol getSymbol(String identifier) {
+        return symbolTable.get(identifier);
+    }
 }

@@ -9,6 +9,8 @@ public class TESTING {
         double r = 23;
         boolean e = true;
 
+        final int[] ewrf = {1, 2, 4};
+
 
         if(true == true) {
 
@@ -18,12 +20,8 @@ public class TESTING {
 
 
 
-        switch (2534){
-            case 1: int k;
-            case 2:
 
 
-        }
 
     }
 
@@ -31,4 +29,12 @@ public class TESTING {
 
 
 
+}
+
+class ost {
+    public void hej() {
+        n = n + 1;
+    }
+
+    int n = 0;
 }

@@ -26,8 +26,8 @@ public class ASTvisitor implements Visitor {
     boolean isFunctionBlock = false;
     boolean checkingForPrototypes = false;
     int functionNumber = 0;
-    private ArrayList<Variable> prototypes = new ArrayList<Variable>();
-    private ArrayList<ArrayList<Variable>> functionListParameterList = new ArrayList<ArrayList<Variable>>();
+    private ArrayList<Symbol> prototypes = new ArrayList<Symbol>();
+    private ArrayList<ArrayList<Symbol>> functionListParameterList = new ArrayList<ArrayList<Symbol>>();
     private String functionIdentifier = "global";
     int linePlaceholder;
     ArrayList<Integer> arrayPlaceholder = new ArrayList<Integer>();
@@ -425,11 +425,12 @@ public class ASTvisitor implements Visitor {
 
         n.e1.accept(this);
         int left = lastType;
+        String ident1 = lastIdentifier;
         n.e2.accept(this);
         int right = lastType;
 
-        lastType = EvaluateExpression(left, right);
-
+        //lastType = EvaluateExpression(left, right);
+        lastType = EvaluateExpression(n.e1, n.e2, ident1, lastIdentifier, n.lineNumber);
 
     /*    if(!isCompatible(left, right)){
             String first = convertToType(left);
@@ -619,7 +620,6 @@ public class ASTvisitor implements Visitor {
     public void visit(IdentifierExpression n) {
         lastIdentifier = n.toString();
         lastType = Parser.parser.st.ReturnType(n.toString());
-        boolean isFunction = false;
 
         if(parser.st.returnTypeOfFunction(lastIdentifier) != -1){
             reportError("Line " + n.line + ": \"" + lastIdentifier +"\" refers to a function, which cannot be used in the current context");
@@ -803,7 +803,7 @@ public class ASTvisitor implements Visitor {
                    convertToType(parser.st.returnTypeOfFunction(n.i.toString())) + "\" " + "which can not be assigned to " + AssignedTo
                     + "(" + convertToType(parser.st.ReturnType(AssignedTo)) + ")"   );
         }
-        ArrayList<Variable> formal = parser.st.returnFormalParameters(n.i.toString());
+        ArrayList<Symbol> formal = parser.st.returnFormalParameters(n.i.toString());
 
         if(formal.size() != n.al.size()){
             reportError("Line " + n.line + ": " + "Function" + " \"" + n.i.toString() + "\" " + "expects " + formal.size()
@@ -927,7 +927,7 @@ public class ASTvisitor implements Visitor {
             }
         } else {
             //DO NOT EDIT IF STATEMENTS IN THIS VISIT - Emil
-            ArrayList<Variable> formal = parser.st.returnFormalParameters(n.i.toString());
+            ArrayList<Symbol> formal = parser.st.returnFormalParameters(n.i.toString());
             if (formal != null && formal.size() != n.al.size()) {
                 reportError("Line " + n.line + ": " + "Function" + " \"" + n.i.toString() + "\" " + "expects " + formal.size()
                         + " parameters, but received " + n.al.size());
@@ -1010,6 +1010,35 @@ public class ASTvisitor implements Visitor {
                 gatheringDeclaration = true;
                 n.vdl.get(i).accept(this);
                 gatheringDeclaration = false;
+
+                if(n.t instanceof ArrayType){
+                    if(!(((VariableAssignmentDeclaration) n.vdl.get(i)).a instanceof ArrayVariables)){
+
+                        if(ChildLookup.a instanceof IdentifierExpression){
+                            reportError("Line " + n.line + ": Array can not be assigned to an identifier");
+                            isArrayType = false;
+                        }
+                        else {
+                            reportError("Line " + n.line + ": " + convertToType(left) + "[] is assigned to a non array");
+                        }
+                    }
+                }
+                else if(!(n.t.toString().contains("Type") && (((VariableAssignmentDeclaration) n.vdl.get(i)).a instanceof ReturningFunctionCall
+                        || (ChildLookup.a instanceof BoolLiteral || ChildLookup.a instanceof IntegerLiteral || ChildLookup.a instanceof FloatLiteral)))){
+
+                    if(ChildLookup.a instanceof IdentifierExpression){
+                        Symbol s = parser.st.returnSymbol(ChildLookup.a.toString());
+                        if(s != null && !(s instanceof Variable)){
+                            reportError("Line " + n.line + ": " + convertToType(left) + " is assigned to an array");
+                        }
+                    }
+                    else if (ChildLookup.a instanceof ArrayVariables){
+                        reportError("Line " + n.line + ": " + convertToType(left) + " is assigned to an array");
+                    }
+
+
+                }
+
                if (parser.st.addVariable(lastIdentifier, convertToType(left))){
                    n.vdl.get(i).accept(this);
                     parser.st.removeVariable(lastIdentifier);
@@ -1199,13 +1228,19 @@ public class ASTvisitor implements Visitor {
                     }
                 }
             }
-            for(Variable p : functionListParameterList.get(functionNumber)){
+            for(Symbol p : functionListParameterList.get(functionNumber)){
+               if(p instanceof ArrayVariable){
+                   parser.st.addArrayVariable((ArrayVariable) p);
+               }
+               else if(p instanceof Variable){
+                   parser.st.addVariable(p.name, p.type);
+               }
+               else {
+                   reportError("Line " + linePlaceholder + ": FATAL ERROR, (this should not show)");
+               }
 
 
-
-
-
-               if(!parser.st.addVariable(p.name, p.type)){
+                /*if(!parser.st.addVariable(p.name, p.type)){
                     reportError("Line " + (n.line-1) + ": Global variable \"" + p.name + "\" and formal parameter \"" + p.name +
                             "\" in function \"" + functionIdentifier + "\" can not have the same identifier");
                 }
@@ -1214,7 +1249,7 @@ public class ASTvisitor implements Visitor {
                     if (p.isConstant) {
                         parser.st.setVariableConstant(p.name);
                     }
-                }
+                }*/
             }
             functionNumber++;
             isFunctionBlock = false;
@@ -1365,15 +1400,17 @@ public class ASTvisitor implements Visitor {
         //parameters = new ArrayList<>();
         for ( int i = 0; i < n.fplo.list.size(); i++ ) {
             n.fplo.list.get(i).accept(this);
+
             if(checkingForPrototypes) {
                 switch(lastType) {
                     case 0:
                     case 1:
                         if(isArrayType){
-                            //add array
+                            prototypes.add(new ArrayVariable(lastIdentifier, convertToType(lastType)));
+                            isArrayType = false;
                         }
                         else{
-                            //add var
+                            prototypes.add(new Variable(lastIdentifier, convertToType(lastType), constantFormalParameter));
                         }
                         break;
                     case 2:
@@ -1381,8 +1418,11 @@ public class ASTvisitor implements Visitor {
                         constantFormalParameter = false;
                         break;
                     default:
-
+                        reportError("Line " + n.lineNumber + ": " + "type \"" + convertToType(lastType) + "\" can not be used as a formal parameter");
                 }
+            }
+            else{
+                isArrayType = false;
             }
         }
         lastIdentifier = n.i;
@@ -1455,10 +1495,10 @@ public class ASTvisitor implements Visitor {
         }
 
         //parser.st.addFunction("delay", "void", new ArrayList<Variable>() { new Variable("delay", "int")});
-        parser.st.addFunction("delay", "void", new ArrayList<Variable>(Arrays.asList(new Variable("Na", "int"))));
+        parser.st.addFunction("delay", "void", new ArrayList<Symbol>(Arrays.asList(new Variable("Na", "int"))));
         checkingForPrototypes = true;
         for (functionNumber = 0; functionNumber < globalVariablePlusFunctionStatements.sl.size(); functionNumber++){
-            prototypes = new ArrayList<Variable>();
+            prototypes = new ArrayList<Symbol>();
             globalVariablePlusFunctionStatements.sl.get(functionNumber).accept(this);
             setupAndLoopList.add(functionIdentifier);
             if (!parser.st.addFunction(functionIdentifier, functionType, prototypes)) {
@@ -1484,10 +1524,10 @@ public class ASTvisitor implements Visitor {
         printNode(functionList);
         increaseIndent();
         ArrayList<String> setupAndLoopList = new ArrayList<String>();
-        parser.st.addFunction("delay", "void", new ArrayList<Variable>(Arrays.asList(new Variable("Na", "int"))));
+        parser.st.addFunction("delay", "void", new ArrayList<Symbol>(Arrays.asList(new Variable("Na", "int"))));
         checkingForPrototypes = true;
         for (functionNumber = 0; functionNumber < functionList.fsl.size(); functionNumber++){
-            prototypes = new ArrayList<Variable>();
+            prototypes = new ArrayList<Symbol>();
             functionList.fsl.get(functionNumber).accept(this);
             setupAndLoopList.add(functionIdentifier);
             if (!parser.st.addFunction(functionIdentifier, functionType, prototypes)) {
@@ -1579,4 +1619,62 @@ public class ASTvisitor implements Visitor {
         }
         return -1;
     }
+
+    private int evalChild2(ASTNode child2, String identifierChild2, int typeofChild1, int ln){
+        if(child2 instanceof IdentifierExpression){
+            Symbol identChild2 = parser.st.returnSymbol(identifierChild2);
+            if(identChild2 instanceof ArrayVariable || identChild2 instanceof ServoPositionVariable){
+                reportError("Line " + ln + ": Array can not be on right side ");
+                //bool true
+            }
+            else if(identChild2 instanceof Variable){
+                if(identChild2.type.equals("boolean")){
+                    reportError("Line " + ln + ": Boolean can not be evaluated in expression ");
+                }
+                else {
+                    return EvaluateExpression(typeofChild1, convertFromType(identChild2.type));
+                }
+            }
+        }
+        else if(child2 instanceof FloatLiteral){
+            return EvaluateExpression(typeofChild1, 1);
+        }
+        else if(child2 instanceof IntegerLiteral){
+            return EvaluateExpression(typeofChild1, 0);
+        }
+        return  -1 ;
+    }
+
+    private int EvaluateExpression(ASTNode child1, ASTNode child2, String identifierChild1, String identifierChild2, int ln){
+        if(child1 instanceof IdentifierExpression){
+            Symbol identChild1 = parser.st.returnSymbol(identifierChild1);
+            if(identChild1 instanceof ArrayVariable || identChild1 instanceof ServoPositionVariable){
+                reportError("Line " + ln + ": Array can not be on right side ");
+                //bool true
+            }
+
+            else if(identChild1 instanceof Variable){
+                if(identChild1.type.equals("boolean")){
+                    reportError("Line " + ln + ": Boolean can not be evaluated in expression ");
+                }
+                else {
+                    return evalChild2(child2, identifierChild2, convertFromType(identChild1.type), ln);
+                }
+            }
+        }
+        else if(child1 instanceof BoolLiteral){
+            reportError("Line " + ln + ": Boolean can not be evaluated in expression ");
+        }
+        else if(child1 instanceof IntegerLiteral){
+
+            return evalChild2(child2, identifierChild2, 0, ln);
+        }
+        else if (child1 instanceof FloatLiteral){
+            return evalChild2(child2, identifierChild2, 1, ln);
+        }
+
+
+        return  -1 ;
+    }
+
 }
