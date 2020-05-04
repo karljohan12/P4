@@ -37,6 +37,8 @@ public class ASTvisitor implements Visitor {
     ArrayList<String> identifierArray = new ArrayList<>();
     private int warningDetected = 0;
     private boolean gatheringDeclaration = false;
+    private int lastValue;
+    private boolean lastBlockForLoop = false;
 
 
 
@@ -314,6 +316,7 @@ public class ASTvisitor implements Visitor {
     @Override
     public void visit(IntegerLiteral n) {
         lastType = 0;
+        lastValue = n.i;
         printNodeWithValue(n, n.toString());
     }
 
@@ -832,7 +835,8 @@ public class ASTvisitor implements Visitor {
         n.fi.accept(this);
         n.e.accept(this);
         n.sel.accept(this);
-        parser.st.closeScope();
+        //parser.st.closeScope();
+        lastBlockForLoop = true;
 
         decreaseIndent();
     }
@@ -1032,7 +1036,7 @@ public class ASTvisitor implements Visitor {
                             reportError("Line " + n.line + ": " + convertToType(left) + " is assigned to an array");
                         }
                     }
-                    else if (ChildLookup.a instanceof ArrayVariables){
+                    else if (ChildLookup.a instanceof ArrayVariables && !(n.t instanceof RobotType) && !(n.t instanceof ServoType )){
                         reportError("Line " + n.line + ": " + convertToType(left) + " is assigned to an array");
                     }
 
@@ -1082,14 +1086,10 @@ public class ASTvisitor implements Visitor {
                 else if(left == 5 && !alternativeServoPosition){
                     int counter = 0;
                     for (Integer v : arrayPlaceholder){
-                        if(v != 0){
-                            reportError("Line " + n.line + ": " + "The ServoPosition type is only compatible with int type, \"" +
-                                    convertToType(v) + "\" was provided on index: " + counter);
-                            av.addParameter("error");
-                        }
-                        else {
-                            av.addParameter(convertToType(v));
-                        }
+
+
+                            av.addParameter(v.toString());
+
                         if(isAssignmentDecl){
                             av.hasBeenInit = true;
                             isAssignmentDecl = false;
@@ -1100,6 +1100,12 @@ public class ASTvisitor implements Visitor {
 
                 }
                 else if(left == 5){
+                    if(arrayPlaceholder.size() == parameters.size()){
+                        for(int q = 0; q < arrayPlaceholder.size(); q++){
+                            parameters.get(q).value = arrayPlaceholder.get(q).toString();
+                        }
+                    }
+
                     if(!parser.st.addServoPositionVariable(lastIdentifier, parameters)){
                         reportError("Line " + n.line + ": \"" + lastIdentifier + "\" already declared");
                     }
@@ -1258,6 +1264,9 @@ public class ASTvisitor implements Visitor {
         for ( int i = 0; i < n.sl.size(); i++ ) {
             n.sl.get(i).accept(this);
         }
+        if(functionIdentifier.equals("setup")){
+            parser.st.setSetupScope();
+        }
         parser.st.closeScope();
 
         decreaseIndent();
@@ -1270,9 +1279,10 @@ public class ASTvisitor implements Visitor {
         alternativeServoPosition = true;
         parameters = new ArrayList<Variable>();
         if(n.vi.list.size() == n.vi.ident.size()) {
-
+            arrayPlaceholder = new ArrayList<>();
             for (int i = 0; i < n.vi.list.size(); i++) {
                 n.vi.list.get(i).accept(this);
+                arrayPlaceholder.add(lastValue);
                 if(parser.st.lookupSymbol(n.vi.ident.get(i)) && lastType == 0) {
                     parameters.add(new Variable(n.vi.ident.get(i), convertToType(lastType)));
                 }
@@ -1379,8 +1389,10 @@ public class ASTvisitor implements Visitor {
     public void visit(ABlockStatement n) {
         printNode(n);
         increaseIndent();
-
-        parser.st.createScope(0);
+        if(!lastBlockForLoop) {
+            parser.st.createScope(0);
+        }
+        else{lastBlockForLoop = false;}
         for ( int i = 0; i < n.sl.size(); i++ ) {
             if(n.sl.get(i) != null) {
                 n.sl.get(i).accept(this);
@@ -1434,31 +1446,49 @@ public class ASTvisitor implements Visitor {
     public void visit(ArrayVariables n) {
         printNode(n);
         increaseIndent();
-
-        identifierArray = new ArrayList<String>();
-        arrayPlaceholder = new ArrayList<Integer>();
-        if (lastType != 4) {
+        if(lastType == 5){
+            arrayPlaceholder = new ArrayList<Integer>();
             for (int i = 0; i < n.il.list.size(); i++) {
 
                 n.il.list.get(i).accept(this);
-                arrayPlaceholder.add(lastType);
+
+                if (lastType != 0){
+                    reportError("Line " + n.lineNumber + ": " + "The ServoPosition type is only compatible with int type, \"" +
+                            convertToType(lastType) + "\" was provided on index: " + i);
+                    arrayPlaceholder.add(-1);
+                }
+                else {
+                    arrayPlaceholder.add(lastValue);
+                }
+
             }
-        } else {
-            for (int i = 0; i < n.il.list.size(); i++) {
 
-                n.il.list.get(i).accept(this);
+        }
+        else {
+            identifierArray = new ArrayList<String>();
+            arrayPlaceholder = new ArrayList<Integer>();
+            if (lastType != 4) {
+                for (int i = 0; i < n.il.list.size(); i++) {
+
+                    n.il.list.get(i).accept(this);
+                    arrayPlaceholder.add(lastType);
+                }
+            } else {
+                for (int i = 0; i < n.il.list.size(); i++) {
+
+                    n.il.list.get(i).accept(this);
 
 
-                    if (lastType != 6){
+                    if (lastType != 6) {
                         reportError("Line " + n.lineNumber + ": " + "The robot type is only compatible with Servo type, \"" +
                                 convertToType(lastType) + "\" was provided on index: " + i);
                         identifierArray.add("error");
-                    }
-                    else {
+                    } else {
                         identifierArray.add(lastIdentifier);
                     }
 
 
+                }
             }
         }
 

@@ -34,8 +34,14 @@ public class JavaParser {
         Symbol root = p.parse();
         Program program = (Program)root.value;
         program.accept(new ASTvisitor());
-        program.accept(new CodeGeneratorVisitor());
+        CodeGeneratorVisitor cgv = new CodeGeneratorVisitor();
+        program.accept(cgv);
 
+        FileWriter fileWriter = new FileWriter("program.ino");
+        System.out.println("Writing to file...");
+        fileWriter.write(cgv.code.toString());
+        fileWriter.close();
+        System.out.println("Done writing...");
 
         System.out.println("No errors.");
       } catch (Exception e) {

@@ -8,6 +8,7 @@ public class SymbolTable {
     Variable udefinedVariable;    // object node for erroneous symbols
     public Scope topmostScope;    // topmost procedure scope
     public Scope lastClosedScope;
+    public Scope setupScope;
     int intType = 0, doubleType = 1, booleanType = 2, stringType = 3, robotType = 4, servoPosition = 5, servo = 6, voidType =7;
 
 
@@ -321,5 +322,11 @@ public class SymbolTable {
             scope = scope.link;
         }
 
+    }
+    public void setSetupScope(){
+        setupScope = this.topmostScope;
+    }
+    public Symbol retrieveRobot(String symbolName){
+        return setupScope.ReturnType(symbolName);
     }
 }

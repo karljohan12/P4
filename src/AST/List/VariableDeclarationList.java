@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VariableDeclarationList extends ASTNode {
-    private List<VariableInitial> list;
+    public List<VariableInitial> list;
 
     public VariableDeclarationList(int ln) {
         super(ln);

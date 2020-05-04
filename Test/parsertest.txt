@@ -1,16 +1,63 @@
 
 
-void setup(int i) BEGIN
+void setup() BEGIN
+Servo grapper = 4;
+Servo shoulder = 3;
+Servo body = 3;
+int[] penisArray = {1, 2, 3};
+int penisInt = penisArray[0];
+ServoPosition openGrapper = {grapper: 72, shoulder: 20};
+ServoPosition PlaceSubjectCNC = {80, 30, 72};
 
-int[] q = {3, 4};
-q[0] = 3;
+if(true) BEGIN
 
+int i = 3;
+if(true) BEGIN
+int e;
+END
 
-
+else BEGIN
+int e;
+END
 
 END
 
-void loop(double y) BEGIN
+for(int i = 3 WHEN i < 0 THEN i++) BEGIN
+i = 3;
+int hejkage = 1;
+hejkage += 1;
+END
+
+int i= 3;
+switch(i) BEGIN
+case 1:
+int ost = 1;
+break;
+case 2:
+
+default:
+i++;
 
 END
+
+//Construct a robot of servos
+Robot CNC = {body, shoulder, grapper};
+
+//Declare predefined robotpositions
+ServoPosition pickupSubjectStart = {30, 50, 0};
+
+END
+
+void loop() BEGIN
+CNC(pickupSubjectStart);
+delay(500);
+CNC(openGrapper);
+
+END
+
+int hamseanders(int t) BEGIN
+
+return 0;
+END
+
 

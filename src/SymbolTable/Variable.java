@@ -3,6 +3,7 @@ package SymbolTable;
 public class Variable extends Symbol {
     public boolean isConstant = false;
     public boolean hasBeenInit = false;
+    public String value;
 
     public Variable(String name, String type) {
         super(name, type);
