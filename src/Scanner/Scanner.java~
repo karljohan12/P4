@@ -22,6 +22,9 @@ package Scanner;
 import java_cup.runtime.*;
 import Parser.*;
 
+import static Parser.sym.MULT;
+
+
 // See https://github.com/jflex-de/jflex/issues/222
 @SuppressWarnings("FallThrough")
 public class Scanner extends sym implements java_cup.runtime.Scanner {

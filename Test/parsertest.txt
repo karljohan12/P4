@@ -1,6 +1,6 @@
 
 
-void setup() BEGIN
+function void setup() BEGIN
 Servo grapper = 4;
 Servo shoulder = 3;
 Servo body = 3;
@@ -48,14 +48,14 @@ ServoPosition pickupSubjectStart = {30, 50, 0};
 
 END
 
-void loop() BEGIN
+function void loop() BEGIN
 CNC(pickupSubjectStart);
 delay(500);
 CNC(openGrapper);
 
 END
 
-int hamseanders(int t) BEGIN
+function int hamseanders(int t) BEGIN
 
 return 0;
 END

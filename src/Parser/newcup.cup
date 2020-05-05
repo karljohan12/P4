@@ -58,6 +58,7 @@ parser code  {:
     }
 :};
 
+terminal FUNCTION;
 terminal BOOLEAN;
 terminal INT;
 terminal DOUBLE;
@@ -312,7 +313,7 @@ variableInitial                         ::= expression:e
 	                                          {: RESULT = sis; :};
 
 
-functionDeclaration                     ::= functionHeader:fh functionBody:fb
+functionDeclaration                     ::= FUNCTION functionHeader:fh functionBody:fb
 		                                      {: RESULT = new Function(fh, fb, fhleft); :};
 
 

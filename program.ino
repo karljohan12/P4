@@ -27,6 +27,8 @@ void setup() {
     }
     for(int i = 3; i < 0; i++) {
         i = 3;
+        int hejkage = 1;
+        hejkage += 1;
     }
     int i = 3;
     switch(i) {

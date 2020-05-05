@@ -21,7 +21,7 @@ import Parser.*;
 
 %public
 %class Scanner
-%implements sym
+%extends sym
 
 
 %unicode
@@ -101,6 +101,7 @@ StringCharacter = [^\r\n\"\\]
     "Robot"                   { return symbol(ROBOT); }
     "ServoPosition"                   { return symbol(SERVOPOSITION); }
     "Servo"                   { return symbol(SERVO); }
+    "function"                  { return symbol(FUNCTION); }
 
 
 
