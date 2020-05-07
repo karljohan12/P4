@@ -34,8 +34,17 @@ public class TESTING {
 
 class ost {
     public void hej() {
-        n = n + 1;
+
+        int i = +5;
+        int n = 0;
+        boolean g = true;
+        boolean ergh = true;
+
+
+
+
     }
 
-    int n = 0;
+
+
 }

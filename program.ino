@@ -34,6 +34,8 @@ void setup() {
     switch(i) {
         case 1:
             int ost = 1;
+
+            ost++;
             break;
         case 2:
         default:
@@ -56,5 +58,9 @@ void loop() {
 }
 
 int hamseanders(int t) {
+    bool a = true;
+    bool b = false;
+    if(a == b && a) {
+    }
     return 0;
 }

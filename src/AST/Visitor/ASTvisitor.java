@@ -216,11 +216,11 @@ public class ASTvisitor implements Visitor {
        // lastType = EvaluateExpression(left, right);
 
         if(!(n.e1.toString().contains("@") || n.e1.toString().contains("@"))) {
-            if (!isComparable(left, right, n.lineNumber)) {
+            if (!isComparableEquality(left, right)) {
                 String first = convertToType(left);
                 String second = convertToType(right);
                 reportError("Line " + n.lineNumber + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable ("
-                        + n.e1.toString() + " != " + n.e2.toString() + ")");
+                        + n.e1.toString() + " == " + n.e2.toString() + ")");
             }
         }
         lastType = 2;
@@ -281,7 +281,7 @@ public class ASTvisitor implements Visitor {
         if(!isComparable(left, right)){
             String first = convertToType(left);
             String second = convertToType(right);
-            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable");
+            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable in Comparison Operators: <, <=, >, >=");
         }
 
         decreaseIndent();
@@ -300,7 +300,7 @@ public class ASTvisitor implements Visitor {
         if(!isComparable(left, right)){
             String first = convertToType(left);
             String second = convertToType(right);
-            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable");
+            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable in Comparison Operators: <, <=, >, >=");
         }
 
         decreaseIndent();
@@ -339,7 +339,7 @@ public class ASTvisitor implements Visitor {
         if(!isComparable(left, right)){
             String first = convertToType(left);
             String second = convertToType(right);
-            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable");
+            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable in Comparison Operators: <, <=, >, >=");
         }
 
         decreaseIndent();
@@ -358,7 +358,7 @@ public class ASTvisitor implements Visitor {
         if(!isComparable(left, right)){
             String first = convertToType(left);
             String second = convertToType(right);
-            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable");
+            reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable in Comparison Operators: <, <=, >, >=");
         }
 
         decreaseIndent();
@@ -389,7 +389,7 @@ public class ASTvisitor implements Visitor {
         n.e2.accept(this);
         int right = lastType;
         if(!(n.e1.toString().contains("@") || n.e1.toString().contains("@"))) {
-            if (!isComparable(left, right)) {
+            if (!isComparableEquality(left, right)) {
                 String first = convertToType(left);
                 String second = convertToType(right);
                 reportError("Line " + n.lineNumber + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable ("
@@ -647,14 +647,15 @@ public class ASTvisitor implements Visitor {
         n.e2.accept(this);
         int right = lastType;
 
-        if(!(n.e1.toString().contains("@") || n.e1.toString().contains("@"))) {
-            if (!isComparable(left, right)) {
-                String first = convertToType(left);
-                String second = convertToType(right);
-                reportError("Line " + n.lineNumber + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable ("
-                        + n.e1.toString() + " != " + n.e2.toString() + ")");
+            if (!(n.e1.toString().contains("@") || n.e1.toString().contains("@"))) {
+                if (!isComparable(left, right)) {
+                    String first = convertToType(left);
+                    String second = convertToType(right);
+                    reportError("Line " + n.lineNumber + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable ("
+                            + n.e1.toString() + " != " + n.e2.toString() + ")");
+                }
             }
-        }
+
         lastType = 2;
         decreaseIndent();
     }
@@ -1619,6 +1620,8 @@ public class ASTvisitor implements Visitor {
                     reportWarning("WARNING Line " + ln + ": Checking if \"int\" equals \"double\" could result in errors");
                 }
                 return (right == 0 || right == 1);
+            case 2:
+                return (right == 2);
             default:
                 return false;
         }
@@ -1629,6 +1632,18 @@ public class ASTvisitor implements Visitor {
             case 0:
             case 1:
                 return (right == 0 || right == 1);
+            default:
+                return false;
+        }
+    }
+
+    public boolean isComparableEquality(int left, int right){
+        switch(left){
+            case 0:
+            case 1:
+                return (right == 0 || right == 1);
+            case 2:
+                return (right == 2);
             default:
                 return false;
         }
@@ -1685,7 +1700,7 @@ public class ASTvisitor implements Visitor {
 
             else if(identChild1 instanceof Variable){
                 if(identChild1.type.equals("boolean")){
-                    reportError("Line " + ln + ": Boolean can not be evaluated in expression ");
+                    reportError("Line " + ln + ": "+ identifierChild1 + " can not be evaluated with " + identifierChild2); // todo fix error message
                 }
                 else {
                     return evalChild2(child2, identifierChild2, convertFromType(identChild1.type), ln);
@@ -1705,6 +1720,30 @@ public class ASTvisitor implements Visitor {
 
 
         return  -1 ;
+    }
+    public boolean checkArithmeticOperators(ASTNode child1, ASTNode child2, int ln){
+        if (child1 instanceof PlusExpression || child2 instanceof PlusExpression){
+            reportError("Line " + ln + ": + operator can not be used in boolean expression ");
+            return false;
+        }
+        if(child1 instanceof MinusExpression || child2 instanceof MinusExpression){
+            reportError("Line " + ln + ": - operator can not be used in boolean expression ");
+            return false;
+        }
+        if(child1 instanceof MultiplicationExpression || child2 instanceof MultiplicationExpression){
+            reportError("Line " + ln + ": * operator can not be used in boolean expression ");
+            return false;
+        }
+        if(child1 instanceof DivisionExpression || child2 instanceof DivisionExpression){
+            reportError("Line " + ln + ": / operator can not be used in boolean expression ");
+            return false;
+        }
+        if(child1 instanceof ModuloExpression || child2 instanceof ModuloExpression){
+            reportError("Line " + ln + ": % operator can not be used in boolean expression ");
+            return false;
+        }
+        return true;
+
     }
 
 }
