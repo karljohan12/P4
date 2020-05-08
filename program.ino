@@ -60,7 +60,7 @@ void loop() {
 int hamseanders(int t) {
     bool a = true;
     bool b = false;
-    if(a == b && a) {
+    if(a == b && false || true) {
     }
     return 0;
 }

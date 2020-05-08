@@ -61,7 +61,8 @@ function int hamseanders(int t) BEGIN
 boolean a = true;
 boolean b = false;
 
-if(a == b AND a + 1) BEGIN
+
+if(a == b AND false OR true) BEGIN
 
 END
 

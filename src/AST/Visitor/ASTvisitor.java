@@ -215,13 +215,13 @@ public class ASTvisitor implements Visitor {
 
        // lastType = EvaluateExpression(left, right);
 
-        if(!(n.e1.toString().contains("@") || n.e1.toString().contains("@"))) {
+       // if(!(n.e1.toString().contains("@") || n.e1.toString().contains("@"))) {
             if (!isComparableEquality(left, right)) {
                 String first = convertToType(left);
                 String second = convertToType(right);
                 reportError("Line " + n.lineNumber + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable ("
                         + n.e1.toString() + " == " + n.e2.toString() + ")");
-            }
+           // }
         }
         lastType = 2;
         decreaseIndent();
@@ -388,14 +388,13 @@ public class ASTvisitor implements Visitor {
         int left = lastType;
         n.e2.accept(this);
         int right = lastType;
-        if(!(n.e1.toString().contains("@") || n.e1.toString().contains("@"))) {
+       // if(!(n.e1.toString().contains("@") || n.e1.toString().contains("@"))) {
             if (!isComparableEquality(left, right)) {
                 String first = convertToType(left);
                 String second = convertToType(right);
-                reportError("Line " + n.lineNumber + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable ("
-                        + n.e1.toString() + " != " + n.e2.toString() + ")");
+                reportError("Line " + n.lineNumber + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable)");
             }
-        }
+       // }
         lastType = 2;
 
 
@@ -433,7 +432,7 @@ public class ASTvisitor implements Visitor {
         int right = lastType;
 
         //lastType = EvaluateExpression(left, right);
-        lastType = EvaluateExpression(n.e1, n.e2, ident1, lastIdentifier, n.lineNumber);
+        lastType = EvaluateExpression(n, n.e1, n.e2, ident1, lastIdentifier, n.lineNumber, left, right);
 
     /*    if(!isCompatible(left, right)){
             String first = convertToType(left);
@@ -647,14 +646,13 @@ public class ASTvisitor implements Visitor {
         n.e2.accept(this);
         int right = lastType;
 
-            if (!(n.e1.toString().contains("@") || n.e1.toString().contains("@"))) {
-                if (!isComparable(left, right)) {
+          //  if ((!(n.e1.toString().contains("@") || n.e1.toString().contains("@"))) && lastType == 2) {
+                if (!isComparableEquality(left, right)) {
                     String first = convertToType(left);
                     String second = convertToType(right);
-                    reportError("Line " + n.lineNumber + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable ("
-                            + n.e1.toString() + " != " + n.e2.toString() + ")");
+                    reportError("Line " + n.lineNumber + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable)");
                 }
-            }
+         //   }
 
         lastType = 2;
         decreaseIndent();
@@ -670,14 +668,13 @@ public class ASTvisitor implements Visitor {
         n.e2.accept(this);
         int right = lastType;
 
-        if(!(n.e1.toString().contains("@") || n.e1.toString().contains("@"))) {
-            if (!isComparable(left, right)) {
+       // if(!(n.e1.toString().contains("@") || n.e1.toString().contavins("@"))) {
+            if (!isComparableEquality(left, right)) {
                 String first = convertToType(left);
                 String second = convertToType(right);
-                reportError("Line " + n.lineNumber + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable ("
-                        + n.e1.toString() + " != " + n.e2.toString() + ")");
+                reportError("Line " + n.lineNumber + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable");
             }
-        }
+        //}
         lastType = 2;
         decreaseIndent();
     }
@@ -689,10 +686,12 @@ public class ASTvisitor implements Visitor {
 
         n.e1.accept(this);
         int left = lastType;
+        String ident1 = lastIdentifier;
         n.e2.accept(this);
         int right = lastType;
 
-        lastType = EvaluateExpression(left, right);
+       // lastType = EvaluateExpression(left, right);
+        lastType = EvaluateExpression(n, n.e1, n.e2, ident1, lastIdentifier, n.lineNumber, left, right);
 
        /* if(!isCompatible(left, right)){
             String first = convertToType(left);
@@ -711,10 +710,12 @@ public class ASTvisitor implements Visitor {
 
         n.e1.accept(this);
         int left = lastType;
+        String ident1 = lastIdentifier;
         n.e2.accept(this);
         int right = lastType;
 
-        lastType = EvaluateExpression(left, right);
+        //lastType = EvaluateExpression(left, right);
+        lastType = EvaluateExpression(n, n.e1, n.e2, ident1, lastIdentifier, n.lineNumber, left, right);
 
 
 /*        if(!isCompatible(left, right)){
@@ -734,11 +735,12 @@ public class ASTvisitor implements Visitor {
 
         n.e1.accept(this);
         int left = lastType;
+        String ident1 = lastIdentifier;
         n.e2.accept(this);
         int right = lastType;
 
-        lastType = EvaluateExpression(left, right);
-
+        //lastType = EvaluateExpression(left, right);
+        lastType = EvaluateExpression(n, n.e1, n.e2, ident1, lastIdentifier, n.lineNumber, left, right);
 
      /*   if(!isCompatible(left, right)){
             String first = convertToType(left);
@@ -756,13 +758,14 @@ public class ASTvisitor implements Visitor {
 
         n.e1.accept(this);
         int left = lastType;
+        String ident1 = lastIdentifier;
 
         n.e2.accept(this);
         int right = lastType;
 
 
-        lastType = EvaluateExpression(left, right);
-
+        //lastType = EvaluateExpression(left, right);
+        lastType = EvaluateExpression(n, n.e1, n.e2, ident1, lastIdentifier, n.lineNumber, left, right);
 
     /*    if(!isCompatible(left, right)){
             String first = convertToType(left);
@@ -1665,7 +1668,7 @@ public class ASTvisitor implements Visitor {
         return -1;
     }
 
-    private int evalChild2(ASTNode child2, String identifierChild2, int typeofChild1, int ln){
+    private int evalChild2(ASTNode child2, String identifierChild2, int typeofChild1, int typeOfChild2, int ln, ASTNode parent){
         if(child2 instanceof IdentifierExpression){
             Symbol identChild2 = parser.st.returnSymbol(identifierChild2);
             if(identChild2 instanceof ArrayVariable || identChild2 instanceof ServoPositionVariable){
@@ -1674,7 +1677,7 @@ public class ASTvisitor implements Visitor {
             }
             else if(identChild2 instanceof Variable){
                 if(identChild2.type.equals("boolean")){
-                    reportError("Line " + ln + ": Boolean can not be evaluated in expression ");
+                    reportError("Line " + ln + ": "+ identifierChild2 + "(boolean) can not be evaluated in a " + returnTypeofExpression(parent));
                 }
                 else {
                     return EvaluateExpression(typeofChild1, convertFromType(identChild2.type));
@@ -1687,10 +1690,13 @@ public class ASTvisitor implements Visitor {
         else if(child2 instanceof IntegerLiteral){
             return EvaluateExpression(typeofChild1, 0);
         }
+        else {
+            return EvaluateExpression(typeofChild1, typeOfChild2);
+        }
         return  -1 ;
     }
 
-    private int EvaluateExpression(ASTNode child1, ASTNode child2, String identifierChild1, String identifierChild2, int ln){
+    private int EvaluateExpression(ASTNode parent, ASTNode child1, ASTNode child2, String identifierChild1, String identifierChild2, int ln, int typeChild1, int typeChild2){
         if(child1 instanceof IdentifierExpression){
             Symbol identChild1 = parser.st.returnSymbol(identifierChild1);
             if(identChild1 instanceof ArrayVariable || identChild1 instanceof ServoPositionVariable){
@@ -1700,10 +1706,10 @@ public class ASTvisitor implements Visitor {
 
             else if(identChild1 instanceof Variable){
                 if(identChild1.type.equals("boolean")){
-                    reportError("Line " + ln + ": "+ identifierChild1 + " can not be evaluated with " + identifierChild2); // todo fix error message
+                    reportError("Line " + ln + ": "+ identifierChild1 + "(boolean) can not be evaluated in a " + returnTypeofExpression(parent)); // todo fix error message
                 }
                 else {
-                    return evalChild2(child2, identifierChild2, convertFromType(identChild1.type), ln);
+                    return evalChild2(child2, identifierChild2, convertFromType(identChild1.type), typeChild2, ln, parent);
                 }
             }
         }
@@ -1712,10 +1718,13 @@ public class ASTvisitor implements Visitor {
         }
         else if(child1 instanceof IntegerLiteral){
 
-            return evalChild2(child2, identifierChild2, 0, ln);
+            return evalChild2(child2, identifierChild2, 0, typeChild2, ln, parent);
         }
         else if (child1 instanceof FloatLiteral){
-            return evalChild2(child2, identifierChild2, 1, ln);
+            return evalChild2(child2, identifierChild2, 1, typeChild2, ln, parent);
+        }
+        else {
+            return evalChild2(child2, identifierChild2, typeChild1, typeChild2, ln, parent);
         }
 
 
@@ -1745,5 +1754,23 @@ public class ASTvisitor implements Visitor {
         return true;
 
     }
+    public String returnTypeofExpression(ASTNode child){
+        if (child instanceof PlusExpression){
+            return "plus expression";
+        }
+        if(child instanceof MinusExpression){
+            return "minus expression";
+        }
+        if(child instanceof MultiplicationExpression){
+            return "multiplication expression";
+        }
+        if(child instanceof DivisionExpression){
+            return "division expression";
+        }
+        if(child instanceof ModuloExpression){
+            return "modulo expression";
+        }
+        return "";
 
+    }
 }
