@@ -303,13 +303,18 @@ public class CodeGeneratorVisitor implements Visitor {
 
         }
 
-        
+        boolean ContainsDeclaration = false;
+        int lengthOfCode = code.length();
 
         for ( int i = 0; i < n.bs.size(); i++ ) {
-            emit("\n");
+           emit("\n");
             if (i == 0){
                 ignoreNewLine = true;
                 noKeepIndent = false;
+            }
+            if(n.bs.get(i).toString().contains("LocalVariableDeclarationStatement") && !ContainsDeclaration){
+                ContainsDeclaration = true;
+                code.insert(lengthOfCode, "{");
             }
 
             increaseIndent();
@@ -317,6 +322,10 @@ public class CodeGeneratorVisitor implements Visitor {
             decreaseIndent();
             ignoreNewLine = false;
             noKeepIndent = true;
+        }
+        if(ContainsDeclaration){
+            emit("\n"+indent+"}");
+
         }
     }
 
@@ -565,7 +574,20 @@ public class CodeGeneratorVisitor implements Visitor {
                     "int LOW_LIMIT_TIMEOUT = 2000;\n" + indent +
                     "int HIGH_LIMIT_TIMEOUT = 6000;\n" + indent +
                     "pinMode(SOFT_START_CONTROL_PIN,OUTPUT);\n" + indent +
-                    "digitalWrite(SOFT_START_CONTROL_PIN,LOW);");
+                    "digitalWrite(SOFT_START_CONTROL_PIN,LOW); \n");
+
+            emit(indent +"long int tmp=millis();\n" +
+                    indent +"while(millis()-tmp < LOW_LIMIT_TIMEOUT)\n" +
+                    indent + "    digitalWrite(SOFT_START_CONTROL_PIN,HIGH);\n" +
+                    indent + "    delayMicroseconds(80);\n" +
+                    indent + "    digitalWrite(SOFT_START_CONTROL_PIN,LOW);\n" +
+                    indent + "    delayMicroseconds(450); \n" +
+                    indent + "while(millis()-tmp < HIGH_LIMIT_TIMEOUT)\n" +
+                    indent + "    digitalWrite(SOFT_START_CONTROL_PIN,HIGH);\n" +
+                    indent + "    delayMicroseconds(75);\n" +
+                    indent +"    digitalWrite(SOFT_START_CONTROL_PIN,LOW);\n" +
+                    indent +"    delayMicroseconds(430); \n" +
+                    indent + "digitalWrite(SOFT_START_CONTROL_PIN,HIGH);\n");
             isSetupfunction = false;
         }
 
