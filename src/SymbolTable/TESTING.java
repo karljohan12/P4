@@ -9,8 +9,7 @@ public class TESTING {
         double r = 23;
         boolean e = true;
 
-        final int[] ewrf = {1, 2, 4};
-
+        int[] ewrf = {1, 2, 4};
 
 
         if(true == true) {

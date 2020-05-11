@@ -9,6 +9,7 @@
       <excludeFolder url="file://$MODULE_DIR$/Test/Settings" />
       <excludeFolder url="file://$MODULE_DIR$/Test/Shit" />
       <excludeFolder url="file://$MODULE_DIR$/src/AST/Visitor/DIE" />
+      <excludeFolder url="file://$MODULE_DIR$/src/ArduinoFiles" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

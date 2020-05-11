@@ -68,8 +68,17 @@ public class CodeGeneratorVisitor implements Visitor {
     public void visit(AssignmentExpression n) {
         emit("\n"+indent);
         n.e1.accept(this);
-        n.e2.accept(this);
-        n.e3.accept(this);
+        Symbol s = parser.st.retrieveRobot(n.e1.toString());
+
+        if(s.type.equals("Servo") ){
+            emit(".attach(");
+            n.e3.accept(this);
+            emit(")");
+        }
+        else {
+            n.e2.accept(this);
+            n.e3.accept(this);
+        }
         emit(";");
     }
 
@@ -332,7 +341,14 @@ public class CodeGeneratorVisitor implements Visitor {
     @Override
     public void visit(SwitchLabels n) {
         for ( int i = 0; i < n.s.size(); i++ ) {
+            if(n.s.list.get(i) instanceof DefaultCase){
+                emit("\n"+indent+"default");
+            }
+            else {
+                emit("\n"+indent+"case ");
+            }
             n.s.get(i).accept(this);
+            emit(":");
         }
     }
 
@@ -537,11 +553,23 @@ public class CodeGeneratorVisitor implements Visitor {
 
                 preEmit(" "+((VariableAssignmentDeclaration) n.vdl.get(i)).i.toString() + ";\n");
                 String servoNumber = ((VariableAssignmentDeclaration) n.vdl.get(i)).a.toString();
-                emit(indent + ((VariableAssignmentDeclaration) n.vdl.get(i)).i.toString()+ ".attach("+
-                        (servoNumber + ")"));
+                emit(indent + ((VariableAssignmentDeclaration) n.vdl.get(i)).i.toString()+ ".attach(");
+                        n.vdl.get(i).accept(this);
+                        emit(")");
+                        //System.out.println(code.lastIndexOf("="));
+                        //code.replace(code.lastIndexOf("="), code.lastIndexOf("="), "");
+                       // code.deleteCharAt(code.lastIndexOf("="));
+                        code.delete(code.lastIndexOf("(")+1, code.lastIndexOf("=")+2);
+                       // code.d
             }
-            else {
+            else if(!(n.t instanceof ServoPrimitiveType)) {
                 n.vdl.get(i).accept(this);
+            }
+            else if(n.vdl.get(i) instanceof IdentifierVariable) {
+
+                preEmit(" "+((IdentifierVariable) n.vdl.get(i)).s + ";");
+               // emit(n.vdl.get(i).i.toString();
+               // emit((ServoPrimitiveType)n.vdl.get(i).toString());
             }
         }
 

@@ -283,6 +283,8 @@ public class ASTvisitor implements Visitor {
             String second = convertToType(right);
             reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable in Comparison Operators: <, <=, >, >=");
         }
+        lastType = 2;
+
 
         decreaseIndent();
     }
@@ -302,6 +304,8 @@ public class ASTvisitor implements Visitor {
             String second = convertToType(right);
             reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable in Comparison Operators: <, <=, >, >=");
         }
+        lastType = 2;
+
 
         decreaseIndent();
     }
@@ -341,6 +345,7 @@ public class ASTvisitor implements Visitor {
             String second = convertToType(right);
             reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable in Comparison Operators: <, <=, >, >=");
         }
+        lastType = 2;
 
         decreaseIndent();
     }
@@ -360,6 +365,7 @@ public class ASTvisitor implements Visitor {
             String second = convertToType(right);
             reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable in Comparison Operators: <, <=, >, >=");
         }
+        lastType = 2;
 
         decreaseIndent();
     }
@@ -534,6 +540,7 @@ public class ASTvisitor implements Visitor {
          if(lastType != 0 && lastType != -1){
             reportError("Line " + n.line + ": " + convertToType(lastType) + " is not compatible with a switch");
         }
+
         n.s.accept(this);
 
         decreaseIndent();
@@ -576,10 +583,11 @@ public class ASTvisitor implements Visitor {
         for ( int i = 0; i < n.s.size(); i++ ) {
             n.s.get(i).accept(this);
         }
-
+        parser.st.createScope(0);
         for ( int i = 0; i < n.bs.size(); i++ ) {
             n.bs.get(i).accept(this);
         }
+        parser.st.closeScope();
 
         decreaseIndent();
     }
@@ -864,6 +872,28 @@ public class ASTvisitor implements Visitor {
         n.s1.accept(this);
         n.s2.accept(this);
 
+        String node = n.e.toString();
+        if(!node.contains("AssignmentExpression")) {
+            n.e.accept(this);
+        }
+        else {
+            reportError("Line " + n.lineNumber + ": Use == instead of =");
+        }
+
+        if(node.matches("\\-?\\d*\\.?\\d+")){
+            reportError("Line " + n.lineNumber + ": \"" + node + "\" can not be used in this context");
+        }
+        else if(!returnTypeofExpression(n.e).isBlank()){
+            reportError("Line " + n.lineNumber + ": Boolean expression is required");
+        }
+        if(!(n.s1 instanceof ABlockStatement)) {
+            reportError("Line " + n.lineNumber + ": BEGIN END block is required");
+        }
+        if(!(n.s2 instanceof ABlockStatement)) {
+            reportError("Line " + n.lineNumber + ": BEGIN END block is required");
+        }
+
+
         decreaseIndent();
     }
 
@@ -879,8 +909,14 @@ public class ASTvisitor implements Visitor {
             reportError("Line " + n.lineNumber + ": Use == instead of =");
         }
 
-        if(node.matches("[0-9]+[.0-9]*")){
+        if(node.matches("\\-?\\d*\\.?\\d+")){
             reportError("Line " + n.lineNumber + ": \"" + node + "\" can not be used in this context");
+        }
+        else if(!returnTypeofExpression(n.e).isBlank()){
+            reportError("Line " + n.lineNumber + ": Boolean expression is required");
+        }
+        if(!(n.s instanceof ABlockStatement)) {
+            reportError("Line " + n.lineNumber + ": BEGIN END block is required");
         }
         n.s.accept(this);
 
@@ -1384,9 +1420,9 @@ public class ASTvisitor implements Visitor {
     public void visit(IdentifierVariable n) {
         lastIdentifier = n.toString();
 
-        increaseIndent();
+       // increaseIndent();
         printNodeWithValue(n, n.s);
-        decreaseIndent();
+       // decreaseIndent();
     }
 
     @Override
@@ -1596,7 +1632,7 @@ public class ASTvisitor implements Visitor {
         switch (left){
             case 0:
             case 6:
-                return right == 0;
+                return (right == 0 || right == 6);
             case 1:
                 return (right == 1 || right == 0);
             case 2:
