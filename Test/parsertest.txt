@@ -1,4 +1,4 @@
-int i = 0;
+const int i = 0;
 
 function void setup() BEGIN
 
@@ -47,5 +47,8 @@ delay(1000);
 Braccio(Extend);
 delay(3000);
 Braccio(yr);
+
+
+
 
 END

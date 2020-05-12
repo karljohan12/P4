@@ -39,7 +39,12 @@ class ost {
         boolean g = true;
         boolean ergh = true;
 
+        if(g) {
+            switch (i){
 
+            }
+        }
+        else{}
 
 
     }

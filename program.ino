@@ -6,7 +6,7 @@ Servo wristver;
 Servo wristrot;
 Servo gripper;
 
-int i = 0;
+const int i = 0;
 void setup() {
     int SOFT_START_CONTROL_PIN = 12;
     int LOW_LIMIT_TIMEOUT = 2000;
