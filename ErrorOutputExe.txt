@@ -6,7 +6,7 @@ DEBUG StatusLogger AsyncLogger.ThreadNameStrategy=UNCACHED (user specified null,
 TRACE StatusLogger Using default SystemClock for timestamps.
 DEBUG StatusLogger org.apache.logging.log4j.core.util.SystemClock does not support precise timestamps.
 DEBUG StatusLogger Not in a ServletContext environment, thus not loading WebLookup plugin.
-DEBUG StatusLogger Took 0.069700 seconds to load 209 plugins from sun.misc.Launcher$AppClassLoader@af3868
+DEBUG StatusLogger Took 0.061340 seconds to load 209 plugins from sun.misc.Launcher$AppClassLoader@af3868
 DEBUG StatusLogger PluginManager 'Converter' found 44 plugins
 DEBUG StatusLogger Starting OutputStreamManager SYSTEM_OUT.false.false-1
 DEBUG StatusLogger Starting LoggerContext[name=af3868, org.apache.logging.log4j.core.LoggerContext@1f8f5ae]...
@@ -315,7 +315,7 @@ DEBUG StatusLogger Checking to see if class cc.arduino.view.preferences.Preferen
 DEBUG StatusLogger Checking to see if class cc.arduino.view.preferences.Preferences$9 matches criteria annotated with @Plugin
 DEBUG StatusLogger Checking to see if class cc.arduino.view.preferences.Preferences$WarningItem matches criteria annotated with @Plugin
 DEBUG StatusLogger Checking to see if class cc.arduino.view.preferences.Preferences matches criteria annotated with @Plugin
-DEBUG StatusLogger Took 0.054114 seconds to load 0 plugins from package cc.arduino
+DEBUG StatusLogger Took 0.045605 seconds to load 0 plugins from package cc.arduino
 DEBUG StatusLogger PluginManager 'Core' found 118 plugins
 DEBUG StatusLogger PluginManager 'Level' found 0 plugins
 DEBUG StatusLogger PluginManager 'Lookup' found 13 plugins
