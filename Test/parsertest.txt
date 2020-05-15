@@ -9,6 +9,8 @@ e++;
 case 2:
 int e  = 3;
 
+
+
 END
 
 int[] array = {1, 3, 5};
@@ -48,7 +50,13 @@ Braccio(Extend);
 delay(3000);
 Braccio(yr);
 
+testing();
+if(testing() AND true) BEGIN
 
+END
 
+END
+
+function boolean testing() BEGIN
 
 END
