@@ -1,6 +1,6 @@
 #include <Servo.h> 
-Servo niels;
 
+String i = "hamse";
 void setup() {
     int SOFT_START_CONTROL_PIN = 12;
     int LOW_LIMIT_TIMEOUT = 2000;
@@ -20,6 +20,7 @@ void setup() {
         delayMicroseconds(430); 
     digitalWrite(SOFT_START_CONTROL_PIN,HIGH);
 
+    i = "pik";
 } 
 
 void loop() {
@@ -28,8 +29,10 @@ void loop() {
     }
 } 
 
+String hamse() {
+} 
+
 bool testing() {
-    niels.attach(5);
 } 
 
 int retint() {

@@ -1,25 +1,32 @@
-String e;
-
+String i = "hamse";
 function void setup() BEGIN
-
+i = "pik";
 
 END
 
 function void loop() BEGIN
 
-testing();
-if(testing() AND true) BEGIN
+hamse("ha", 3);
+
+
+if(i == "hamse") BEGIN
 
 END
 
 
 
+
+END
+
+function double[] hamse(String pik, int e) BEGIN
+e = 3;
+pik = 3;
+return 0;
 
 END
 
 function boolean testing() BEGIN
-Servo niels = 5;
-Robot bjarne = {niels};
+
 
    END
 

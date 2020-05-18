@@ -141,6 +141,9 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.t.accept(this);
+        if((lastType == 2 || lastType == 3 || lastType == 4) && !checkingForPrototypes){
+            reportError("Line " + n.lineNumber + ": array of " + convertToType(lastType) + " is not possible");
+        }
         isArrayType = true;
 
 
@@ -189,6 +192,12 @@ public class ASTvisitor implements Visitor {
         }
 
         decreaseIndent();
+    }
+
+    @Override
+    public void visit(StringType n){
+        lastType = 3;
+        printNode(n);
     }
 
     @Override
@@ -1484,13 +1493,16 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.t.accept(this);
+        isArrayType = false;
         if(n.t instanceof ArrayType){
             switch (lastType){
                 case 0:
                     lastType = 8;
+
                     break;
                 case 1:
                     lastType = 9;
+
             }
         }
         functionType = convertToType(lastType);
@@ -1569,9 +1581,11 @@ public class ASTvisitor implements Visitor {
                         }
                         break;
                     case 2:
+                    case 3:
                         prototypes.add(new Variable(lastIdentifier, convertToType(lastType), constantFormalParameter));
                         constantFormalParameter = false;
                         break;
+
                     default:
                         reportError("Line " + n.lineNumber + ": " + "type \"" + convertToType(lastType) + "\" can not be used as a formal parameter");
                 }

@@ -61,6 +61,7 @@ parser code  {:
 terminal FUNCTION;
 terminal BOOLEAN;
 terminal INT;
+terminal STRINGKEYWORD;
 terminal DOUBLE;
 terminal CONST;
 terminal LBRACE, RBRACE, LBRACK, RBRACK;
@@ -210,7 +211,11 @@ primitiveType                           ::= numericType:nt
 	                                      |	BOOLEAN:bt
 
 	                                          {: RESULT = new BoolType(btleft);
-	                                           :};
+	                                           :}
+	                                      | STRINGKEYWORD:sk
+	                                      {:RESULT = new StringType(skleft);:}
+	                                           ;
+
 
 
 numericType                             ::= INT:it

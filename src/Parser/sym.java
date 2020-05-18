@@ -8,70 +8,72 @@ package Parser;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int PLUSPLUS = 30;
-  public static final int WHEN = 48;
-  public static final int STRING_LITERAL = 57;
-  public static final int GTEQ = 40;
+  public static final int PLUSPLUS = 31;
+  public static final int WHEN = 49;
+  public static final int STRING_LITERAL = 58;
+  public static final int GTEQ = 41;
   public static final int FUNCTION = 2;
-  public static final int MULT = 12;
-  public static final int CONST = 6;
-  public static final int LTEQ = 39;
-  public static final int CASE = 25;
-  public static final int DOUBLE = 5;
-  public static final int LPAREN = 15;
+  public static final int MULT = 13;
+  public static final int CONST = 7;
+  public static final int LTEQ = 40;
+  public static final int CASE = 26;
+  public static final int DOUBLE = 6;
+  public static final int LPAREN = 16;
   public static final int INT = 4;
-  public static final int SERVO = 52;
-  public static final int FOR = 27;
-  public static final int MINUS = 33;
-  public static final int RPAREN = 16;
-  public static final int BOOLEAN_LITERAL = 55;
-  public static final int OROR = 44;
-  public static final int NOT = 34;
-  public static final int SEMICOLON = 11;
-  public static final int LT = 37;
-  public static final int COMMA = 13;
-  public static final int ANDAND = 43;
-  public static final int DIV = 35;
-  public static final int BEGIN = 18;
-  public static final int PLUSEQ = 46;
-  public static final int SERVOPOSITION = 51;
-  public static final int MINUSEQ = 47;
-  public static final int PLUS = 32;
-  public static final int IF = 22;
+  public static final int SERVO = 53;
+  public static final int FOR = 28;
+  public static final int MINUS = 34;
+  public static final int RPAREN = 17;
+  public static final int BOOLEAN_LITERAL = 56;
+  public static final int OROR = 45;
+  public static final int NOT = 35;
+  public static final int SEMICOLON = 12;
+  public static final int LT = 38;
+  public static final int COMMA = 14;
+  public static final int ANDAND = 44;
+  public static final int DIV = 36;
+  public static final int BEGIN = 19;
+  public static final int PLUSEQ = 47;
+  public static final int SERVOPOSITION = 52;
+  public static final int MINUSEQ = 48;
+  public static final int PLUS = 33;
+  public static final int IF = 23;
   public static final int EOF = 0;
   public static final int BOOLEAN = 3;
-  public static final int MINUSMINUS = 31;
-  public static final int RETURN = 29;
+  public static final int MINUSMINUS = 32;
+  public static final int RETURN = 30;
   public static final int error = 1;
-  public static final int EQEQ = 41;
-  public static final int MOD = 36;
-  public static final int BREAK = 28;
-  public static final int VOID = 20;
-  public static final int EQ = 14;
-  public static final int SWITCH = 24;
-  public static final int LBRACK = 9;
-  public static final int ROBOT = 50;
-  public static final int COLON = 17;
-  public static final int FLOATING_POINT_LITERAL = 54;
-  public static final int LBRACE = 7;
-  public static final int ELSE = 23;
-  public static final int RBRACK = 10;
-  public static final int WHILE = 26;
-  public static final int DEFAULT = 21;
-  public static final int THEN = 49;
-  public static final int RBRACE = 8;
-  public static final int END = 19;
-  public static final int QUESTION = 45;
-  public static final int GT = 38;
-  public static final int NOTEQ = 42;
-  public static final int IDENTIFIER = 56;
-  public static final int INTEGER_LITERAL = 53;
+  public static final int EQEQ = 42;
+  public static final int MOD = 37;
+  public static final int BREAK = 29;
+  public static final int VOID = 21;
+  public static final int EQ = 15;
+  public static final int SWITCH = 25;
+  public static final int LBRACK = 10;
+  public static final int ROBOT = 51;
+  public static final int COLON = 18;
+  public static final int FLOATING_POINT_LITERAL = 55;
+  public static final int LBRACE = 8;
+  public static final int ELSE = 24;
+  public static final int STRINGKEYWORD = 5;
+  public static final int RBRACK = 11;
+  public static final int WHILE = 27;
+  public static final int DEFAULT = 22;
+  public static final int THEN = 50;
+  public static final int RBRACE = 9;
+  public static final int END = 20;
+  public static final int QUESTION = 46;
+  public static final int GT = 39;
+  public static final int NOTEQ = 43;
+  public static final int IDENTIFIER = 57;
+  public static final int INTEGER_LITERAL = 54;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
   "FUNCTION",
   "BOOLEAN",
   "INT",
+  "STRINGKEYWORD",
   "DOUBLE",
   "CONST",
   "LBRACE",

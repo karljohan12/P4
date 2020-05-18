@@ -262,7 +262,7 @@ public class CodeGeneratorVisitor implements Visitor {
     }
 
     @Override
-    public void visit(StrLiteral n) {
+    public void visit(StrLiteral n) {emit("\"" + n.toString()+"\"");} {
 
     }
 
@@ -745,5 +745,10 @@ public class CodeGeneratorVisitor implements Visitor {
         for ( int i = 0; i < functionList.fsl.size(); i++ ) {
             functionList.fsl.get(i).accept(this);
         }
+    }
+
+    @Override
+    public void visit(StringType n) {
+        emit(indent +"String ");
     }
 }

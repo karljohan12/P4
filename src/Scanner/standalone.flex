@@ -91,6 +91,7 @@ StringCharacter = [^\r\n\"\\]
     "else"                   { return symbol(ELSE); }
     "END"                   { return symbol(END); }
     "int"                   { return symbol(INT); }
+
     "if"                   { return symbol(IF); }
     "switch"                   { return symbol(SWITCH); }
     "THEN"                   { return symbol(THEN); }
@@ -104,7 +105,7 @@ StringCharacter = [^\r\n\"\\]
     "function"                  { return symbol(FUNCTION); }
 
 
-
+"String"                { return symbol(STRINGKEYWORD); }
 
     /*boolean literals*/
     "true"                   { return symbol(BOOLEAN_LITERAL, true); }

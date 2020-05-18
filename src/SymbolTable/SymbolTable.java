@@ -114,6 +114,7 @@ public class SymbolTable {
                     case "Servo":
                         return servo;
                     case "string":
+                    case "String":
                         return stringType;
                     case "Robot":
                         return robotType;
@@ -233,6 +234,8 @@ public class SymbolTable {
                             return doubleType;
                         case "boolean":
                             return booleanType;
+                        case "String":
+                            return stringType;
                         case "void":
                             return voidType;
                         case "int Array":
