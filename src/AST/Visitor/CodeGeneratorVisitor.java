@@ -70,7 +70,7 @@ public class CodeGeneratorVisitor implements Visitor {
         n.e1.accept(this);
         Symbol s = parser.st.retrieveRobot(n.e1.toString());
 
-        if(s.type.equals("Servo") ){
+        if(s!= null && s.type.equals("Servo") ){
             emit(".attach(");
             n.e3.accept(this);
             emit(")");

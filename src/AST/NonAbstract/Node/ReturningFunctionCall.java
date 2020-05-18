@@ -21,4 +21,7 @@ public class ReturningFunctionCall extends Expression {
         v.visit(this);
     }
 
+    public String toString() {
+        return i.s;
+    }
 }

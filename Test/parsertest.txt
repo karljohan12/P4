@@ -1,62 +1,46 @@
-const int i = 0;
+String e;
 
 function void setup() BEGIN
-
-switch(i) BEGIN
-case 1:
-int e = 3;
-e++;
-case 2:
-int e  = 3;
-
-
-
-END
-
-int[] array = {1, 3, 5};
-
-
-int val1 = 10;
-int val2 = 20;
-
-int max = val1 >= val2 ? val1 : val2;
-
-
-
-Servo base = 11;
-Servo shoulder = 10+i;
-Servo elbow = 9;
-Servo wristver = 6;
-Servo wristrot = 5;
-Servo gripper = 3;
-
-
-
-Robot Braccio = {base, shoulder, elbow, wristver, wristrot, gripper};
-ServoPosition standUpright = {10, 90, 100, 100, 100, 60};
-ServoPosition Extend = {10, 90, 100, 100, 100, 30};
-ServoPosition turn = {10, 90, 80, 100, 100, 30};
-ServoPosition yr = {gripper: 30, elbow: 80};
 
 
 END
 
 function void loop() BEGIN
-delay(1000);
-Braccio(standUpright);
-int uy = 34;
-delay(1000);
-Braccio(Extend);
-delay(3000);
-Braccio(yr);
 
 testing();
 if(testing() AND true) BEGIN
 
 END
 
+
+
+
 END
 
 function boolean testing() BEGIN
+Servo niels = 5;
+Robot bjarne = {niels};
 
+   END
+
+function int retint() BEGIN
+
+
+
+END
+
+function int[] hipi(int[] s)
+BEGIN
+
+END
+
+
+function int ost()
+BEGIN
+
+END
+
+function int tisost(int penus)
+BEGIN
+   return penus;
 END

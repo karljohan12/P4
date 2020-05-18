@@ -9,7 +9,7 @@ public class SymbolTable {
     public Scope topmostScope;    // topmost procedure scope
     public Scope lastClosedScope;
     public Scope setupScope;
-    int intType = 0, doubleType = 1, booleanType = 2, stringType = 3, robotType = 4, servoPosition = 5, servo = 6, voidType =7;
+    int intType = 0, doubleType = 1, booleanType = 2, stringType = 3, robotType = 4, servoPosition = 5, servo = 6, voidType =7, intArray = 8, doubleArray = 9;
 
 
     public SymbolTable() {
@@ -235,6 +235,10 @@ public class SymbolTable {
                             return booleanType;
                         case "void":
                             return voidType;
+                        case "int Array":
+                            return intArray;
+                        case "double Array":
+                            return doubleArray;
                         default:
                             System.out.println("Error ReturnType lookup");
                     }

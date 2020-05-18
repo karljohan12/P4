@@ -7,7 +7,7 @@ public class TESTING {
         boolean iw = true;
         boolean se = true;
         double r = 23;
-        boolean e = true;
+
 
         int[] ewrf = {1, 2, 4};
 
@@ -18,11 +18,17 @@ public class TESTING {
             int k;
         }
 
+        switch (ty()){
+
+        }
 
 
 
 
 
+    }
+    public int ty (){
+        return 1;
     }
 
 
@@ -38,6 +44,8 @@ class ost {
         int n = 0;
         boolean g = true;
         boolean ergh = true;
+
+
 
         if(g) {
             switch (i){

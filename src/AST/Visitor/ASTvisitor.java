@@ -39,6 +39,9 @@ public class ASTvisitor implements Visitor {
     private boolean gatheringDeclaration = false;
     private int lastValue;
     private boolean lastBlockForLoop = false;
+    private boolean NonAssigningReturningFunctionCall = false;
+    boolean checkingForArray = false;
+    boolean retStatement = false;
 
 
 
@@ -91,6 +94,10 @@ public class ASTvisitor implements Visitor {
                 return "Servo";
             case 7:
                 return "void";
+            case 8:
+                return "int Array";
+            case 9:
+                return "double Array";
 
             default:
                 System.out.println("Type does not exist");
@@ -115,6 +122,10 @@ public class ASTvisitor implements Visitor {
                 return 6;
             case "void":
                 return 7;
+            case "intArray":
+                return 8;
+            case "doubleArray":
+                return 9;
 
             default:
                 System.out.println("Type does not exist");
@@ -162,7 +173,11 @@ public class ASTvisitor implements Visitor {
 //        }
 
         n.e2.accept(this);
+        NonAssigningReturningFunctionCall  = true;
+        checkingForArray = true;
         n.e3.accept(this);
+        NonAssigningReturningFunctionCall = false;
+        checkingForArray = false;
         int right = lastType;
 
         if(left != -1) {
@@ -217,9 +232,10 @@ public class ASTvisitor implements Visitor {
 
        // if(!(n.e1.toString().contains("@") || n.e1.toString().contains("@"))) {
             if (!isComparableEquality(left, right)) {
-                String first = convertToType(left);
-                String second = convertToType(right);
-                reportError("Line " + n.lineNumber + ": " + "Types \"" + first + "\" and \"" + second + "\" are not comparable ("
+                String firstType = convertToType(left);
+                String secondType = convertToType(right);
+
+                reportError("Line " + n.lineNumber + ": " + "Types \"" + firstType + "\" and \"" + secondType + "\" are not comparable ("
                         + n.e1.toString() + " == " + n.e2.toString() + ")");
            // }
         }
@@ -382,6 +398,15 @@ public class ASTvisitor implements Visitor {
 
         n.e.accept(this);
 
+        int returnOfOperand = parser.st.ReturnType(lastIdentifier);
+        if(!(returnOfOperand == 0 || returnOfOperand == 1)){
+            reportError("Line " + n.lineNumber + ": \"" + convertToType(returnOfOperand) + "\" can not be decremented");
+        }
+        if(parser.st.IsConstant(lastIdentifier)){
+            reportError("Line " + n.lineNumber + ": \"" + lastIdentifier +"\" is a constant, and therefore it can not be decremented");
+
+        }
+
         decreaseIndent();
     }
 
@@ -455,6 +480,14 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.e.accept(this);
+        int returnOfOperand = parser.st.ReturnType(lastIdentifier);
+        if(!(returnOfOperand == 0 || returnOfOperand == 1)){
+            reportError("Line " + n.lineNumber + ": \"" + convertToType(returnOfOperand) + "\" can not be incremented");
+        }
+        if(parser.st.IsConstant(lastIdentifier)){
+            reportError("Line " + n.lineNumber + ": \"" + lastIdentifier +"\" is a constant, and therefore it can not be incremented");
+
+        }
 
         decreaseIndent();
     }
@@ -465,10 +498,15 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.e.accept(this);
+        int returnOfOperand = parser.st.ReturnType(lastIdentifier);
+        if(!(returnOfOperand == 0 || returnOfOperand == 1)){
+            reportError("Line " + n.line + ": \"" + convertToType(returnOfOperand) + "\" can not be decremented");
+        }
+
         if(parser.st.IsConstant(lastIdentifier)){
             reportError("Line " + n.line + ": \"" + lastIdentifier +"\" is a constant, and therefore it can not be decremented");
-
         }
+
 
         decreaseIndent();
     }
@@ -479,10 +517,16 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.e.accept(this);
+
+        int returnOfOperand = parser.st.ReturnType(lastIdentifier);
+        if(!(returnOfOperand == 0 || returnOfOperand == 1)){
+            reportError("Line " + n.line + ": \"" + convertToType(returnOfOperand) + "\" can not be incremented");
+        }
          if(parser.st.IsConstant(lastIdentifier)){
              reportError("Line " + n.line + ": \"" + lastIdentifier +"\" is a constant, and therefore it can not be incremented");
 
         }
+
         decreaseIndent();
     }
 
@@ -490,9 +534,19 @@ public class ASTvisitor implements Visitor {
     public void visit(ReturnStatementExpression n) {
         printNode(n);
         increaseIndent();
-
+        int typeOfFunction = parser.st.returnTypeOfFunction(functionIdentifier);
+        NonAssigningReturningFunctionCall = true;
+        retStatement = true;
         n.e.accept(this);
+        NonAssigningReturningFunctionCall = false;
+        retStatement = false;
 
+        if((typeOfFunction != lastType) && !convertToType(lastType).equals("Unknown")){
+            reportError("Line " + n.lineNumber + ": invalid return type, expected: \"" + convertToType(typeOfFunction) +
+                    "\", provided: \"" + convertToType(lastType) + "\"");
+                     
+
+        }
         decreaseIndent();
     }
 
@@ -534,8 +588,9 @@ public class ASTvisitor implements Visitor {
     public void visit(Switch n) {
         printNode(n);
         increaseIndent();
-
+        NonAssigningReturningFunctionCall = true;
         n.e.accept(this);
+        NonAssigningReturningFunctionCall = false;
 
          if(lastType != 0 && lastType != -1){
             reportError("Line " + n.line + ": " + convertToType(lastType) + " is not compatible with a switch");
@@ -608,8 +663,9 @@ public class ASTvisitor implements Visitor {
     public void visit(TernaryExpression n) {
         printNode(n);
         increaseIndent();
-
+        NonAssigningReturningFunctionCall = true;
         n.e1.accept(this);
+        NonAssigningReturningFunctionCall = false;
         n.e2.accept(this);
         n.e3.accept(this);
 
@@ -639,8 +695,25 @@ public class ASTvisitor implements Visitor {
         }
         else if(!parser.st.isVariableInitialized(lastIdentifier) && !isAssigmenExpression){
             reportError("Line " + n.line + ": " + lastIdentifier + " has not been initialized");
-
         }
+        else if (checkingForArray){
+            Symbol s = parser.st.returnSymbol(lastIdentifier);
+            if(s instanceof ArrayVariable){
+                reportError("Line " + n.line + ": \"" + lastIdentifier + "\" is an array use indexing in the current context");
+            }
+        }
+        //else if(retStatement){
+            Symbol s = parser.st.returnSymbol(lastIdentifier);
+            if(s instanceof ArrayVariable) {
+                switch (lastType) {
+                    case 0:
+                        lastType = 8;
+                        break;
+                    case 1:
+                        lastType = 9;
+                }
+            }
+    //    }
         printNodeWithValue(n, n.toString());
     }
 
@@ -812,11 +885,14 @@ public class ASTvisitor implements Visitor {
         n.i.accept(this);
         //int wsefs = parser.st.returnTypeOfFunction(n.i.toString());
 
-        if(!isCompatible(parser.st.ReturnType(AssignedTo), parser.st.returnTypeOfFunction(n.i.toString()))){
+        if(!isCompatible(parser.st.ReturnType(AssignedTo), parser.st.returnTypeOfFunction(n.i.toString())) && !NonAssigningReturningFunctionCall){
        // if(!(parser.st.ReturnType(AssignedTo) == parser.st.returnTypeOfFunction(n.i.toString()))){
             reportError("Line " + n.line + ": " + "Function" + " \"" + n.i.toString() + "\" " + "has type " + "\"" +
                    convertToType(parser.st.returnTypeOfFunction(n.i.toString())) + "\" " + "which can not be assigned to " + AssignedTo
                     + "(" + convertToType(parser.st.ReturnType(AssignedTo)) + ")"   );
+        }
+        else if(NonAssigningReturningFunctionCall && convertToType(parser.st.returnTypeOfFunction(n.i.toString())).equals("void")){
+            reportError("Line " + n.line+ ": void function " + "\"" + n.i.toString() + "\" can not be used i boolean expression");
         }
         ArrayList<Symbol> formal = parser.st.returnFormalParameters(n.i.toString());
 
@@ -835,6 +911,9 @@ public class ASTvisitor implements Visitor {
                 }
             }
         }
+       // if(NonAssigningReturningFunctionCall){
+            lastType = parser.st.returnTypeOfFunction(n.i.toString());
+      //  }
 
         decreaseIndent();
     }
@@ -867,8 +946,9 @@ public class ASTvisitor implements Visitor {
     public void visit(IfElse n) {
         printNode(n);
         increaseIndent();
-
+        NonAssigningReturningFunctionCall = true;
         n.e.accept(this);
+        NonAssigningReturningFunctionCall = false;
         n.s1.accept(this);
         n.s2.accept(this);
 
@@ -899,6 +979,7 @@ public class ASTvisitor implements Visitor {
 
     @Override
     public void visit(If n) {
+        NonAssigningReturningFunctionCall = true;
         printNode(n);
         increaseIndent();
         String node = n.e.toString();
@@ -918,6 +999,7 @@ public class ASTvisitor implements Visitor {
         if(!(n.s instanceof ABlockStatement)) {
             reportError("Line " + n.lineNumber + ": BEGIN END block is required");
         }
+        NonAssigningReturningFunctionCall = false;
         n.s.accept(this);
 
         decreaseIndent();
@@ -1021,6 +1103,10 @@ public class ASTvisitor implements Visitor {
                 reportError("Line " + n.line + ": " + "Types \"" + first + "\" and \"" + second + "\" are not compatible");
             } else if(!parser.st.addVariable(lastIdentifier, convertToType(left))){
                 reportError("Line " + n.line + ": \"" + lastIdentifier + "\" already declared");
+
+            }
+            else if(left == 4 || left == 5 || left == 6){
+                reportError("Line " + n.line + ": Constant declaration can not be applied on \"" + convertToType(left) +"\"");
 
             }
             else if(!isAssignmentDecl){
@@ -1191,6 +1277,9 @@ public class ASTvisitor implements Visitor {
                 parser.st.setVariableInit(lastIdentifier);
                 isAssignmentDecl = false;
             }
+            if((left == 6 || left == 5 || left == 4) && !functionIdentifier.equals("setup")){
+                reportError("Line " + n.line + ": The \"" + convertToType(left) + "\" type can only be declared in setup function");
+            }
 
            if(functionIdentifier.equals("setup")){
                if(left == 6){
@@ -1277,9 +1366,12 @@ public class ASTvisitor implements Visitor {
             for(Symbol p : functionListParameterList.get(functionNumber)){
                if(p instanceof ArrayVariable){
                    parser.st.addArrayVariable((ArrayVariable) p);
+                   parser.st.setVariableInit(p.name);
+
                }
                else if(p instanceof Variable){
                    parser.st.addVariable(p.name, p.type);
+                   parser.st.setVariableInit(p.name);
                }
                else {
                    reportError("Line " + linePlaceholder + ": FATAL ERROR, (this should not show)");
@@ -1392,6 +1484,15 @@ public class ASTvisitor implements Visitor {
         increaseIndent();
 
         n.t.accept(this);
+        if(n.t instanceof ArrayType){
+            switch (lastType){
+                case 0:
+                    lastType = 8;
+                    break;
+                case 1:
+                    lastType = 9;
+            }
+        }
         functionType = convertToType(lastType);
         n.a.accept(this);
 
@@ -1406,9 +1507,11 @@ public class ASTvisitor implements Visitor {
         lastIdentifier=n.i.toString();
 
         if(!gatheringDeclaration) {
+            NonAssigningReturningFunctionCall = true;
             n.a.accept(this);
             n.i.accept(this);
             isAssignmentDecl = true;
+            NonAssigningReturningFunctionCall = false;
         }
 
 
@@ -1708,8 +1811,11 @@ public class ASTvisitor implements Visitor {
         if(child2 instanceof IdentifierExpression){
             Symbol identChild2 = parser.st.returnSymbol(identifierChild2);
             if(identChild2 instanceof ArrayVariable || identChild2 instanceof ServoPositionVariable){
-                reportError("Line " + ln + ": Array can not be on right side ");
+           //     reportError("Line " + ln + ": Array can not be on right side ");
                 //bool true
+                if(typeOfChild2 == 8 || typeOfChild2 == 9 ){
+                    reportError("Line " + ln + ": \"" + convertToType(typeOfChild2) + "\" and \"" + convertToType(typeofChild1) + "\" is incompatible types");
+                }
             }
             else if(identChild2 instanceof Variable){
                 if(identChild2.type.equals("boolean")){
@@ -1736,7 +1842,10 @@ public class ASTvisitor implements Visitor {
         if(child1 instanceof IdentifierExpression){
             Symbol identChild1 = parser.st.returnSymbol(identifierChild1);
             if(identChild1 instanceof ArrayVariable || identChild1 instanceof ServoPositionVariable){
-                reportError("Line " + ln + ": Array can not be on right side ");
+                if(typeChild1 == 8 || typeChild1 == 9 ){
+                    reportError("Line " + ln + ": \"" + convertToType(typeChild1) + "\" and \"" + convertToType(typeChild2) + "\" is incompatible types");
+                }
+                //reportError("Line " + ln + ": Array can not be on right side ");
                 //bool true
             }
 
