@@ -9,9 +9,9 @@ function void loop() BEGIN
 hamse("ha", 3);
 
 
-if(i == "hamse") BEGIN
+//if(i == "hamse") BEGIN
 
-END
+//END
 
 
 
@@ -20,8 +20,8 @@ END
 
 function double[] hamse(String pik, int e) BEGIN
 e = 3;
-pik = 3;
-return 0;
+//pik = 3;
+//return 0;
 
 END
 

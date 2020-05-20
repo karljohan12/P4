@@ -23,5 +23,14 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="java-cup-11b (2)" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/java-cup-bin-11b-20160615 (1)/java-cup-11b-runtime.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>

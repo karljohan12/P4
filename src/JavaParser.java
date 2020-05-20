@@ -41,18 +41,33 @@ public class JavaParser {
     String outputFilePath = null;
     boolean verifyCompilation = false;
 
-    if (argv.length == 1) {
-      inputFilePath = argv[0];
-      outputFilePath = inputFilePath.substring(0, inputFilePath.lastIndexOf("."));
-    } else if (argv.length == 2) {
-      inputFilePath = argv[0];
-      outputFilePath = argv[1];
-    } else if (argv.length == 3 && argv[2].equals("--verify")) {
-      inputFilePath = argv[0];
-      outputFilePath = argv[1];
-      verifyCompilation = true;
-    } else {
-      System.out.println("Usage: rdbc.jar [path to roboduino file] [path to generated arduino file] [--verify]");
+    switch (argv.length) {
+      case 1:
+        if(argv[0].equals("--help")) {
+          displayHelp();
+        } else {
+          inputFilePath = argv[0];
+          outputFilePath = inputFilePath.substring(0, inputFilePath.lastIndexOf("."));
+        }
+        break;
+      case 2:
+        if(argv[1].equals("--verify")) {
+          inputFilePath = argv[0];
+          outputFilePath = inputFilePath.substring(0, inputFilePath.lastIndexOf("."));;
+          verifyCompilation = true;
+        } else {
+        outputFilePath = argv[1];
+      }
+        break;
+      case 3:
+        inputFilePath = argv[0];
+        outputFilePath = argv[1];
+        if (argv[2].equals("--verify")) {
+          verifyCompilation = true;
+        }
+        break;
+      default:
+        displayHelp();
     }
     if (inputFilePath != null) {
       try {
@@ -144,5 +159,15 @@ public class JavaParser {
       e.printStackTrace();
     }
 
+  }
+
+  private static void displayHelp() {
+    System.out.println("Usage: java -jar rdbc.jar <input> [output] [--verify]\n");
+    System.out.println("<input> - The path to the input Roboduino-file.\n");
+    System.out.println("[output] - The path to the output arduino-file.\n" +
+                    "           Optional. In case of no path provided, Arduino-file with the\n" +
+            "           same name and location as the input-file will be generated.\n");
+    System.out.println("[--verify] - Use the Arduino storage calculator to perform a size check.\n" +
+                    "             Optional. If no flag provided, the size check is just skipped. \n");
   }
 }
