@@ -93,7 +93,7 @@ public class JavaParser {
         program.accept(cgv);
 
         FileWriter fileWriter = new FileWriter(outputFilePath + ".ino");
-        System.out.println("Writing to file... " + outputFilePath);
+        System.out.println("Writing to file... " + outputFilePath + ".ino");
         fileWriter.write(cgv.code.toString());
         fileWriter.close();
         if (System.getProperty("os.name").startsWith("Windows") && verifyCompilation) {
