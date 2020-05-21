@@ -80,20 +80,17 @@ public class JavaParser {
 
     if (inputFilePath != null) {
       try {
-        System.out.println("Scanning...");
+        System.out.println("Compiling " + inputFilePath + "...");
         Scanner s = new Scanner(new UnicodeEscapes(new FileReader(inputFilePath)));
-        System.out.println("Parsing...");
         parser p = new parser(s);
         Symbol root = p.parse();
         Program program = (Program) root.value;
-        System.out.println("Typechecking...");
         program.accept(new ASTvisitor());
-        System.out.println("Generating code...");
         CodeGeneratorVisitor cgv = new CodeGeneratorVisitor();
         program.accept(cgv);
 
         FileWriter fileWriter = new FileWriter(outputFilePath + ".ino");
-        System.out.println("Writing to file... " + outputFilePath + ".ino");
+        System.out.println("Writing to file " + outputFilePath + ".ino ...");
         fileWriter.write(cgv.code.toString());
         fileWriter.close();
         if (System.getProperty("os.name").startsWith("Windows") && verifyCompilation) {

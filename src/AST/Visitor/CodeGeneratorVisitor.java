@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 public class CodeGeneratorVisitor implements Visitor {
 
+    private boolean printCode = false;
     public StringBuilder code = new StringBuilder();
     StringBuilder indent = new StringBuilder();
     int preEmitpoint = 20;
@@ -19,6 +20,7 @@ public class CodeGeneratorVisitor implements Visitor {
     boolean isSetupfunction = false;
     boolean ignoreNewLine = false;
     boolean noKeepIndent = true;
+
     private void emit(String emit){
 
         if(emit.contains("\n") && ignoreNewLine){
@@ -726,7 +728,7 @@ public class CodeGeneratorVisitor implements Visitor {
     public void visit(Program program) {
         emit("#include <Servo.h> \n");
         program.sl.accept(this);
-        System.out.println(code);
+        if(printCode) { System.out.println(code); }
     }
 
     @Override

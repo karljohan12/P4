@@ -15,6 +15,7 @@ import java.util.Arrays;
 
 public class ASTvisitor implements Visitor {
 
+    private boolean printAST = false;
     private int Indent = 0;
     private int lastType;
     private boolean isArrayType = false;
@@ -57,7 +58,7 @@ public class ASTvisitor implements Visitor {
             for (int i = 0; i < Indent; i++) {
                 line += " ";
             }
-            System.out.println(line + s);
+            if(printAST) { System.out.println(line + s); }
         }
     }
     private void reportError(String message){
