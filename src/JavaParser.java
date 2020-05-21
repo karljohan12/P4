@@ -35,7 +35,7 @@ import java_cup.runtime.Symbol;
 public class JavaParser {
 
   public static void main(String argv[]) {
-    argv = new String[]{"Test/parsertest.txt"};
+    argv = new String[]{"Test/parsertest.roboduino", "--verify"};
 
     String inputFilePath = null;
     String outputFilePath = null;
@@ -46,29 +46,38 @@ public class JavaParser {
         if(argv[0].equals("--help")) {
           displayHelp();
         } else {
-          inputFilePath = argv[0];
-          outputFilePath = inputFilePath.substring(0, inputFilePath.lastIndexOf("."));
+          if(isAllowedType(argv[0])) {
+            inputFilePath = argv[0];
+            outputFilePath = inputFilePath.substring(0, inputFilePath.lastIndexOf("."));
+          } else { displayHelp(); }
         }
         break;
       case 2:
         if(argv[1].equals("--verify")) {
-          inputFilePath = argv[0];
-          outputFilePath = inputFilePath.substring(0, inputFilePath.lastIndexOf("."));;
-          verifyCompilation = true;
+          if(isAllowedType(argv[0])) {
+            inputFilePath = argv[0];
+            outputFilePath = inputFilePath.substring(0, inputFilePath.lastIndexOf("."));
+            verifyCompilation = true;
+          } else { displayHelp(); }
         } else {
-        outputFilePath = argv[1];
+          if(isAllowedType(argv[0])) {
+            outputFilePath = argv[1];
+          } else { displayHelp(); }
       }
         break;
       case 3:
-        inputFilePath = argv[0];
-        outputFilePath = argv[1];
-        if (argv[2].equals("--verify")) {
-          verifyCompilation = true;
-        }
+        if(isAllowedType(argv[0])) {
+          inputFilePath = argv[0];
+          outputFilePath = argv[1];
+          if (argv[2].equals("--verify")) {
+            verifyCompilation = true;
+          }
+        } else { displayHelp(); }
         break;
       default:
         displayHelp();
     }
+
     if (inputFilePath != null) {
       try {
         System.out.println("Scanning...");
@@ -159,6 +168,10 @@ public class JavaParser {
       e.printStackTrace();
     }
 
+  }
+
+  private static boolean isAllowedType(String fileName) {
+    return fileName.substring(fileName.lastIndexOf("."), fileName.length()).equals(".roboduino");
   }
 
   private static void displayHelp() {

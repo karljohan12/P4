@@ -1288,7 +1288,7 @@ public class Scanner extends sym implements java_cup.runtime.Scanner {
    *               the scanner on.
    */
   public static void main(String argv[]) {
-    argv = new String[] {"Test/parsertest.txt"};
+    argv = new String[] {"Test/parsertest.roboduino"};
     if (argv.length == 0) {
       System.out.println("Usage : java Scanner [ --encoding <name> ] <inputfile(s)>");
     }
