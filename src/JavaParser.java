@@ -35,41 +35,62 @@ import java_cup.runtime.Symbol;
 public class JavaParser {
 
   public static void main(String argv[]) {
-    argv = new String[]{"Test/parsertest.txt"};
+    argv = new String[]{"Test/parsertest.roboduino", "--verify"};
 
     String inputFilePath = null;
     String outputFilePath = null;
     boolean verifyCompilation = false;
 
-    if (argv.length == 1) {
-      inputFilePath = argv[0];
-      outputFilePath = inputFilePath.substring(0, inputFilePath.lastIndexOf("."));
-    } else if (argv.length == 2) {
-      inputFilePath = argv[0];
-      outputFilePath = argv[1];
-    } else if (argv.length == 3 && argv[2].equals("--verify")) {
-      inputFilePath = argv[0];
-      outputFilePath = argv[1];
-      verifyCompilation = true;
-    } else {
-      System.out.println("Usage: rdbc.jar [path to roboduino file] [path to generated arduino file] [--verify]");
+    switch (argv.length) {
+      case 1:
+        if(argv[0].equals("--help")) {
+          displayHelp();
+        } else {
+          if(isAllowedType(argv[0])) {
+            inputFilePath = argv[0];
+            outputFilePath = inputFilePath.substring(0, inputFilePath.lastIndexOf("."));
+          } else { displayHelp(); }
+        }
+        break;
+      case 2:
+        if(argv[1].equals("--verify")) {
+          if(isAllowedType(argv[0])) {
+            inputFilePath = argv[0];
+            outputFilePath = inputFilePath.substring(0, inputFilePath.lastIndexOf("."));
+            verifyCompilation = true;
+          } else { displayHelp(); }
+        } else {
+          if(isAllowedType(argv[0])) {
+            outputFilePath = argv[1];
+          } else { displayHelp(); }
+      }
+        break;
+      case 3:
+        if(isAllowedType(argv[0])) {
+          inputFilePath = argv[0];
+          outputFilePath = argv[1];
+          if (argv[2].equals("--verify")) {
+            verifyCompilation = true;
+          }
+        } else { displayHelp(); }
+        break;
+      default:
+        displayHelp();
     }
+
     if (inputFilePath != null) {
       try {
-        System.out.println("Scanning...");
+        System.out.println("Compiling " + inputFilePath + "...");
         Scanner s = new Scanner(new UnicodeEscapes(new FileReader(inputFilePath)));
-        System.out.println("Parsing...");
         parser p = new parser(s);
         Symbol root = p.parse();
         Program program = (Program) root.value;
-        System.out.println("Typechecking...");
         program.accept(new ASTvisitor());
-        System.out.println("Generating code...");
         CodeGeneratorVisitor cgv = new CodeGeneratorVisitor();
         program.accept(cgv);
 
         FileWriter fileWriter = new FileWriter(outputFilePath + ".ino");
-        System.out.println("Writing to file... " + outputFilePath);
+        System.out.println("Writing to file " + outputFilePath + ".ino ...");
         fileWriter.write(cgv.code.toString());
         fileWriter.close();
         if (System.getProperty("os.name").startsWith("Windows") && verifyCompilation) {
@@ -144,5 +165,19 @@ public class JavaParser {
       e.printStackTrace();
     }
 
+  }
+
+  private static boolean isAllowedType(String fileName) {
+    return fileName.substring(fileName.lastIndexOf("."), fileName.length()).equals(".roboduino");
+  }
+
+  private static void displayHelp() {
+    System.out.println("Usage: java -jar rdbc.jar <input> [output] [--verify]\n");
+    System.out.println("<input> - The path to the input Roboduino-file.\n");
+    System.out.println("[output] - The path to the output arduino-file.\n" +
+                    "           Optional. In case of no path provided, Arduino-file with the\n" +
+            "           same name and location as the input-file will be generated.\n");
+    System.out.println("[--verify] - Use the Arduino storage calculator to perform a size check.\n" +
+                    "             Optional. If no flag provided, the size check is just skipped. \n");
   }
 }

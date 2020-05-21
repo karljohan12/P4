@@ -1,5 +1,18 @@
-const int PIN1 = 1;
-const int PIN2 = 2;
+String i = "hamse";
+function void setup() BEGIN
+i = "pik";
+
+END
+
+function void loop() BEGIN
+
+hamse("ha", 3);
+
+
+//if(i == "hamse") BEGIN
+
+//END
+
 
 
 function void setup() BEGIN
@@ -8,10 +21,10 @@ Servo arm = PIN2;
 
 Robot throwingArm = {base, arm};
 
-ServoPosition waitingPosition = {0, 0};
-ServoPosition throwAtWall = {10, 120};
-ServoPosition targetTable = {base: 70};
-ServoPosition makeThrow = {arm: 120}
+function double[] hamse(String pik, int e) BEGIN
+e = 3;
+//pik = 3;
+//return 0;
 
 END
 
@@ -30,7 +43,3 @@ throwingArm(makeThrow);
 delay(1000);
 
 END
-
-
-
-
