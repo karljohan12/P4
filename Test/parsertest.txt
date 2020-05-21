@@ -1,53 +1,36 @@
-String i = "hamse";
+const int PIN1 = 1;
+const int PIN2 = 2;
+
+
 function void setup() BEGIN
-i = "pik";
+Servo base = PIN1;
+Servo arm = PIN2;
+
+Robot throwingArm = {base, arm};
+
+ServoPosition waitingPosition = {0, 0};
+ServoPosition throwAtWall = {10, 120};
+ServoPosition targetTable = {base: 70};
+ServoPosition makeThrow = {arm: 120}
 
 END
 
 function void loop() BEGIN
 
-hamse("ha", 3);
+throwingArm(waitingPosition);
+delay(1000);
+throwingArm(throwAtWall);
+delay(1000);
 
-
-if(i == "hamse") BEGIN
-
-END
-
-
-
-
-END
-
-function double[] hamse(String pik, int e) BEGIN
-e = 3;
-pik = 3;
-return 0;
-
-END
-
-function boolean testing() BEGIN
-
-
-   END
-
-function int retint() BEGIN
-
-
-
-END
-
-function int[] hipi(int[] s)
-BEGIN
+throwingArm(waitingPosition);
+delay(1000)
+throwingArm(targetTable);
+delay(1000);
+throwingArm(makeThrow);
+delay(1000);
 
 END
 
 
-function int ost()
-BEGIN
 
-END
 
-function int tisost(int penus)
-BEGIN
-   return penus;
-END

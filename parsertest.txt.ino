@@ -20,7 +20,27 @@ void setup() {
         delayMicroseconds(430); 
     digitalWrite(SOFT_START_CONTROL_PIN,HIGH);
 
+    i = "pik";
 } 
 
 void loop() {
+} 
+
+double hamse(String pik, int e) {
+} 
+
+bool testing() {
+} 
+
+int retint() {
+} 
+
+int hipi(int s) {
+} 
+
+int ost() {
+} 
+
+int tisost(int penus) {
+    return penus;
 } 

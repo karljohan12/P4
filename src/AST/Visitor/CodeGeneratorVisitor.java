@@ -705,7 +705,11 @@ public class CodeGeneratorVisitor implements Visitor {
         }
 
         for ( int i = 0; i < n.fplo.list.size(); i++ ) {
+            if(i>= 1){
+                emit(", ");
+            }
             n.fplo.list.get(i).accept(this);
+
         }
         emit(") ");
     }
