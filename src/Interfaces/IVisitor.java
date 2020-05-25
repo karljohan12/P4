@@ -1,9 +1,9 @@
-package AST.Visitor;
+package Interfaces;
 
 import AST.List.*;
 import AST.NonAbstract.Node.*;
 
-public interface Visitor {
+public interface IVisitor {
 
     public void visit(ArrayType n);
 

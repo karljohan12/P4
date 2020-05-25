@@ -1,12 +1,7 @@
 package AST.List;
 
-import AST.Abstract.ASTNode;
 import AST.Abstract.VariableInitial;
-import AST.List.VariableInitializationList;
-import AST.Visitor.Visitor;
-
-import java.util.ArrayList;
-import java.util.List;
+import Interfaces.IVisitor;
 
 public class ArrayVariables extends VariableInitial {
 
@@ -35,7 +30,7 @@ public class ArrayVariables extends VariableInitial {
 
     public int size() { return list.size(); }*/
 
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visit(this);
     }
 

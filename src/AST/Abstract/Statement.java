@@ -1,12 +1,12 @@
 package AST.Abstract;
 
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 abstract public class Statement extends VariableInitial {
 
     public Statement(int ln) {
         super(ln);
     };
-    public abstract void accept(Visitor v);
+    public abstract void accept(IVisitor v);
 }
 

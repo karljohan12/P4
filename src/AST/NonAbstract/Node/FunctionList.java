@@ -1,9 +1,8 @@
 package AST.NonAbstract.Node;
 
-import AST.Abstract.ASTNode;
 import AST.Abstract.Initial;
 import AST.List.FunctionStatementList;
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 public class FunctionList extends Initial {
     public FunctionStatementList fsl;
@@ -13,7 +12,7 @@ public class FunctionList extends Initial {
         this.fsl = fsl;
 
     }
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visit(this);
     }
 

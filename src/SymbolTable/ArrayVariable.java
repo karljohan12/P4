@@ -15,10 +15,18 @@ public class ArrayVariable extends Symbol {
         variables = al;
     }
 
+    /**
+     * Add a variable
+     * @param var The variable
+     */
     public void addParameter(String var) {
         variables.add(var);
     }
 
+    /**
+     * Get the list of variable
+     * @return List of variables
+     */
     public ArrayList<String> getVariables(){
         return variables;
     }

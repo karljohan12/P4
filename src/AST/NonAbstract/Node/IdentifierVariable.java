@@ -1,7 +1,7 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.VariableInitial;
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 public class IdentifierVariable extends VariableInitial {
     public String s;
@@ -12,7 +12,7 @@ public class IdentifierVariable extends VariableInitial {
     }
 
 
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visit(this);
     }
 

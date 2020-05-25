@@ -1,0 +1,423 @@
+Loading configuration...
+Initializing packages...
+DEBUG StatusLogger Using ShutdownCallbackRegistry class org.apache.logging.log4j.core.util.DefaultShutdownCallbackRegistry
+DEBUG StatusLogger Not in a ServletContext environment, thus not loading WebLookup plugin.
+DEBUG StatusLogger AsyncLogger.ThreadNameStrategy=UNCACHED (user specified null, default is UNCACHED)
+TRACE StatusLogger Using default SystemClock for timestamps.
+DEBUG StatusLogger org.apache.logging.log4j.core.util.SystemClock does not support precise timestamps.
+DEBUG StatusLogger Not in a ServletContext environment, thus not loading WebLookup plugin.
+DEBUG StatusLogger Took 0.042300 seconds to load 209 plugins from sun.misc.Launcher$AppClassLoader@af3868
+DEBUG StatusLogger PluginManager 'Converter' found 44 plugins
+DEBUG StatusLogger Starting OutputStreamManager SYSTEM_OUT.false.false-1
+DEBUG StatusLogger Starting LoggerContext[name=af3868, org.apache.logging.log4j.core.LoggerContext@1f8f5ae]...
+DEBUG StatusLogger Reconfiguration started for context[name=af3868] at URI null (org.apache.logging.log4j.core.LoggerContext@1f8f5ae) with optional ClassLoader: null
+DEBUG StatusLogger Not in a ServletContext environment, thus not loading WebLookup plugin.
+DEBUG StatusLogger PluginManager 'ConfigurationFactory' found 4 plugins
+DEBUG StatusLogger Not in a ServletContext environment, thus not loading WebLookup plugin.
+DEBUG StatusLogger Not in a ServletContext environment, thus not loading WebLookup plugin.
+DEBUG StatusLogger Missing dependencies for Yaml support, ConfigurationFactory org.apache.logging.log4j.core.config.yaml.YamlConfigurationFactory is inactive
+DEBUG StatusLogger Not in a ServletContext environment, thus not loading WebLookup plugin.
+DEBUG StatusLogger Not in a ServletContext environment, thus not loading WebLookup plugin.
+DEBUG StatusLogger Using configurationFactory org.apache.logging.log4j.core.config.ConfigurationFactory$Factory@1eb2dda
+TRACE StatusLogger Trying to find [log4j2-testaf3868.properties] using context class loader sun.misc.Launcher$AppClassLoader@af3868.
+TRACE StatusLogger Trying to find [log4j2-testaf3868.properties] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2-testaf3868.properties] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2-testaf3868.properties] using ClassLoader.getSystemResource().
+TRACE StatusLogger Trying to find [log4j2-testaf3868.yml] using context class loader sun.misc.Launcher$AppClassLoader@af3868.
+TRACE StatusLogger Trying to find [log4j2-testaf3868.yml] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2-testaf3868.yml] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2-testaf3868.yml] using ClassLoader.getSystemResource().
+TRACE StatusLogger Trying to find [log4j2-testaf3868.yaml] using context class loader sun.misc.Launcher$AppClassLoader@af3868.
+TRACE StatusLogger Trying to find [log4j2-testaf3868.yaml] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2-testaf3868.yaml] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2-testaf3868.yaml] using ClassLoader.getSystemResource().
+TRACE StatusLogger Trying to find [log4j2-testaf3868.json] using context class loader sun.misc.Launcher$AppClassLoader@af3868.
+TRACE StatusLogger Trying to find [log4j2-testaf3868.json] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2-testaf3868.json] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2-testaf3868.json] using ClassLoader.getSystemResource().
+TRACE StatusLogger Trying to find [log4j2-testaf3868.jsn] using context class loader sun.misc.Launcher$AppClassLoader@af3868.
+TRACE StatusLogger Trying to find [log4j2-testaf3868.jsn] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2-testaf3868.jsn] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2-testaf3868.jsn] using ClassLoader.getSystemResource().
+TRACE StatusLogger Trying to find [log4j2-testaf3868.xml] using context class loader sun.misc.Launcher$AppClassLoader@af3868.
+TRACE StatusLogger Trying to find [log4j2-testaf3868.xml] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2-testaf3868.xml] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2-testaf3868.xml] using ClassLoader.getSystemResource().
+TRACE StatusLogger Trying to find [log4j2-test.properties] using context class loader sun.misc.Launcher$AppClassLoader@af3868.
+TRACE StatusLogger Trying to find [log4j2-test.properties] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2-test.properties] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2-test.properties] using ClassLoader.getSystemResource().
+TRACE StatusLogger Trying to find [log4j2-test.yml] using context class loader sun.misc.Launcher$AppClassLoader@af3868.
+TRACE StatusLogger Trying to find [log4j2-test.yml] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2-test.yml] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2-test.yml] using ClassLoader.getSystemResource().
+TRACE StatusLogger Trying to find [log4j2-test.yaml] using context class loader sun.misc.Launcher$AppClassLoader@af3868.
+TRACE StatusLogger Trying to find [log4j2-test.yaml] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2-test.yaml] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2-test.yaml] using ClassLoader.getSystemResource().
+TRACE StatusLogger Trying to find [log4j2-test.json] using context class loader sun.misc.Launcher$AppClassLoader@af3868.
+TRACE StatusLogger Trying to find [log4j2-test.json] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2-test.json] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2-test.json] using ClassLoader.getSystemResource().
+TRACE StatusLogger Trying to find [log4j2-test.jsn] using context class loader sun.misc.Launcher$AppClassLoader@af3868.
+TRACE StatusLogger Trying to find [log4j2-test.jsn] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2-test.jsn] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2-test.jsn] using ClassLoader.getSystemResource().
+TRACE StatusLogger Trying to find [log4j2-test.xml] using context class loader sun.misc.Launcher$AppClassLoader@af3868.
+TRACE StatusLogger Trying to find [log4j2-test.xml] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2-test.xml] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2-test.xml] using ClassLoader.getSystemResource().
+TRACE StatusLogger Trying to find [log4j2af3868.properties] using context class loader sun.misc.Launcher$AppClassLoader@af3868.
+TRACE StatusLogger Trying to find [log4j2af3868.properties] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2af3868.properties] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2af3868.properties] using ClassLoader.getSystemResource().
+TRACE StatusLogger Trying to find [log4j2af3868.yml] using context class loader sun.misc.Launcher$AppClassLoader@af3868.
+TRACE StatusLogger Trying to find [log4j2af3868.yml] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2af3868.yml] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2af3868.yml] using ClassLoader.getSystemResource().
+TRACE StatusLogger Trying to find [log4j2af3868.yaml] using context class loader sun.misc.Launcher$AppClassLoader@af3868.
+TRACE StatusLogger Trying to find [log4j2af3868.yaml] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2af3868.yaml] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2af3868.yaml] using ClassLoader.getSystemResource().
+TRACE StatusLogger Trying to find [log4j2af3868.json] using context class loader sun.misc.Launcher$AppClassLoader@af3868.
+TRACE StatusLogger Trying to find [log4j2af3868.json] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2af3868.json] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2af3868.json] using ClassLoader.getSystemResource().
+TRACE StatusLogger Trying to find [log4j2af3868.jsn] using context class loader sun.misc.Launcher$AppClassLoader@af3868.
+TRACE StatusLogger Trying to find [log4j2af3868.jsn] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2af3868.jsn] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2af3868.jsn] using ClassLoader.getSystemResource().
+TRACE StatusLogger Trying to find [log4j2af3868.xml] using context class loader sun.misc.Launcher$AppClassLoader@af3868.
+TRACE StatusLogger Trying to find [log4j2af3868.xml] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2af3868.xml] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2af3868.xml] using ClassLoader.getSystemResource().
+TRACE StatusLogger Trying to find [log4j2.properties] using context class loader sun.misc.Launcher$AppClassLoader@af3868.
+TRACE StatusLogger Trying to find [log4j2.properties] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2.properties] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2.properties] using ClassLoader.getSystemResource().
+TRACE StatusLogger Trying to find [log4j2.yml] using context class loader sun.misc.Launcher$AppClassLoader@af3868.
+TRACE StatusLogger Trying to find [log4j2.yml] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2.yml] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2.yml] using ClassLoader.getSystemResource().
+TRACE StatusLogger Trying to find [log4j2.yaml] using context class loader sun.misc.Launcher$AppClassLoader@af3868.
+TRACE StatusLogger Trying to find [log4j2.yaml] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2.yaml] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2.yaml] using ClassLoader.getSystemResource().
+TRACE StatusLogger Trying to find [log4j2.json] using context class loader sun.misc.Launcher$AppClassLoader@af3868.
+TRACE StatusLogger Trying to find [log4j2.json] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2.json] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2.json] using ClassLoader.getSystemResource().
+TRACE StatusLogger Trying to find [log4j2.jsn] using context class loader sun.misc.Launcher$AppClassLoader@af3868.
+TRACE StatusLogger Trying to find [log4j2.jsn] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2.jsn] using sun.misc.Launcher$AppClassLoader@af3868 class loader.
+TRACE StatusLogger Trying to find [log4j2.jsn] using ClassLoader.getSystemResource().
+TRACE StatusLogger Trying to find [log4j2.xml] using context class loader sun.misc.Launcher$AppClassLoader@af3868.
+DEBUG StatusLogger Not in a ServletContext environment, thus not loading WebLookup plugin.
+DEBUG StatusLogger Closing JarURLInputStream sun.net.www.protocol.jar.JarURLConnection$JarURLInputStream@84a914
+DEBUG StatusLogger Apache Log4j Core 2.12.0 initializing configuration XmlConfiguration[location=jar:file:/C:/Program%20Files%20(x86)/Arduino/lib/pde.jar!/log4j2.xml]
+DEBUG StatusLogger Installed 1 script engine
+DEBUG StatusLogger Oracle Nashorn version: 1.8.0_191, language: ECMAScript, threading: Not Thread Safe, compile: true, names: [nashorn, Nashorn, js, JS, JavaScript, javascript, ECMAScript, ecmascript], factory class: jdk.nashorn.api.scripting.NashornScriptEngineFactory
+INFO StatusLogger Scanning for classes in '/C:/Program Files (x86)/Arduino/lib/arduino-core.jar' matching criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.Compiler$1 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.Compiler$BuilderAction matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.Compiler matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.CompilerProgressListener matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.CompilerUtils matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.Constants matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.DefaultUncaughtExceptionHandler matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.LoadVIDPIDSpecificPreferences matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.MessageConsumerOutputStream matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.MyStreamPumper matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.ProgressAwareMessageConsumer matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.UploaderUtils matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.ConsoleProgressListener matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.DownloadableContribution matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.DownloadableContributionVersionComparator matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.DownloadableContributionsDownloader matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.GPGDetachedSignatureVerifier matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.GZippedJsonDownloader matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.JsonDownloader matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.NoopProgressListener matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.ProgressListener matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.SignatureVerifier matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.VersionComparator matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.VersionHelper matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.filters.DownloadableContributionWithVersionPredicate matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.ContributedLibrary matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.ContributedLibraryDependency matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.ContributedLibraryReleases matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.EmptyLibrariesIndex matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.LibrariesIndex matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.LibrariesIndexer matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.LibraryInstaller matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.UnavailableContributedLibrary matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.ContributedBoard matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.ContributedHelp matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.ContributedPackage matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.ContributedPlatform matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.ContributedTargetPackage matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.ContributedTargetPlatform matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.ContributedTool matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.ContributedToolReference matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.ContributionInstaller matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.ContributionsIndex matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.ContributionsIndexer matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.EmptyContributionIndex matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.HostDependentDownloadableContribution matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.PackageIndexFilenameFilter matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.TestPackageIndexFilenameFilter matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.filters.PlatformArchitecturePredicate matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.files.DeleteFilesOnShutdown matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.filters.FileExecutablePredicate matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.i18n.ExternalProcessOutputParser matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.i18n.I18NAwareMessageConsumer matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.i18n.Language matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.i18n.Languages matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.net.CustomProxySelector$1 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.net.CustomProxySelector matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.net.PACSupportMethods matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.os.windows.Win32KnownFolders matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.packages.BoardPort matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.packages.Discovery matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.packages.DiscoveryManager matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.packages.Uploader matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.packages.UploaderFactory matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.packages.discoverers.NetworkDiscovery matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.packages.discoverers.PluggableDiscovery$1 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.packages.discoverers.PluggableDiscovery matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.packages.discoverers.PluggableDiscoveryMessage matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.packages.discoverers.network.BoardReachabilityFilter matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.packages.discoverers.serial.SerialDiscovery$1 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.packages.discoverers.serial.SerialDiscovery matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.packages.ssh.NoInteractionUserInfo matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.packages.ssh.SCP matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.packages.ssh.SSH matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.packages.ssh.SSHClientSetupChainRing matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.packages.ssh.SSHConfigFileSetup$ConfigWrapper matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.packages.ssh.SSHConfigFileSetup$OpenSSHConfigWrapper matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.packages.ssh.SSHConfigFileSetup matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.packages.ssh.SSHPwdSetup matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.packages.uploaders.GenericNetworkUploader matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.packages.uploaders.MergeSketchWithBooloader matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.packages.uploaders.SSHUploader matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.packages.uploaders.SerialUploader matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.utils.ArchiveExtractor matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.utils.FileHash matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.utils.MultiStepProgress matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.utils.Pair matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.utils.Progress matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.utils.ReverseComparator matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.utils.network.CacheControl matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.utils.network.FileDownloader$Status matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.utils.network.FileDownloader matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.utils.network.FileDownloaderCache$1 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.utils.network.FileDownloaderCache$FileCached matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.utils.network.FileDownloaderCache matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.utils.network.HttpConnectionManager matches criteria annotated with @Plugin
+INFO StatusLogger Scanning for classes in '/C:/Program Files (x86)/Arduino/lib/pde.jar' matching criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.ConsoleOutputStream matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.UpdatableBoardsLibsFakeURLsHandler matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.BuiltInCoreIsNewerCheck matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.ContributionsSelfCheck$1 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.ContributionsSelfCheck matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.LibraryOfSameTypeComparator matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.LibraryTypeComparator matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.filters.UpdatableLibraryPredicate matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.ui.ContributedLibraryReleasesComparator matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.ui.ContributedLibraryTableCellEditor matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.ui.ContributedLibraryTableCellJPanel matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.ui.ContributedLibraryTableCellRenderer matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.ui.DropdownAllLibraries matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.ui.DropdownInstalledLibraryItem$1 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.ui.DropdownInstalledLibraryItem matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.ui.DropdownLibraryOfCategoryItem$1 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.ui.DropdownLibraryOfCategoryItem matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.ui.DropdownLibraryOfTypeItem$1 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.ui.DropdownLibraryOfTypeItem matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.ui.DropdownUpdatableLibrariesItem$1 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.ui.DropdownUpdatableLibrariesItem matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.ui.LibrariesIndexTableModel matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.ui.LibraryManagerUI$1 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.ui.LibraryManagerUI$2 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.ui.LibraryManagerUI matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.ui.MultiLibraryInstallDialog$Result matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.libraries.ui.MultiLibraryInstallDialog matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.filters.CategoryPredicate matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.filters.UpdatablePlatformPredicate matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.ui.ContributedPlatformReleases matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.ui.ContributedPlatformTableCellEditor matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.ui.ContributedPlatformTableCellJPanel matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.ui.ContributedPlatformTableCellRenderer matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.ui.ContributionIndexTableModel matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.ui.ContributionManagerUI$1 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.ui.ContributionManagerUI matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.ui.DropdownAllCoresItem matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.ui.DropdownCoreOfCategoryItem matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.packages.ui.DropdownUpdatableCoresItem matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.ui.DropdownItem matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.ui.FilterJTextField$1 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.ui.FilterJTextField$2 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.ui.FilterJTextField matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.ui.FilteredAbstractTableModel matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.ui.InstallerJDialog$1 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.ui.InstallerJDialog$2 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.ui.InstallerJDialog$3 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.ui.InstallerJDialog$4 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.ui.InstallerJDialog$5 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.ui.InstallerJDialog matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.ui.InstallerJDialogUncaughtExceptionHandler matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.ui.InstallerTableCell matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.ui.ProgressJProgressBar matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.ui.listeners.AbstractKeyListener matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.contributions.ui.listeners.DelegatingKeyListener matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.packages.MonitorFactory matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.packages.formatter.AStyle matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.packages.formatter.AStyleInterface matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.Event matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.EventListener matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.GoToLineNumber$1 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.GoToLineNumber$2 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.GoToLineNumber$3 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.GoToLineNumber matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.JMenuUtils matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.NotificationPopup$1 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.NotificationPopup$2 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.NotificationPopup$3 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.NotificationPopup$4 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.NotificationPopup$5 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.NotificationPopup$6 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.NotificationPopup$7 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.NotificationPopup$8 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.NotificationPopup$9 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.NotificationPopup$OptionalButtonCallbacks matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.NotificationPopup matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.SplashScreenHelper matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.StubMenuListener matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.findreplace.FindReplace$1 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.findreplace.FindReplace$2 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.findreplace.FindReplace$3 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.findreplace.FindReplace$4 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.findreplace.FindReplace$5 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.findreplace.FindReplace$6 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.findreplace.FindReplace matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.preferences.AdditionalBoardsManagerURLTextArea$1 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.preferences.AdditionalBoardsManagerURLTextArea$2 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.preferences.AdditionalBoardsManagerURLTextArea$3 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.preferences.AdditionalBoardsManagerURLTextArea matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.preferences.Preferences$1 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.preferences.Preferences$2 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.preferences.Preferences$3 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.preferences.Preferences$4 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.preferences.Preferences$5 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.preferences.Preferences$6 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.preferences.Preferences$7 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.preferences.Preferences$8 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.preferences.Preferences$9 matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.preferences.Preferences$WarningItem matches criteria annotated with @Plugin
+DEBUG StatusLogger Checking to see if class cc.arduino.view.preferences.Preferences matches criteria annotated with @Plugin
+DEBUG StatusLogger Took 0.040918 seconds to load 0 plugins from package cc.arduino
+DEBUG StatusLogger PluginManager 'Core' found 118 plugins
+DEBUG StatusLogger PluginManager 'Level' found 0 plugins
+DEBUG StatusLogger PluginManager 'Lookup' found 13 plugins
+DEBUG StatusLogger Building Plugin[name=layout, class=org.apache.logging.log4j.core.layout.PatternLayout].
+TRACE StatusLogger TypeConverterRegistry initializing.
+DEBUG StatusLogger PluginManager 'TypeConverter' found 26 plugins
+DEBUG StatusLogger PatternLayout$Builder(pattern="%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX}{UTC} %p %c{1.}:%L [%t] %m%n", PatternSelector=null, Configuration(Arduino), Replace=null, charset="null", alwaysWriteExceptions="null", disableAnsi="null", noConsoleNoAnsi="null", header="null", footer="null")
+DEBUG StatusLogger PluginManager 'Converter' found 44 plugins
+DEBUG StatusLogger Building Plugin[name=appender, class=org.apache.logging.log4j.core.appender.ConsoleAppender].
+DEBUG StatusLogger ConsoleAppender$Builder(target="SYSTEM_ERR", follow="null", direct="null", bufferedIo="null", bufferSize="null", immediateFlush="null", ignoreExceptions="null", PatternLayout(%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX}{UTC} %p %c{1.}:%L [%t] %m%n), name="Console", Configuration(Arduino), Filter=null, ={})
+DEBUG StatusLogger Starting OutputStreamManager SYSTEM_ERR.false.false
+DEBUG StatusLogger Building Plugin[name=layout, class=org.apache.logging.log4j.core.layout.PatternLayout].
+DEBUG StatusLogger PatternLayout$Builder(pattern="%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX}{UTC} %p %c{1.}:%L [%t] %m%n", PatternSelector=null, Configuration(Arduino), Replace=null, charset="null", alwaysWriteExceptions="null", disableAnsi="null", noConsoleNoAnsi="null", header="null", footer="null")
+DEBUG StatusLogger Building Plugin[name=SizeBasedTriggeringPolicy, class=org.apache.logging.log4j.core.appender.rolling.SizeBasedTriggeringPolicy].
+DEBUG StatusLogger createPolicy(size="50 MB")
+DEBUG StatusLogger Building Plugin[name=Policies, class=org.apache.logging.log4j.core.appender.rolling.CompositeTriggeringPolicy].
+DEBUG StatusLogger createPolicy(={SizeBasedTriggeringPolicy(size=52428800)})
+DEBUG StatusLogger Building Plugin[name=DefaultRolloverStrategy, class=org.apache.logging.log4j.core.appender.rolling.DefaultRolloverStrategy].
+DEBUG StatusLogger DefaultRolloverStrategy$Builder(max="20", min="null", fileIndex="null", compressionLevel="null", ={}, stopCustomActionsOnError="null", tempCompressedFilePattern="null", Configuration(Arduino))
+DEBUG StatusLogger Building Plugin[name=appender, class=org.apache.logging.log4j.core.appender.RollingFileAppender].
+DEBUG StatusLogger RollingFileAppender$Builder(fileName="C:\Users\power\AppData\Local\Arduino15/logs/application.log", filePattern="C:\Users\power\AppData\Local\Arduino15/logs/application-%d{MM-dd-yyyy}-%i.log.gz", append="null", locking="null", Policies(CompositeTriggeringPolicy(policies=[SizeBasedTriggeringPolicy(size=52428800)])), DefaultRolloverStrategy(DefaultRolloverStrategy(min=1, max=20, useMax=true)), advertise="null", advertiseUri="null", createOnDemand="null", filePermissions="null", fileOwner="null", fileGroup="null", bufferedIo="null", bufferSize="null", immediateFlush="null", ignoreExceptions="false", PatternLayout(%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX}{UTC} %p %c{1.}:%L [%t] %m%n), name="RollingFile", Configuration(Arduino), Filter=null, ={})
+TRACE StatusLogger New file 'C:\Users\power\AppData\Local\Arduino15/logs/application.log' created = false
+DEBUG StatusLogger Returning file creation time for C:\Users\power\AppData\Local\Arduino15\logs\application.log
+DEBUG StatusLogger Starting RollingFileManager C:\Users\power\AppData\Local\Arduino15/logs/application.log
+DEBUG StatusLogger PluginManager 'FileConverter' found 2 plugins
+DEBUG StatusLogger Setting prev file time to 2020-02-27T16:13:29.565+0100
+DEBUG StatusLogger Initializing triggering policy CompositeTriggeringPolicy(policies=[SizeBasedTriggeringPolicy(size=52428800)])
+DEBUG StatusLogger Initializing triggering policy SizeBasedTriggeringPolicy(size=52428800)
+DEBUG StatusLogger Building Plugin[name=appenders, class=org.apache.logging.log4j.core.config.AppendersPlugin].
+DEBUG StatusLogger createAppenders(={Console, RollingFile})
+DEBUG StatusLogger Building Plugin[name=AppenderRef, class=org.apache.logging.log4j.core.config.AppenderRef].
+DEBUG StatusLogger createAppenderRef(ref="Console", level="INFO", Filter=null)
+DEBUG StatusLogger Building Plugin[name=AppenderRef, class=org.apache.logging.log4j.core.config.AppenderRef].
+DEBUG StatusLogger createAppenderRef(ref="RollingFile", level="null", Filter=null)
+DEBUG StatusLogger Building Plugin[name=root, class=org.apache.logging.log4j.core.config.LoggerConfig$RootLogger].
+DEBUG StatusLogger createLogger(additivity="null", level="DEBUG", includeLocation="null", ={Console, RollingFile}, ={}, Configuration(Arduino), Filter=null)
+DEBUG StatusLogger Building Plugin[name=loggers, class=org.apache.logging.log4j.core.config.LoggersPlugin].
+DEBUG StatusLogger createLoggers(={root})
+DEBUG StatusLogger Configuration XmlConfiguration[location=jar:file:/C:/Program%20Files%20(x86)/Arduino/lib/pde.jar!/log4j2.xml] initialized
+DEBUG StatusLogger Starting configuration XmlConfiguration[location=jar:file:/C:/Program%20Files%20(x86)/Arduino/lib/pde.jar!/log4j2.xml]
+DEBUG StatusLogger Started configuration XmlConfiguration[location=jar:file:/C:/Program%20Files%20(x86)/Arduino/lib/pde.jar!/log4j2.xml] OK.
+TRACE StatusLogger Stopping org.apache.logging.log4j.core.config.DefaultConfiguration@498326...
+TRACE StatusLogger DefaultConfiguration notified 1 ReliabilityStrategies that config will be stopped.
+TRACE StatusLogger DefaultConfiguration stopping root LoggerConfig.
+TRACE StatusLogger DefaultConfiguration notifying ReliabilityStrategies that appenders will be stopped.
+TRACE StatusLogger DefaultConfiguration stopping remaining Appenders.
+DEBUG StatusLogger Shutting down OutputStreamManager SYSTEM_OUT.false.false-1
+DEBUG StatusLogger Shut down OutputStreamManager SYSTEM_OUT.false.false-1, all resources released: true
+DEBUG StatusLogger Appender DefaultConsole-1 stopped with status true
+TRACE StatusLogger DefaultConfiguration stopped 1 remaining Appenders.
+TRACE StatusLogger DefaultConfiguration cleaning Appenders from 1 LoggerConfigs.
+DEBUG StatusLogger Stopped org.apache.logging.log4j.core.config.DefaultConfiguration@498326 OK
+TRACE StatusLogger Reregistering MBeans after reconfigure. Selector=org.apache.logging.log4j.core.selector.ClassLoaderContextSelector@5ee75e
+TRACE StatusLogger Reregistering context (1/1): 'af3868' org.apache.logging.log4j.core.LoggerContext@1f8f5ae
+TRACE StatusLogger Unregistering but no MBeans found matching 'org.apache.logging.log4j2:type=af3868'
+TRACE StatusLogger Unregistering but no MBeans found matching 'org.apache.logging.log4j2:type=af3868,component=StatusLogger'
+TRACE StatusLogger Unregistering but no MBeans found matching 'org.apache.logging.log4j2:type=af3868,component=ContextSelector'
+TRACE StatusLogger Unregistering but no MBeans found matching 'org.apache.logging.log4j2:type=af3868,component=Loggers,name=*'
+TRACE StatusLogger Unregistering but no MBeans found matching 'org.apache.logging.log4j2:type=af3868,component=Appenders,name=*'
+TRACE StatusLogger Unregistering but no MBeans found matching 'org.apache.logging.log4j2:type=af3868,component=AsyncAppenders,name=*'
+TRACE StatusLogger Unregistering but no MBeans found matching 'org.apache.logging.log4j2:type=af3868,component=AsyncLoggerRingBuffer'
+TRACE StatusLogger Unregistering but no MBeans found matching 'org.apache.logging.log4j2:type=af3868,component=Loggers,name=*,subtype=RingBuffer'
+DEBUG StatusLogger Registering MBean org.apache.logging.log4j2:type=af3868
+DEBUG StatusLogger Registering MBean org.apache.logging.log4j2:type=af3868,component=StatusLogger
+DEBUG StatusLogger Registering MBean org.apache.logging.log4j2:type=af3868,component=ContextSelector
+DEBUG StatusLogger Registering MBean org.apache.logging.log4j2:type=af3868,component=Loggers,name=
+DEBUG StatusLogger Registering MBean org.apache.logging.log4j2:type=af3868,component=Appenders,name=Console
+DEBUG StatusLogger Registering MBean org.apache.logging.log4j2:type=af3868,component=Appenders,name=RollingFile
+TRACE StatusLogger Using default SystemClock for timestamps.
+DEBUG StatusLogger org.apache.logging.log4j.core.util.SystemClock does not support precise timestamps.
+TRACE StatusLogger Using DummyNanoClock for nanosecond timestamps.
+DEBUG StatusLogger Reconfiguration complete for context[name=af3868] at URI jar:file:/C:/Program%20Files%20(x86)/Arduino/lib/pde.jar!/log4j2.xml (org.apache.logging.log4j.core.LoggerContext@1f8f5ae) with optional ClassLoader: null
+DEBUG StatusLogger Shutdown hook enabled. Registering a new one.
+DEBUG StatusLogger LoggerContext[name=af3868, org.apache.logging.log4j.core.LoggerContext@1f8f5ae] started OK.
+Preparing boards...
+Verifying...
+DEBUG StatusLogger Stopping LoggerContext[name=af3868, org.apache.logging.log4j.core.LoggerContext@1f8f5ae]
+DEBUG StatusLogger Stopping LoggerContext[name=af3868, org.apache.logging.log4j.core.LoggerContext@1f8f5ae]...
+TRACE StatusLogger Unregistering 1 MBeans: [org.apache.logging.log4j2:type=af3868]
+TRACE StatusLogger Unregistering 1 MBeans: [org.apache.logging.log4j2:type=af3868,component=StatusLogger]
+TRACE StatusLogger Unregistering 1 MBeans: [org.apache.logging.log4j2:type=af3868,component=ContextSelector]
+TRACE StatusLogger Unregistering 1 MBeans: [org.apache.logging.log4j2:type=af3868,component=Loggers,name=]
+TRACE StatusLogger Unregistering 2 MBeans: [org.apache.logging.log4j2:type=af3868,component=Appenders,name=RollingFile, org.apache.logging.log4j2:type=af3868,component=Appenders,name=Console]
+TRACE StatusLogger Unregistering but no MBeans found matching 'org.apache.logging.log4j2:type=af3868,component=AsyncAppenders,name=*'
+TRACE StatusLogger Unregistering but no MBeans found matching 'org.apache.logging.log4j2:type=af3868,component=AsyncLoggerRingBuffer'
+TRACE StatusLogger Unregistering but no MBeans found matching 'org.apache.logging.log4j2:type=af3868,component=Loggers,name=*,subtype=RingBuffer'
+TRACE StatusLogger Stopping XmlConfiguration[location=jar:file:/C:/Program%20Files%20(x86)/Arduino/lib/pde.jar!/log4j2.xml]...
+TRACE StatusLogger XmlConfiguration notified 2 ReliabilityStrategies that config will be stopped.
+TRACE StatusLogger XmlConfiguration stopping 1 LoggerConfigs.
+TRACE StatusLogger XmlConfiguration stopping root LoggerConfig.
+TRACE StatusLogger XmlConfiguration notifying ReliabilityStrategies that appenders will be stopped.
+TRACE StatusLogger XmlConfiguration stopping remaining Appenders.
+DEBUG StatusLogger Shutting down RollingFileManager C:\Users\power\AppData\Local\Arduino15/logs/application.log
+DEBUG StatusLogger Shutting down RollingFileManager C:\Users\power\AppData\Local\Arduino15/logs/application.log
+DEBUG StatusLogger All asynchronous threads have terminated
+DEBUG StatusLogger RollingFileManager shutdown completed with status true
+DEBUG StatusLogger Shut down RollingFileManager C:\Users\power\AppData\Local\Arduino15/logs/application.log, all resources released: true
+DEBUG StatusLogger Appender RollingFile stopped with status true
+DEBUG StatusLogger Shutting down OutputStreamManager SYSTEM_ERR.false.false
+DEBUG StatusLogger Shut down OutputStreamManager SYSTEM_ERR.false.false, all resources released: true
+DEBUG StatusLogger Appender Console stopped with status true
+TRACE StatusLogger XmlConfiguration stopped 2 remaining Appenders.
+TRACE StatusLogger XmlConfiguration cleaning Appenders from 2 LoggerConfigs.
+DEBUG StatusLogger Stopped XmlConfiguration[location=jar:file:/C:/Program%20Files%20(x86)/Arduino/lib/pde.jar!/log4j2.xml] OK
+DEBUG StatusLogger Stopped LoggerContext[name=af3868, org.apache.logging.log4j.core.LoggerContext@1f8f5ae] with status true

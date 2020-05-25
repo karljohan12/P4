@@ -1,7 +1,7 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.Expression;
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 public class IdentifierExpression extends Expression {
     public String s;
@@ -13,7 +13,7 @@ public class IdentifierExpression extends Expression {
         line = ln;
     }
 
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visit(this);
     }
 

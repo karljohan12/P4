@@ -2,7 +2,7 @@ package AST.NonAbstract.Node;
 
 import AST.Abstract.Statement;
 import AST.List.SwitchLabelList;
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 public class SwitchLabels extends Statement {
     public SwitchLabelList s;
@@ -12,7 +12,7 @@ public class SwitchLabels extends Statement {
         this.s = s;
 
     }
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visit(this);
     }
 

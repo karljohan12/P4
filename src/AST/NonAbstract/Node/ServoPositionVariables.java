@@ -2,7 +2,7 @@ package AST.NonAbstract.Node;
 
 import AST.Abstract.VariableInitial;
 import AST.List.ServoInitializationList;
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 public class ServoPositionVariables extends VariableInitial {
     public ServoInitializationList vi;
@@ -12,7 +12,7 @@ public class ServoPositionVariables extends VariableInitial {
         this.vi = vi;
 
     }
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visit(this);
     }
 

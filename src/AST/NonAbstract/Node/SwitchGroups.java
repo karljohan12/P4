@@ -2,8 +2,7 @@ package AST.NonAbstract.Node;
 
 import AST.Abstract.Statement;
 import AST.List.SwitchGroupList;
-import AST.Visitor.Visitor;
-import com.sun.jdi.event.StepEvent;
+import Interfaces.IVisitor;
 
 public class SwitchGroups extends Statement {
     public SwitchGroupList s;
@@ -13,7 +12,7 @@ public class SwitchGroups extends Statement {
         this.s = s;
 
     }
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visit(this);
     }
 

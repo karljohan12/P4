@@ -2,7 +2,7 @@ package AST.NonAbstract.Node;
 
 import AST.Abstract.Statement;
 import AST.List.BlockStatementList;
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 public class ABlockStatement extends Statement {
     public BlockStatementList sl;
@@ -12,7 +12,7 @@ public class ABlockStatement extends Statement {
         this.sl = sl;
     }
 
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visit(this);
     }
 

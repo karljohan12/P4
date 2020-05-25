@@ -3,7 +3,7 @@ package AST.NonAbstract.Node;
 import AST.Abstract.Statement;
 import AST.Abstract.Type;
 import AST.List.VariableDeclarationList;
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 public class VariableDeclaration extends Statement {
     public Type t;
@@ -17,7 +17,7 @@ public class VariableDeclaration extends Statement {
         line = ln;
 
     }
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visit(this);
     }
 }

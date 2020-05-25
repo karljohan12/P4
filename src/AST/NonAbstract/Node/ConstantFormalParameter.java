@@ -2,7 +2,7 @@ package AST.NonAbstract.Node;
 
 import AST.Abstract.AFunction;
 import AST.Abstract.Type;
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 public class ConstantFormalParameter extends AFunction {
     public Type t;
@@ -15,7 +15,7 @@ public class ConstantFormalParameter extends AFunction {
 
 
     }
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visit(this);
     }
 

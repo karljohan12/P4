@@ -1,18 +1,17 @@
-package AST.Visitor;
+package CodeGenerator;
 
 import AST.List.ArrayVariables;
 import AST.NonAbstract.Node.*;
+import Interfaces.IVisitor;
 import SymbolTable.ArrayVariable;
 import SymbolTable.ServoPositionVariable;
 import SymbolTable.Symbol;
 import Parser.parser;
-import SymbolTable.Variable;
 
 import java.util.ArrayList;
 
-public class CodeGeneratorVisitor implements Visitor {
+public class InoCodeGeneratorIVisitor implements IVisitor {
 
-    private boolean printCode = false;
     public StringBuilder code = new StringBuilder();
     StringBuilder indent = new StringBuilder();
     int preEmitpoint = 20;
@@ -20,7 +19,6 @@ public class CodeGeneratorVisitor implements Visitor {
     boolean isSetupfunction = false;
     boolean ignoreNewLine = false;
     boolean noKeepIndent = true;
-
     private void emit(String emit){
 
         if(emit.contains("\n") && ignoreNewLine){
@@ -39,9 +37,7 @@ public class CodeGeneratorVisitor implements Visitor {
         }
     }
 
-    private void reduce(){
-    code.deleteCharAt(code.length()-1);
-    }
+
 
     private void preEmit(String emit){
         code.insert(preEmitpoint, emit);
@@ -56,7 +52,7 @@ public class CodeGeneratorVisitor implements Visitor {
         indent.deleteCharAt(indent.length()-1);
         indent.deleteCharAt(indent.length()-1);
     }
-    private void reduceIndent(){code.delete(code.length()-5, code.length()-1);}
+
 
 
 
@@ -711,7 +707,6 @@ public class CodeGeneratorVisitor implements Visitor {
                 emit(", ");
             }
             n.fplo.list.get(i).accept(this);
-
         }
         emit(") ");
     }
@@ -732,7 +727,7 @@ public class CodeGeneratorVisitor implements Visitor {
     public void visit(Program program) {
         emit("#include <Servo.h> \n");
         program.sl.accept(this);
-        if(printCode) { System.out.println(code); }
+        System.out.println(code);
     }
 
     @Override

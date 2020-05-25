@@ -1,7 +1,7 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.Expression;
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 public class OrExpression extends Expression {
     public Expression e1, e2;
@@ -14,7 +14,7 @@ public class OrExpression extends Expression {
 
 
     }
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visit(this);
     }
 

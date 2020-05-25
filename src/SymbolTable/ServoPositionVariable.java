@@ -10,6 +10,11 @@ public class ServoPositionVariable extends Symbol {
         super(name, type);
         this.variables = var;
     }
+
+    /**
+     * Get the list of variables
+     * @return The list of variables
+     */
     public ArrayList<Variable> getVariables(){
         return variables;
     }

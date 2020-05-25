@@ -1,45 +1,14 @@
 String i = "hamse";
-function void setup() BEGIN
-i = "pik";
-
-END
-
-function void loop() BEGIN
-
-hamse("ha", 3);
-
-
-//if(i == "hamse") BEGIN
-
-//END
 
 
 
 function void setup() BEGIN
-Servo base = PIN1;
-Servo arm = PIN2;
-
-Robot throwingArm = {base, arm};
-
-function double[] hamse(String pik, int e) BEGIN
-e = 3;
-//pik = 3;
-//return 0;
 
 END
 
+
 function void loop() BEGIN
 
-throwingArm(waitingPosition);
-delay(1000);
-throwingArm(throwAtWall);
-delay(1000);
 
-throwingArm(waitingPosition);
-delay(1000)
-throwingArm(targetTable);
-delay(1000);
-throwingArm(makeThrow);
-delay(1000);
 
 END

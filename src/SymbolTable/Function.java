@@ -12,6 +12,11 @@ public class Function extends Symbol {
         this.parameters = InitParameters(varList);
     }
 
+    /**
+     * Set the parameters of a function to initialized
+     * @param varList The list of parameters
+     * @return The list of parameters
+     */
     private ArrayList<Symbol> InitParameters(ArrayList<Symbol> varList) {
         for (Symbol v : varList) {
             if (v instanceof Variable) {

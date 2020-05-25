@@ -1,9 +1,8 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.AFunction;
-import AST.Abstract.Statement;
 import AST.List.FormalParameterList;
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 public class FunctionDeclarator extends AFunction {
     public FormalParameterList fplo;
@@ -15,7 +14,7 @@ public class FunctionDeclarator extends AFunction {
         this.i = i;
     }
 
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visit(this);
     }
 }

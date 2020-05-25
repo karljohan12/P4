@@ -2,7 +2,7 @@ package AST.NonAbstract.Node;
 
 import AST.Abstract.Expression;
 import AST.Abstract.Statement;
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 public class PostfixExpressionMinusMinus extends Statement {
     public Expression e;
@@ -14,7 +14,7 @@ public class PostfixExpressionMinusMinus extends Statement {
         line = ln;
 
     }
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visit(this);
     }
 

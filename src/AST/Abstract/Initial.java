@@ -1,11 +1,11 @@
 package AST.Abstract;
 
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 public abstract class Initial extends ASTNode {
 
     public Initial(int ln) {
         super(ln);
     };
-    public abstract void accept(Visitor v);
+    public abstract void accept(IVisitor v);
 }

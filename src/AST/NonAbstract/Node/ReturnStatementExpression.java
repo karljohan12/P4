@@ -2,7 +2,7 @@ package AST.NonAbstract.Node;
 
 import AST.Abstract.Expression;
 import AST.Abstract.Statement;
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 public class ReturnStatementExpression extends Statement {
     public Expression e;
@@ -12,7 +12,7 @@ public class ReturnStatementExpression extends Statement {
         this.e = e;
 
     }
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visit(this);
     }
 

@@ -2,8 +2,6 @@ package AST.List;
 
 import AST.Abstract.ASTNode;
 import AST.Abstract.VariableInitial;
-import AST.NonAbstract.Node.Identifier;
-import AST.Visitor.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;

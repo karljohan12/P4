@@ -1,0 +1,47 @@
+String i = "hamse";
+function void setup() BEGIN
+i = "pik";
+
+END
+
+function void loop() BEGIN
+
+
+
+
+
+
+
+END
+
+function double[] hamse(String pik, int e) BEGIN
+
+
+END
+
+function boolean testing() BEGIN
+
+
+   END
+
+function int retint() BEGIN
+
+
+
+END
+
+function int[] hipi(int[] s)
+BEGIN
+
+END
+
+
+function int ost()
+BEGIN
+
+END
+
+function int tisost(int penus)
+BEGIN
+   return penus;
+END

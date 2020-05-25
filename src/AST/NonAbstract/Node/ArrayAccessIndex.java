@@ -1,7 +1,7 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.Expression;
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 public class ArrayAccessIndex extends Expression {
     public Identifier i;
@@ -12,7 +12,7 @@ public class ArrayAccessIndex extends Expression {
         this.i = i;
         this.e = e;
     }
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visit(this);
     }
 

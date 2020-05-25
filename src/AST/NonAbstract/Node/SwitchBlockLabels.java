@@ -3,7 +3,7 @@ package AST.NonAbstract.Node;
 import AST.Abstract.Statement;
 import AST.List.SwitchGroupList;
 import AST.List.SwitchLabelList;
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 public class SwitchBlockLabels extends Statement {
     public SwitchGroupList s1;
@@ -15,7 +15,7 @@ public class SwitchBlockLabels extends Statement {
         this.s2 = s2;
 
     }
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visit(this);
     }
 }

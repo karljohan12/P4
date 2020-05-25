@@ -4,7 +4,7 @@ package AST.NonAbstract.Node;
 import AST.Abstract.Initial;
 import AST.List.FunctionStatementList;
 import AST.List.GlobalVariableList;
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 public class GlobalVariablePlusFunctionStatements extends Initial {
     public GlobalVariableList v;
@@ -18,7 +18,7 @@ public class GlobalVariablePlusFunctionStatements extends Initial {
 
     }
 
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visit(this);
     }
 }

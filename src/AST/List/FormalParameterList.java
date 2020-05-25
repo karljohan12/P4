@@ -2,7 +2,6 @@ package AST.List;
 
 import AST.Abstract.AFunction;
 import AST.Abstract.ASTNode;
-import AST.Visitor.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;

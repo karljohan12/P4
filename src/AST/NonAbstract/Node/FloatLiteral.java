@@ -1,7 +1,7 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.Expression;
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 public class FloatLiteral extends Expression {
     public double i;
@@ -11,7 +11,7 @@ public class FloatLiteral extends Expression {
         this.i = i;
     }
 
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visit(this);
     }
 

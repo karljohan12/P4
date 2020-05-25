@@ -1,7 +1,7 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.AFunction;
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 public class VoidFunctionHeader extends AFunction {
     public AFunction a;
@@ -13,7 +13,7 @@ public class VoidFunctionHeader extends AFunction {
         this.line = ln;
 
     }
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visit(this);
     }
 }

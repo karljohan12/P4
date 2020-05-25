@@ -2,7 +2,7 @@ package AST.NonAbstract.Node;
 
 import AST.Abstract.ASTNode;
 import AST.Abstract.Expression;
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 public class Identifier extends ASTNode {
     public String s;
@@ -19,7 +19,7 @@ public class Identifier extends ASTNode {
 
 
 
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visit(this);
     }
 

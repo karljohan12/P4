@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_compiler" default="compile.module.compiler">
+  <dirname property="module.compiler.basedir" file="${ant.file.module_compiler}"/>
+  
+  <property name="module.jdk.home.compiler" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.compiler" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.compiler" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.compiler" value="-encoding UTF-8 -source 11 -target 11 ${compiler.args}"/>
+  
+  <property name="compiler.output.dir" value="${module.compiler.basedir}/out/production/compiler"/>
+  <property name="compiler.testoutput.dir" value="${module.compiler.basedir}/out/test/compiler"/>
+  
+  <path id="compiler.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="compiler.module.production.classpath">
+    <path refid="${module.jdk.classpath.compiler}"/>
+    <pathelement location="${basedir}/../../Downloads/java-cup-11b-runtime.jar"/>
+  </path>
+  
+  <path id="compiler.runtime.production.module.classpath">
+    <pathelement location="${compiler.output.dir}"/>
+    <pathelement location="${basedir}/../../Downloads/java-cup-11b-runtime.jar"/>
+  </path>
+  
+  <path id="compiler.module.classpath">
+    <path refid="${module.jdk.classpath.compiler}"/>
+    <pathelement location="${compiler.output.dir}"/>
+    <pathelement location="${basedir}/../../Downloads/java-cup-11b-runtime.jar"/>
+  </path>
+  
+  <path id="compiler.runtime.module.classpath">
+    <pathelement location="${compiler.testoutput.dir}"/>
+    <pathelement location="${compiler.output.dir}"/>
+    <pathelement location="${basedir}/../../Downloads/java-cup-11b-runtime.jar"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.compiler">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.compiler">
+    <patternset refid="excluded.from.module.compiler"/>
+  </patternset>
+  
+  <path id="compiler.module.sourcepath">
+    <dirset dir="${module.compiler.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.compiler" depends="compile.module.compiler.production,compile.module.compiler.tests" description="Compile module compiler"/>
+  
+  <target name="compile.module.compiler.production" depends="register.custom.compilers" description="Compile module compiler; production classes">
+    <mkdir dir="${compiler.output.dir}"/>
+    <javac2 destdir="${compiler.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.compiler}/javac">
+      <compilerarg line="${compiler.args.compiler}"/>
+      <bootclasspath refid="compiler.module.bootclasspath"/>
+      <classpath refid="compiler.module.production.classpath"/>
+      <src refid="compiler.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.compiler"/>
+    </javac2>
+    
+    <copy todir="${compiler.output.dir}">
+      <fileset dir="${module.compiler.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.compiler.tests" depends="register.custom.compilers,compile.module.compiler.production" description="compile module compiler; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.compiler" description="cleanup module">
+    <delete dir="${compiler.output.dir}"/>
+    <delete dir="${compiler.testoutput.dir}"/>
+  </target>
+</project>

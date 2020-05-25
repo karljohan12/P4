@@ -1,7 +1,7 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.Type;
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 public class ServoPrimitiveType extends Type {
 
@@ -10,7 +10,7 @@ public class ServoPrimitiveType extends Type {
 
 
     }
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visit(this);
     }
 

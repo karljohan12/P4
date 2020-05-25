@@ -1,8 +1,7 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.Expression;
-import AST.Abstract.Type;
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 public class IntegerLiteral extends Expression {
     public int i;
@@ -12,7 +11,7 @@ public class IntegerLiteral extends Expression {
         this.i = i;
     }
 
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visit(this);
     }
 

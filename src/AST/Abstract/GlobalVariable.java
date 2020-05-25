@@ -1,11 +1,11 @@
 package AST.Abstract;
 
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 abstract public class GlobalVariable extends ASTNode{
 
     public GlobalVariable(int ln) {
         super(ln);
     }
-    public abstract void accept(Visitor v);
+    public abstract void accept(IVisitor v);
 }

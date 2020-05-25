@@ -1,7 +1,7 @@
 package AST.NonAbstract.Node;
 
 import AST.Abstract.Type;
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 public class ArrayType extends Type {
     public Type t;
@@ -11,7 +11,7 @@ public class ArrayType extends Type {
         this.t = t;
 
     }
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visit(this);
     }
 

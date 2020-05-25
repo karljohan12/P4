@@ -1,8 +1,7 @@
 package AST.NonAbstract.Node;
 
-import AST.Abstract.ASTNode;
 import AST.Abstract.Statement;
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 public class StatementBlock extends Statement {
   public Statement s;
@@ -16,7 +15,7 @@ public class StatementBlock extends Statement {
 
     }
 
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visit(this);
     }
 }

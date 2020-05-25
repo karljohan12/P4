@@ -2,13 +2,13 @@ package AST.NonAbstract.Node;
 
 
 import AST.Abstract.Expression;
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 public class MinusEqual extends Expression {
     public MinusEqual(int ln) {
         super(ln);
     }
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visit(this);
     }
 }

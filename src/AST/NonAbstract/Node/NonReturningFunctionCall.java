@@ -2,7 +2,7 @@ package AST.NonAbstract.Node;
 
 import AST.Abstract.Statement;
 import AST.List.ArgumentList;
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 public class NonReturningFunctionCall extends Statement {
     public Identifier i;
@@ -16,7 +16,7 @@ public class NonReturningFunctionCall extends Statement {
         line = ln;
 
     }
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visit(this);
     }
 

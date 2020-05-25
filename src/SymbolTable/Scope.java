@@ -5,33 +5,51 @@ import Parser.parser;
 
 public class Scope {
     public Scope link;
-    HashMap<String, Symbol> symbolTable;
-    public int returnType;
+    private HashMap<String, Symbol> symbolTable;
     public int level;
     public Variable lastDecl;
 
-    public Scope(int returnType, int level) {
+    public Scope(int level) {
         symbolTable = new HashMap<>();
-        this.returnType = returnType;
         this.level = level;
     }
 
+    /**
+     * Check if a symbol exists
+     * @param symbolName The name of the symbol
+     * @return True if present, false if not
+     */
     public boolean lookupSymbol(String symbolName) {
         return symbolTable.get(symbolName) != null;
     }
 
-    public boolean isFunctionAvailable(String name) {
-        return !symbolTable.containsKey(name);
+    /**
+     * Check if function exists
+     * @param name The name of the function
+     * @return True if present, false if not
+     */
+    public boolean doesFunctionExist(String name) {
+        return symbolTable.containsKey(name);
     }
 
+    /**
+     * Add a function
+     * @param f The function
+     * @return True if success, false if not
+     */
     public boolean addSymbol(Function f) {
-        if(this.isFunctionAvailable(f.name)) {
+        if(!this.doesFunctionExist(f.name)) {
             this.symbolTable.put(f.name, f);
             return true;
         }
         return false;
     }
 
+    /**
+     * Add a variable
+     * @param v The variable
+     * @return True if success, false if not
+     */
     public boolean addSymbol(Variable v) {
         lastDecl = v;
         if(!this.lookupSymbol(v.name)) {
@@ -41,6 +59,11 @@ public class Scope {
         return false;
     }
 
+    /**
+     * Add an Array variable
+     * @param av The ArrayVariable
+     * @return True if success, false if not
+     */
     public boolean addSymbol(ArrayVariable av) {
         if(!this.lookupSymbol(av.name)) {
             this.symbolTable.put(av.name, av);
@@ -49,6 +72,11 @@ public class Scope {
         return false;
     }
 
+    /**
+     * Add a ServoPosition
+     * @param spv The ServoPositionVariable
+     * @return True if success, false if not
+     */
     public boolean addSymbol(ServoPositionVariable spv) {
         if(!this.lookupSymbol(spv.name)) {
             this.symbolTable.put(spv.name, spv);
@@ -57,16 +85,29 @@ public class Scope {
         return false;
     }
 
-    public Symbol ReturnType(String symbolName){
+    /**
+     * Get type of a symbol
+     * @param symbolName The name of the symbol
+     * @return Symbol The found symbol
+     */
+    public Symbol returnType(String symbolName){
         return symbolTable.get(symbolName);
     }
 
-    public void ConvertToConstant(){
+    /**
+     * Set latest processed variable to constant
+     */
+    public void setToConstant(){
         lastDecl.isConstant = true;
         symbolTable.replace(lastDecl.name, lastDecl);
     }
 
-    public Variable IsConstant(String symbolName) {
+    /**
+     * Check if a variable is a constant
+     * @param symbolName The name of the variable
+     * @return Variable The
+     */
+    public Variable returnVariable(String symbolName) {
         Symbol e = symbolTable.get(symbolName);
 
         if (e instanceof Variable) {
@@ -75,6 +116,12 @@ public class Scope {
         }
         return null;
     }
+
+    /**
+     * Get function
+     * @param symbolName The name of the function
+     * @return Function The found function
+     */
     public Function lookupFunction(String symbolName) {
         Symbol e = symbolTable.get(symbolName);
 
@@ -84,9 +131,13 @@ public class Scope {
         return null;
     }
 
+    /**
+     *Check if a variable exist
+     * @param symbolName The name of the variable
+     * @return True if present, false if not
+     */
     public boolean lookupVariable(String symbolName){
         Symbol e = symbolTable.get(symbolName);
-
 
         if (e instanceof Variable) { return true; }
         if (e instanceof ArrayVariable) { return true; }
@@ -94,10 +145,10 @@ public class Scope {
         return false;
     }
 
-    public void printScopeContent() {
-        // TODO: Print shits
-    }
-
+    /**
+     * Set a variable to initialized
+     * @param symbolName The name of the variable
+     */
     public void setVariableInit(String symbolName){
         Symbol e = symbolTable.get(symbolName);
 
@@ -115,6 +166,11 @@ public class Scope {
         }
     }
 
+    /**
+     * Check if a variable has been initialized
+     * @param symbolName The name of the symbol
+     * @return True if initialized, false if not
+     */
     public boolean getVariableInit(String symbolName) {
         Symbol e = symbolTable.get(symbolName);
 
@@ -133,6 +189,10 @@ public class Scope {
         return false;
     }
 
+    /**
+     * Set a variable to constant
+     * @param symbolName The name of the variable
+     */
     public void setVariableConstant(String symbolName) {
         Symbol e = symbolTable.get(symbolName);
 
@@ -141,6 +201,12 @@ public class Scope {
             v.isConstant = true;
         }
     }
+
+    /**
+     * Remove a variable
+     * @param symbolName The name of the variable
+     * @return True if success, false if not
+     */
     public boolean removeVariable(String symbolName){
         Symbol e = symbolTable.get(symbolName);
 
@@ -151,6 +217,11 @@ public class Scope {
         return false;
     }
 
+    /**
+     * Get a symbol
+     * @param identifier The name of the identifier
+     * @return Symbol The found symbol
+     */
     public Symbol getSymbol(String identifier) {
         return symbolTable.get(identifier);
     }

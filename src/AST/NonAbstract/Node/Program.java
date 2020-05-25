@@ -2,8 +2,7 @@ package AST.NonAbstract.Node;
 
 import AST.Abstract.ASTNode;
 import AST.Abstract.Initial;
-import AST.List.FunctionStatementList;
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
  public class Program extends ASTNode {
     public Initial sl;
@@ -13,7 +12,7 @@ import AST.Visitor.Visitor;
          this.sl = sl;
      }
 
-     public void accept(Visitor v) {
+     public void accept(IVisitor v) {
          v.visit(this);
      }
 }

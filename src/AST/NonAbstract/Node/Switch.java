@@ -2,7 +2,7 @@ package AST.NonAbstract.Node;
 
 import AST.Abstract.Expression;
 import AST.Abstract.Statement;
-import AST.Visitor.Visitor;
+import Interfaces.IVisitor;
 
 public class Switch extends Statement {
     public Expression e;
@@ -15,7 +15,7 @@ public class Switch extends Statement {
         this.s = s;
         line = ln;
     }
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visit(this);
     }
 }
