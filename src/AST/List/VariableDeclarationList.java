@@ -2,6 +2,7 @@ package AST.List;
 
 import AST.Abstract.ASTNode;
 import AST.Abstract.VariableInitial;
+import Interfaces.IVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,10 @@ public class VariableDeclarationList extends ASTNode {
 
     public int size() {
         return list.size();
+    }
+
+    public void accept(IVisitor v) {
+        v.visit(this);
     }
 
 

@@ -154,4 +154,24 @@ public interface IVisitor {
     void visit(FunctionList functionList);
 
     void visit(StringType n);
+
+    void visit(ArgumentList argumentList);
+
+    void visit(BlockStatementList blockStatementList);
+
+    void visit(FormalParameterList formalParameterList);
+
+    void visit(FunctionStatementList functionStatementList);
+
+    void visit(GlobalVariableList globalVariableList);
+
+    void visit(ServoInitializationList servoInitializationList);
+
+    void visit(SwitchGroupList switchGroupList);
+
+    void visit(SwitchLabelList switchLabelList);
+
+    void visit(VariableDeclarationList variableDeclarationList);
+
+    void visit(VariableInitializationList variableInitializationList);
 }

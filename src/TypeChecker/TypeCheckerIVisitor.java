@@ -1,7 +1,7 @@
 package TypeChecker;
 
 import AST.Abstract.ASTNode;
-import AST.List.ArrayVariables;
+import AST.List.*;
 import AST.NonAbstract.Node.*;
 import Interfaces.IVisitor;
 import Parser.parser;
@@ -128,6 +128,56 @@ public class TypeCheckerIVisitor implements IVisitor {
     public void visit(StringType n) {
         lastType = 3;
         printNode(n);
+    }
+
+    @Override
+    public void visit(ArgumentList argumentList) {
+
+    }
+
+    @Override
+    public void visit(BlockStatementList blockStatementList) {
+
+    }
+
+    @Override
+    public void visit(FormalParameterList formalParameterList) {
+
+    }
+
+    @Override
+    public void visit(FunctionStatementList functionStatementList) {
+
+    }
+
+    @Override
+    public void visit(GlobalVariableList globalVariableList) {
+
+    }
+
+    @Override
+    public void visit(ServoInitializationList servoInitializationList) {
+
+    }
+
+    @Override
+    public void visit(SwitchGroupList switchGroupList) {
+
+    }
+
+    @Override
+    public void visit(SwitchLabelList switchLabelList) {
+
+    }
+
+    @Override
+    public void visit(VariableDeclarationList variableDeclarationList) {
+
+    }
+
+    @Override
+    public void visit(VariableInitializationList variableInitializationList) {
+
     }
 
     @Override

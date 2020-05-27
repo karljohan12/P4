@@ -2,6 +2,7 @@ package AST.List;
 
 import AST.Abstract.AFunction;
 import AST.Abstract.ASTNode;
+import Interfaces.IVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,5 +20,9 @@ public class FormalParameterList extends ASTNode {
     public AFunction get(int i) { return list.get(i); }
 
     public int size() { return list.size(); }
+
+    public void accept(IVisitor v) {
+        v.visit(this);
+    }
 
 }

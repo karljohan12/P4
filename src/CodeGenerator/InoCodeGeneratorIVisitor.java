@@ -1,6 +1,6 @@
 package CodeGenerator;
 
-import AST.List.ArrayVariables;
+import AST.List.*;
 import AST.NonAbstract.Node.*;
 import Interfaces.IVisitor;
 import SymbolTable.ArrayVariable;
@@ -751,5 +751,55 @@ public class InoCodeGeneratorIVisitor implements IVisitor {
     @Override
     public void visit(StringType n) {
         emit(indent +"String ");
+    }
+
+    @Override
+    public void visit(ArgumentList argumentList) {
+
+    }
+
+    @Override
+    public void visit(BlockStatementList blockStatementList) {
+
+    }
+
+    @Override
+    public void visit(FormalParameterList formalParameterList) {
+
+    }
+
+    @Override
+    public void visit(FunctionStatementList functionStatementList) {
+
+    }
+
+    @Override
+    public void visit(GlobalVariableList globalVariableList) {
+
+    }
+
+    @Override
+    public void visit(ServoInitializationList servoInitializationList) {
+
+    }
+
+    @Override
+    public void visit(SwitchGroupList switchGroupList) {
+
+    }
+
+    @Override
+    public void visit(SwitchLabelList switchLabelList) {
+
+    }
+
+    @Override
+    public void visit(VariableDeclarationList variableDeclarationList) {
+
+    }
+
+    @Override
+    public void visit(VariableInitializationList variableInitializationList) {
+
     }
 }

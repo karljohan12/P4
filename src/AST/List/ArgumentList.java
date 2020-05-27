@@ -2,6 +2,7 @@ package AST.List;
 
 import AST.Abstract.ASTNode;
 import AST.Abstract.Expression;
+import Interfaces.IVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,4 +20,7 @@ public class ArgumentList extends ASTNode {
     public Expression get(int i) { return list.get(i); }
 
     public int size() { return list.size(); }
+    public void accept(IVisitor v) {
+        v.visit(this);
+    }
 }
