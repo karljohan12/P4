@@ -22,9 +22,7 @@ import Parser.*;
 import java_cup.runtime.Symbol;
 
 
-/**
- * Simple test driver for the java parser. Just runs it on some input files, gives no useful output.
- */
+
 public class JavaParser {
     /**
      * Compiler execution point
