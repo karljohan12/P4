@@ -727,7 +727,7 @@ public class InoCodeGeneratorIVisitor implements IVisitor {
     public void visit(Program program) {
         emit("#include <Servo.h> \n");
         program.sl.accept(this);
-        System.out.println(code);
+        //System.out.println(code);
     }
 
     @Override

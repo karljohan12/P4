@@ -168,7 +168,7 @@ public class SymbolTable {
                         return voidType;
 
                     default:
-                        System.out.println("Error ReturnType lookup");
+                        //System.out.println("Error ReturnType lookup");
                 }
             }
             if (lastScopeChecked == true) {
@@ -176,7 +176,7 @@ public class SymbolTable {
             }
             lastScopeChecked = true;
         }
-        System.out.println("Error ReturnType lookup");
+        //System.out.println("Error ReturnType lookup");
         return -1;
     }
 
@@ -212,7 +212,7 @@ public class SymbolTable {
             }
             lastScopeChecked = true;
         }
-        System.out.println("Error constantLookup");
+        //System.out.println("Error constantLookup");
         return false;
 
     }
@@ -301,7 +301,7 @@ public class SymbolTable {
                         case "double Array":
                             return doubleArray;
                         default:
-                            System.out.println("Error ReturnType lookup");
+                            //System.out.println("Error ReturnType lookup");
                     }
                 }
             }
@@ -362,7 +362,7 @@ public class SymbolTable {
                     case "ServoPosition":
                         return servoPosition;
                     default:
-                        System.out.println("Error ReturnType lookup");
+                       //System.out.println("Error ReturnType lookup");
                 }
             }
         }

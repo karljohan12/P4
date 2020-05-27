@@ -31,7 +31,7 @@ public class JavaParser {
      * @param argv CLI input
      */
     public static void main(String argv[]) {
-        argv = new String[]{"Test/parsertest.roboduino", "--verify"};
+      //  argv = new String[]{"Test/parsertest.roboduino", "--verify"};
 
         String inputFilePath = null;
         String outputFilePath = null;

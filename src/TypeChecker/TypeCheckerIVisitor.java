@@ -42,6 +42,7 @@ public class TypeCheckerIVisitor implements IVisitor {
     private boolean NonAssigningReturningFunctionCall = false;
     private boolean checkingForArray = false;
     private boolean retStatement = false;
+    private boolean PrintAST = false;
 
 
     private void increaseIndent() {
@@ -54,7 +55,7 @@ public class TypeCheckerIVisitor implements IVisitor {
 
     private void printNodeLine(String s) {
 
-        if (!checkingForPrototypes) {
+        if (!checkingForPrototypes && PrintAST) {
             String line = "";
             for (int i = 0; i < indentLevel; i++) {
                 line += " ";
