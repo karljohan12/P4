@@ -26,7 +26,10 @@ import java_cup.runtime.Symbol;
  * Simple test driver for the java parser. Just runs it on some input files, gives no useful output.
  */
 public class JavaParser {
-
+    /**
+     * Compiler execution point
+     * @param argv CLI input
+     */
     public static void main(String argv[]) {
         argv = new String[]{"Test/parsertest.roboduino", "--verify"};
 
@@ -106,7 +109,10 @@ public class JavaParser {
             }
         }
     }
-
+    /**
+     * Verify size of compiled file using the Arduino IDE
+     * @param outputFilePath Path to compiled .ino file
+     */
     public static void verify(String outputFilePath) throws RuntimeException, IOException, InterruptedException {
         try {
 
@@ -167,11 +173,17 @@ public class JavaParser {
         }
 
     }
-
+    /**
+     * Verifies if the input file if of a roboduino type
+     * @param fileName input filename
+     * @return true if allowed
+     */
     private static boolean isAllowedType(String fileName) {
         return fileName.substring(fileName.lastIndexOf("."), fileName.length()).equals(".roboduino");
     }
-
+    /**
+     * Prints CLI usage
+     */
     private static void displayHelp() {
         System.out.println("Usage: java -jar rdbc.jar <input> [output] [--verify]\n");
         System.out.println("<input> - The path to the input Roboduino-file.\n");

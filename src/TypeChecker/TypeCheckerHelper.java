@@ -12,12 +12,19 @@ import java.util.ArrayList;
 
 public class TypeCheckerHelper {
     static int errorDetected = 0;
-
+    /**
+     * Report error in typechecker
+     * @param message The name of the variable
+     */
     public static void reportError(String message) {
         errorDetected++;
         System.out.println(message);
     }
-
+    /**
+     * Converts type from integer to String
+     * @param convert Integer representing a type
+     * @return Type in a String
+     */
     public static String convertToType(int convert) {
         switch (convert) {
             case 0:
@@ -46,7 +53,11 @@ public class TypeCheckerHelper {
                 return "Unknown";
         }
     }
-
+    /**
+     * Converts type from String to Integer
+     * @param convert The name of the variable
+     * @return Type represented as an Integer
+     */
     public static int convertFromType(String convert) {
         switch (convert) {
             case "int":
@@ -75,7 +86,11 @@ public class TypeCheckerHelper {
                 return -1;
         }
     }
-
+    /**
+     * Checks for loop and setup functions
+     * @param setupAndLoopList The name of the variable
+     * @param linePlaceholder Line number
+     */
     public static void CheckForLoopAndSetupInFunctionList(ArrayList<String> setupAndLoopList, int linePlaceholder) {
         if (setupAndLoopList.size() >= 2) {
             if (!setupAndLoopList.get(0).equals("setup")) {
@@ -85,7 +100,12 @@ public class TypeCheckerHelper {
             }
         }
     }
-
+    /**
+     * Used to verify if types are compatible
+     * @param left First type
+     * @param right Second type
+     * @return true if types are compatible
+     */
     public static boolean isCompatible(int left, int right) {
         switch (left) {
             case 0:
@@ -105,7 +125,12 @@ public class TypeCheckerHelper {
                 return false;
         }
     }
-
+    /**
+     * Used to verify if types are comparable, used in boolean expressions
+     * @param left First type
+     * @param right Second type
+     * @return true if types are comparable
+     */
     public static boolean isComparable(int left, int right) {
         switch (left) {
             case 0:
@@ -115,7 +140,12 @@ public class TypeCheckerHelper {
                 return false;
         }
     }
-
+    /**
+     * Used to verify if types are comparable using the equality operator, used in boolean expressions
+     * @param left First type
+     * @param right Second type
+     * @return true if types are comparable
+     */
     public static boolean isComparableEquality(int left, int right) {
         switch (left) {
             case 0:
@@ -127,7 +157,13 @@ public class TypeCheckerHelper {
                 return false;
         }
     }
-
+    /**
+     * Evaluate if a type conversion can be done
+     * @param left First type
+     * @param right Second type
+     * @return true if types can be casted or is the same type
+     * @deprecated no longer in use
+     */
     public static int EvaluateExpression(int left, int right) {
         switch (left) {
             case 0:
@@ -143,7 +179,17 @@ public class TypeCheckerHelper {
         }
         return -1;
     }
-
+    /**
+     * Used by EvaluateExpression to check the second part of an expression
+     * Note that same of the parameters passed can be invalid, it depends on how the expression looks, however they are handled
+     * @param parent the parent node of the expression e.g minus expression
+     * @param child2 Second child of expression
+     * @param identifierChild2 Identifier of second child
+     * @param ln Line number for errors messages
+     * @param typeofChild1 Type of child1 represented as an int
+     * @param typeOfChild2 Type of child1 represented as an int
+     * @return Type of expression
+     */
     public static int evalChild2(ASTNode child2, String identifierChild2, int typeofChild1, int typeOfChild2, int ln, ASTNode parent) {
         if (child2 instanceof IdentifierExpression) {
             Symbol identChild2 = parser.st.returnSymbol(identifierChild2);
@@ -168,7 +214,19 @@ public class TypeCheckerHelper {
         }
         return -1;
     }
-
+    /**
+     *Checks if the types are the same og compatible, used i arithmetic expressions
+     * Note that same of the parameters passed can be invalid, it depends on how the expression looks, however they are handled
+     * @param parent the parent node of the expression e.g minus expression
+     * @param child1 first child of expression
+     * @param child2 Second child of expression
+     * @param identifierChild1 Identifier of first child
+     * @param identifierChild2 Identifier of second child
+     * @param ln Line number for errors messages
+     * @param typeChild1 Type of child1 represented as an int
+     * @param typeChild2 Type of child1 represented as an int
+     * @return Type of expression
+     */
     public static int EvaluateExpression(ASTNode parent, ASTNode child1, ASTNode child2, String identifierChild1, String identifierChild2, int ln, int typeChild1, int typeChild2) {
         if (child1 instanceof IdentifierExpression) {
             Symbol identChild1 = parser.st.returnSymbol(identifierChild1);
@@ -197,7 +255,11 @@ public class TypeCheckerHelper {
 
         return -1;
     }
-
+/**
+ * Used to return the type of node represented by a string
+ * @param child the ASTNode to be evaluated
+ * @return String of node
+ */
     public static String returnTypeofExpression(ASTNode child) {
         if (child instanceof PlusExpression) {
             return "plus expression";

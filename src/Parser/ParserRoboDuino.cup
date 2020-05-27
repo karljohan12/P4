@@ -178,13 +178,8 @@ start with program;
 program                                 ::=	initial:s
                                           {: RESULT = new Program(s, sleft);
                                            if(errorDetected != 0){
-
                                                        report_fatal_error("", null);
-                                                     }
-
-
-
-                                           :};
+                                                     }:};
 
 
 literal                                 ::=	INTEGER_LITERAL:il

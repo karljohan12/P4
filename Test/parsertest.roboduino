@@ -1,14 +1,42 @@
-String i = "hamse";
+const int a = 1;
+const int b = 2;
+const int c = 3;
 
 
 
 function void setup() BEGIN
+Servo body = a;
+Servo shoulder = b;
+Servo grapper = c;
 
+//Construct a robot of servos
+Robot CNC = {body, shoulder, grapper};
+
+//Declare predefined robotpositions
+ServoPosition pickupSubjectStart = {30, 50, 0};
+ServoPosition PlaceSubjectCNC = {80, 30, 72};
+ServoPosition Waiting = {80, 10, 0};
+ServoPosition pickupSubjectCNC = {80, 30, 0};
+ServoPosition HandInSubject = {0, 30, 0};
+
+//Declare predefined robotpositions, however only one or more servos are defined to move
+ServoPosition openGrapper = {grapper: 72};
 END
 
 
 function void loop() BEGIN
-
+CNC(pickupSubjectStart);
+delay(5000);
+CNC(PlaceSubjectCNC);
+delay(5000);
+CNC(Waiting);
+delay(2000);
+CNC(openGrapper);
+delay(20000);
+CNC(pickupSubjectCNC);
+delay(5000);
+CNC(HandInSubject);
+delay(2000);
 
 
 END

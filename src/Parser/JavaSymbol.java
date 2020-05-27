@@ -23,6 +23,11 @@ public class JavaSymbol extends java_cup.runtime.Symbol {
     return right;
   }
 
+/**
+ * Used to write error messages
+ * @return the error message
+
+ */
   public String toString() {
     return "line "
         + left
